@@ -25,9 +25,9 @@ Zenway n'est **pas** un enchaînement de quatre cours séparés. C'est **une seu
 ## Stack technique
 
 - **HTML / CSS / JS vanilla uniquement** — pas de framework, pas de bundler, pas de npm.
-- Un seul fichier `index.html` à la racine (déployable tel quel), le CSS est découpé en fichiers statiques dans `assets/css/`.
+- Un seul fichier `index.html` à la racine (déployable tel quel), le CSS est découpé en fichiers statiques dans `assets/css/`, le JS en fichiers statiques dans `assets/js/`.
 - Les assets externes (images, fonts) sont référencés par URL ou placés dans `assets/`.
-- Les données configurables (planning, vidéos, HelloAsso) sont dans des blocs `<script>` en bas de `index.html`, clairement séparés du code de rendu.
+- Les données configurables (planning, vidéos, HelloAsso) sont dans des fichiers dédiés de `assets/js/`, clairement séparés du code de rendu.
 - Aucune dépendance npm. Aucun `package.json`. Aucun build step.
 - **Pas de fichier `.nojekyll`** — inutile sur Vercel, réservé à GitHub Pages.
 
@@ -94,6 +94,11 @@ zenway-saint-laurent/
 │   │   ├── video.css        ← composant vidéo (teaser + galerie)
 │   │   ├── footer.css       ← pied de page
 │   │   └── responsive.css   ← media queries (chargé en dernier)
+│   ├── js/
+│   │   ├── config-helloasso.js  ← slugs HelloAsso, injection des liens/widget
+│   │   ├── config-videos.js     ← vidéo teaser hero + galerie YouTube
+│   │   ├── config-planning.js   ← créneaux de séance affichés
+│   │   └── nav-reveal.js        ← scroll nav, burger menu, animations reveal
 │   └── img/
 │       ├── bea.png     ← photo de Béatrice (fond transparent, ratio 3:4)
 │       └── seance.jpg  ← photo d'ambiance (ratio 4:3 minimum)
@@ -119,7 +124,7 @@ Les sections dans l'ordre, chacune avec son commentaire `<!-- === NOM === -->` :
 11. INFOS PRATIQUES
 12. CTA BAND
 13. FOOTER
-14. Scripts (HelloAsso config, Vidéos config, Planning config, Nav/Reveal)
+14. `<script src="...">` vers `assets/js/` (HelloAsso config, Vidéos config, Planning config, Nav/Reveal)
 
 ### Fichiers CSS (`assets/css/`)
 
@@ -135,17 +140,19 @@ Chaque fichier commence par un en-tête commenté :
 
 Ne jamais remettre du CSS inline dans `index.html` via une balise `<style>`.
 
-### Blocs de configuration (en bas de `index.html`)
+### Fichiers JS (`assets/js/`)
 
-Chaque donnée variable a son propre bloc `<script>` avec un en-tête commenté :
+Le JS est découpé en fichiers statiques par domaine fonctionnel, chargés via `<script src="...">` en bas de `index.html`, dans l'ordre listé dans l'arborescence ci-dessus. Pas de build, pas de modules ES — du JS brut, modifiable directement.
+
+Chaque fichier commence par un en-tête commenté :
 
 ```js
 /* ============================================================
-   CONFIG [NOM] — à adapter sans toucher au reste du code
+   NOM DU FICHIER — description courte
    ============================================================ */
 ```
 
-Ne jamais mélanger la logique de rendu et les données de configuration.
+Les fichiers de configuration (`config-*.js`) regroupent les données variables (planning, vidéos, HelloAsso) en haut de fichier, suivies du code de rendu qui les consomme. Ne jamais mélanger la logique de rendu et les données de configuration dans des fichiers séparés — chaque `config-*.js` reste autonome. Ne jamais remettre du JS inline dans `index.html` via une balise `<script>` sans `src`.
 
 ---
 
