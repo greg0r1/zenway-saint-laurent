@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zenway Saint-Laurent-du-Var · Tai-chi chuan, Yoga, Pilates & Qi gong</title>
+<meta name="description" content="Zenway Saint-Laurent-du-Var : un concept innovant qui réunit Tai-chi chuan, Yoga, Pilates et Qi gong, porté par une musique relaxante. Séances accessibles à tous au KMCS, 357 chemin des Iscles.">
+<meta name="theme-color" content="#1b4332">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Zenway Saint-Laurent-du-Var">
+<meta property="og:description" content="Corps, souffle & état mental — 4 pratiques en une seule séance, sur musique relaxante.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --green-900:#1b4332;
+    --green-800:#22543e;
+    --green-700:#2d6a4f;
+    --teal:#2f8f7f;
+    --teal-bright:#36a18c;
+    --mint:#d8f3dc;
+    --mint-soft:#eef7f0;
+    --beige:#f5f1e8;
+    --paper:#faf8f2;
+    --gold:#c9a86a;
+    --gold-soft:#e7d6ad;
+    --ink:#243029;
+    --ink-soft:#4b5a51;
+    --line:rgba(27,67,50,.12);
+
+    --serif:"Cormorant Garamond",Georgia,serif;
+    --sans:"DM Sans",system-ui,sans-serif;
+    --script:"Caveat",cursive;
+
+    --maxw:1180px;
+    --r:18px;
+    --shadow:0 18px 50px -22px rgba(27,67,50,.45);
+    --shadow-soft:0 10px 30px -16px rgba(27,67,50,.35);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  section{position:relative}
+
+  h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.08;letter-spacing:.2px}
+  .eyebrow{
+    font-family:var(--sans);font-weight:600;font-size:.72rem;
+    letter-spacing:.32em;text-transform:uppercase;color:var(--teal);
+  }
+  .script{font-family:var(--script);font-weight:600}
+
+  /* ---------- Logo ---------- */
+  .logo{display:inline-flex;align-items:center;gap:.55rem}
+  .logo svg{flex:none}
+  .logo .mark-zen{font-family:var(--sans);font-weight:700;font-size:1.42rem;letter-spacing:-.5px}
+  .logo .mark-way{font-family:var(--script);font-weight:600;font-size:1.65rem;margin-left:-.12em;opacity:.92}
+
+  /* ---------- Nav ---------- */
+  header.nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    transition:background .35s ease, box-shadow .35s ease, padding .35s ease;
+    padding:18px 0;
+  }
+  header.nav .bar{display:flex;align-items:center;justify-content:space-between;gap:24px}
+  header.nav .links{display:flex;gap:30px;align-items:center}
+  header.nav .links a{
+    font-size:.86rem;font-weight:500;letter-spacing:.02em;color:#eaf3ec;opacity:.86;
+    position:relative;padding:4px 0;transition:opacity .2s;
+  }
+  header.nav .links a::after{
+    content:"";position:absolute;left:0;bottom:-2px;height:1.5px;width:0;background:var(--gold);transition:width .25s ease;
+  }
+  header.nav .links a:hover{opacity:1}
+  header.nav .links a:hover::after{width:100%}
+  header.nav .logo .mark-zen,header.nav .logo .mark-way{color:#fff}
+  header.nav .cta{
+    background:var(--gold);color:var(--green-900);font-weight:600;font-size:.82rem;
+    padding:11px 20px;border-radius:999px;letter-spacing:.02em;
+    transition:transform .2s ease, box-shadow .2s ease, background .2s;
+    white-space:nowrap;
+  }
+  header.nav .cta:hover{transform:translateY(-2px);box-shadow:0 12px 26px -12px rgba(201,168,106,.8)}
+
+  header.nav.scrolled{
+    background:rgba(20,52,39,.93);backdrop-filter:blur(12px);
+    box-shadow:0 10px 30px -18px rgba(0,0,0,.6);padding:12px 0;
+  }
+  .burger{display:none;background:none;border:0;cursor:pointer;width:30px;height:24px;position:relative}
+  .burger span{position:absolute;left:0;height:2px;width:100%;background:#fff;border-radius:2px;transition:.3s}
+  .burger span:nth-child(1){top:2px}
+  .burger span:nth-child(2){top:11px}
+  .burger span:nth-child(3){top:20px}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100svh;display:flex;align-items:center;
+    background:
+      radial-gradient(120% 90% at 78% 8%, rgba(54,161,140,.5) 0%, rgba(54,161,140,0) 55%),
+      radial-gradient(90% 80% at 12% 90%, rgba(13,54,40,.55) 0%, rgba(13,54,40,0) 60%),
+      linear-gradient(150deg,#0f3a2c 0%, var(--green-700) 48%, var(--teal) 100%);
+    color:#f3faf5;overflow:hidden;padding:140px 0 90px;
+  }
+  .hero .leaf-bg{position:absolute;inset:0;opacity:.10;pointer-events:none}
+  .hero .leaf-bg svg{position:absolute;width:540px;height:540px}
+  .hero .leaf-bg .l1{top:-130px;right:-120px;transform:rotate(20deg)}
+  .hero .leaf-bg .l2{bottom:-180px;left:-150px;transform:rotate(-160deg);width:620px;height:620px}
+
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;position:relative;z-index:2}
+  .hero .h-eyebrow{color:var(--gold-soft);margin-bottom:22px;display:flex;align-items:center;gap:14px}
+  .hero .h-eyebrow::before{content:"";width:42px;height:1px;background:var(--gold-soft);opacity:.7}
+  .hero h1{font-size:clamp(2.7rem,6vw,4.6rem);font-weight:600;margin-bottom:8px}
+  .hero h1 em{font-style:italic;color:var(--mint)}
+  .hero .disc{
+    font-family:var(--sans);font-weight:500;font-size:clamp(1rem,1.6vw,1.18rem);
+    color:#dcefe2;max-width:34ch;margin:24px 0 6px;line-height:1.55;
+  }
+  .hero .disc b{color:#fff;font-weight:700}
+  .hero .quote{font-family:var(--script);font-size:clamp(1.7rem,3.4vw,2.4rem);color:var(--mint);margin:18px 0 36px;line-height:1.2}
+  .hero .actions{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:.92rem;
+    padding:15px 26px;border-radius:999px;cursor:pointer;border:0;
+    transition:transform .2s ease, box-shadow .2s ease, background .2s, color .2s;letter-spacing:.01em;
+  }
+  .btn-primary{background:var(--gold);color:var(--green-900);box-shadow:0 14px 30px -14px rgba(201,168,106,.7)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 36px -14px rgba(201,168,106,.9)}
+  .btn-ghost{background:transparent;color:#eaf6ee;border:1.5px solid rgba(255,255,255,.4)}
+  .btn-ghost:hover{background:rgba(255,255,255,.1);border-color:#fff;transform:translateY(-2px)}
+
+  /* hero visual */
+  .hero-card{
+    position:relative;border-radius:26px;padding:14px;
+    background:linear-gradient(160deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
+    border:1px solid rgba(255,255,255,.25);box-shadow:var(--shadow);backdrop-filter:blur(4px);
+  }
+  .hero-photo{
+    height:460px;border-radius:18px;overflow:hidden;position:relative;
+    background:
+      radial-gradient(circle at 50% 38%, rgba(216,243,220,.5), rgba(216,243,220,0) 55%),
+      linear-gradient(160deg,#cfe9d8,#9fcbb6);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .hero-photo .ph-icon{opacity:.55}
+  .hero-photo .ph-label{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#2d6a4f;opacity:.75}
+  .hero .event-pill{
+    position:absolute;left:-18px;bottom:30px;background:#fff;color:var(--green-900);
+    border-radius:16px;padding:14px 20px;box-shadow:var(--shadow);max-width:230px;
+  }
+  .hero .event-pill .d{font-family:var(--serif);font-size:1.45rem;line-height:1;font-weight:600}
+  .hero .event-pill .s{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:600;margin-bottom:5px}
+  .hero .event-pill .h{font-size:.86rem;color:var(--ink-soft);margin-top:5px}
+
+  .scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:7px;color:#cfe6d7;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase}
+  .scroll-hint .mouse{width:22px;height:36px;border:1.5px solid rgba(207,230,215,.6);border-radius:12px;position:relative}
+  .scroll-hint .mouse::after{content:"";position:absolute;top:7px;left:50%;transform:translateX(-50%);width:3px;height:7px;background:#cfe6d7;border-radius:2px;animation:wheel 1.6s infinite}
+  @keyframes wheel{0%{opacity:1;top:7px}70%{opacity:0;top:16px}100%{opacity:0}}
+
+  /* ---------- Concept ---------- */
+  .concept{padding:110px 0 90px;background:var(--paper)}
+  .concept-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+  .concept h2{font-size:clamp(2rem,4vw,3rem);color:var(--green-800);margin:14px 0 24px}
+  .concept h2 .g{color:var(--gold)}
+  .concept p{color:var(--ink-soft);font-size:1.04rem;margin-bottom:16px;max-width:52ch}
+  .concept .signature{font-family:var(--script);font-size:1.5rem;color:var(--teal);margin-top:8px}
+  .concept .stats{display:flex;gap:36px;margin-top:34px;flex-wrap:wrap}
+  .concept .stat .n{font-family:var(--serif);font-size:2.6rem;color:var(--green-700);line-height:1;font-weight:600}
+  .concept .stat .t{font-size:.82rem;color:var(--ink-soft);letter-spacing:.04em;margin-top:4px}
+  .concept-visual{position:relative}
+  .concept-visual .frame{
+    border-radius:24px;height:480px;overflow:hidden;position:relative;box-shadow:var(--shadow);
+    background:
+      radial-gradient(circle at 30% 25%, rgba(54,161,140,.35), transparent 55%),
+      linear-gradient(160deg,#1f5440,#2d6a4f 60%,#36a18c);
+  }
+  .concept-visual .frame .note{position:absolute;inset:auto 22px 22px 22px;color:#eaf6ee}
+  .concept-visual .frame .note .q{font-family:var(--script);font-size:1.7rem;color:var(--mint)}
+  .concept-visual .frame .ph{position:absolute;top:18px;left:18px;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+  .concept-visual .badge{
+    position:absolute;top:-22px;right:-14px;background:var(--mint);color:var(--green-900);
+    border-radius:16px;padding:14px 18px;box-shadow:var(--shadow-soft);text-align:center;
+  }
+  .concept-visual .badge .b1{font-family:var(--serif);font-size:1.8rem;font-weight:600;line-height:1}
+  .concept-visual .badge .b2{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase}
+
+  /* ---------- Pratiques ---------- */
+  .pratiques{padding:100px 0;background:linear-gradient(180deg,var(--mint-soft),#fff)}
+  .sec-head{text-align:center;max-width:640px;margin:0 auto 56px}
+  .sec-head h2{font-size:clamp(2rem,4vw,3rem);color:var(--green-800);margin:12px 0 14px}
+  .sec-head p{color:var(--ink-soft)}
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+  .pcard{
+    background:#fff;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);
+    box-shadow:var(--shadow-soft);transition:transform .3s ease, box-shadow .3s ease;display:flex;flex-direction:column;
+  }
+  .pcard:hover{transform:translateY(-8px);box-shadow:var(--shadow)}
+  .pcard .pic{
+    height:150px;position:relative;display:flex;align-items:center;justify-content:center;
+  }
+  .pcard.taichi .pic{background:linear-gradient(160deg,#3a7d5e,#2d6a4f)}
+  .pcard.yoga   .pic{background:linear-gradient(160deg,#4f9c84,#2f8f7f)}
+  .pcard.pilates .pic{background:linear-gradient(160deg,#5a8f76,#3a7d5e)}
+  .pcard.qigong .pic{background:linear-gradient(160deg,#36a18c,#2d6a4f)}
+  .pcard .pic .ph-label{position:absolute;bottom:9px;right:11px;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+  .pcard .pic svg{opacity:.92}
+  .pcard .body{padding:22px 22px 26px}
+  .pcard h3{font-size:1.5rem;color:var(--green-700);margin-bottom:6px}
+  .pcard .lead{font-weight:600;color:var(--ink);font-size:.92rem;margin-bottom:6px}
+  .pcard .ben{color:var(--ink-soft);font-size:.9rem}
+  .pcard .ben b{color:var(--teal);font-weight:600}
+
+  /* Ligne de connexion : visualise les 4 influences comme un seul parcours continu */
+  .fusion-track{
+    display:grid;grid-template-columns:repeat(4,1fr);position:relative;margin-bottom:30px;
+  }
+  .fusion-track::before{
+    content:"";position:absolute;top:19px;left:12.5%;right:12.5%;height:2px;
+    background-image:repeating-linear-gradient(90deg,var(--gold) 0 10px,transparent 10px 20px);
+    z-index:0;
+  }
+  .fusion-track .node{display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;z-index:1}
+  .fusion-track .dot{
+    width:38px;height:38px;border-radius:50%;background:var(--gold);color:var(--green-900);
+    display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:1.02rem;
+    box-shadow:0 8px 18px -8px rgba(0,0,0,.4);
+  }
+  .fusion-track .lab{font-size:.78rem;color:var(--ink-soft);font-weight:600}
+
+  .fusion-note{
+    display:flex;align-items:flex-start;gap:14px;max-width:760px;margin:36px auto 0;
+    background:var(--mint-soft);border:1px solid var(--line);border-radius:14px;padding:20px 26px;color:var(--green-800);
+  }
+  .fusion-note svg{flex:none;margin-top:2px;color:var(--teal)}
+  .fusion-note p{color:var(--ink-soft);font-size:.94rem;margin:0}
+  .fusion-note b{color:var(--green-800)}
+
+  /* ---------- Planning ---------- */
+  .planning{padding:100px 0;background:linear-gradient(180deg,#fff,var(--mint-soft))}
+  .schedule-list{display:flex;flex-direction:column;gap:16px;max-width:760px;margin:0 auto 36px}
+  .schedule-item{
+    display:flex;align-items:center;gap:22px;background:#fff;border:1px solid var(--line);border-radius:16px;
+    padding:20px 26px;box-shadow:var(--shadow-soft);transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .schedule-item:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .schedule-day{
+    flex:none;width:72px;height:72px;border-radius:14px;background:var(--green-700);color:#fff;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  }
+  .schedule-day .d1{font-family:var(--serif);font-size:1.3rem;font-weight:700;line-height:1;text-transform:capitalize}
+  .schedule-day .d2{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;opacity:.85;margin-top:3px}
+  .schedule-info{flex:1;min-width:0}
+  .schedule-info .lab{font-weight:600;color:var(--green-700);font-size:1.05rem;margin-bottom:3px}
+  .schedule-info .time{color:var(--ink);font-size:.94rem}
+  .schedule-info .loc{color:var(--ink-soft);font-size:.84rem;margin-top:4px;display:flex;align-items:center;gap:6px}
+  .schedule-info .loc svg{flex:none}
+  .schedule-empty{
+    text-align:center;background:#fff;border:1px dashed var(--line);border-radius:var(--r);
+    padding:48px 30px;color:var(--ink-soft);max-width:560px;margin:0 auto;
+  }
+  .schedule-empty svg{margin-bottom:14px;color:var(--teal)}
+  .schedule-cta{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+
+  /* ---------- Bienfaits / pour qui ---------- */
+  .pourqui{padding:96px 0;background:var(--green-900);color:#eaf6ee;position:relative;overflow:hidden}
+  .pourqui .leaf-bg{position:absolute;top:-160px;right:-120px;width:500px;height:500px;opacity:.08}
+  .pourqui-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:2}
+  .pourqui h2{font-size:clamp(1.9rem,3.6vw,2.7rem);margin:14px 0 20px}
+  .pourqui h2 em{font-style:italic;color:var(--mint)}
+  .pourqui p{color:#cfe6d7;font-size:1.04rem;max-width:48ch}
+  .pourqui .eyebrow{color:var(--gold-soft)}
+  .benefits{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .benefit{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:20px}
+  .benefit .ic{color:var(--gold-soft);margin-bottom:10px}
+  .benefit h4{font-family:var(--sans);font-weight:600;font-size:.98rem;margin-bottom:4px;color:#fff}
+  .benefit p{font-size:.86rem;color:#bdd8c8;margin:0}
+
+  /* ---------- Portes ouvertes ---------- */
+  .event{padding:0}
+  .event .inner{
+    background:
+      radial-gradient(120% 120% at 85% 15%, rgba(54,161,140,.45), transparent 55%),
+      linear-gradient(150deg,var(--green-800),var(--teal));
+    border-radius:28px;color:#f3faf5;padding:54px 56px;box-shadow:var(--shadow);
+    display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;position:relative;overflow:hidden;
+    margin:90px 0;
+  }
+  .event .leaf-bg{position:absolute;bottom:-180px;left:-120px;width:480px;height:480px;opacity:.1}
+  .event .e-left{position:relative;z-index:2}
+  .event .tag{display:inline-block;background:var(--gold);color:var(--green-900);font-weight:600;font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;padding:7px 16px;border-radius:999px;margin-bottom:18px}
+  .event h2{font-size:clamp(2rem,4.2vw,3.1rem);margin-bottom:6px}
+  .event h2 .g{color:var(--gold-soft)}
+  .event .hrs{font-size:1.1rem;color:var(--mint);margin-bottom:22px;font-weight:500}
+  .event .place{display:flex;align-items:flex-start;gap:10px;color:#dcefe2;font-size:.96rem;margin-bottom:26px}
+  .event .place svg{flex:none;margin-top:3px;color:var(--gold-soft)}
+  .event .demos{position:relative;z-index:2;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:18px;padding:26px 28px;backdrop-filter:blur(3px)}
+  .event .demos .lab{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-soft);font-weight:600;margin-bottom:4px}
+  .event .demos .sub{font-size:.8rem;color:#cfe6d7;margin-bottom:18px}
+  .event .demos .slots{display:flex;flex-direction:column;gap:12px}
+  .event .demos .slot{display:flex;align-items:center;gap:14px;font-family:var(--serif);font-size:1.5rem;border-bottom:1px solid rgba(255,255,255,.14);padding-bottom:12px}
+  .event .demos .slot:last-child{border-bottom:0;padding-bottom:0}
+  .event .demos .slot .dot{width:8px;height:8px;border-radius:50%;background:var(--gold-soft);flex:none}
+
+  /* ---------- Infos pratiques ---------- */
+  .infos{padding:96px 0;background:var(--beige)}
+  .infos-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:stretch}
+  .info-card{background:#fff;border-radius:var(--r);padding:38px;box-shadow:var(--shadow-soft);border:1px solid var(--line)}
+  .info-card h3{font-size:1.7rem;color:var(--green-700);margin-bottom:22px}
+  .info-row{display:flex;gap:16px;padding:15px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+  .info-row:last-child{border-bottom:0}
+  .info-row .ic{width:42px;height:42px;border-radius:12px;background:var(--mint-soft);color:var(--teal);display:flex;align-items:center;justify-content:center;flex:none}
+  .info-row .k{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+  .info-row .v{font-size:1.02rem;color:var(--ink);font-weight:500}
+  .info-row .v a:hover{color:var(--teal)}
+  .map-card{border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-soft);border:1px solid var(--line);min-height:380px;position:relative;background:#dfeee4}
+  .map-card iframe{width:100%;height:100%;min-height:380px;border:0;display:block}
+  .map-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:30px;background:linear-gradient(160deg,#d6ece0,#bcdcca)}
+  .map-fallback a{background:var(--green-700);color:#fff;padding:12px 22px;border-radius:999px;font-weight:600;font-size:.88rem}
+
+  /* ---------- Inscription (HelloAsso) ---------- */
+  .inscription{padding:100px 0;background:linear-gradient(180deg,#fff,var(--mint-soft))}
+  .insc-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:48px;align-items:center}
+  .insc-left h2{font-size:clamp(2rem,4vw,3rem);color:var(--green-800);margin:12px 0 18px}
+  .insc-left p{color:var(--ink-soft);font-size:1.04rem;margin-bottom:14px;max-width:46ch}
+  .insc-points{list-style:none;margin:22px 0 28px}
+  .insc-points li{display:flex;align-items:center;gap:12px;padding:9px 0;font-size:.96rem;color:var(--ink)}
+  .insc-points li svg{flex:none;color:var(--teal)}
+  .insc-left .ha-note{font-size:.8rem;color:var(--ink-soft);display:flex;align-items:center;gap:8px}
+  .insc-left .ha-note svg{flex:none;color:var(--teal)}
+
+  .insc-widget{
+    background:#fff;border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--line);
+    overflow:hidden;position:relative;min-height:620px;display:flex;flex-direction:column;
+  }
+  .insc-widget .wtop{padding:16px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--green-900);color:#eaf6ee}
+  .insc-widget .wtop .t{font-weight:600;font-size:.92rem;display:flex;align-items:center;gap:9px}
+  .insc-widget .wtop .lock{color:var(--gold-soft)}
+  .insc-widget .wtop .ext{font-size:.78rem;color:#cfe6d7;border:1px solid rgba(255,255,255,.3);padding:6px 13px;border-radius:999px;transition:.2s;white-space:nowrap}
+  .insc-widget .wtop .ext:hover{background:rgba(255,255,255,.12);color:#fff}
+  .insc-widget iframe{width:100%;flex:1;border:0;min-height:560px;display:block}
+  .ha-placeholder{
+    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+    text-align:center;padding:48px 32px;background:
+      radial-gradient(circle at 50% 30%, rgba(216,243,220,.6), transparent 60%),var(--mint-soft);
+  }
+  .ha-placeholder .ha-logo{font-family:var(--sans);font-weight:700;color:var(--green-700);font-size:1.1rem;letter-spacing:.02em}
+  .ha-placeholder h4{font-family:var(--serif);font-size:1.5rem;color:var(--green-800);font-weight:600}
+  .ha-placeholder p{color:var(--ink-soft);font-size:.92rem;max-width:34ch}
+  .ha-placeholder code{background:#fff;border:1px solid var(--line);border-radius:8px;padding:3px 8px;font-size:.82rem;color:var(--green-700)}
+
+  /* ---------- CTA bandeau ---------- */
+  .cta-band{padding:80px 0;background:var(--paper);text-align:center}
+  .cta-band h2{font-size:clamp(1.9rem,3.6vw,2.7rem);color:var(--green-800);margin-bottom:10px}
+  .cta-band p{color:var(--ink-soft);max-width:46ch;margin:0 auto 28px}
+  .cta-band .actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .cta-band .btn-primary{color:var(--green-900)}
+  .cta-band .btn-dark{background:var(--green-700);color:#fff}
+  .cta-band .btn-dark:hover{background:var(--green-800);transform:translateY(-2px)}
+
+  /* ---------- Footer ---------- */
+  footer{background:#13241b;color:#bdd8c8;padding:64px 0 30px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.1)}
+  footer .logo .mark-zen,footer .logo .mark-way{color:#fff}
+  footer .about{margin-top:16px;font-size:.9rem;max-width:34ch;color:#9fc0ad}
+  footer h5{font-family:var(--sans);font-weight:600;color:#fff;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px}
+  footer ul{list-style:none}
+  footer li{margin-bottom:11px;font-size:.92rem}
+  footer a:hover{color:var(--gold-soft)}
+  .socials{display:flex;gap:12px;margin-top:18px}
+  .socials a{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:#cfe6d7;transition:.2s}
+  .socials a:hover{background:var(--gold);color:var(--green-900);transform:translateY(-2px)}
+  .foot-bottom{padding-top:24px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.8rem;color:#7fa790}
+  .foot-bottom a{color:#9fc0ad}
+  .foot-bottom a:hover{color:#fff}
+
+  /* ---------- reveal animation ---------- */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease, transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
+
+  /* ---------- Inscriptions ---------- */
+  .inscription{padding:100px 0;background:var(--paper)}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:48px 0 40px}
+  .step{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:32px 28px 30px;position:relative;box-shadow:var(--shadow-soft);transition:transform .3s ease, box-shadow .3s ease}
+  .step:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+  .step .num{font-family:var(--serif);font-size:3rem;color:var(--mint);font-weight:700;line-height:1;position:absolute;top:16px;right:24px}
+  .step .ic{width:50px;height:50px;border-radius:14px;background:var(--mint-soft);color:var(--teal);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+  .step h3{font-size:1.4rem;color:var(--green-700);margin-bottom:8px}
+  .step p{color:var(--ink-soft);font-size:.92rem;max-width:30ch}
+  .inscription-cta{
+    background:radial-gradient(120% 130% at 88% 12%, rgba(54,161,140,.45), transparent 55%),linear-gradient(150deg,var(--green-800),var(--teal));
+    border-radius:24px;padding:44px 46px;display:flex;align-items:center;justify-content:space-between;gap:34px;
+    color:#f3faf5;box-shadow:var(--shadow);flex-wrap:wrap;
+  }
+  .inscription-cta .t h3{font-size:1.8rem;margin-bottom:8px}
+  .inscription-cta .t p{color:#cfe6d7;font-size:.94rem;max-width:48ch}
+  .inscription-cta .ha{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+  .btn-ha{background:#fff;color:var(--green-900);font-weight:700;font-size:1rem;padding:16px 30px;border-radius:999px;display:inline-flex;align-items:center;gap:10px;box-shadow:0 16px 34px -16px rgba(0,0,0,.5);transition:transform .2s ease, box-shadow .2s ease;white-space:nowrap}
+  .btn-ha:hover{transform:translateY(-2px);box-shadow:0 20px 40px -16px rgba(0,0,0,.6)}
+  .ha-note{font-size:.78rem;color:#bdd8c8}
+  .ha-trust{display:flex;gap:26px;flex-wrap:wrap;margin-top:24px;font-size:.86rem;color:var(--ink-soft)}
+  .ha-trust span{display:flex;align-items:center;gap:9px}
+  .ha-trust svg{color:var(--teal);flex:none}
+
+  /* ---------- Vidéo (composant réutilisable : teaser hero + galerie) ---------- */
+  .vthumb{
+    position:relative;width:100%;height:100%;border-radius:inherit;overflow:hidden;
+    background-size:cover;background-position:center;background-color:#1f5440;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+  }
+  .vthumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,40,30,0) 45%,rgba(15,40,30,.55));pointer-events:none}
+  .vthumb iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .vplay{
+    position:relative;z-index:2;width:62px;height:62px;border-radius:50%;border:0;cursor:pointer;
+    background:rgba(255,255,255,.92);color:var(--green-800);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 14px 30px -10px rgba(0,0,0,.5);transition:transform .25s ease, background .25s ease;
+  }
+  .vthumb:hover .vplay{transform:scale(1.08);background:#fff}
+  .vempty{
+    position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:10px;color:#eaf6ee;text-align:center;padding:0 18px;
+  }
+  .vempty svg{opacity:.6}
+  .vempty .lab{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;opacity:.75}
+
+  /* Teaser hero : remplace .hero-photo en mode vidéo */
+  .hero-photo.has-video{padding:0;cursor:default}
+  .hero-photo .vthumb{border-radius:18px}
+
+  /* Galerie vidéos */
+  .videos{padding:100px 0;background:linear-gradient(180deg,#fff,var(--mint-soft))}
+  .videos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .vcard{background:#fff;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-soft);transition:transform .3s ease, box-shadow .3s ease}
+  .vcard:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+  .vcard .vthumb{height:190px;border-radius:0}
+  .vcard .vmeta{padding:20px 22px 24px}
+  .vcard .vmeta h3{font-size:1.22rem;color:var(--green-700);margin-bottom:6px;font-family:var(--serif)}
+  .vcard .vmeta p{color:var(--ink-soft);font-size:.88rem}
+  .videos-empty{
+    grid-column:1/-1;text-align:center;background:#fff;border:1px dashed var(--line);border-radius:var(--r);
+    padding:48px 30px;color:var(--ink-soft);font-size:.96rem;
+  }
+  .videos-foot{display:flex;justify-content:center;margin-top:38px}
+  .btn-yt{background:#fff;border:1.5px solid var(--green-700);color:var(--green-700)}
+  .btn-yt:hover{background:var(--green-700);color:#fff;transform:translateY(-2px)}
+
+  /* ---------- Responsive ---------- */
+  @media(max-width:980px){
+    .hero-grid,.concept-grid,.pourqui-grid,.event .inner,.infos-grid,.insc-grid{grid-template-columns:1fr}
+    .cards{grid-template-columns:repeat(2,1fr)}
+    .hero-photo{height:340px}
+    .steps{grid-template-columns:1fr}
+    .videos-grid{grid-template-columns:1fr 1fr}
+    .fusion-track{display:none}
+    .inscription-cta{flex-direction:column;align-items:flex-start}
+    .concept-visual{order:-1}
+    .event .inner{padding:40px 30px}
+    .foot-grid{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:680px){
+    header.nav .links{
+      position:fixed;top:0;right:0;height:100vh;width:78%;max-width:320px;
+      background:rgba(15,40,30,.98);backdrop-filter:blur(10px);
+      flex-direction:column;justify-content:center;gap:26px;
+      transform:translateX(100%);transition:transform .35s ease;padding:40px;
+    }
+    header.nav .links.open{transform:none}
+    header.nav .links a{font-size:1.05rem}
+    .burger{display:block;z-index:60}
+    .cards{grid-template-columns:1fr}
+    .benefits{grid-template-columns:1fr}
+    .videos-grid{grid-template-columns:1fr}
+    .concept .stats{gap:24px}
+    .fusion-note{padding:18px 18px;margin-top:26px}
+    .schedule-item{flex-wrap:wrap;gap:14px}
+    .wrap{padding:0 18px}
+    .hero .event-pill{left:0}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="wrap bar">
+    <a href="#hero" class="logo" aria-label="Zenway Saint-Laurent-du-Var">
+      <svg width="34" height="34" viewBox="0 0 48 48" aria-hidden="true">
+        <defs>
+          <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#9fe3c8"/><stop offset="1" stop-color="#2d6a4f"/>
+          </linearGradient>
+        </defs>
+        <path d="M24 44C24 30 16 22 6 18c0 14 8 22 18 26Z" fill="url(#lg)" opacity=".85"/>
+        <path d="M24 44C24 30 32 22 42 18c0 14-8 22-18 26Z" fill="url(#lg)" opacity=".7"/>
+        <path d="M24 42C24 26 24 14 24 4c8 8 10 22 0 38Z" fill="url(#lg)"/>
+      </svg>
+      <span><span class="mark-zen">zen</span><span class="mark-way">way</span></span>
+    </a>
+    <nav class="links" id="navlinks">
+      <a href="#concept">Le concept</a>
+      <a href="#pratiques">Les pratiques</a>
+      <a href="#planning">Planning</a>
+      <a href="#pourqui">Pour qui</a>
+      <a href="#videos">Vidéos</a>
+      <a href="#inscriptions">Inscriptions</a>
+      <a href="#infos">Infos pratiques</a>
+      <a href="#inscription" class="cta">S'inscrire</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="leaf-bg">
+    <svg class="l1" viewBox="0 0 48 48"><path d="M24 44C24 26 24 14 24 4c8 8 10 22 0 38Z" fill="#fff"/></svg>
+    <svg class="l2" viewBox="0 0 48 48"><path d="M24 44C24 30 16 22 6 18c0 14 8 22 18 26Z" fill="#fff"/></svg>
+  </div>
+  <div class="wrap hero-grid">
+    <div class="hero-left">
+      <div class="h-eyebrow reveal">Saint-Laurent-du-Var · Alpes-Maritimes</div>
+      <h1 class="reveal d1">Corps, souffle<br>&amp; <em>état mental</em></h1>
+      <p class="disc reveal d2">Un concept innovant qui réunit <b>Tai-chi chuan</b>, <b>Yoga</b>, <b>Pilates</b> &amp; <b>Qi gong</b>, porté par une musique relaxante.</p>
+      <p class="quote reveal d2">Venez partager un moment<br>de détente &amp; de zénitude</p>
+      <div class="actions reveal d3">
+        <a href="#inscription" class="btn btn-primary">S'inscrire en ligne</a>
+        <a href="#event" class="btn btn-ghost">Portes ouvertes · 27 juin</a>
+      </div>
+    </div>
+    <div class="hero-right reveal d3">
+      <div class="hero-card">
+        <!-- VIDÉO DE TEASING : configurer HERO_VIDEO_ID en bas de page (section Vidéos) -->
+        <div class="hero-photo has-video" id="heroVideo">
+          <div class="vthumb">
+            <div class="vempty">
+              <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#eaf6ee" stroke-width="1.3"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9.5l5 2.5-5 2.5z" fill="#eaf6ee" stroke="none"/></svg>
+              <span class="lab">Vidéo de teasing · à intégrer</span>
+            </div>
+          </div>
+        </div>
+        <div class="event-pill">
+          <div class="s">Portes ouvertes</div>
+          <div class="d">Sam. 27 juin</div>
+          <div class="h">9 h → 12 h 30 · démos gratuites</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint reveal d4"><span>Découvrir</span><div class="mouse"></div></div>
+</section>
+
+<!-- ============ CONCEPT ============ -->
+<section class="concept" id="concept">
+  <div class="wrap concept-grid">
+    <div class="reveal">
+      <div class="eyebrow">Le concept Zenway</div>
+      <h2>Une seule discipline,<br>quatre <span class="g">racines.</span></h2>
+      <p>Zenway est une discipline unique créée par <b>Raymond Holle</b> : elle fusionne, en un seul mouvement continu, le Tai-chi chuan, le Yoga, le Pilates et le Qi gong, le tout porté par une musique relaxante. Ce n'est pas un enchaînement de quatre cours indépendants que l'on choisirait séparément, mais une seule pratique qui puise dans ces quatre traditions.</p>
+      <p>Cette discipline cherche l'harmonie entre l'esprit et le corps, l'équilibre entre la force et la douceur. Au sein de notre section de Saint-Laurent-du-Var, chaque séance devient un moment pour se recentrer, gagner en souplesse, en tonus et en sérénité.</p>
+      <p class="signature">Une parenthèse de détente, accessible à tous.</p>
+      <div class="stats">
+        <div class="stat"><div class="n">4</div><div class="t">influences fondues en une</div></div>
+        <div class="stat"><div class="n">1</div><div class="t">seule séance hebdomadaire</div></div>
+        <div class="stat"><div class="n">06</div><div class="t">Saint-Laurent-du-Var</div></div>
+      </div>
+    </div>
+    <div class="concept-visual reveal d2">
+      <div class="badge"><div class="b1">Zen</div><div class="b2">way</div></div>
+      <!-- REMPLACER : photo ambiance (ratio ~4:5) -->
+      <div class="frame">
+        <span class="ph">Photo ambiance · à intégrer</span>
+        <div class="note"><span class="q">Respirer, bouger,<br>se sentir bien.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRATIQUES ============ -->
+<section class="pratiques" id="pratiques">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Une seule pratique, quatre racines</div>
+      <h2>Pas quatre cours.<br>Une seule séance.</h2>
+      <p>Tai-chi chuan, Yoga, Pilates et Qi gong ne sont pas quatre cours séparés que l'on choisirait indépendamment. À Zenway, ces quatre influences sont fondues dans un seul enchaînement continu, suivi du début à la fin d'une même séance, sur une seule musique.</p>
+    </div>
+
+    <div class="fusion-track reveal">
+      <div class="node"><div class="dot">01</div><div class="lab">Tai-chi chuan</div></div>
+      <div class="node"><div class="dot">02</div><div class="lab">Yoga</div></div>
+      <div class="node"><div class="dot">03</div><div class="lab">Pilates</div></div>
+      <div class="node"><div class="dot">04</div><div class="lab">Qi gong</div></div>
+    </div>
+
+    <div class="cards">
+      <article class="pcard taichi reveal">
+        <div class="pic">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#eaf6ee" stroke-width="1.3"><circle cx="12" cy="12" r="9"/><path d="M12 3a4.5 4.5 0 010 9 4.5 4.5 0 000 9"/><circle cx="12" cy="7.5" r="1" fill="#eaf6ee" stroke="none"/><circle cx="12" cy="16.5" r="1" fill="#eaf6ee" stroke="none"/></svg>
+          <span class="ph-label">photo</span>
+        </div>
+        <div class="body">
+          <h3>Tai-chi chuan</h3>
+          <div class="lead">Mouvements lents &amp; fluides.</div>
+          <p class="ben"><b>Équilibre, coordination</b>, prévention des chutes.</p>
+        </div>
+      </article>
+      <article class="pcard yoga reveal d1">
+        <div class="pic">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#eaf6ee" stroke-width="1.3"><circle cx="12" cy="5" r="2.2"/><path d="M12 7.5v5m0 0l-5 4m5-4l5 4m-9-7l4 1.5 4-1.5"/></svg>
+          <span class="ph-label">photo</span>
+        </div>
+        <div class="body">
+          <h3>Yoga</h3>
+          <div class="lead">Postures &amp; respiration.</div>
+          <p class="ben"><b>Souplesse, tonicité</b>, gestion du stress.</p>
+        </div>
+      </article>
+      <article class="pcard pilates reveal d2">
+        <div class="pic">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#eaf6ee" stroke-width="1.3"><path d="M4 14c3-1 5-1 8 0s5 1 8 0"/><path d="M4 14v3m16-3v3"/><circle cx="9" cy="9" r="2"/><path d="M9 11c2 0 4 1 6 3"/></svg>
+          <span class="ph-label">photo</span>
+        </div>
+        <div class="body">
+          <h3>Pilates</h3>
+          <div class="lead">Renforcement profond.</div>
+          <p class="ben"><b>Gainage, posture</b>, soulagement du dos.</p>
+        </div>
+      </article>
+      <article class="pcard qigong reveal d3">
+        <div class="pic">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#eaf6ee" stroke-width="1.3"><path d="M12 3c-3 3-3 6 0 9s3 6 0 9"/><path d="M12 3c3 3 3 6 0 9s-3 6 0 9"/><circle cx="12" cy="12" r="1.4" fill="#eaf6ee" stroke="none"/></svg>
+          <span class="ph-label">photo</span>
+        </div>
+        <div class="body">
+          <h3>Qi gong</h3>
+          <div class="lead">Souffle &amp; énergie vitale.</div>
+          <p class="ben"><b>Vitalité, immunité</b>, apaisement profond.</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="fusion-note reveal">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s7-4.5 9-9a5 5 0 00-9-3 5 5 0 00-9 3c2 4.5 9 9 9 9z"/></svg>
+      <p><b>Une seule séance, toujours les quatre ensemble.</b> Zenway ne propose pas de cours à la carte : chaque séance hebdomadaire suit ce même enchaînement complet, du Tai-chi chuan au Qi gong, sans interruption.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLANNING ============ -->
+<section class="planning" id="planning">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Planning</div>
+      <h2>Les séances Zenway</h2>
+      <p>Une seule séance hebdomadaire, qui réunit toujours les quatre pratiques. Retrouvez ici les jours et horaires au KMCS.</p>
+    </div>
+    <div class="schedule-list" id="scheduleList"><!-- généré par le script en bas de page --></div>
+    <div class="schedule-cta reveal">
+      <a href="#infos" class="btn btn-ghost">Voir le lieu</a>
+      <a href="mailto:beatriceviallon12@gmail.com" class="btn btn-primary">Nous écrire pour rejoindre une séance</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ POUR QUI ============ -->
+<section class="pourqui" id="pourqui">
+  <div class="leaf-bg">
+    <svg viewBox="0 0 48 48"><path d="M24 44C24 26 24 14 24 4c8 8 10 22 0 38Z" fill="#fff"/></svg>
+  </div>
+  <div class="wrap pourqui-grid">
+    <div class="reveal">
+      <div class="eyebrow">Recommandé par les professionnels de santé</div>
+      <h2>Accessible à tous,<br><em>à tout âge.</em></h2>
+      <p>Les bienfaits de Zenway sont reconnus par des kinésithérapeutes et des médecins comme une approche efficace pour prendre soin de son corps — sans prérequis, et en respectant le rythme de chacun.</p>
+      <p style="margin-top:14px">Une démarche tournée vers la <b style="color:#fff">prévention</b> et l'<b style="color:#fff">autonomie</b>, en complément naturel d'un suivi de santé.</p>
+    </div>
+    <div class="benefits reveal d2">
+      <div class="benefit">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s-7-4.5-9-9a5 5 0 019-3 5 5 0 019 3c-2 4.5-9 9-9 9z"/></svg></div>
+        <h4>Bien-être global</h4>
+        <p>Détente du corps et apaisement de l'esprit à chaque séance.</p>
+      </div>
+      <div class="benefit">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2v4m0 12v4m10-10h-4M6 12H2"/><circle cx="12" cy="12" r="4"/></svg></div>
+        <h4>Équilibre &amp; posture</h4>
+        <p>Coordination, gainage et prévention des chutes.</p>
+      </div>
+      <div class="benefit">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12c4-6 14-6 18 0-4 6-14 6-18 0z"/><circle cx="12" cy="12" r="2.5"/></svg></div>
+        <h4>Gestion du stress</h4>
+        <p>La respiration et la musique relaxante recentrent le mental.</p>
+      </div>
+      <div class="benefit">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <h4>Sans prérequis</h4>
+        <p>Débutant ou pratiquant, chacun avance à son rythme.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VIDÉOS ============ -->
+<section class="videos" id="videos">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Sur YouTube</div>
+      <h2>Voir Zenway en mouvement</h2>
+      <p>Présentations, démonstrations et moments capturés lors de nos séances et événements.</p>
+    </div>
+    <div class="videos-grid" id="videosGrid"><!-- généré par le script en bas de page --></div>
+    <div class="videos-foot reveal">
+      <a class="btn btn-yt" id="ytChannelLink" href="#" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12s0-3-.4-4.4a2.6 2.6 0 00-1.8-1.8C18.4 5.4 12 5.4 12 5.4s-6.4 0-7.8.4A2.6 2.6 0 002.4 7.6C2 9 2 12 2 12s0 3 .4 4.4a2.6 2.6 0 001.8 1.8c1.4.4 7.8.4 7.8.4s6.4 0 7.8-.4a2.6 2.6 0 001.8-1.8C22 15 22 12 22 12zm-12 3V9l5 3-5 3z"/></svg>
+        Voir toute la chaîne
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PORTES OUVERTES ============ -->
+<section class="event">
+  <div class="wrap">
+    <div class="inner" id="event">
+      <div class="leaf-bg">
+        <svg viewBox="0 0 48 48"><path d="M24 44C24 30 16 22 6 18c0 14 8 22 18 26Z" fill="#fff"/></svg>
+      </div>
+      <div class="e-left reveal">
+        <span class="tag">Portes ouvertes</span>
+        <h2>Samedi 27 juin <span class="g">2026</span></h2>
+        <div class="hrs">De 9 h à 12 h 30</div>
+        <div class="place">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <span><b>KMCS</b><br>357 chemin des Iscles · Saint-Laurent-du-Var</span>
+        </div>
+        <div class="actions" style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="#inscription" class="btn btn-primary">S'inscrire</a>
+          <a href="#infos" class="btn btn-ghost">Comment venir</a>
+        </div>
+      </div>
+      <div class="demos reveal d2">
+        <div class="lab">Démonstrations</div>
+        <div class="sub">Séances de découverte · 15 minutes</div>
+        <div class="slots">
+          <div class="slot"><span class="dot"></span>9 h 30</div>
+          <div class="slot"><span class="dot"></span>10 h 30</div>
+          <div class="slot"><span class="dot"></span>11 h 30</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSCRIPTION (HelloAsso) ============ -->
+<section class="inscription" id="inscription">
+  <div class="wrap insc-grid">
+    <div class="insc-left reveal">
+      <div class="eyebrow">Inscription en ligne</div>
+      <h2>Rejoindre Zenway<br>Saint-Laurent-du-Var</h2>
+      <p>Votre adhésion et le règlement se font en quelques minutes, en ligne, via <b>HelloAsso</b> — la plateforme des associations françaises.</p>
+      <ul class="insc-points">
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 6L9 17l-5-5"/></svg>Paiement sécurisé par carte bancaire</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 6L9 17l-5-5"/></svg>Reçu et confirmation envoyés automatiquement</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 6L9 17l-5-5"/></svg>0 € de frais pour l'association</li>
+      </ul>
+      <p class="ha-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>Connexion sécurisée — vous restez maître de vos données.</p>
+    </div>
+
+    <div class="insc-widget reveal d2">
+      <div class="wtop">
+        <span class="t"><svg class="lock" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>Adhésion · Zenway Saint-Laurent-du-Var</span>
+        <a class="ext" data-helloasso-link target="_blank" rel="noopener" href="#">Ouvrir ↗</a>
+      </div>
+
+      <!-- Le widget HelloAsso est injecté ici par le script si HELLOASSO.ready = true -->
+      <iframe id="haWidget" title="Formulaire d'adhésion HelloAsso" loading="lazy" style="display:none"></iframe>
+
+      <!-- État par défaut tant que le slug HelloAsso n'est pas branché -->
+      <div class="ha-placeholder" id="haPlaceholder">
+        <div class="ha-logo">HelloAsso</div>
+        <h4>Formulaire à brancher</h4>
+        <p>Renseigne le slug de l'association et de la campagne dans <code>HELLOASSO</code> en haut du script, puis passe <code>ready: true</code>.</p>
+        <a class="btn btn-primary" data-helloasso-link target="_blank" rel="noopener" href="#" style="color:var(--green-900)">Aperçu du lien d'inscription ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSCRIPTIONS ============ -->
+<section class="inscription" id="inscriptions">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Inscriptions</div>
+      <h2>S'inscrire, en 3 étapes</h2>
+      <p>Les adhésions se font en ligne via <b>HelloAsso</b>, la plateforme gratuite dédiée aux associations françaises. Simple, rapide et sécurisé.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step reveal">
+        <span class="num">1</span>
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"/></svg></div>
+        <h3>Ouvrez le formulaire</h3>
+        <p>Cliquez sur « S'inscrire sur HelloAsso » : la page d'adhésion de Zenway Saint-Laurent-du-Var s'ouvre.</p>
+      </div>
+      <div class="step reveal d1">
+        <span class="num">2</span>
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1.3"/><circle cx="3.5" cy="12" r="1.3"/><circle cx="3.5" cy="18" r="1.3"/></svg></div>
+        <h3>Choisissez votre formule</h3>
+        <p>Sélectionnez votre adhésion, renseignez vos coordonnées et validez votre inscription.</p>
+      </div>
+      <div class="step reveal d2">
+        <span class="num">3</span>
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>Réglez en sécurité</h3>
+        <p>Le paiement s'effectue en ligne. Vous recevez aussitôt votre confirmation et votre reçu par e-mail.</p>
+      </div>
+    </div>
+
+    <div class="inscription-cta reveal">
+      <div class="t">
+        <h3>Prêt à nous rejoindre ?</h3>
+        <p>L'adhésion se fait sur notre page HelloAsso sécurisée. HelloAsso est gratuit pour l'association ; une contribution volontaire au fonctionnement de HelloAsso peut vous être proposée au moment du paiement — elle reste librement modifiable.</p>
+      </div>
+      <div class="ha">
+        <!-- REMPLACER l'URL ci-dessous par le lien réel du formulaire d'adhésion HelloAsso de l'association -->
+        <a class="btn-ha" href="https://www.helloasso.com/associations/zenway-saint-laurent-du-var/adhesions/adhesion-2026" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          S'inscrire sur HelloAsso
+        </a>
+        <span class="ha-note">Paiement sécurisé · Reçu immédiat par e-mail</span>
+      </div>
+    </div>
+
+    <div class="ha-trust reveal d2">
+      <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 6L9 17l-5-5"/></svg> Plateforme française dédiée aux associations</span>
+      <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg> Paiement 100 % sécurisé</span>
+      <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M15 9a3.5 3.5 0 00-6 2.5A3.5 3.5 0 0015 14M7.5 11h5M7.5 13h5"/></svg> Sans frais ni commission pour l'association</span>
+    </div>
+
+    <!--
+      ────────────────────────────────────────────────────────────────────────
+      OPTION : intégrer le FORMULAIRE HelloAsso directement DANS la page (iframe widget).
+      À activer une fois le formulaire d'adhésion créé dans HelloAsso :
+        Manager HelloAsso → le formulaire → "Diffuser" → "Widget" → copier le code.
+      Remplacer {slug-asso} et {slug-formulaire} ci-dessous. La hauteur s'ajuste seule.
+      ────────────────────────────────────────────────────────────────────────
+
+      <div class="wrap" style="margin-top:44px">
+        <iframe id="haWidget" allowtransparency="true"
+          src="https://www.helloasso.com/associations/{slug-asso}/adhesions/{slug-formulaire}/widget"
+          style="width:100%;height:780px;border:none;"
+          onload="window.addEventListener('message', function(e){ if(e.data && e.data.height){ document.getElementById('haWidget').style.height = e.data.height + 'px'; } });">
+        </iframe>
+        <div style="text-align:center;font-size:.75rem;color:var(--ink-soft);margin-top:8px">Propulsé par HelloAsso</div>
+      </div>
+    -->
+  </div>
+</section>
+
+<!-- ============ INFOS PRATIQUES ============ -->
+<section class="infos" id="infos">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-bottom:44px">
+      <div class="eyebrow">Nous rejoindre</div>
+      <h2>Infos pratiques</h2>
+    </div>
+    <div class="infos-grid">
+      <div class="info-card reveal">
+        <h3>Contact &amp; lieu</h3>
+        <div class="info-row">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+          <div><div class="k">Lieu</div><div class="v">KMCS — 357 chemin des Iscles<br>06700 Saint-Laurent-du-Var</div></div>
+        </div>
+        <div class="info-row">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 4h4l2 5-3 2a11 11 0 005 5l2-3 5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg></div>
+          <div><div class="k">Téléphone</div><div class="v"><a href="tel:+33666056649">06 66 05 66 49</a></div></div>
+        </div>
+        <div class="info-row">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+          <div><div class="k">E-mail</div><div class="v"><a href="mailto:beatriceviallon12@gmail.com">beatriceviallon12@gmail.com</a></div></div>
+        </div>
+        <div class="info-row">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <div><div class="k">Prochain rendez-vous</div><div class="v">Portes ouvertes · samedi 27 juin, 9 h → 12 h 30</div></div>
+        </div>
+      </div>
+
+      <div class="map-card reveal d2">
+        <iframe
+          title="Plan d'accès KMCS Saint-Laurent-du-Var"
+          loading="lazy"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=7.18%2C43.65%2C7.22%2C43.67&layer=mapnik&marker=43.6608%2C7.1985">
+        </iframe>
+        <div class="map-fallback">
+          <strong style="font-family:var(--serif);font-size:1.4rem;color:#1b4332">KMCS · Saint-Laurent-du-Var</strong>
+          <span style="color:#2d6a4f;font-size:.9rem">357 chemin des Iscles, 06700</span>
+          <a href="https://www.google.com/maps/search/?api=1&query=357+chemin+des+Iscles+Saint-Laurent-du-Var" target="_blank" rel="noopener">Ouvrir l'itinéraire ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA BAND ============ -->
+<section class="cta-band">
+  <div class="wrap">
+    <div class="reveal">
+      <h2>Envie d'essayer ?</h2>
+      <p>Rejoignez-nous lors des portes ouvertes ou contactez-nous pour une première séance de découverte.</p>
+      <div class="actions">
+        <a href="#inscription" class="btn btn-primary">S'inscrire en ligne</a>
+        <a href="mailto:beatriceviallon12@gmail.com" class="btn btn-dark">Nous écrire</a>
+        <a href="tel:+33666056649" class="btn btn-dark">06 66 05 66 49</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo">
+          <svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M24 44C24 30 16 22 6 18c0 14 8 22 18 26Z" fill="url(#lg)" opacity=".85"/>
+            <path d="M24 44C24 30 32 22 42 18c0 14-8 22-18 26Z" fill="url(#lg)" opacity=".7"/>
+            <path d="M24 42C24 26 24 14 24 4c8 8 10 22 0 38Z" fill="url(#lg)"/>
+          </svg>
+          <span><span class="mark-zen">zen</span><span class="mark-way">way</span></span>
+        </div>
+        <p class="about">Section de Saint-Laurent-du-Var. Tai-chi chuan, Yoga, Pilates &amp; Qi gong, sur une musique relaxante.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram" title="@zenway.saintlaurent"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" aria-label="Facebook" title="Zenway Saint-Laurent"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-2 0-3 1-3 3v2H9v3h2v7h3v-7h2.5l.5-3H14V9z"/></svg></a>
+          <a href="https://www.youtube.com/@ZENWAYRH" target="_blank" rel="noopener" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12s0-3-.4-4.4a2.6 2.6 0 00-1.8-1.8C18.4 5.4 12 5.4 12 5.4s-6.4 0-7.8.4A2.6 2.6 0 002.4 7.6C2 9 2 12 2 12s0 3 .4 4.4a2.6 2.6 0 001.8 1.8c1.4.4 7.8.4 7.8.4s6.4 0 7.8-.4a2.6 2.6 0 001.8-1.8C22 15 22 12 22 12zm-12 3V9l5 3-5 3z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h5>Naviguer</h5>
+        <ul>
+          <li><a href="#concept">Le concept</a></li>
+          <li><a href="#pratiques">Les pratiques</a></li>
+          <li><a href="#planning">Planning</a></li>
+          <li><a href="#pourqui">Pour qui</a></li>
+          <li><a href="#videos">Vidéos</a></li>
+          <li><a href="#inscriptions">Inscriptions</a></li>
+          <li><a href="#event">Portes ouvertes</a></li>
+          <li><a href="#inscription">S'inscrire</a></li>
+          <li><a href="#infos">Infos pratiques</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="tel:+33666056649">06 66 05 66 49</a></li>
+          <li><a href="mailto:beatriceviallon12@gmail.com">beatriceviallon12@gmail.com</a></li>
+          <li>KMCS · 357 chemin des Iscles</li>
+          <li>Saint-Laurent-du-Var (06)</li>
+          <li><a href="https://zenway-rh.fr" target="_blank" rel="noopener">Réseau national Zenway ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Zenway Saint-Laurent-du-Var · Concept Zenway créé par Raymond Holle</span>
+      <span><a href="https://zenway-rh.fr" target="_blank" rel="noopener">zenway-rh.fr</a></span>
+    </div>
+  </div>
+  <svg width="0" height="0"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9fe3c8"/><stop offset="1" stop-color="#2d6a4f"/></linearGradient></defs></svg>
+</footer>
+
+<script>
+  /* ============================================================
+     CONFIG HELLOASSO — à adapter une seule fois ici
+     1. Crée le formulaire d'adhésion sur HelloAsso.
+     2. Récupère le slug de l'asso et de la campagne dans l'URL :
+        https://www.helloasso.com/associations/<org>/adhesions/<campaign>
+     3. Renseigne org + campaign ci-dessous, puis passe ready: true.
+     ============================================================ */
+  const HELLOASSO = {
+    org: "zenway-saint-laurent-du-var", // slug de l'association
+    type: "adhesions",                  // "adhesions" | "evenements" | "boutiques"
+    campaign: "adhesion-2026-2027",     // slug de la campagne
+    ready: false                        // → true quand les slugs sont corrects
+  };
+
+  (function setupHelloAsso(){
+    const base = `https://www.helloasso.com/associations/${HELLOASSO.org}/${HELLOASSO.type}/${HELLOASSO.campaign}`;
+    // Tous les liens "S'inscrire" -> page HelloAsso hébergée (voie la plus robuste)
+    document.querySelectorAll('[data-helloasso-link]').forEach(a => { a.href = base; });
+    // Widget embarqué (optionnel) -> affiché seulement si ready
+    if (HELLOASSO.ready){
+      const f = document.getElementById('haWidget');
+      const ph = document.getElementById('haPlaceholder');
+      f.src = base + '/widget';
+      f.style.display = 'block';
+      if (ph) ph.style.display = 'none';
+    }
+  })();
+</script>
+
+<script>
+  /* ============================================================
+     CONFIG VIDÉOS — à adapter au fil des publications YouTube
+     1. Récupère l'identifiant dans l'URL de la vidéo YouTube :
+        https://www.youtube.com/watch?v=XXXXXXXXXXX  → l'id est XXXXXXXXXXX
+        https://youtu.be/XXXXXXXXXXX                  → l'id est XXXXXXXXXXX
+     2. HERO_VIDEO_ID : la vidéo de teasing affichée en haut de page (hero).
+        Laisser vide ("") tant qu'aucun teaser n'est prêt.
+     3. VIDEOS : la galerie de la section "Vidéos". Ajoute une ligne par
+        vidéo. Tant que le tableau est vide, un message d'attente s'affiche.
+     4. YT_CHANNEL_URL : à corriger une fois la chaîne YouTube de
+        l'association créée (compte de marque dédié).
+     ============================================================ */
+  const HERO_VIDEO_ID  = ""; // ex: "dQw4w9WgXcQ"
+  const YT_CHANNEL_URL = "#"; // ex: "https://www.youtube.com/@ZenwaySaintLaurentDuVar"
+
+  const VIDEOS = [
+    // { id: "dQw4w9WgXcQ", title: "Présentation Zenway", desc: "Le concept en images." },
+  ];
+
+  function youtubeEmbed(id){
+    return `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" title="Vidéo Zenway" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>`;
+  }
+
+  (function setupHeroVideo(){
+    const wrap = document.getElementById('heroVideo');
+    if (!wrap || !HERO_VIDEO_ID) return;
+    const thumb = wrap.querySelector('.vthumb');
+    thumb.style.backgroundImage = `url(https://img.youtube.com/vi/${HERO_VIDEO_ID}/hqdefault.jpg)`;
+    thumb.innerHTML = '<button class="vplay" aria-label="Lire le teaser"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>';
+    thumb.addEventListener('click', () => { thumb.innerHTML = youtubeEmbed(HERO_VIDEO_ID); }, { once: true });
+  })();
+
+  (function setupVideosGallery(){
+    const grid = document.getElementById('videosGrid');
+    const ytLink = document.getElementById('ytChannelLink');
+    if (ytLink) ytLink.href = YT_CHANNEL_URL;
+    if (!grid) return;
+
+    if (!VIDEOS.length){
+      grid.innerHTML = '<p class="videos-empty">Les premières vidéos seront mises en ligne après les portes ouvertes du 27 juin. Revenez bientôt.</p>';
+      return;
+    }
+
+    grid.innerHTML = VIDEOS.map(v => `
+      <article class="vcard">
+        <div class="vthumb" style="background-image:url(https://img.youtube.com/vi/${v.id}/hqdefault.jpg)" data-id="${v.id}">
+          <button class="vplay" aria-label="Lire la vidéo"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+        </div>
+        <div class="vmeta"><h3>${v.title}</h3><p>${v.desc}</p></div>
+      </article>
+    `).join('');
+
+    grid.querySelectorAll('.vthumb').forEach(thumb => {
+      thumb.addEventListener('click', () => { thumb.innerHTML = youtubeEmbed(thumb.dataset.id); }, { once: true });
+    });
+  })();
+</script>
+
+<script>
+  /* ============================================================
+     CONFIG PLANNING — à compléter avec les horaires réels
+     Ajoute une ligne par créneau de séance. Exemple :
+       { day: "Mardi", time: "18 h 30 – 19 h 45", label: "Séance Zenway · tous niveaux" },
+     Tant que le tableau est vide, un message d'attente s'affiche
+     avec une invitation à contacter Béatrice.
+     ============================================================ */
+  const PLANNING = [
+    { day: "Mardi", time: "17 h 45 – 18 h 45", label: "Séance Zenway · tous niveaux" },
+  ];
+
+  (function setupPlanning(){
+    const list = document.getElementById('scheduleList');
+    if (!list) return;
+
+    if (!PLANNING.length){
+      list.innerHTML = `
+        <div class="schedule-empty">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <p>Le planning détaillé sera bientôt publié ici. En attendant, contactez Béatrice pour connaître les prochains jours et horaires de séance.</p>
+        </div>`;
+      return;
+    }
+
+    list.innerHTML = PLANNING.map(s => `
+      <div class="schedule-item">
+        <div class="schedule-day"><div class="d1">${s.day.slice(0,3)}</div><div class="d2">${s.day}</div></div>
+        <div class="schedule-info">
+          <div class="lab">${s.label}</div>
+          <div class="time">${s.time}</div>
+          <div class="loc"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>KMCS · 357 chemin des Iscles</div>
+        </div>
+      </div>
+    `).join('');
+  })();
+</script>
+
+<script>
+  // Nav scroll state
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+  window.addEventListener('scroll', onScroll); onScroll();
+
+  // Burger menu
+  const burger = document.getElementById('burger');
+  const links = document.getElementById('navlinks');
+  burger.addEventListener('click', () => links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+
+  // Scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: .14 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
