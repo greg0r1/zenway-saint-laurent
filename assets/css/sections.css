@@ -164,7 +164,7 @@
 .map-fallback a{background:var(--green-700);color:#fff;padding:12px 22px;border-radius:999px;font-weight:600;font-size:.88rem}
 
 /* ---------- Inscription (HelloAsso) ---------- */
-.inscription{padding:100px 0;background:linear-gradient(180deg,#fff,var(--mint-soft))}
+.inscription-form{padding:100px 0;background:linear-gradient(180deg,#fff,var(--mint-soft))}
 .insc-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:48px;align-items:center}
 .insc-left h2{font-size:clamp(2rem,4vw,3rem);color:var(--green-800);margin:12px 0 18px}
 .insc-left p{color:var(--ink-soft);font-size:1.04rem;margin-bottom:14px;max-width:46ch}
