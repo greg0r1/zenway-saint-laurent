@@ -66,10 +66,8 @@
   .script{font-family:var(--script);font-weight:600}
 
   /* ---------- Logo ---------- */
-  .logo{display:inline-flex;align-items:center;gap:.55rem}
-  .logo svg{flex:none}
-  .logo .mark-zen{font-family:var(--sans);font-weight:700;font-size:1.42rem;letter-spacing:-.5px}
-  .logo .mark-way{font-family:var(--script);font-weight:600;font-size:1.65rem;margin-left:-.12em;opacity:.92}
+  .logo{display:inline-flex;align-items:center}
+  .logo img{display:block}
 
   /* ---------- Nav ---------- */
   header.nav{
@@ -88,7 +86,6 @@
   }
   header.nav .links a:hover{opacity:1}
   header.nav .links a:hover::after{width:100%}
-  header.nav .logo .mark-zen,header.nav .logo .mark-way{color:#fff}
   header.nav .cta{
     background:var(--gold);color:var(--green-900);font-weight:600;font-size:.82rem;
     padding:11px 20px;border-radius:999px;letter-spacing:.02em;
@@ -374,7 +371,6 @@
   /* ---------- Footer ---------- */
   footer{background:#13241b;color:#bdd8c8;padding:64px 0 30px}
   .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.1)}
-  footer .logo .mark-zen,footer .logo .mark-way{color:#fff}
   footer .about{margin-top:16px;font-size:.9rem;max-width:34ch;color:#9fc0ad}
   footer h5{font-family:var(--sans);font-weight:600;color:#fff;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px}
   footer ul{list-style:none}
@@ -497,17 +493,7 @@
 <header class="nav" id="nav">
   <div class="wrap bar">
     <a href="#hero" class="logo" aria-label="Zenway Saint-Laurent-du-Var">
-      <svg width="34" height="34" viewBox="0 0 48 48" aria-hidden="true">
-        <defs>
-          <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#9fe3c8"/><stop offset="1" stop-color="#2d6a4f"/>
-          </linearGradient>
-        </defs>
-        <path d="M24 44C24 30 16 22 6 18c0 14 8 22 18 26Z" fill="url(#lg)" opacity=".85"/>
-        <path d="M24 44C24 30 32 22 42 18c0 14-8 22-18 26Z" fill="url(#lg)" opacity=".7"/>
-        <path d="M24 42C24 26 24 14 24 4c8 8 10 22 0 38Z" fill="url(#lg)"/>
-      </svg>
-      <span><span class="mark-zen">zen</span><span class="mark-way">way</span></span>
+      <img src="assets/img/logo-zenway.png" alt="Zenway" height="40">
     </a>
     <nav class="links" id="navlinks">
       <a href="#concept">Le concept</a>
@@ -933,12 +919,7 @@
     <div class="foot-grid">
       <div>
         <div class="logo">
-          <svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true">
-            <path d="M24 44C24 30 16 22 6 18c0 14 8 22 18 26Z" fill="url(#lg)" opacity=".85"/>
-            <path d="M24 44C24 30 32 22 42 18c0 14-8 22-18 26Z" fill="url(#lg)" opacity=".7"/>
-            <path d="M24 42C24 26 24 14 24 4c8 8 10 22 0 38Z" fill="url(#lg)"/>
-          </svg>
-          <span><span class="mark-zen">zen</span><span class="mark-way">way</span></span>
+          <img src="assets/img/logo-zenway.png" alt="Zenway" height="36">
         </div>
         <p class="about">Section de Saint-Laurent-du-Var. Tai-chi chuan, Yoga, Pilates &amp; Qi gong, sur une musique relaxante.</p>
         <div class="socials">
