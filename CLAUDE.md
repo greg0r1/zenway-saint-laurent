@@ -25,7 +25,7 @@ Zenway n'est **pas** un enchaînement de quatre cours séparés. C'est **une seu
 ## Stack technique
 
 - **HTML / CSS / JS vanilla uniquement** — pas de framework, pas de bundler, pas de npm.
-- Un seul fichier `index.html` à la racine (déployable tel quel).
+- Un seul fichier `index.html` à la racine (déployable tel quel), le CSS est découpé en fichiers statiques dans `assets/css/`.
 - Les assets externes (images, fonts) sont référencés par URL ou placés dans `assets/`.
 - Les données configurables (planning, vidéos, HelloAsso) sont dans des blocs `<script>` en bas de `index.html`, clairement séparés du code de rendu.
 - Aucune dépendance npm. Aucun `package.json`. Aucun build step.
@@ -35,7 +35,7 @@ Zenway n'est **pas** un enchaînement de quatre cours séparés. C'est **une seu
 
 ## Charte graphique — TOUJOURS respecter
 
-### Couleurs (variables CSS déjà définies dans `index.html`)
+### Couleurs (variables CSS déjà définies dans `assets/css/base.css`)
 
 ```css
 --green-900: #1b4332 /* Fonds foncés : footer, header scrollé */
@@ -83,8 +83,17 @@ Trois feuilles SVG en dégradé vert/teal. Le mot « zen » en DM Sans gras blan
 
 ```
 zenway-saint-laurent/
-├── index.html          ← page unique, auto-suffisante
+├── index.html          ← page unique, auto-suffisante (structure + scripts)
 ├── assets/
+│   ├── css/
+│   │   ├── base.css        ← variables, reset, typo, logo, reveal
+│   │   ├── nav.css          ← en-tête fixe, liens, burger
+│   │   ├── hero.css         ← section d'accueil
+│   │   ├── sections.css     ← concept, pratiques, planning, pour qui,
+│   │   │                      portes ouvertes, infos, inscriptions, cta
+│   │   ├── video.css        ← composant vidéo (teaser + galerie)
+│   │   ├── footer.css       ← pied de page
+│   │   └── responsive.css   ← media queries (chargé en dernier)
 │   └── img/
 │       ├── bea.png     ← photo de Béatrice (fond transparent, ratio 3:4)
 │       └── seance.jpg  ← photo d'ambiance (ratio 4:3 minimum)
@@ -97,7 +106,7 @@ zenway-saint-laurent/
 
 Les sections dans l'ordre, chacune avec son commentaire `<!-- === NOM === -->` :
 
-1. `<head>` (meta, fonts, styles)
+1. `<head>` (meta, fonts, `<link rel="stylesheet">` vers `assets/css/`)
 2. NAV
 3. HERO (vidéo de teasing)
 4. CONCEPT
@@ -111,6 +120,20 @@ Les sections dans l'ordre, chacune avec son commentaire `<!-- === NOM === -->` :
 12. CTA BAND
 13. FOOTER
 14. Scripts (HelloAsso config, Vidéos config, Planning config, Nav/Reveal)
+
+### Fichiers CSS (`assets/css/`)
+
+Le CSS est découpé en fichiers statiques par domaine fonctionnel, chargés via `<link rel="stylesheet">` dans le `<head>`, dans l'ordre où ils apparaissent dans l'arborescence ci-dessus (`responsive.css` toujours chargé en dernier pour surcharger les autres). Pas de préprocesseur, pas de build : du CSS brut, modifiable directement.
+
+Chaque fichier commence par un en-tête commenté :
+
+```css
+/* ============================================================
+   NOM DU FICHIER — description courte
+   ============================================================ */
+```
+
+Ne jamais remettre du CSS inline dans `index.html` via une balise `<style>`.
 
 ### Blocs de configuration (en bas de `index.html`)
 
@@ -210,7 +233,7 @@ Zenway n'est **pas** un enchaînement de quatre cours séparés. C'est **une seu
 ## Stack technique
 
 - **HTML / CSS / JS vanilla uniquement** — pas de framework, pas de bundler, pas de npm.
-- Un seul fichier `index.html` à la racine (déployable tel quel sur GitHub Pages).
+- Un seul fichier `index.html` à la racine (déployable tel quel sur GitHub Pages), le CSS est découpé en fichiers statiques dans `assets/css/`.
 - Les assets externes (images, fonts) sont référencés par URL ou placés dans `assets/`.
 - Les données configurables (planning, vidéos, HelloAsso) sont dans des blocs `<script>` en bas de `index.html`, clairement séparés du code de rendu.
 - Aucune dépendance npm. Aucun `package.json`. Aucun build step.
@@ -219,7 +242,7 @@ Zenway n'est **pas** un enchaînement de quatre cours séparés. C'est **une seu
 
 ## Charte graphique — TOUJOURS respecter
 
-### Couleurs (variables CSS déjà définies dans `index.html`)
+### Couleurs (variables CSS déjà définies dans `assets/css/base.css`)
 
 ```css
 --green-900: #1b4332 /* Fonds foncés : footer, header scrollé */
@@ -267,8 +290,17 @@ Trois feuilles SVG en dégradé vert/teal. Le mot « zen » en DM Sans gras blan
 
 ```
 zenway-saint-laurent/
-├── index.html          ← page unique, auto-suffisante
+├── index.html          ← page unique, auto-suffisante (structure + scripts)
 ├── assets/
+│   ├── css/
+│   │   ├── base.css        ← variables, reset, typo, logo, reveal
+│   │   ├── nav.css          ← en-tête fixe, liens, burger
+│   │   ├── hero.css         ← section d'accueil
+│   │   ├── sections.css     ← concept, pratiques, planning, pour qui,
+│   │   │                      portes ouvertes, infos, inscriptions, cta
+│   │   ├── video.css        ← composant vidéo (teaser + galerie)
+│   │   ├── footer.css       ← pied de page
+│   │   └── responsive.css   ← media queries (chargé en dernier)
 │   └── img/
 │       ├── bea.png     ← photo de Béatrice (fond transparent, ratio 3:4)
 │       └── seance.jpg  ← photo d'ambiance (ratio 4:3 minimum)
@@ -281,7 +313,7 @@ zenway-saint-laurent/
 
 Les sections dans l'ordre, chacune avec son commentaire `<!-- === NOM === -->` :
 
-1. `<head>` (meta, fonts, styles)
+1. `<head>` (meta, fonts, `<link rel="stylesheet">` vers `assets/css/`)
 2. NAV
 3. HERO (vidéo de teasing)
 4. CONCEPT
@@ -295,6 +327,20 @@ Les sections dans l'ordre, chacune avec son commentaire `<!-- === NOM === -->` :
 12. CTA BAND
 13. FOOTER
 14. Scripts (HelloAsso config, Vidéos config, Planning config, Nav/Reveal)
+
+### Fichiers CSS (`assets/css/`)
+
+Le CSS est découpé en fichiers statiques par domaine fonctionnel, chargés via `<link rel="stylesheet">` dans le `<head>`, dans l'ordre où ils apparaissent dans l'arborescence ci-dessus (`responsive.css` toujours chargé en dernier pour surcharger les autres). Pas de préprocesseur, pas de build : du CSS brut, modifiable directement.
+
+Chaque fichier commence par un en-tête commenté :
+
+```css
+/* ============================================================
+   NOM DU FICHIER — description courte
+   ============================================================ */
+```
+
+Ne jamais remettre du CSS inline dans `index.html` via une balise `<style>`.
 
 ### Blocs de configuration (en bas de `index.html`)
 

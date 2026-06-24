@@ -1,0 +1,34 @@
+/* ============================================================
+   RESPONSIVE — media queries (charge en dernier)
+   ============================================================ */
+@media(max-width:980px){
+  .hero-grid,.concept-grid,.pourqui-grid,.event .inner,.infos-grid,.insc-grid{grid-template-columns:1fr}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .hero-photo{height:340px}
+  .steps{grid-template-columns:1fr}
+  .videos-grid{grid-template-columns:1fr 1fr}
+  .fusion-track{display:none}
+  .inscription-cta{flex-direction:column;align-items:flex-start}
+  .concept-visual{order:-1}
+  .event .inner{padding:40px 30px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:680px){
+  header.nav .links{
+    position:fixed;top:0;right:0;height:100vh;width:78%;max-width:320px;
+    background:rgba(15,40,30,.98);backdrop-filter:blur(10px);
+    flex-direction:column;justify-content:center;gap:26px;
+    transform:translateX(100%);transition:transform .35s ease;padding:40px;
+  }
+  header.nav .links.open{transform:none}
+  header.nav .links a{font-size:1.05rem}
+  .burger{display:block;z-index:60}
+  .cards{grid-template-columns:1fr}
+  .benefits{grid-template-columns:1fr}
+  .videos-grid{grid-template-columns:1fr}
+  .concept .stats{gap:24px}
+  .fusion-note{padding:18px 18px;margin-top:26px}
+  .schedule-item{flex-wrap:wrap;gap:14px}
+  .wrap{padding:0 18px}
+  .hero .event-pill{left:0}
+}

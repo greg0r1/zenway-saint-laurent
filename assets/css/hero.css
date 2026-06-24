@@ -1,0 +1,65 @@
+/* ============================================================
+   HERO — section d'accueil, boutons, visuel et carte événement
+   ============================================================ */
+.hero{
+  min-height:100svh;display:flex;align-items:center;
+  background:
+    radial-gradient(120% 90% at 78% 8%, rgba(54,161,140,.5) 0%, rgba(54,161,140,0) 55%),
+    radial-gradient(90% 80% at 12% 90%, rgba(13,54,40,.55) 0%, rgba(13,54,40,0) 60%),
+    linear-gradient(150deg,#0f3a2c 0%, var(--green-700) 48%, var(--teal) 100%);
+  color:#f3faf5;overflow:hidden;padding:140px 0 90px;
+}
+.hero .leaf-bg{position:absolute;inset:0;opacity:.10;pointer-events:none}
+.hero .leaf-bg svg{position:absolute;width:540px;height:540px}
+.hero .leaf-bg .l1{top:-130px;right:-120px;transform:rotate(20deg)}
+.hero .leaf-bg .l2{bottom:-180px;left:-150px;transform:rotate(-160deg);width:620px;height:620px}
+
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;position:relative;z-index:2}
+.hero .h-eyebrow{color:var(--gold-soft);margin-bottom:22px;display:flex;align-items:center;gap:14px}
+.hero .h-eyebrow::before{content:"";width:42px;height:1px;background:var(--gold-soft);opacity:.7}
+.hero h1{font-size:clamp(2.7rem,6vw,4.6rem);font-weight:600;margin-bottom:8px}
+.hero h1 em{font-style:italic;color:var(--mint)}
+.hero .disc{
+  font-family:var(--sans);font-weight:500;font-size:clamp(1rem,1.6vw,1.18rem);
+  color:#dcefe2;max-width:34ch;margin:24px 0 6px;line-height:1.55;
+}
+.hero .disc b{color:#fff;font-weight:700}
+.hero .quote{font-family:var(--script);font-size:clamp(1.7rem,3.4vw,2.4rem);color:var(--mint);margin:18px 0 36px;line-height:1.2}
+.hero .actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:.92rem;
+  padding:15px 26px;border-radius:999px;cursor:pointer;border:0;
+  transition:transform .2s ease, box-shadow .2s ease, background .2s, color .2s;letter-spacing:.01em;
+}
+.btn-primary{background:var(--gold);color:var(--green-900);box-shadow:0 14px 30px -14px rgba(201,168,106,.7)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 36px -14px rgba(201,168,106,.9)}
+.btn-ghost{background:transparent;color:#eaf6ee;border:1.5px solid rgba(255,255,255,.4)}
+.btn-ghost:hover{background:rgba(255,255,255,.1);border-color:#fff;transform:translateY(-2px)}
+
+/* hero visual */
+.hero-card{
+  position:relative;border-radius:26px;padding:14px;
+  background:linear-gradient(160deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.25);box-shadow:var(--shadow);backdrop-filter:blur(4px);
+}
+.hero-photo{
+  height:460px;border-radius:18px;overflow:hidden;position:relative;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(216,243,220,.5), rgba(216,243,220,0) 55%),
+    linear-gradient(160deg,#cfe9d8,#9fcbb6);
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-photo .ph-icon{opacity:.55}
+.hero-photo .ph-label{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#2d6a4f;opacity:.75}
+.hero .event-pill{
+  position:absolute;left:-18px;bottom:30px;background:#fff;color:var(--green-900);
+  border-radius:16px;padding:14px 20px;box-shadow:var(--shadow);max-width:230px;
+}
+.hero .event-pill .d{font-family:var(--serif);font-size:1.45rem;line-height:1;font-weight:600}
+.hero .event-pill .s{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:600;margin-bottom:5px}
+.hero .event-pill .h{font-size:.86rem;color:var(--ink-soft);margin-top:5px}
+
+.scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:7px;color:#cfe6d7;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase}
+.scroll-hint .mouse{width:22px;height:36px;border:1.5px solid rgba(207,230,215,.6);border-radius:12px;position:relative}
+.scroll-hint .mouse::after{content:"";position:absolute;top:7px;left:50%;transform:translateX(-50%);width:3px;height:7px;background:#cfe6d7;border-radius:2px;animation:wheel 1.6s infinite}
+@keyframes wheel{0%{opacity:1;top:7px}70%{opacity:0;top:16px}100%{opacity:0}}

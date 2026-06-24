@@ -1,0 +1,16 @@
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{background:#13241b;color:#bdd8c8;padding:64px 0 30px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.1)}
+footer .about{margin-top:16px;font-size:.9rem;max-width:34ch;color:#9fc0ad}
+footer h5{font-family:var(--sans);font-weight:600;color:#fff;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px}
+footer ul{list-style:none}
+footer li{margin-bottom:11px;font-size:.92rem}
+footer a:hover{color:var(--gold-soft)}
+.socials{display:flex;gap:12px;margin-top:18px}
+.socials a{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:#cfe6d7;transition:.2s}
+.socials a:hover{background:var(--gold);color:var(--green-900);transform:translateY(-2px)}
+.foot-bottom{padding-top:24px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.8rem;color:#7fa790}
+.foot-bottom a{color:#9fc0ad}
+.foot-bottom a:hover{color:#fff}
