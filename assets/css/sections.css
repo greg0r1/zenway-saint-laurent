@@ -10,9 +10,9 @@
 }
 .concept-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  align-items: center;
+  grid-template-columns: 1fr 0.9fr;
+  gap: 48px;
+  align-items: stretch;
 }
 .concept h2 {
   font-size: clamp(2rem, 4vw, 3rem);
@@ -55,56 +55,34 @@
 }
 .concept-visual {
   position: relative;
+  height: 100%;
 }
 .concept-visual .frame {
-  border-radius: 24px;
-  height: 480px;
-  overflow: hidden;
   position: relative;
-  box-shadow: var(--shadow);
-  background:
-    radial-gradient(
-      circle at 30% 25%,
-      rgba(54, 161, 140, 0.35),
-      transparent 55%
-    ),
-    linear-gradient(160deg, #1f5440, #2d6a4f 60%, #36a18c);
+  height: 100%;
+  overflow: hidden;
 }
-.concept-visual .frame .note {
+.concept-visual .frame .leaf-trio {
   position: absolute;
-  inset: auto 22px 22px 22px;
-  color: #eaf6ee;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  transform: scale(1.55);
+  opacity: 0.55;
+  z-index: 0;
 }
-.concept-visual .frame .note .q {
-  font-family: var(--script);
-  font-size: 1.7rem;
-  color: var(--mint);
-}
-.concept-visual .frame .ph {
+.concept-visual .frame .frame-photo {
   position: absolute;
-  top: 18px;
-  left: 18px;
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.65);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  filter: drop-shadow(0 28px 24px rgba(27, 67, 50, 0.22));
+  z-index: 1;
 }
-.concept-visual .badge {
-  position: absolute;
-  top: -43px;
-  right: -5px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-}
-.concept-visual .badge img {
-  display: block;
-  height: 60px;
-  width: auto;
-}
-
 /* ---------- Pratiques ---------- */
 .pratiques {
   padding: 100px 0;
