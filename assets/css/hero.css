@@ -25,6 +25,7 @@
 }
 .hero .disc b{color:#fff;font-weight:700}
 .hero .quote{font-family:var(--script);font-size:clamp(1.7rem,3.4vw,2.4rem);color:var(--mint);margin:18px 0 36px;line-height:1.2}
+.hero .trial-note{font-family:var(--sans);font-size:.92rem;color:var(--gold-soft);margin:-22px 0 28px}
 .hero .actions{display:flex;gap:14px;flex-wrap:wrap}
 .btn{
   display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:.92rem;
