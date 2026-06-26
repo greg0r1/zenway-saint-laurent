@@ -125,33 +125,24 @@
 .pcard .pic {
   height: 150px;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
+  background: var(--green-700);
 }
-.pcard.taichi .pic {
-  background: linear-gradient(160deg, #3a7d5e, #2d6a4f);
+.pcard .pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
 }
-.pcard.yoga .pic {
-  background: linear-gradient(160deg, #4f9c84, #2f8f7f);
+.pcard:hover .pic img {
+  transform: scale(1.05);
 }
-.pcard.pilates .pic {
-  background: linear-gradient(160deg, #5a8f76, #3a7d5e);
-}
-.pcard.qigong .pic {
-  background: linear-gradient(160deg, #36a18c, #2d6a4f);
-}
-.pcard .pic .ph-label {
+.pcard .pic::after {
+  content: "";
   position: absolute;
-  bottom: 9px;
-  right: 11px;
-  font-size: 0.6rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
-}
-.pcard .pic svg {
-  opacity: 0.92;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(45, 106, 79, 0.35), rgba(27, 67, 50, 0.15));
 }
 .pcard .body {
   padding: 22px 22px 26px;
@@ -183,6 +174,7 @@
   position: relative;
   margin-bottom: 30px;
 }
+/* Le pointillé doré, en fond, marque tout le parcours */
 .fusion-track::before {
   content: "";
   position: absolute;
@@ -196,6 +188,24 @@
     transparent 10px 20px
   );
   z-index: 0;
+}
+/* Trait plein qui se dessine de gauche à droite au scroll :
+   visualise le passage d'une racine à l'autre comme un seul enchaînement */
+.fusion-track::after {
+  content: "";
+  position: absolute;
+  top: 19px;
+  left: 12.5%;
+  right: 12.5%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--teal-bright));
+  transform: scaleX(0);
+  transform-origin: left center;
+  z-index: 0;
+}
+.fusion-track.in::after {
+  transition: transform 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scaleX(1);
 }
 .fusion-track .node {
   display: flex;
@@ -219,10 +229,54 @@
   font-size: 1.02rem;
   box-shadow: 0 8px 18px -8px rgba(0, 0, 0, 0.4);
 }
+/* Les pastilles s'allument en séquence pendant que le trait se dessine */
+.fusion-track.in .node:nth-child(1) .dot {
+  animation: dot-glow 0.7s ease 0.2s both;
+}
+.fusion-track.in .node:nth-child(2) .dot {
+  animation: dot-glow 0.7s ease 0.55s both;
+}
+.fusion-track.in .node:nth-child(3) .dot {
+  animation: dot-glow 0.7s ease 0.9s both;
+}
+.fusion-track.in .node:nth-child(4) .dot {
+  animation: dot-glow 0.7s ease 1.25s both;
+}
+@keyframes dot-glow {
+  0% {
+    transform: scale(0.7);
+    box-shadow:
+      0 8px 18px -8px rgba(0, 0, 0, 0.4),
+      0 0 0 0 rgba(201, 168, 106, 0.5);
+  }
+  55% {
+    transform: scale(1.12);
+    box-shadow:
+      0 8px 18px -8px rgba(0, 0, 0, 0.4),
+      0 0 0 9px rgba(201, 168, 106, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 8px 18px -8px rgba(0, 0, 0, 0.4),
+      0 0 0 0 rgba(201, 168, 106, 0);
+  }
+}
 .fusion-track .lab {
   font-size: 0.78rem;
   color: var(--ink-soft);
   font-weight: 600;
+}
+
+/* Accessibilité : pas de mouvement pour qui le refuse */
+@media (prefers-reduced-motion: reduce) {
+  .fusion-track.in::after {
+    transition: none;
+    transform: scaleX(1);
+  }
+  .fusion-track.in .node .dot {
+    animation: none;
+  }
 }
 
 .fusion-note {
