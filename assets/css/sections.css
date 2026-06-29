@@ -1,6 +1,6 @@
 /* ============================================================
    SECTIONS — concept, pratiques, planning, pour qui,
-   portes ouvertes, infos pratiques, inscriptions, cta bandeau
+   événements à venir, infos pratiques, inscriptions, cta bandeau
    ============================================================ */
 
 /* ---------- Concept ---------- */
@@ -489,7 +489,7 @@
   margin: 0;
 }
 
-/* ---------- Portes ouvertes ---------- */
+/* ---------- Événements à venir ---------- */
 .event {
   padding: 0;
 }
@@ -505,10 +505,6 @@
   color: #f3faf5;
   padding: 54px 56px;
   box-shadow: var(--shadow);
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 48px;
-  align-items: center;
   position: relative;
   overflow: hidden;
   margin: 90px 0;
@@ -520,10 +516,6 @@
   width: 480px;
   height: 480px;
   opacity: 0.1;
-}
-.event .e-left {
-  position: relative;
-  z-index: 2;
 }
 .event .tag {
   display: inline-block;
@@ -544,71 +536,19 @@
 .event h2 .g {
   color: var(--gold-soft);
 }
-.event .hrs {
-  font-size: 1.1rem;
-  color: var(--mint);
-  margin-bottom: 22px;
-  font-weight: 500;
-}
-.event .place {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  color: #dcefe2;
-  font-size: 0.96rem;
-  margin-bottom: 26px;
-}
-.event .place svg {
-  flex: none;
-  margin-top: 3px;
-  color: var(--gold-soft);
-}
-.event .demos {
+.event .inner-empty {
   position: relative;
   z-index: 2;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 18px;
-  padding: 26px 28px;
-  backdrop-filter: blur(3px);
-}
-.event .demos .lab {
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--gold-soft);
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-.event .demos .sub {
-  font-size: 0.8rem;
-  color: #cfe6d7;
-  margin-bottom: 18px;
-}
-.event .demos .slots {
+  text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
-.event .demos .slot {
-  display: flex;
   align-items: center;
-  gap: 14px;
-  font-family: var(--serif);
-  font-size: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-  padding-bottom: 12px;
 }
-.event .demos .slot:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-.event .demos .slot .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--gold-soft);
-  flex: none;
+.event .inner-empty .sub {
+  max-width: 520px;
+  color: #dcefe2;
+  font-size: 1rem;
+  margin: 0 0 26px;
 }
 
 /* ---------- Infos pratiques ---------- */

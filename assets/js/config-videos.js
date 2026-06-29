@@ -53,7 +53,7 @@ function facebookEmbed(url){
   if (!grid) return;
 
   if (!VIDEOS.length){
-    grid.innerHTML = '<p class="videos-empty">Les premières vidéos seront mises en ligne après les portes ouvertes du 27 juin. Revenez bientôt.</p>';
+    grid.innerHTML = '<p class="videos-empty">Les premières vidéos seront mises en ligne prochainement. Revenez bientôt.</p>';
     return;
   }
 
