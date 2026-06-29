@@ -83,10 +83,9 @@
   filter: drop-shadow(0 28px 24px rgba(27, 67, 50, 0.22));
   z-index: 1;
 }
-/* ---------- Pratiques ---------- */
-.pratiques {
-  padding: 100px 0;
-  background: linear-gradient(180deg, var(--mint-soft), #fff);
+/* ---------- Pratiques (intégrées à la section Concept) ---------- */
+.pratiques-block {
+  margin-top: 70px;
 }
 .sec-head {
   text-align: center;
