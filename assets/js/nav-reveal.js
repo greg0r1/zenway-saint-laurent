@@ -11,8 +11,14 @@ window.addEventListener('scroll', onScroll); onScroll();
 // Burger menu
 const burger = document.getElementById('burger');
 const links = document.getElementById('navlinks');
-burger.addEventListener('click', () => links.classList.toggle('open'));
-links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+burger.addEventListener('click', () => {
+  links.classList.remove('no-transition');
+  links.classList.toggle('open');
+});
+links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  links.classList.add('no-transition');
+  links.classList.remove('open');
+}));
 
 // Scroll reveal
 const io = new IntersectionObserver((entries) => {

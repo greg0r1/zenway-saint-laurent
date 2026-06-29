@@ -21,6 +21,7 @@
     transform:translateX(100%);transition:transform .35s ease;padding:40px;
   }
   header.nav .links.open{transform:none}
+  header.nav .links.no-transition{transition:none}
   header.nav .links a{font-size:1.05rem}
   .burger{display:block;z-index:60}
   .cards{grid-template-columns:1fr}
