@@ -24,6 +24,7 @@
   header.nav .links.no-transition{transition:none}
   header.nav .links a{font-size:1.05rem}
   .burger{display:block;z-index:60}
+  .logo-city{display:none}
   .cards{grid-template-columns:1fr}
   .benefits{grid-template-columns:1fr}
   .videos-grid{grid-template-columns:1fr}
