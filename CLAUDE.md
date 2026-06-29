@@ -11,7 +11,7 @@ Site vitrine statique pour **Zenway Saint-Laurent-du-Var**, section locale du r�
 - **Animatrice** : Béatrice Viallon (Béa)
 - **Lieu** : KMCS, 357 chemin des Iscles, Saint-Laurent-du-Var (06700)
 - **Séance** : mardi 17 h 45 – 18 h 45
-- **Contact** : 06 66 05 66 49 · beatriceviallon12@gmail.com
+- **Contact** : 06 66 05 66 49 · contact@zenwaysaintlaurentduvar.fr
 - **Repo GitHub** : github.com/greg0r1/zenway-saint-laurent
 - **Hébergement** : Vercel (connecté au repo GitHub, déploiement automatique)
 - **Inscriptions** : HelloAsso (lien externe + widget iframe optionnel)
