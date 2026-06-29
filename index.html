@@ -331,7 +331,7 @@
 
   <!-- ============ INSCRIPTION (HelloAsso) ============ -->
   <section class="inscription-form" id="inscription">
-    <div class="wrap insc-grid">
+    <div class="wrap insc-grid insc-solo">
       <div class="insc-left reveal">
         <div class="eyebrow">Inscription en ligne</div>
         <h2>Rejoindre Zenway<br>Saint-Laurent-du-Var</h2>
@@ -379,6 +379,16 @@
           </svg>Connexion sécurisée — vous restez maître de vos données.</p>
       </div>
 
+      <!--
+      ────────────────────────────────────────────────────────────────────────
+      WIDGET HELLOASSO — désactivé tant que le formulaire d'adhésion n'est
+      pas créé côté HelloAsso. Pour réactiver :
+        1. Crée le formulaire d'adhésion sur HelloAsso, renseigne org/campaign
+           et passe ready: true dans assets/js/config-helloasso.js.
+        2. Décommente le bloc ci-dessous et retire la classe "insc-solo"
+           du conteneur .insc-grid plus haut.
+      ────────────────────────────────────────────────────────────────────────
+
       <div class="insc-widget reveal d2">
         <div class="wtop">
           <span class="t"><svg class="lock" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -388,11 +398,7 @@
             </svg>Adhésion · Zenway Saint-Laurent-du-Var</span>
           <a class="ext" data-helloasso-link target="_blank" rel="noopener" href="#">Ouvrir ↗</a>
         </div>
-
-        <!-- Le widget HelloAsso est injecté ici par le script si HELLOASSO.ready = true -->
         <iframe id="haWidget" title="Formulaire d'adhésion HelloAsso" loading="lazy" style="display:none"></iframe>
-
-        <!-- État par défaut tant que le slug HelloAsso n'est pas branché -->
         <div class="ha-placeholder" id="haPlaceholder">
           <div class="ha-logo">HelloAsso</div>
           <h4>Formulaire à brancher</h4>
@@ -402,6 +408,7 @@
             style="color:var(--green-900)">Aperçu du lien d'inscription ↗</a>
         </div>
       </div>
+      -->
     </div>
   </section>
 
