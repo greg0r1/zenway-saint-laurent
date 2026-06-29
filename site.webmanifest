@@ -1,0 +1,19 @@
+{
+  "name": "Zenway Saint-Laurent-du-Var",
+  "short_name": "Zenway",
+  "icons": [
+    {
+      "src": "assets/img/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/img/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#1b4332",
+  "background_color": "#faf8f2",
+  "display": "standalone"
+}
