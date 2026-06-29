@@ -15,7 +15,7 @@
    ============================================================ */
 const HERO_VIDEO_ID    = ""; // ex: "dQw4w9WgXcQ"
 const HERO_VIDEO_FB_URL = "https://www.facebook.com/reel/380948047631379";
-const YT_CHANNEL_URL   = "#"; // ex: "https://www.youtube.com/@ZenwaySaintLaurentDuVar"
+const YT_CHANNEL_URL   = "https://www.youtube.com/@beatricemeunier-r2m";
 
 const VIDEOS = [
   // { id: "dQw4w9WgXcQ", title: "Présentation Zenway", desc: "Le concept en images." },
