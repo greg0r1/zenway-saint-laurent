@@ -89,8 +89,8 @@ zenway-saint-laurent/
 │   │   ├── base.css        ← variables, reset, typo, logo, reveal
 │   │   ├── nav.css          ← en-tête fixe, liens, burger
 │   │   ├── hero.css         ← section d'accueil
-│   │   ├── sections.css     ← concept, pratiques, planning, pour qui,
-│   │   │                      portes ouvertes, infos, inscriptions, cta
+│   │   ├── sections.css     ← concept & pratiques, planning, pour qui,
+│   │   │                      vidéos, événements, inscriptions, infos, cta
 │   │   ├── video.css        ← composant vidéo (teaser + galerie)
 │   │   ├── footer.css       ← pied de page
 │   │   └── responsive.css   ← media queries (chargé en dernier)
@@ -100,8 +100,13 @@ zenway-saint-laurent/
 │   │   ├── config-planning.js   ← créneaux de séance affichés
 │   │   └── nav-reveal.js        ← scroll nav, burger menu, animations reveal
 │   └── img/
-│       ├── bea.png     ← photo de Béatrice (fond transparent, ratio 3:4)
-│       └── seance.jpg  ← photo d'ambiance (ratio 4:3 minimum)
+│       ├── logo-zenway.png             ← logo complet (nav, footer)
+│       ├── logo-zenway-minimaliste.png ← variante du logo (visuel concept)
+│       ├── bea-posture-005.png         ← photo de Béatrice en posture Zenway
+│       ├── activite-taichi.jpg         ← photo pratique Tai-chi chuan
+│       ├── activite-yoga.jpg           ← photo pratique Yoga
+│       ├── activite-pilates.jpg        ← photo pratique Pilates
+│       └── activite-qigong.jpg         ← photo pratique Qi gong
 ├── .gitignore          ← exclut .DS_Store et autres fichiers système
 ├── CLAUDE.md           ← ce fichier
 └── README.md           ← instructions déploiement et mise à jour
@@ -111,20 +116,21 @@ zenway-saint-laurent/
 
 Les sections dans l'ordre, chacune avec son commentaire `<!-- === NOM === -->` :
 
-1. `<head>` (meta, fonts, `<link rel="stylesheet">` vers `assets/css/`)
+1. `<head>` (meta, fonts, `<link rel="stylesheet">` vers `assets/css/`, script Vercel Insights)
 2. NAV
 3. HERO (vidéo de teasing)
-4. CONCEPT
-5. PRATIQUES
-6. PLANNING
+4. CONCEPT & PRATIQUES (section fusionnée — concept Zenway + les 4 cartes pratiques)
+5. PLANNING
+6. POUR QUI
 7. VIDÉOS
-8. POUR QUI
-9. PORTES OUVERTES
-10. INSCRIPTIONS (HelloAsso)
-11. INFOS PRATIQUES
-12. CTA BAND
-13. FOOTER
-14. `<script src="...">` vers `assets/js/` (HelloAsso config, Vidéos config, Planning config, Nav/Reveal)
+8. ÉVÉNEMENTS À VENIR (remplace les anciennes « portes ouvertes » ponctuelles)
+9. INSCRIPTION (`#inscription`) — section unique : message clé, 3 étapes condensées, points clés, CTA HelloAsso, et widget/iframe en regard
+10. INFOS PRATIQUES
+11. CTA BAND
+12. FOOTER
+13. `<script src="...">` vers `assets/js/` (HelloAsso config, Vidéos config, Planning config, Nav/Reveal)
+
+Une seule section d'inscription (`#inscription`) : les anciennes sections `#inscription` (widget) et `#inscriptions` (étapes + CTA) ont été fusionnées pour éviter la redondance et permettre une inscription rapide, en un seul écran. Le lien de nav et de footer "Inscriptions" a été retiré au profit du seul CTA "S'inscrire" (`#inscription`).
 
 ### Fichiers CSS (`assets/css/`)
 

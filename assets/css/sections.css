@@ -1,6 +1,6 @@
 /* ============================================================
-   SECTIONS — concept, pratiques, planning, pour qui,
-   événements à venir, infos pratiques, inscriptions, cta bandeau
+   SECTIONS — concept & pratiques, planning, pour qui,
+   événements à venir, infos pratiques, inscription, cta bandeau
    ============================================================ */
 
 /* ---------- Concept ---------- */
@@ -667,9 +667,39 @@
   margin-bottom: 14px;
   max-width: 46ch;
 }
+.insc-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 24px 0 26px;
+}
+.insc-step {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.insc-step .n {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--mint-soft);
+  color: var(--green-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+.insc-step .lab {
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
 .insc-points {
   list-style: none;
-  margin: 22px 0 28px;
+  margin: 0 0 28px;
 }
 .insc-points li {
   display: flex;
@@ -682,6 +712,9 @@
 .insc-points li svg {
   flex: none;
   color: var(--teal);
+}
+.insc-left .btn-ha {
+  margin-bottom: 16px;
 }
 .insc-left .ha-note {
   font-size: 0.8rem;
@@ -824,98 +857,9 @@
   transform: translateY(-2px);
 }
 
-/* ---------- Inscriptions (étapes) ---------- */
-.inscription {
-  padding: 100px 0;
-  background: var(--paper);
-}
-.steps {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin: 48px 0 40px;
-}
-.step {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  padding: 32px 28px 30px;
-  position: relative;
-  box-shadow: var(--shadow-soft);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-}
-.step:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow);
-}
-.step .num {
-  font-family: var(--serif);
-  font-size: 3rem;
-  color: var(--mint);
-  font-weight: 700;
-  line-height: 1;
-  position: absolute;
-  top: 16px;
-  right: 24px;
-}
-.step .ic {
-  width: 50px;
-  height: 50px;
-  border-radius: 14px;
-  background: var(--mint-soft);
-  color: var(--teal);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 18px;
-}
-.step h3 {
-  font-size: 1.4rem;
-  color: var(--green-700);
-  margin-bottom: 8px;
-}
-.step p {
-  color: var(--ink-soft);
-  font-size: 0.92rem;
-  max-width: 30ch;
-}
-.inscription-cta {
-  background:
-    radial-gradient(
-      120% 130% at 88% 12%,
-      rgba(54, 161, 140, 0.45),
-      transparent 55%
-    ),
-    linear-gradient(150deg, var(--green-800), var(--teal));
-  border-radius: 24px;
-  padding: 44px 46px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 34px;
-  color: #f3faf5;
-  box-shadow: var(--shadow);
-  flex-wrap: wrap;
-}
-.inscription-cta .t h3 {
-  font-size: 1.8rem;
-  margin-bottom: 8px;
-}
-.inscription-cta .t p {
-  color: #cfe6d7;
-  font-size: 0.94rem;
-  max-width: 48ch;
-}
-.inscription-cta .ha {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: flex-start;
-}
+/* ---------- Bouton CTA HelloAsso ---------- */
 .btn-ha {
-  background: #fff;
+  background: var(--gold);
   color: var(--green-900);
   font-weight: 700;
   font-size: 1rem;
@@ -933,25 +877,4 @@
 .btn-ha:hover {
   transform: translateY(-2px);
   box-shadow: 0 20px 40px -16px rgba(0, 0, 0, 0.6);
-}
-.ha-note {
-  font-size: 0.78rem;
-  color: #bdd8c8;
-}
-.ha-trust {
-  display: flex;
-  gap: 26px;
-  flex-wrap: wrap;
-  margin-top: 24px;
-  font-size: 0.86rem;
-  color: var(--ink-soft);
-}
-.ha-trust span {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-.ha-trust svg {
-  color: var(--teal);
-  flex: none;
 }
