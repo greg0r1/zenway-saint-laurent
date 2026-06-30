@@ -3,9 +3,13 @@
    d'apparition au défilement
    ============================================================ */
 
-// Nav scroll state
+// Nav scroll state + bouton retour en haut
 const nav = document.getElementById('nav');
-const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+const toTop = document.getElementById('toTop');
+const onScroll = () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+  if (toTop) toTop.classList.toggle('show', window.scrollY > 600);
+};
 window.addEventListener('scroll', onScroll); onScroll();
 
 // Burger menu

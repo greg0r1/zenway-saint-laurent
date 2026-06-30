@@ -2,7 +2,7 @@
    HERO — section d'accueil, boutons, visuel et carte événement
    ============================================================ */
 .hero{
-  min-height:100svh;display:flex;align-items:center;
+  min-height:100svh;display:flex;align-items:center;position:relative;
   background:
     radial-gradient(120% 90% at 78% 8%, rgba(54,161,140,.5) 0%, rgba(54,161,140,0) 55%),
     radial-gradient(90% 80% at 12% 90%, rgba(13,54,40,.55) 0%, rgba(13,54,40,0) 60%),
@@ -37,30 +37,22 @@
 .btn-ghost{background:transparent;color:#eaf6ee;border:1.5px solid rgba(255,255,255,.4)}
 .btn-ghost:hover{background:rgba(255,255,255,.1);border-color:#fff;transform:translateY(-2px)}
 
-/* hero visual */
-.hero-card{
-  position:relative;border-radius:26px;padding:14px;
-  background:linear-gradient(160deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
-  border:1px solid rgba(255,255,255,.25);box-shadow:var(--shadow);backdrop-filter:blur(4px);
+/* hero visual : photo de Béa posée en pleine couleur sur le fond, côté droit */
+.hero-photo-bg{
+  position:absolute;top:0;right:0;bottom:0;width:46%;z-index:1;
+  display:flex;align-items:flex-end;justify-content:flex-end;pointer-events:none;
 }
-.hero-photo{
-  height:460px;border-radius:18px;overflow:hidden;position:relative;
-  background:
-    radial-gradient(circle at 50% 38%, rgba(216,243,220,.5), rgba(216,243,220,0) 55%),
-    linear-gradient(160deg,#cfe9d8,#9fcbb6);
-  display:flex;align-items:center;justify-content:center;
+.hero-photo-img{
+  position:relative;height:88%;width:auto;max-width:96%;object-fit:contain;object-position:bottom right;
+  filter:drop-shadow(0 30px 26px rgba(8,30,22,.3));
 }
-.hero-photo .ph-icon{opacity:.55}
-.hero-photo .ph-label{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#2d6a4f;opacity:.75}
-.hero .event-pill{
-  position:absolute;left:-18px;bottom:30px;background:#fff;color:var(--green-900);
-  border-radius:16px;padding:14px 20px;box-shadow:var(--shadow);max-width:230px;
+.hero-video-badge{
+  position:absolute;right:4%;bottom:50px;width:240px;height:160px;border-radius:18px;
+  overflow:hidden;box-shadow:var(--shadow);border:3px solid rgba(255,255,255,.9);z-index:3;
+  pointer-events:auto;
 }
-.hero .event-pill .d{font-family:var(--serif);font-size:1.45rem;line-height:1;font-weight:600}
-.hero .event-pill .s{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:600;margin-bottom:5px}
-.hero .event-pill .h{font-size:.86rem;color:var(--ink-soft);margin-top:5px}
 
-.scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:7px;color:#cfe6d7;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase}
+.scroll-hint{position:absolute;bottom:26px;left:23%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:7px;color:#cfe6d7;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase}
 .scroll-hint .mouse{width:22px;height:36px;border:1.5px solid rgba(207,230,215,.6);border-radius:12px;position:relative}
 .scroll-hint .mouse::after{content:"";position:absolute;top:7px;left:50%;transform:translateX(-50%);width:3px;height:7px;background:#cfe6d7;border-radius:2px;animation:wheel 1.6s infinite}
 @keyframes wheel{0%{opacity:1;top:7px}70%{opacity:0;top:16px}100%{opacity:0}}
