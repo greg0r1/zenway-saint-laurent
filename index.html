@@ -21,11 +21,27 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon-180.png">
   <link rel="manifest" href="site.webmanifest">
 
+  <!-- Canonical -->
+  <link rel="canonical" href="https://www.zenwaysaintlaurentduvar.fr/">
+
   <!-- Open Graph -->
-  <meta property="og:title" content="Zenway Saint-Laurent-du-Var">
+  <meta property="og:title" content="Zenway Saint-Laurent-du-Var · Tai-chi chuan, Yoga, Pilates & Qi gong">
   <meta property="og:description"
-    content="Corps, souffle & état mental — 4 pratiques en une seule séance, sur musique relaxante.">
+    content="Corps, souffle & état mental — 4 pratiques en une seule séance, sur musique relaxante. Accessible à tous au KMCS, Saint-Laurent-du-Var.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.zenwaysaintlaurentduvar.fr/">
+  <meta property="og:image" content="https://www.zenwaysaintlaurentduvar.fr/assets/img/bea-posture-005.png">
+  <meta property="og:image:alt" content="Béatrice Viallon en posture Zenway">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Zenway Saint-Laurent-du-Var">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Zenway Saint-Laurent-du-Var · Tai-chi chuan, Yoga, Pilates & Qi gong">
+  <meta name="twitter:description"
+    content="Corps, souffle & état mental — 4 pratiques en une seule séance, sur musique relaxante. Accessible à tous au KMCS, Saint-Laurent-du-Var.">
+  <meta name="twitter:image" content="https://www.zenwaysaintlaurentduvar.fr/assets/img/bea-posture-005.png">
+  <meta name="twitter:image:alt" content="Béatrice Viallon en posture Zenway">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,6 +59,81 @@
   <script defer src="/_vercel/insights/script.js"></script>
   <script defer src="/_vercel/speed-insights/script.js"></script>
 
+  <!-- Schema Markup JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SportsActivityLocation",
+        "@id": "https://www.zenwaysaintlaurentduvar.fr/#lieu",
+        "name": "Zenway Saint-Laurent-du-Var",
+        "description": "Zenway est une discipline qui réunit Tai-chi chuan, Yoga, Pilates et Qi gong en un seul enchaînement continu, sur une musique relaxante. Séances accessibles à tous.",
+        "url": "https://www.zenwaysaintlaurentduvar.fr/",
+        "telephone": "+33666056649",
+        "email": "contact@zenwaysaintlaurentduvar.fr",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "357 chemin des Iscles",
+          "addressLocality": "Saint-Laurent-du-Var",
+          "postalCode": "06700",
+          "addressCountry": "FR"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 43.7025,
+          "longitude": 7.1841
+        },
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "https://schema.org/Tuesday",
+          "opens": "17:45",
+          "closes": "18:45"
+        },
+        "image": "https://www.zenwaysaintlaurentduvar.fr/assets/img/bea-posture-005.png",
+        "priceRange": "€"
+      },
+      {
+        "@type": "Event",
+        "@id": "https://www.zenwaysaintlaurentduvar.fr/#seance-hebdo",
+        "name": "Séance Zenway — Saint-Laurent-du-Var",
+        "description": "Séance hebdomadaire Zenway : Tai-chi chuan, Yoga, Pilates et Qi gong en un seul enchaînement continu, sur musique relaxante. Accessible à tous, quel que soit le niveau.",
+        "url": "https://www.zenwaysaintlaurentduvar.fr/",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "location": {
+          "@type": "Place",
+          "name": "KMCS",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "357 chemin des Iscles",
+            "addressLocality": "Saint-Laurent-du-Var",
+            "postalCode": "06700",
+            "addressCountry": "FR"
+          }
+        },
+        "organizer": {
+          "@type": "Person",
+          "name": "Béatrice Viallon"
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://www.zenwaysaintlaurentduvar.fr/#animatrice",
+        "name": "Béatrice Viallon",
+        "jobTitle": "Animatrice Zenway",
+        "telephone": "+33666056649",
+        "email": "contact@zenwaysaintlaurentduvar.fr",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Zenway",
+          "url": "https://zenway-rh.fr"
+        }
+      }
+    ]
+  }
+  </script>
+
 </head>
 
 <body>
@@ -55,6 +146,7 @@
         <span class="logo-city">Saint-Laurent-du-Var</span>
       </a>
       <nav class="links" id="navlinks">
+        <a href="#hero">Accueil</a>
         <a href="#concept">Le concept</a>
         <a href="#planning">Planning</a>
         <a href="#pourqui">Pour qui</a>
@@ -70,43 +162,57 @@
   <!-- ============ HERO ============ -->
   <section class="hero" id="hero">
     <div class="leaf-bg">
-      <svg class="l1" viewBox="0 0 48 48">
+      <svg class="l1" viewBox="0 0 48 48" aria-hidden="true">
         <path d="M24 44C24 26 24 14 24 4c8 8 10 22 0 38Z" fill="#fff" />
       </svg>
-      <svg class="l2" viewBox="0 0 48 48">
+      <svg class="l2" viewBox="0 0 48 48" aria-hidden="true">
         <path d="M24 44C24 30 16 22 6 18c0 14 8 22 18 26Z" fill="#fff" />
       </svg>
     </div>
     <div class="wrap hero-grid">
       <div class="hero-left">
-        <div class="h-eyebrow reveal">Saint-Laurent-du-Var · Alpes-Maritimes</div>
+        <p class="h-eyebrow reveal">Saint-Laurent-du-Var · Alpes-Maritimes</p>
         <h1 class="reveal d1">Corps, souffle<br>&amp; <em>état mental</em></h1>
-        <p class="disc reveal d2">Un concept innovant qui réunit <b>Tai-chi chuan</b>, <b>Yoga</b>, <b>Pilates</b> &amp;
-          <b>Qi gong</b>, porté par une musique relaxante.</p>
+        <p class="disc reveal d2">Un concept innovant qui réunit <strong>Tai-chi chuan</strong>, <strong>Yoga</strong>, <strong>Pilates</strong> &amp;
+          <strong>Qi gong</strong>, porté par une musique relaxante.</p>
         <p class="quote reveal d2">Venez partager un moment<br>de détente &amp; de zénitude</p>
         <p class="trial-note reveal d2">Premier cours d'essai offert, sans engagement.</p>
         <div class="actions reveal d3">
           <a href="#inscription" class="btn btn-primary">S'inscrire en ligne</a>
           <a href="#evenements" class="btn btn-ghost">Événements à venir</a>
         </div>
-      </div>
-      <div class="hero-right reveal d3">
-        <div class="hero-card">
+
+        <!-- Zone visuelle bas-de-hero : encart vidéo + photo de Béa.
+             Desktop : seul l'encart s'affiche (sous les boutons), la photo
+             de Béa est rendue en fond via .hero-photo-bg.
+             Mobile : encart + photo côte à côte, la photo de fond est masquée. -->
+        <div class="hero-bottom">
           <!-- VIDÉO DE TEASING : configurer HERO_VIDEO_ID en bas de page (section Vidéos) -->
-          <div class="hero-photo has-video" id="heroVideo">
+          <div class="hero-video-badge has-video reveal d4" id="heroVideo">
             <div class="vthumb">
               <div class="vempty">
-                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#eaf6ee" stroke-width="1.3">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#eaf6ee" stroke-width="1.3" aria-hidden="true">
                   <rect x="3" y="5" width="18" height="14" rx="2" />
                   <path d="M10 9.5l5 2.5-5 2.5z" fill="#eaf6ee" stroke="none" />
                 </svg>
-                <span class="lab">Vidéo de teasing · à intégrer</span>
+                <span class="lab">Vidéo de teasing</span>
               </div>
             </div>
           </div>
+          <div class="hero-bottom-photo">
+            <img src="assets/img/bea-cropped.png"
+              alt="Béatrice Viallon en posture de Tai-chi chuan, mouvement Zenway">
+          </div>
         </div>
       </div>
+      <div class="hero-right"></div>
     </div>
+
+    <div class="hero-photo-bg reveal d3">
+      <img class="hero-photo-img" src="assets/img/bea-cropped.png"
+        alt="Béatrice Viallon en posture de Tai-chi chuan, mouvement Zenway">
+    </div>
+
     <div class="scroll-hint reveal d4"><span>Découvrir</span>
       <div class="mouse"></div>
     </div>
@@ -116,9 +222,9 @@
   <section class="concept" id="concept">
     <div class="wrap concept-grid">
       <div class="reveal">
-        <div class="eyebrow">Le concept Zenway</div>
+        <p class="eyebrow">Le concept Zenway</p>
         <h2>Une seule discipline,<br>quatre <span class="g">racines.</span></h2>
-        <p>Zenway est une discipline unique créée par <b>Raymond Holle</b> : elle fusionne, en un seul mouvement
+        <p>Zenway est une discipline unique créée par <strong>Raymond Holle</strong> : elle fusionne, en un seul mouvement
           continu, le Tai-chi chuan, le Yoga, le Pilates et le Qi gong, le tout porté par une musique relaxante. Ce
           n'est pas un enchaînement de quatre cours indépendants que l'on choisirait séparément, mais une seule pratique
           qui puise dans ces quatre traditions.</p>
@@ -180,7 +286,7 @@
           <div class="body">
             <h3>Tai-chi chuan</h3>
             <div class="lead">Mouvements lents &amp; fluides.</div>
-            <p class="ben"><b>Équilibre, coordination</b>, prévention des chutes.</p>
+            <p class="ben"><strong>Équilibre, coordination</strong>, prévention des chutes.</p>
           </div>
         </article>
         <article class="pcard yoga reveal d1">
@@ -191,7 +297,7 @@
           <div class="body">
             <h3>Yoga</h3>
             <div class="lead">Postures &amp; respiration.</div>
-            <p class="ben"><b>Souplesse, tonicité</b>, gestion du stress.</p>
+            <p class="ben"><strong>Souplesse, tonicité</strong>, gestion du stress.</p>
           </div>
         </article>
         <article class="pcard pilates reveal d2">
@@ -202,7 +308,7 @@
           <div class="body">
             <h3>Pilates</h3>
             <div class="lead">Renforcement profond.</div>
-            <p class="ben"><b>Gainage, posture</b>, soulagement du dos.</p>
+            <p class="ben"><strong>Gainage, posture</strong>, soulagement du dos.</p>
           </div>
         </article>
         <article class="pcard qigong reveal d3">
@@ -213,16 +319,16 @@
           <div class="body">
             <h3>Qi gong</h3>
             <div class="lead">Souffle &amp; énergie vitale.</div>
-            <p class="ben"><b>Vitalité, immunité</b>, apaisement profond.</p>
+            <p class="ben"><strong>Vitalité, immunité</strong>, apaisement profond.</p>
           </div>
         </article>
       </div>
 
       <div class="fusion-note reveal">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
           <path d="M12 21s7-4.5 9-9a5 5 0 00-9-3 5 5 0 00-9 3c2 4.5 9 9 9 9z" />
         </svg>
-        <p><b>Une seule séance, toujours les quatre ensemble.</b> Zenway ne propose pas de cours à la carte : chaque
+        <p><strong>Une seule séance, toujours les quatre ensemble.</strong> Zenway ne propose pas de cours à la carte : chaque
           séance hebdomadaire suit ce même enchaînement complet, du Tai-chi chuan au Qi gong, sans interruption.</p>
       </div>
     </div>
@@ -232,7 +338,7 @@
   <section class="planning" id="planning">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="eyebrow">Planning</div>
+        <p class="eyebrow">Planning</p>
         <h2>Les séances Zenway</h2>
         <p>Une seule séance hebdomadaire, qui réunit toujours les quatre pratiques. Retrouvez ici les jours et horaires
           au KMCS.</p>
@@ -249,13 +355,13 @@
   <!-- ============ POUR QUI ============ -->
   <section class="pourqui" id="pourqui">
     <div class="leaf-bg">
-      <svg viewBox="0 0 48 48">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
         <path d="M24 44C24 26 24 14 24 4c8 8 10 22 0 38Z" fill="#fff" />
       </svg>
     </div>
     <div class="wrap pourqui-grid">
       <div class="reveal">
-        <div class="eyebrow">Recommandé par les professionnels de santé</div>
+        <p class="eyebrow">Recommandé par les professionnels de santé</p>
         <h2>Accessible à tous,<br><em>à tout âge.</em></h2>
         <p>Les bienfaits de Zenway sont reconnus par des kinésithérapeutes et des médecins comme une approche efficace
           pour prendre soin de son corps — sans prérequis, et en respectant le rythme de chacun.</p>
@@ -265,7 +371,7 @@
       <div class="benefits reveal d2">
         <div class="benefit">
           <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="1.4">
+              stroke-width="1.4" aria-hidden="true">
               <path d="M12 21s-7-4.5-9-9a5 5 0 019-3 5 5 0 019 3c-2 4.5-9 9-9 9z" />
             </svg></div>
           <h4>Bien-être global</h4>
@@ -273,7 +379,7 @@
         </div>
         <div class="benefit">
           <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="1.4">
+              stroke-width="1.4" aria-hidden="true">
               <path d="M12 2v4m0 12v4m10-10h-4M6 12H2" />
               <circle cx="12" cy="12" r="4" />
             </svg></div>
@@ -282,7 +388,7 @@
         </div>
         <div class="benefit">
           <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="1.4">
+              stroke-width="1.4" aria-hidden="true">
               <path d="M3 12c4-6 14-6 18 0-4 6-14 6-18 0z" />
               <circle cx="12" cy="12" r="2.5" />
             </svg></div>
@@ -291,7 +397,7 @@
         </div>
         <div class="benefit">
           <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="1.4">
+              stroke-width="1.4" aria-hidden="true">
               <path d="M20 6L9 17l-5-5" />
             </svg></div>
           <h4>Sans prérequis</h4>
@@ -305,14 +411,14 @@
   <section class="videos" id="videos">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="eyebrow">Sur YouTube</div>
+        <p class="eyebrow">Sur YouTube</p>
         <h2>Voir Zenway en mouvement</h2>
         <p>Présentations, démonstrations et moments capturés lors de nos séances et événements.</p>
       </div>
       <div class="videos-grid" id="videosGrid"><!-- généré par le script en bas de page --></div>
       <div class="videos-foot reveal">
         <a class="btn btn-yt" id="ytChannelLink" href="#" target="_blank" rel="noopener">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path
               d="M22 12s0-3-.4-4.4a2.6 2.6 0 00-1.8-1.8C18.4 5.4 12 5.4 12 5.4s-6.4 0-7.8.4A2.6 2.6 0 002.4 7.6C2 9 2 12 2 12s0 3 .4 4.4a2.6 2.6 0 001.8 1.8c1.4.4 7.8.4 7.8.4s6.4 0 7.8-.4a2.6 2.6 0 001.8-1.8C22 15 22 12 22 12zm-12 3V9l5 3-5 3z" />
           </svg>
@@ -327,7 +433,7 @@
     <div class="wrap">
       <div class="inner inner-empty reveal">
         <div class="leaf-bg">
-          <svg viewBox="0 0 48 48">
+          <svg viewBox="0 0 48 48" aria-hidden="true">
             <path d="M24 44C24 30 16 22 6 18c0 14 8 22 18 26Z" fill="#fff" />
           </svg>
         </div>
@@ -347,9 +453,9 @@
   <section class="inscription-form" id="inscription">
     <div class="wrap insc-grid insc-solo">
       <div class="insc-left reveal">
-        <div class="eyebrow">Inscription en ligne</div>
+        <p class="eyebrow">Inscription en ligne</p>
         <h2>Rejoindre Zenway<br>Saint-Laurent-du-Var</h2>
-        <p>Votre adhésion et le règlement se font en quelques minutes, en ligne, via <b>HelloAsso</b> — la plateforme
+        <p>Votre adhésion et le règlement se font en quelques minutes, en ligne, via <strong>HelloAsso</strong> — la plateforme
           des associations françaises.</p>
 
         <div class="insc-steps">
@@ -368,26 +474,26 @@
         </div>
 
         <ul class="insc-points">
-          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
               <path d="M20 6L9 17l-5-5" />
             </svg>Premier cours d'essai offert, avant toute inscription</li>
-          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
               <path d="M20 6L9 17l-5-5" />
             </svg>Paiement sécurisé par carte bancaire</li>
-          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
               <path d="M20 6L9 17l-5-5" />
             </svg>0 € de frais pour l'association</li>
         </ul>
 
         <a class="btn-ha" data-helloasso-link target="_blank" rel="noopener" href="#">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
             <path d="M5 12h14M13 6l6 6-6 6" />
           </svg>
           S'inscrire sur HelloAsso
         </a>
 
         <p class="ha-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="1.6">
+            stroke-width="1.6" aria-hidden="true">
             <rect x="5" y="11" width="14" height="9" rx="2" />
             <path d="M8 11V8a4 4 0 018 0v3" />
           </svg>Connexion sécurisée — vous restez maître de vos données.</p>
@@ -430,7 +536,7 @@
   <section class="infos" id="infos">
     <div class="wrap">
       <div class="sec-head reveal" style="margin-bottom:44px">
-        <div class="eyebrow">Nous rejoindre</div>
+        <p class="eyebrow">Nous rejoindre</p>
         <h2>Infos pratiques</h2>
       </div>
       <div class="infos-grid">
@@ -438,7 +544,7 @@
           <h3>Contact &amp; lieu</h3>
           <div class="info-row">
             <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.5">
+                stroke-width="1.5" aria-hidden="true">
                 <path d="M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11z" />
                 <circle cx="12" cy="10" r="2.5" />
               </svg></div>
@@ -450,7 +556,7 @@
           </div>
           <div class="info-row">
             <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.5">
+                stroke-width="1.5" aria-hidden="true">
                 <rect x="4" y="4" width="16" height="16" rx="3" />
                 <path d="M9.5 16V8h2.8a2.6 2.6 0 010 5.2H9.5" />
               </svg></div>
@@ -461,7 +567,7 @@
           </div>
           <div class="info-row">
             <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.5">
+                stroke-width="1.5" aria-hidden="true">
                 <path d="M5 4h4l2 5-3 2a11 11 0 005 5l2-3 5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" />
               </svg></div>
             <div>
@@ -471,7 +577,7 @@
           </div>
           <div class="info-row">
             <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.5">
+                stroke-width="1.5" aria-hidden="true">
                 <rect x="3" y="5" width="18" height="14" rx="2" />
                 <path d="M3 7l9 6 9-6" />
               </svg></div>
@@ -482,7 +588,7 @@
           </div>
           <div class="info-row">
             <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.5">
+                stroke-width="1.5" aria-hidden="true">
                 <circle cx="12" cy="12" r="9" />
                 <path d="M12 7v5l3 2" />
               </svg></div>
@@ -527,9 +633,9 @@
     <div class="wrap">
       <div class="foot-grid">
         <div>
-          <div class="logo">
+          <a href="#hero" class="logo" aria-label="Zenway Saint-Laurent-du-Var — retour en haut">
             <img src="assets/img/logo-zenway.png" alt="Zenway" height="36">
-          </div>
+          </a>
           <p class="about">Section de Saint-Laurent-du-Var. Tai-chi chuan, Yoga, Pilates &amp; Qi gong, sur une musique
             relaxante.</p>
           <div class="socials">
@@ -580,7 +686,7 @@
         <span><a href="https://zenway-rh.fr" target="_blank" rel="noopener">zenway-rh.fr</a></span>
       </div>
     </div>
-    <svg width="0" height="0">
+    <svg width="0" height="0" aria-hidden="true">
       <defs>
         <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stop-color="#9fe3c8" />
@@ -589,6 +695,15 @@
       </defs>
     </svg>
   </footer>
+
+  <!-- ============ RETOUR EN HAUT ============ -->
+  <a href="#hero" class="to-top" id="toTop" aria-label="Revenir en haut du site">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5" />
+      <path d="M5 12l7-7 7 7" />
+    </svg>
+  </a>
 
   <script src="assets/js/config-helloasso.js"></script>
   <script src="assets/js/config-videos.js"></script>

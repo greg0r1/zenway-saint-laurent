@@ -20,12 +20,13 @@
 .vempty svg{opacity:.6}
 .vempty .lab{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;opacity:.75}
 
-/* Teaser hero : remplace .hero-photo en mode vidéo */
-.hero-photo.has-video{padding:0;cursor:default}
-.hero-photo .vthumb{border-radius:18px}
+/* Teaser hero : petit badge vidéo superposé à la photo */
+.hero-video-badge .vthumb{border-radius:13px}
+.hero-video-badge .vplay{width:42px;height:42px}
+.hero-video-badge .vempty{gap:6px;padding:0 10px}
+.hero-video-badge .vempty .lab{font-size:.6rem}
 
-/* Teaser hero au format vidéo Facebook (16:9) */
-.hero-photo:has(.vthumb-fb){height:auto;aspect-ratio:16/9}
+/* Teaser hero au format vidéo Facebook : conserve la taille fixe du badge */
 .vthumb-fb{background:#000;cursor:default;align-items:stretch}
 .vthumb-fb::after{content:none}
 .vthumb-fb iframe{position:absolute;inset:0;width:100%;height:100%}
