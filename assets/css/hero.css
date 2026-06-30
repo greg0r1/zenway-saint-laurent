@@ -46,13 +46,16 @@
   position:relative;height:88%;width:auto;max-width:96%;object-fit:contain;object-position:bottom right;
   filter:drop-shadow(0 30px 26px rgba(8,30,22,.3));
 }
+/* zone visuelle bas-de-hero (encart vidéo + photo) — comportement desktop par défaut */
+.hero-bottom{margin-top:26px}
+.hero-bottom-photo{display:none} /* la photo de Béa est en fond sur desktop */
 .hero-video-badge{
-  position:absolute;right:4%;bottom:50px;width:240px;height:160px;border-radius:18px;
-  overflow:hidden;box-shadow:var(--shadow);border:3px solid rgba(255,255,255,.9);z-index:3;
+  position:relative;width:220px;height:146px;border-radius:18px;
+  overflow:hidden;box-shadow:var(--shadow);border:3px solid rgba(255,255,255,.9);z-index:4;
   pointer-events:auto;
 }
 
-.scroll-hint{position:absolute;bottom:26px;left:23%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:7px;color:#cfe6d7;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase}
+.scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:7px;color:#cfe6d7;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase}
 .scroll-hint .mouse{width:22px;height:36px;border:1.5px solid rgba(207,230,215,.6);border-radius:12px;position:relative}
 .scroll-hint .mouse::after{content:"";position:absolute;top:7px;left:50%;transform:translateX(-50%);width:3px;height:7px;background:#cfe6d7;border-radius:2px;animation:wheel 1.6s infinite}
 @keyframes wheel{0%{opacity:1;top:7px}70%{opacity:0;top:16px}100%{opacity:0}}

@@ -5,7 +5,7 @@
   .hero-grid,.concept-grid,.pourqui-grid,.infos-grid,.insc-grid{grid-template-columns:1fr}
   .cards{grid-template-columns:repeat(2,1fr)}
   .hero{
-    flex-direction:column;justify-content:flex-start;min-height:100svh;
+    flex-direction:column;justify-content:flex-start;min-height:auto;
     padding:104px 0 28px;
   }
   .hero-right{display:none}
@@ -17,15 +17,13 @@
   .hero .trial-note{margin:-14px 0 22px;font-size:1.05rem}
   .hero .actions{gap:12px;flex-direction:column;align-items:stretch}
   .hero .actions .btn{width:100%;justify-content:center;padding:19px 14px;font-size:1.05rem}
-  .hero-photo-bg{
-    position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:end;
-    width:100%;max-width:100%;height:clamp(300px,42vh,400px);
-    margin-top:14px;padding:0 24px;gap:16px;
-  }
-  .hero-photo-img{height:100%;width:100%;object-position:bottom center;order:2}
+  /* sur mobile : la photo de Béa est masquée, la vidéo occupe toute la largeur */
+  .hero-photo-bg{display:none}
+  .hero-bottom-photo{display:none}
+  .hero-bottom{width:100%;margin-top:22px}
   .hero-video-badge{
-    position:relative;right:auto;bottom:auto;top:auto;left:auto;
-    order:1;width:100%;height:200px;align-self:center;
+    position:relative;width:100%;height:auto;margin:0;
+    aspect-ratio:16/9;
   }
   .scroll-hint{display:none}
   .steps{grid-template-columns:1fr}
@@ -56,6 +54,7 @@
   .schedule-item{flex-wrap:wrap;gap:14px}
   .wrap{padding:0 18px}
   .hero{padding:88px 0 18px}
+  .hero-bottom{margin-top:18px}
   .hero h1{font-size:2.5rem}
   .hero .h-eyebrow{margin-bottom:12px;font-size:.95rem}
   .hero .disc{font-size:1.05rem;margin:12px 0 6px;line-height:1.46}
@@ -63,6 +62,4 @@
   .hero .trial-note{font-size:.95rem;margin:-10px 0 16px}
   .hero .actions{gap:10px}
   .hero .actions .btn{padding:17px 12px;font-size:1rem}
-  .hero-photo-bg{padding:0 16px;height:clamp(240px,34vh,320px);margin-top:14px;gap:10px}
-  .hero-video-badge{height:150px}
 }
