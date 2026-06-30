@@ -49,6 +49,11 @@
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Caveat:wght@500;600;700&display=swap"
     rel="stylesheet">
 
+  <!-- Préchargement de l'image LCP du hero (desktop) — voir .hero-photo-bg.
+       media évite de la précharger en mobile où elle n'est pas affichée. -->
+  <link rel="preload" as="image" href="assets/img/bea-cropped.webp" type="image/webp"
+    media="(min-width: 981px)" fetchpriority="high">
+
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/nav.css">
   <link rel="stylesheet" href="assets/css/hero.css">
@@ -142,7 +147,10 @@
   <header class="nav" id="nav">
     <div class="wrap bar">
       <a href="#hero" class="logo" aria-label="Zenway Saint-Laurent-du-Var">
-        <img src="assets/img/logo-zenway.png" alt="Zenway" height="64">
+        <picture>
+          <source srcset="assets/img/logo-zenway.webp" type="image/webp">
+          <img src="assets/img/logo-zenway.png" alt="Zenway" height="64" width="89" fetchpriority="high">
+        </picture>
         <span class="logo-city">Saint-Laurent-du-Var</span>
       </a>
       <nav class="links" id="navlinks">
@@ -200,8 +208,11 @@
             </div>
           </div>
           <div class="hero-bottom-photo">
-            <img src="assets/img/bea-cropped.png"
-              alt="Béatrice Viallon en posture de Tai-chi chuan, mouvement Zenway">
+            <picture>
+              <source srcset="assets/img/bea-cropped.webp" type="image/webp">
+              <img src="assets/img/bea-cropped.png" width="720" height="845" loading="lazy"
+                alt="Béatrice Viallon en posture de Tai-chi chuan, mouvement Zenway">
+            </picture>
           </div>
         </div>
       </div>
@@ -209,8 +220,11 @@
     </div>
 
     <div class="hero-photo-bg reveal d3">
-      <img class="hero-photo-img" src="assets/img/bea-cropped.png"
-        alt="Béatrice Viallon en posture de Tai-chi chuan, mouvement Zenway">
+      <picture>
+        <source srcset="assets/img/bea-cropped.webp" type="image/webp">
+        <img class="hero-photo-img" src="assets/img/bea-cropped.png" width="720" height="845"
+          fetchpriority="high" alt="Béatrice Viallon en posture de Tai-chi chuan, mouvement Zenway">
+      </picture>
     </div>
 
     <div class="scroll-hint reveal d4"><span>Découvrir</span>
@@ -249,10 +263,17 @@
       </div>
       <div class="concept-visual reveal d2">
         <div class="frame">
-          <img class="leaf-trio" src="assets/img/logo-zenway-minimaliste.png" alt="">
+          <picture>
+            <source srcset="assets/img/logo-zenway-minimaliste.webp" type="image/webp">
+            <img class="leaf-trio" src="assets/img/logo-zenway-minimaliste.png" alt=""
+              width="760" height="506" loading="lazy">
+          </picture>
 
-          <img class="frame-photo" src="assets/img/bea-posture-005.png"
-            alt="Béatrice Viallon en posture Zenway, bras levés, en extérieur">
+          <picture>
+            <source srcset="assets/img/bea-posture-005.webp" type="image/webp">
+            <img class="frame-photo" src="assets/img/bea-posture-005.png" width="701" height="1036" loading="lazy"
+              alt="Béatrice Viallon en posture Zenway, bras levés, en extérieur">
+          </picture>
         </div>
       </div>
     </div>
@@ -280,8 +301,11 @@
       <div class="cards">
         <article class="pcard taichi reveal">
           <div class="pic">
-            <img src="assets/img/activite-taichi.jpg" alt="Pratiquant en mouvement de Tai-chi chuan en extérieur"
-              loading="lazy" width="700" height="382">
+            <picture>
+              <source srcset="assets/img/activite-taichi.webp" type="image/webp">
+              <img src="assets/img/activite-taichi.jpg" alt="Pratiquant en mouvement de Tai-chi chuan en extérieur"
+                loading="lazy" width="700" height="382">
+            </picture>
           </div>
           <div class="body">
             <h3>Tai-chi chuan</h3>
@@ -291,8 +315,11 @@
         </article>
         <article class="pcard yoga reveal d1">
           <div class="pic">
-            <img src="assets/img/activite-yoga.jpg" alt="Pratiquante en posture de yoga dans une pièce lumineuse"
-              loading="lazy" width="700" height="382">
+            <picture>
+              <source srcset="assets/img/activite-yoga.webp" type="image/webp">
+              <img src="assets/img/activite-yoga.jpg" alt="Pratiquante en posture de yoga dans une pièce lumineuse"
+                loading="lazy" width="700" height="382">
+            </picture>
           </div>
           <div class="body">
             <h3>Yoga</h3>
@@ -302,8 +329,11 @@
         </article>
         <article class="pcard pilates reveal d2">
           <div class="pic">
-            <img src="assets/img/activite-pilates.jpg" alt="Pratiquante au sol en exercice de Pilates" loading="lazy"
-              width="700" height="382">
+            <picture>
+              <source srcset="assets/img/activite-pilates.webp" type="image/webp">
+              <img src="assets/img/activite-pilates.jpg" alt="Pratiquante au sol en exercice de Pilates" loading="lazy"
+                width="700" height="382">
+            </picture>
           </div>
           <div class="body">
             <h3>Pilates</h3>
@@ -313,8 +343,11 @@
         </article>
         <article class="pcard qigong reveal d3">
           <div class="pic">
-            <img src="assets/img/activite-qigong.jpg" alt="Pratiquant de Qi gong dans un jardin japonais" loading="lazy"
-              width="700" height="382">
+            <picture>
+              <source srcset="assets/img/activite-qigong.webp" type="image/webp">
+              <img src="assets/img/activite-qigong.jpg" alt="Pratiquant de Qi gong dans un jardin japonais" loading="lazy"
+                width="700" height="382">
+            </picture>
           </div>
           <div class="body">
             <h3>Qi gong</h3>
@@ -634,7 +667,10 @@
       <div class="foot-grid">
         <div>
           <a href="#hero" class="logo" aria-label="Zenway Saint-Laurent-du-Var — retour en haut">
-            <img src="assets/img/logo-zenway.png" alt="Zenway" height="36">
+            <picture>
+              <source srcset="assets/img/logo-zenway.webp" type="image/webp">
+              <img src="assets/img/logo-zenway.png" alt="Zenway" height="36" width="50" loading="lazy">
+            </picture>
           </a>
           <p class="about">Section de Saint-Laurent-du-Var. Tai-chi chuan, Yoga, Pilates &amp; Qi gong, sur une musique
             relaxante.</p>
