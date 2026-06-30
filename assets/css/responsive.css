@@ -35,6 +35,8 @@
   .foot-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:680px){
+  section[id]{scroll-margin-top:70px}
+  section[id]:not(.hero){min-height:0}
   header.nav .links{
     position:fixed;top:0;right:0;height:100vh;width:78%;max-width:320px;
     background:rgba(15,40,30,.98);backdrop-filter:blur(10px);
