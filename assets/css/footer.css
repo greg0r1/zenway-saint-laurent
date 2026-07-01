@@ -4,7 +4,7 @@
 footer{background:#13241b;color:#bdd8c8;padding:64px 0 30px}
 .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.1)}
 footer .about{margin-top:16px;font-size:.9rem;max-width:34ch;color:#9fc0ad}
-footer h5{font-family:var(--sans);font-weight:600;color:#fff;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px}
+footer h3{font-family:var(--sans);font-weight:600;color:#fff;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px}
 footer ul{list-style:none}
 footer li{margin-bottom:11px;font-size:.92rem}
 footer a:hover{color:var(--gold-soft)}
