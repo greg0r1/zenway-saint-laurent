@@ -43,17 +43,23 @@
   <meta name="twitter:image" content="https://www.zenwaysaintlaurentduvar.fr/assets/img/bea-posture-005.png">
   <meta name="twitter:image:alt" content="Béatrice Viallon en posture Zenway">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Caveat:wght@500;600;700&display=swap"
-    rel="stylesheet">
+  <!-- Polices auto-hébergées (assets/fonts/) — voir assets/css/fonts.css.
+       Préchargement des deux graisses utilisées le plus tôt (nav + h1 du hero). -->
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/dmsans-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-normal-latin.woff2" crossorigin>
+
+  <!-- Domaines tiers sollicités dès le chargement (vidéo hero Facebook, miniatures
+       et API YouTube de la galerie) — voir assets/js/config-videos.js. -->
+  <link rel="preconnect" href="https://www.facebook.com">
+  <link rel="preconnect" href="https://img.youtube.com">
+  <link rel="preconnect" href="https://www.googleapis.com" crossorigin>
 
   <!-- Préchargement de l'image LCP du hero (desktop) — voir .hero-photo-bg.
        media évite de la précharger en mobile où elle n'est pas affichée. -->
   <link rel="preload" as="image" href="assets/img/bea-cropped.webp" type="image/webp"
     media="(min-width: 981px)" fetchpriority="high">
 
+  <link rel="stylesheet" href="assets/css/fonts.css">
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/nav.css">
   <link rel="stylesheet" href="assets/css/hero.css">
