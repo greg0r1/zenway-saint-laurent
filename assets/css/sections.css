@@ -479,7 +479,7 @@
   color: var(--gold-soft);
   margin-bottom: 10px;
 }
-.benefit h4 {
+.benefit h3 {
   font-family: var(--sans);
   font-weight: 600;
   font-size: 0.98rem;
