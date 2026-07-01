@@ -86,6 +86,7 @@ zenway-saint-laurent/
 ├── index.html          ← page unique, auto-suffisante (structure + scripts)
 ├── assets/
 │   ├── css/
+│   │   ├── fonts.css        ← @font-face des polices auto-hébergées
 │   │   ├── base.css        ← variables, reset, typo, logo, reveal
 │   │   ├── nav.css          ← en-tête fixe, liens, burger
 │   │   ├── hero.css         ← section d'accueil
@@ -94,6 +95,9 @@ zenway-saint-laurent/
 │   │   ├── video.css        ← composant vidéo (teaser + galerie)
 │   │   ├── footer.css       ← pied de page
 │   │   └── responsive.css   ← media queries (chargé en dernier)
+│   ├── fonts/               ← woff2 Cormorant Garamond / DM Sans / Caveat
+│   │                          (sous-ensembles latin + latin-ext, auto-hébergés
+│   │                          pour éviter l'appel à fonts.googleapis.com)
 │   ├── js/
 │   │   ├── config-helloasso.js  ← slugs HelloAsso, injection des liens/widget
 │   │   ├── config-videos.js     ← vidéo teaser hero + galerie YouTube
