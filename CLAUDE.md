@@ -185,6 +185,15 @@ Les fichiers de configuration (`config-*.js`) regroupent les données variables 
 - `develop` → `main` = déploiement en production. Vercel redéploie automatiquement.
 - Une branche par tâche. Supprimer la branche après merge.
 
+### Cycle de travail (Claude Code)
+
+À chaque nouvelle tâche demandée par l'utilisateur :
+
+1. Se placer sur `develop` à jour (`git checkout develop && git pull`), puis créer une nouvelle branche dédiée (`feature/<nom>`, `fix/<nom>` ou `content/<nom>`) — jamais travailler directement sur `develop` ou `main`.
+2. Une fois la tâche terminée et validée, committer, pousser la branche et ouvrir une **PR vers `develop`** (pas vers `main`).
+3. Le merge de la PR est décidé et exécuté par l'utilisateur — Claude Code ne merge pas lui-même.
+4. Après merge, remettre `main` et `develop` à jour (local + distant) et supprimer la branche de la tâche (locale + distante).
+
 ### Convention de commits (Conventional Commits)
 
 ```
