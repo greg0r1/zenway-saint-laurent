@@ -1,0 +1,185 @@
+/* ============================================================
+   DISCIPLINE-MODAL — fenêtre de détail des 4 pratiques
+   (ouverte depuis une card ou un lien « en savoir plus »)
+   ============================================================ */
+.pcard {
+  cursor: pointer;
+}
+.pcard .more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--teal);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.pcard .more svg {
+  transition: transform 0.25s ease;
+}
+.pcard:hover .more svg {
+  transform: translateX(3px);
+}
+
+.discipline-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 5vh 20px calc(5vh + 70px);
+  overflow-y: auto;
+  background: rgba(20, 36, 28, 0.72);
+}
+.discipline-overlay.open {
+  display: flex;
+}
+.discipline-modal {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  background: var(--paper);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin: auto 0;
+  opacity: 0;
+  transform: translateY(90vh);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.discipline-overlay.open .discipline-modal {
+  opacity: 1;
+  transform: translateY(0);
+}
+.discipline-overlay .dm-close {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 201;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 0;
+  background: #fff;
+  color: var(--green-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transform: translateX(-50%) scale(0.85);
+  opacity: 0;
+  transition: background 0.2s ease, transform 0.35s ease, opacity 0.35s ease;
+}
+.discipline-overlay.open .dm-close {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+.discipline-overlay .dm-close:hover {
+  background: var(--mint-soft);
+}
+.discipline-modal .dm-hero {
+  height: 320px;
+  position: relative;
+  overflow: hidden;
+  background: var(--green-700);
+}
+.discipline-modal .dm-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 80%;
+  display: block;
+}
+.discipline-modal .dm-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 40, 30, 0) 55%,
+    rgba(15, 40, 30, 0.5)
+  );
+}
+.discipline-modal .dm-hero .dm-title {
+  position: absolute;
+  left: 26px;
+  bottom: 16px;
+  color: #fff;
+  margin: 0;
+}
+.discipline-modal .dm-body {
+  padding: 28px 30px 32px;
+}
+.discipline-modal .dm-body h4 {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin: 22px 0 8px;
+}
+.discipline-modal .dm-body h4:first-child {
+  margin-top: 0;
+}
+.discipline-modal .dm-body p {
+  color: var(--ink-soft);
+  font-size: 0.96rem;
+}
+.discipline-modal .dm-body ul {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--ink-soft);
+  font-size: 0.96rem;
+}
+.discipline-modal .dm-body ul li {
+  margin-bottom: 6px;
+}
+.discipline-modal .dm-inline-img {
+  margin: 14px 0 4px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.discipline-modal .dm-inline-img img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.discipline-modal .dm-note {
+  margin-top: 24px;
+  padding: 14px 16px;
+  background: var(--mint-soft);
+  border-radius: 12px;
+  font-family: var(--script);
+  font-size: 1.15rem;
+  color: var(--green-800);
+  line-height: 1.35;
+}
+
+@media (max-width: 600px) {
+  .discipline-overlay {
+    padding: 0 0 96px;
+  }
+  .discipline-modal {
+    max-width: none;
+    min-height: calc(100vh - 96px);
+    border-radius: 0;
+    margin: 0;
+  }
+  .discipline-overlay .dm-close {
+    bottom: 18px;
+    width: 64px;
+    height: 64px;
+  }
+  .discipline-overlay .dm-close svg {
+    width: 24px;
+    height: 24px;
+  }
+}
