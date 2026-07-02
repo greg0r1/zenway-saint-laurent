@@ -143,6 +143,38 @@
           "name": "Zenway",
           "url": "https://zenway-rh.fr"
         }
+      },
+      {
+        "@type": "Course",
+        "@id": "https://www.zenwaysaintlaurentduvar.fr/#taichi",
+        "name": "Tai-chi chuan",
+        "description": "Né en Chine, le tai-chi chuan puise ses racines dans les arts martiaux internes et cultive la souplesse, l'enracinement et la circulation de l'énergie interne à travers des mouvements lents, fluides et continus. Aujourd'hui enseigné dans le monde entier, souvent recommandé pour accompagner le vieillissement en douceur.",
+        "provider": { "@id": "https://www.zenwaysaintlaurentduvar.fr/#lieu" },
+        "isPartOf": { "@id": "https://www.zenwaysaintlaurentduvar.fr/#seance-hebdo" }
+      },
+      {
+        "@type": "Course",
+        "@id": "https://www.zenwaysaintlaurentduvar.fr/#yoga",
+        "name": "Yoga",
+        "description": "Originaire d'Inde, le yoga associe posture, respiration et méditation dans une même quête d'unité entre le corps et l'esprit. Aujourd'hui l'une des pratiques corps-esprit les plus répandues au monde, avec de nombreuses écoles (hatha, vinyasa, yin...).",
+        "provider": { "@id": "https://www.zenwaysaintlaurentduvar.fr/#lieu" },
+        "isPartOf": { "@id": "https://www.zenwaysaintlaurentduvar.fr/#seance-hebdo" }
+      },
+      {
+        "@type": "Course",
+        "@id": "https://www.zenwaysaintlaurentduvar.fr/#pilates",
+        "name": "Pilates",
+        "description": "Développée par Joseph Pilates au début du XXe siècle, cette méthode de « contrologie » renforce en profondeur les muscles posturaux par des mouvements précis et contrôlés. Largement démocratisée depuis les années 1990, souvent recommandée en complément d'un suivi kinésithérapique.",
+        "provider": { "@id": "https://www.zenwaysaintlaurentduvar.fr/#lieu" },
+        "isPartOf": { "@id": "https://www.zenwaysaintlaurentduvar.fr/#seance-hebdo" }
+      },
+      {
+        "@type": "Course",
+        "@id": "https://www.zenwaysaintlaurentduvar.fr/#qigong",
+        "name": "Qi gong",
+        "description": "Pratique chinoise ancestrale liée à la médecine traditionnelle chinoise et au taoïsme, le qi gong associe mouvements lents, respiration et visualisation pour cultiver l'énergie vitale. Diffusé en Occident à travers les milieux de la santé et du bien-être pour son effet apaisant.",
+        "provider": { "@id": "https://www.zenwaysaintlaurentduvar.fr/#lieu" },
+        "isPartOf": { "@id": "https://www.zenwaysaintlaurentduvar.fr/#seance-hebdo" }
       }
     ]
   }
@@ -413,7 +445,7 @@
       </div>
     </section>
 
-    <!-- ============ MODALE DÉTAIL DISCIPLINE ============ -->
+    <!-- ============ MODALES DÉTAIL DISCIPLINE ============ -->
     <div class="discipline-overlay" id="disciplineOverlay">
       <button type="button" class="dm-close" aria-label="Fermer">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -421,26 +453,224 @@
           <path d="M6 6l12 12M18 6L6 18" />
         </svg>
       </button>
-      <div class="discipline-modal" role="dialog" aria-modal="true" aria-labelledby="dmTitle">
+
+      <div class="discipline-modal" data-discipline="taichi" role="dialog" aria-modal="true"
+        aria-labelledby="dmTitleTaichi" hidden>
         <div class="dm-hero">
           <picture>
-            <source srcset="" type="image/webp">
-            <img src="" alt="" width="700" height="382">
+            <source srcset="assets/img/discipline-taichi-hero.webp" type="image/webp">
+            <img src="assets/img/discipline-taichi-hero.jpg"
+              alt="Pratiquant de Tai-chi chuan seul dans un parc au lever du jour">
           </picture>
-          <h3 class="dm-title" id="dmTitle"></h3>
+          <h3 class="dm-title" id="dmTitleTaichi">Tai-chi chuan</h3>
         </div>
         <div class="dm-body">
           <h4>Origines</h4>
-          <p class="dm-origines"></p>
-          <div class="dm-inline-img dm-origines-img" hidden></div>
+          <p>Né en Chine, le tai-chi chuan puise ses racines dans les arts martiaux internes, façonnés au fil des
+            siècles autour de la philosophie taoïste et du principe du yin et du yang. Contrairement aux arts
+            martiaux fondés sur la force, il cultive la souplesse, l'enracinement et la circulation de l'énergie
+            interne, le qi. Plusieurs grandes familles historiques (Chen, Yang, Wu...) ont développé leur propre
+            style, mais toutes partagent la même recherche : des mouvements lents, continus, enchaînés comme un
+            seul souffle.</p>
+          <div class="dm-inline-img">
+            <picture>
+              <source srcset="assets/img/discipline-taichi-origines.webp" type="image/webp">
+              <img src="assets/img/discipline-taichi-origines.jpg" alt="Pratiquant en étirement matinal en extérieur"
+                loading="lazy">
+            </picture>
+          </div>
           <h4>Dans le monde aujourd'hui</h4>
-          <p class="dm-aujourdhui"></p>
-          <div class="dm-inline-img dm-aujourdhui-img" hidden></div>
+          <p>Longtemps pratiqué en Chine dans les parcs dès l'aube, le tai-chi chuan s'est largement diffusé à
+            travers le monde au cours du XXe siècle. Il est aujourd'hui enseigné sur tous les continents, souvent
+            recommandé par des professionnels de santé pour accompagner le vieillissement en douceur, et pratiqué
+            aussi bien par des débutants que par des sportifs en quête d'un travail plus interne.</p>
+          <div class="dm-inline-img">
+            <picture>
+              <source srcset="assets/img/discipline-taichi-aujourdhui.webp" type="image/webp">
+              <img src="assets/img/discipline-taichi-aujourdhui.jpg" alt="Pratiquante en mouvement fluide face à la mer"
+                loading="lazy">
+            </picture>
+          </div>
           <h4>Ce qui distingue cette pratique</h4>
-          <ul class="dm-distingue"></ul>
+          <ul>
+            <li>Des mouvements lents, fluides et continus, sans à-coups ni impact sur les articulations.</li>
+            <li>Un ancrage fort dans le sol, qui développe équilibre et stabilité.</li>
+            <li>Une coordination fine entre le geste, la respiration et la concentration.</li>
+            <li>Accessible à tout âge, y compris aux personnes peu habituées à l'activité physique.</li>
+          </ul>
           <h4>Bienfaits reconnus</h4>
-          <ul class="dm-bienfaits"></ul>
-          <p class="dm-note"></p>
+          <ul>
+            <li>Amélioration de l'équilibre et prévention des chutes, en particulier chez les personnes âgées.</li>
+            <li>Renforcement musculaire en douceur, sans contrainte pour les articulations.</li>
+            <li>Apaisement du mental grâce à la lenteur du geste et à la concentration qu'il demande.</li>
+            <li>Meilleure conscience du corps dans l'espace.</li>
+          </ul>
+          <p class="dm-note">Comme chaque pratique proposée chez Zenway, le tai-chi chuan s'inscrit en complément
+            d'un suivi médical, jamais en remplacement.</p>
+        </div>
+      </div>
+
+      <div class="discipline-modal" data-discipline="yoga" role="dialog" aria-modal="true" aria-labelledby="dmTitleYoga"
+        hidden>
+        <div class="dm-hero">
+          <picture>
+            <source srcset="assets/img/discipline-yoga-hero.webp" type="image/webp">
+            <img src="assets/img/discipline-yoga-hero.jpg"
+              alt="Pratiquante en posture de yoga dans un intérieur lumineux entouré de plantes" width="700"
+              height="382">
+          </picture>
+          <h3 class="dm-title" id="dmTitleYoga">Yoga</h3>
+        </div>
+        <div class="dm-body">
+          <h4>Origines</h4>
+          <p>Le yoga trouve ses origines en Inde, où ses fondements remontent à plusieurs millénaires, notamment à
+            travers les textes du Yoga Sutra de Patanjali. Bien plus qu'une pratique physique, le yoga traditionnel
+            associe posture (asana), respiration (pranayama) et méditation dans une même quête d'unité entre le
+            corps et l'esprit — le mot « yoga » signifiant littéralement « relier ».</p>
+          <div class="dm-inline-img">
+            <picture>
+              <source srcset="assets/img/discipline-yoga-origines.webp" type="image/webp">
+              <img src="assets/img/discipline-yoga-origines.jpg"
+                alt="Pratiquante en posture de yoga au sol, intérieur épuré" loading="lazy">
+            </picture>
+          </div>
+          <h4>Dans le monde aujourd'hui</h4>
+          <p>Le yoga est aujourd'hui l'une des pratiques corps-esprit les plus répandues au monde, présente dans la
+            quasi-totalité des pays. Il fait même l'objet d'une Journée internationale, célébrée chaque 21 juin. De
+            nombreuses écoles se sont développées au fil du temps (hatha, vinyasa, yin...), chacune mettant l'accent
+            sur un aspect différent : le mouvement, la respiration ou l'immobilité.</p>
+          <div class="dm-inline-img">
+            <picture>
+              <source srcset="assets/img/discipline-yoga-aujourdhui.webp" type="image/webp">
+              <img src="assets/img/discipline-yoga-aujourdhui.jpg"
+                alt="Pratiquante en posture de yoga dans un parc, lumière naturelle" loading="lazy">
+            </picture>
+          </div>
+          <h4>Ce qui distingue cette pratique</h4>
+          <ul>
+            <li>Un travail approfondi sur la respiration consciente, au cœur de chaque posture.</li>
+            <li>Une grande variété de postures, statiques ou dynamiques, adaptables à tous les niveaux.</li>
+            <li>Une dimension méditative qui invite au retour au calme intérieur.</li>
+            <li>Une pratique qui conjugue aussi bien souplesse que force.</li>
+          </ul>
+          <h4>Bienfaits reconnus</h4>
+          <ul>
+            <li>Amélioration de la souplesse et de la mobilité articulaire.</li>
+            <li>Renforcement musculaire profond et tonicité générale.</li>
+            <li>Réduction du stress grâce au travail respiratoire et à la pleine conscience.</li>
+            <li>Meilleure qualité de sommeil et apaisement du système nerveux.</li>
+          </ul>
+          <p class="dm-note">Comme chaque pratique proposée chez Zenway, le yoga s'inscrit en complément d'un suivi
+            médical, jamais en remplacement.</p>
+        </div>
+      </div>
+
+      <div class="discipline-modal" data-discipline="pilates" role="dialog" aria-modal="true"
+        aria-labelledby="dmTitlePilates" hidden>
+        <div class="dm-hero">
+          <picture>
+            <source srcset="assets/img/discipline-pilates-hero.webp" type="image/webp">
+            <img src="assets/img/discipline-pilates-hero.jpg"
+              alt="Pratiquante au sol en exercice de Pilates, intérieur épuré">
+          </picture>
+          <h3 class="dm-title" id="dmTitlePilates">Pilates</h3>
+        </div>
+        <div class="dm-body">
+          <h4>Origines</h4>
+          <p>Le Pilates doit son nom à Joseph Pilates, qui a développé sa méthode au début du XXe siècle. Passionné
+            de gymnastique et de préparation physique, il conçoit un système d'exercices centré sur le renforcement
+            profond des muscles posturaux, qu'il nomme lui-même la « contrologie » — le contrôle du corps par
+            l'esprit. Sa méthode s'installe ensuite à New York, où elle séduit rapidement danseurs et athlètes
+            soucieux de préserver leur corps.</p>
+          <div class="dm-inline-img">
+            <picture>
+              <source srcset="assets/img/discipline-pilates-origines.webp" type="image/webp">
+              <img src="assets/img/discipline-pilates-origines.jpg"
+                alt="Pratiquantes en étirement au sol, mouvement précis et contrôlé" loading="lazy">
+            </picture>
+          </div>
+          <h4>Dans le monde aujourd'hui</h4>
+          <p>Le Pilates s'est largement démocratisé depuis les années 1990, porté notamment par le monde de la
+            danse et de la rééducation. Il est aujourd'hui pratiqué partout dans le monde, sur tapis ou sur machines
+            spécialisées (reformer, cadillac...), et fréquemment recommandé en complément d'un suivi
+            kinésithérapique pour renforcer le dos et la posture.</p>
+          <div class="dm-inline-img">
+            <picture>
+              <source srcset="assets/img/discipline-pilates-aujourdhui.webp" type="image/webp">
+              <img src="assets/img/discipline-pilates-aujourdhui.jpg"
+                alt="Duo pratiquant un exercice de Pilates avec ballon lesté" loading="lazy">
+            </picture>
+          </div>
+          <h4>Ce qui distingue cette pratique</h4>
+          <ul>
+            <li>Un travail centré sur le « centre » du corps (sangle abdominale profonde, dos, bassin).</li>
+            <li>Des mouvements précis et contrôlés, réalisés en pleine conscience.</li>
+            <li>Une attention constante portée à l'alignement et à la posture.</li>
+            <li>Une respiration spécifique qui accompagne chaque exercice.</li>
+          </ul>
+          <h4>Bienfaits reconnus</h4>
+          <ul>
+            <li>Renforcement profond de la sangle abdominale et des muscles stabilisateurs.</li>
+            <li>Amélioration de la posture et soulagement des tensions dorsales.</li>
+            <li>Meilleur gainage, sans prise de volume musculaire excessive.</li>
+            <li>Développement de la coordination et de la précision du mouvement.</li>
+          </ul>
+          <p class="dm-note">Comme chaque pratique proposée chez Zenway, le pilates s'inscrit en complément d'un
+            suivi médical, jamais en remplacement.</p>
+        </div>
+      </div>
+
+      <div class="discipline-modal" data-discipline="qigong" role="dialog" aria-modal="true"
+        aria-labelledby="dmTitleQigong" hidden>
+        <div class="dm-hero">
+          <picture>
+            <source srcset="assets/img/discipline-qigong-hero.webp" type="image/webp">
+            <img src="assets/img/discipline-qigong-hero.jpg"
+              alt="Pratiquante de Qi gong dans un jardin japonais paisible">
+          </picture>
+          <h3 class="dm-title" id="dmTitleQigong">Qi gong</h3>
+        </div>
+        <div class="dm-body">
+          <h4>Origines</h4>
+          <p>Le qi gong (littéralement « travail de l'énergie ») est une pratique chinoise ancestrale, étroitement
+            liée à la médecine traditionnelle chinoise et au taoïsme. Depuis des siècles, il associe mouvements
+            lents, respiration et visualisation dans le but de cultiver et faire circuler le qi, l'énergie vitale, à
+            travers le corps.</p>
+          <div class="dm-inline-img">
+            <picture>
+              <source srcset="assets/img/discipline-qigong-origines.webp" type="image/webp">
+              <img src="assets/img/discipline-qigong-origines.jpg"
+                alt="Pratiquant en posture ample face à la mer, geste inspiré de la nature" loading="lazy">
+            </picture>
+          </div>
+          <h4>Dans le monde aujourd'hui</h4>
+          <p>Le qi gong est pratiqué chaque matin par de nombreuses personnes en Chine, dans les parcs et jardins
+            publics. Il s'est diffusé en Occident notamment à travers les milieux de la santé et du bien-être, où il
+            est de plus en plus proposé en complément d'autres approches, pour son effet apaisant et sa grande
+            douceur.</p>
+          <div class="dm-inline-img">
+            <picture>
+              <source srcset="assets/img/discipline-qigong-aujourdhui.webp" type="image/webp">
+              <img src="assets/img/discipline-qigong-aujourdhui.jpg"
+                alt="Pratiquante dans un intérieur épuré, ambiance bien-être contemporaine" loading="lazy">
+            </picture>
+          </div>
+          <h4>Ce qui distingue cette pratique</h4>
+          <ul>
+            <li>Une pratique essentiellement basée sur le souffle et la circulation de l'énergie.</li>
+            <li>Des mouvements très doux, souvent inspirés de la nature (l'oiseau, la grue, l'arbre...).</li>
+            <li>Une dimension méditative marquée, proche de la pleine conscience en mouvement.</li>
+            <li>Une pratique accessible même en cas de mobilité réduite.</li>
+          </ul>
+          <h4>Bienfaits reconnus</h4>
+          <ul>
+            <li>Soutien du système immunitaire et de la vitalité générale.</li>
+            <li>Apaisement profond du système nerveux et réduction du stress.</li>
+            <li>Amélioration de la capacité respiratoire.</li>
+            <li>Sentiment de calme et de recentrage après chaque séance.</li>
+          </ul>
+          <p class="dm-note">Comme chaque pratique proposée chez Zenway, le qi gong s'inscrit en complément d'un
+            suivi médical, jamais en remplacement.</p>
         </div>
       </div>
     </div>
