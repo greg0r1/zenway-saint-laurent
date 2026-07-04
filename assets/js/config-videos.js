@@ -30,6 +30,23 @@ function facebookEmbed(url){
   return `<iframe src="${src}" title="Vidéo Zenway" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>`;
 }
 
+function facebookFallbackLink(url){
+  return `<a class="vfallback" href="${url}" target="_blank" rel="noopener">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+    <span>Voir la vidéo sur Facebook</span>
+  </a>`;
+}
+
+// L'iframe du plugin vidéo Facebook ne se charge pas de façon fiable sur
+// Safari iOS (ITP bloque le stockage tiers nécessaire au lecteur). On y
+// affiche donc un lien direct vers la vidéo plutôt qu'un cadre vide.
+function isIosSafari(){
+  const ua = navigator.userAgent;
+  const isIos = /iPad|iPhone|iPod/.test(ua) || (ua.includes('Macintosh') && navigator.maxTouchPoints > 1);
+  const isSafari = /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS/.test(ua);
+  return isIos && isSafari;
+}
+
 (function setupHeroVideo(){
   const wrap = document.getElementById('heroVideo');
   if (!wrap || !(HERO_VIDEO_ID || HERO_VIDEO_FB_URL)) return;
@@ -37,7 +54,12 @@ function facebookEmbed(url){
 
   if (HERO_VIDEO_FB_URL){
     thumb.classList.add('vthumb-fb');
-    thumb.innerHTML = facebookEmbed(HERO_VIDEO_FB_URL);
+    if (isIosSafari()){
+      thumb.classList.add('vthumb-fb-fallback');
+      thumb.innerHTML = facebookFallbackLink(HERO_VIDEO_FB_URL);
+    } else {
+      thumb.innerHTML = facebookEmbed(HERO_VIDEO_FB_URL);
+    }
     return;
   }
 
