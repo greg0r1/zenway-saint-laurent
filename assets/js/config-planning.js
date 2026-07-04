@@ -1,13 +1,13 @@
 /* ============================================================
    CONFIG PLANNING — à compléter avec les horaires réels
    Ajoute une ligne par créneau de séance. Exemple :
-     { day: "Mardi", time: "18 h 30 – 19 h 45", label: "Séance Zenway · tous niveaux", note: "Reprise le 8 septembre" },
+     { day: "Mardi", time: "18 h 30 – 19 h 45", label: "Séance Zenway · tous niveaux", note: "Début des cours le 8 septembre" },
    Le champ "note" est optionnel.
    Tant que le tableau est vide, un message d'attente s'affiche
    avec une invitation à contacter Béatrice.
    ============================================================ */
 const PLANNING = [
-  { day: "Mardi", time: "17 h 45 – 18 h 45", label: "Séance Zenway · tous niveaux", note: "Reprise le 8 septembre" },
+  { day: "Mardi", time: "17 h 45 – 18 h 45", label: "Séance Zenway · tous niveaux", note: "Début des cours le 8 septembre" },
 ];
 
 (function setupPlanning(){
