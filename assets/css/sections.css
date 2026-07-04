@@ -389,6 +389,12 @@
 .schedule-info .loc svg {
   flex: none;
 }
+.schedule-info .note {
+  color: var(--gold);
+  font-weight: 600;
+  font-size: 0.84rem;
+  margin-top: 4px;
+}
 .schedule-empty {
   text-align: center;
   background: #fff;
