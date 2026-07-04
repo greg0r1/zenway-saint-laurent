@@ -604,6 +604,9 @@
   justify-content: center;
   flex: none;
 }
+.info-row > div {
+  min-width: 0;
+}
 .info-row .k {
   font-size: 0.74rem;
   letter-spacing: 0.12em;
@@ -615,6 +618,8 @@
   font-size: 1.02rem;
   color: var(--ink);
   font-weight: 500;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .info-row .v a:hover {
   color: var(--teal);
