@@ -619,6 +619,16 @@
 .info-row .v a:hover {
   color: var(--teal);
 }
+.info-row-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--teal);
+}
+.info-row-link:hover {
+  color: var(--green-700);
+}
 .map-card {
   border-radius: var(--r);
   overflow: hidden;
