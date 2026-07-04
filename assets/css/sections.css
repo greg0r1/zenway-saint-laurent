@@ -389,6 +389,12 @@
 .schedule-info .loc svg {
   flex: none;
 }
+.schedule-info .note {
+  color: var(--gold);
+  font-weight: 600;
+  font-size: 0.84rem;
+  margin-top: 4px;
+}
 .schedule-empty {
   text-align: center;
   background: #fff;
@@ -612,6 +618,16 @@
 }
 .info-row .v a:hover {
   color: var(--teal);
+}
+.info-row-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--teal);
+}
+.info-row-link:hover {
+  color: var(--green-700);
 }
 .map-card {
   border-radius: var(--r);
