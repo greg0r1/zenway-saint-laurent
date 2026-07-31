@@ -108,6 +108,31 @@
   height: 100%;
 }
 
+/* Façade : miniature affichée tant que le lecteur Facebook n'est pas chargé.
+   Sans poster configuré, on retombe sur un aplat aux couleurs Zenway. */
+.vthumb-fb.vthumb-facade {
+  cursor: pointer;
+  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+  background-color: var(--green-800);
+  /* surchargé par le poster en style inline quand HERO_VIDEO_POSTER est rempli */
+  background-image: linear-gradient(135deg, var(--green-800), var(--teal));
+}
+.vthumb-fb.vthumb-facade::after {
+  content: "";
+}
+.vfacade-lab {
+  position: relative;
+  z-index: 2;
+  color: #eaf6ee;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+}
+.hero-video-badge .vfacade-lab {
+  font-size: 0.62rem;
+}
+
 /* Repli Safari iOS : l'iframe Facebook ne s'y charge pas, on affiche un lien direct */
 .vthumb-fb-fallback {
   background: linear-gradient(135deg, var(--green-800), var(--teal));

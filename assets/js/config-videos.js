@@ -13,9 +13,16 @@
       qu'elle soit en dur ici (un site statique sans backend ne peut pas
       la cacher du code source servi au navigateur).
    3. YT_VIDEOS_COUNT : nombre de vidéos affichées dans la galerie.
+   4. HERO_VIDEO_POSTER : miniature affichée à la place de la vidéo tant
+      que le visiteur n'a pas cliqué (le lecteur Facebook pèse plusieurs
+      mégaoctets et retarde fortement l'affichage du hero s'il se charge
+      d'emblée). Chemin d'une image locale — une image externe serait
+      bloquée par la politique de sécurité (voir img-src dans vercel.json).
+      Laisser vide ("") affiche un visuel de repli aux couleurs Zenway.
    ============================================================ */
 const HERO_VIDEO_ID    = ""; // ex: "dQw4w9WgXcQ"
 const HERO_VIDEO_FB_URL = "https://www.facebook.com/reel/380948047631379";
+const HERO_VIDEO_POSTER = ""; // ex: "assets/img/video/hero-poster.jpg"
 const YT_CHANNEL_HANDLE = "beatricemeunier-r2m";
 const YT_CHANNEL_URL    = `https://www.youtube.com/@${YT_CHANNEL_HANDLE}`;
 const YT_API_KEY        = "AIzaSyCzLih88Jl6hWSqLKzX5UEdx_8RF4_Qdgc";
@@ -28,6 +35,14 @@ function youtubeEmbed(id){
 function facebookEmbed(url){
   const src = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=0&mute=1`;
   return `<iframe src="${src}" title="Vidéo Zenway" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>`;
+}
+
+// Miniature cliquable affichée avant le chargement du lecteur. Le libellé
+// n'apparaît que faute de poster, pour ne pas surcharger une vraie image.
+function facadeMarkup(withLabel){
+  return `<button type="button" class="vplay" aria-label="Lire la vidéo de présentation Zenway">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg>
+  </button>${withLabel ? '<span class="vfacade-lab">Voir la vidéo</span>' : ''}`;
 }
 
 function facebookFallbackLink(url){
@@ -57,9 +72,19 @@ function isIosSafari(){
     if (isIosSafari()){
       thumb.classList.add('vthumb-fb-fallback');
       thumb.innerHTML = facebookFallbackLink(HERO_VIDEO_FB_URL);
-    } else {
-      thumb.innerHTML = facebookEmbed(HERO_VIDEO_FB_URL);
+      return;
     }
+    // Façade : le lecteur Facebook pèse plusieurs mégaoctets et sature la
+    // bande passante avant même que le hero ne s'affiche. On ne montre
+    // d'abord qu'une miniature, l'iframe n'est insérée qu'au clic.
+    thumb.classList.add('vthumb-facade');
+    if (HERO_VIDEO_POSTER) thumb.style.backgroundImage = `url(${HERO_VIDEO_POSTER})`;
+    thumb.innerHTML = facadeMarkup(!HERO_VIDEO_POSTER);
+    thumb.addEventListener('click', () => {
+      thumb.classList.remove('vthumb-facade');
+      thumb.style.backgroundImage = '';
+      thumb.innerHTML = facebookEmbed(HERO_VIDEO_FB_URL);
+    }, { once: true });
     return;
   }
 
