@@ -92,9 +92,12 @@
   font-size: 0.6rem;
 }
 
-/* Teaser hero au format vidéo Facebook : conserve la taille fixe du badge */
+/* Teaser hero au format vidéo Facebook : conserve la taille fixe du badge.
+   background-color (et non le raccourci "background") pour ne pas réinitialiser
+   le background-size:cover / background-position:center hérités de .vthumb,
+   nécessaires à l'affichage correct de la miniature façade (voir plus bas). */
 .vthumb-fb {
-  background: #000;
+  background-color: #000;
   cursor: default;
   align-items: stretch;
 }
