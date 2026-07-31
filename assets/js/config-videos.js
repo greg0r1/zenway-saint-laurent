@@ -22,7 +22,7 @@
    ============================================================ */
 const HERO_VIDEO_ID    = ""; // ex: "dQw4w9WgXcQ"
 const HERO_VIDEO_FB_URL = "https://www.facebook.com/reel/380948047631379";
-const HERO_VIDEO_POSTER = ""; // ex: "assets/img/video/hero-poster.jpg"
+const HERO_VIDEO_POSTER = "assets/img/video/hero-poster.jpg";
 const YT_CHANNEL_HANDLE = "beatricemeunier-r2m";
 const YT_CHANNEL_URL    = `https://www.youtube.com/@${YT_CHANNEL_HANDLE}`;
 const YT_API_KEY        = "AIzaSyCzLih88Jl6hWSqLKzX5UEdx_8RF4_Qdgc";
