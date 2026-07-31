@@ -816,19 +816,33 @@
               </svg>0 € de frais pour l'association</li>
           </ul>
 
-          <a class="btn-ha" data-helloasso-link target="_blank" rel="noopener" href="#">
+          <a class="btn-ha" id="haOnlineBtn" data-helloasso-link target="_blank" rel="noopener" href="#"
+            style="display:none">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
               aria-hidden="true" focusable="false">
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>
             S'inscrire sur HelloAsso
           </a>
+          <a class="btn-ha" id="haFallbackBtn" href="tel:+33666056649">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+              aria-hidden="true" focusable="false">
+              <path d="M5 4h4l2 5-3 2a11 11 0 005 5l2-3 5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" />
+            </svg>
+            Appelez-nous pour vous inscrire
+          </a>
 
-          <p class="ha-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="1.6" aria-hidden="true" focusable="false">
+          <p class="ha-note" id="haOnlineNote" style="display:none"><svg width="16" height="16" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
               <rect x="5" y="11" width="14" height="9" rx="2" />
               <path d="M8 11V8a4 4 0 018 0v3" />
             </svg>Connexion sécurisée — vous restez maître de vos données.</p>
+          <p class="ha-note" id="haFallbackNote"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 8v4l3 2" />
+            </svg>Inscription en ligne bientôt disponible — contactez-nous en attendant, par téléphone ou <a
+              href="mailto:contact@zenwaysaintlaurentduvar.fr">e-mail</a>.</p>
         </div>
 
         <!--
