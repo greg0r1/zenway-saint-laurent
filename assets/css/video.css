@@ -92,9 +92,12 @@
   font-size: 0.6rem;
 }
 
-/* Teaser hero au format vidéo Facebook : conserve la taille fixe du badge */
+/* Teaser hero au format vidéo Facebook : conserve la taille fixe du badge.
+   background-color (et non le raccourci "background") pour ne pas réinitialiser
+   le background-size:cover / background-position:center hérités de .vthumb,
+   nécessaires à l'affichage correct de la miniature façade (voir plus bas). */
 .vthumb-fb {
-  background: #000;
+  background-color: #000;
   cursor: default;
   align-items: stretch;
 }
@@ -106,6 +109,31 @@
   inset: 0;
   width: 100%;
   height: 100%;
+}
+
+/* Façade : miniature affichée tant que le lecteur Facebook n'est pas chargé.
+   Sans poster configuré, on retombe sur un aplat aux couleurs Zenway. */
+.vthumb-fb.vthumb-facade {
+  cursor: pointer;
+  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+  background-color: var(--green-800);
+  /* surchargé par le poster en style inline quand HERO_VIDEO_POSTER est rempli */
+  background-image: linear-gradient(135deg, var(--green-800), var(--teal));
+}
+.vthumb-fb.vthumb-facade::after {
+  content: "";
+}
+.vfacade-lab {
+  position: relative;
+  z-index: 2;
+  color: #eaf6ee;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+}
+.hero-video-badge .vfacade-lab {
+  font-size: 0.62rem;
 }
 
 /* Repli Safari iOS : l'iframe Facebook ne s'y charge pas, on affiche un lien direct */
