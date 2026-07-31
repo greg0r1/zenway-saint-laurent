@@ -768,6 +768,9 @@
   align-items: center;
   gap: 8px;
 }
+.insc-left .ha-note a {
+  white-space: nowrap;
+}
 .insc-left .ha-note svg {
   flex: none;
   color: var(--teal);
