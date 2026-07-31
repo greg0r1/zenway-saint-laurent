@@ -1,0 +1,13 @@
+name: IndexNow ping
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping IndexNow
+        run: |
+          curl -s "https://api.indexnow.org/indexnow?url=https://www.zenwaysaintlaurentduvar.fr/&key=4fdd1f90a7194e9f11e9a05a38f85465&keyLocation=https://www.zenwaysaintlaurentduvar.fr/4fdd1f90a7194e9f11e9a05a38f85465.txt"
