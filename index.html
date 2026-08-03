@@ -50,7 +50,7 @@
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/dmsans-latin.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-normal-latin.woff2" crossorigin>
 
-  <!-- Domaines tiers sollicités dès le chargement (vidéo hero Facebook, miniatures
+  <!-- Domaines tiers sollicités dès le chargement (vidéo Facebook, miniatures
        et API YouTube de la galerie) — voir assets/js/config-videos.js. -->
   <link rel="preconnect" href="https://www.facebook.com">
   <link rel="preconnect" href="https://img.youtube.com">
@@ -198,538 +198,430 @@
 <body>
 
   <!-- ============ NAV ============ -->
-  <header class="nav" id="nav">
+  <header class="nav">
     <div class="wrap bar">
       <a href="#hero" class="logo" aria-label="Zenway Saint-Laurent-du-Var">
-        <picture>
-          <source srcset="assets/img/logo/logo-zenway.webp" type="image/webp">
-          <img src="assets/img/logo/logo-zenway.png" alt="Zenway" height="64" width="89" fetchpriority="high">
-        </picture>
+        <img src="assets/img/logo/logo-zenway.png" alt="Zenway" height="42" width="58">
         <span class="logo-city">Saint-Laurent-du-Var</span>
       </a>
-      <nav class="links" id="navlinks">
-        <a href="#hero">Accueil</a>
+      <nav class="links" id="navlinks" aria-label="Navigation principale">
         <a href="#concept">Le concept</a>
+        <a href="#pratiques">Les pratiques</a>
         <a href="#planning">Planning</a>
         <a href="#pourqui">Pour qui</a>
-        <a href="#videos">Vidéos</a>
-        <a href="#evenements">Événements</a>
         <a href="#infos">Infos pratiques</a>
-        <a href="#inscription" class="cta">S'inscrire</a>
+        <a href="#inscription" class="cta">Adhérer</a>
       </nav>
-      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+      <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span></button>
     </div>
   </header>
 
   <main>
-    <!-- ============ HERO ============ -->
+    <!-- ============ HERO — LE BAIN ============ -->
+    <!-- Trois plans à des vitesses différentes : le bain des quatre
+         pigments au fond, la paroi d'image à droite, le texte à gauche.
+         La marbrure se compose une fois à l'ouverture, sans commande —
+         c'est une matière, pas une démonstration à rejouer. -->
     <section class="hero" id="hero">
-      <div class="leaf-bg">
-        <svg class="l1" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-          <path d="M24 44C24 26 24 14 24 4c8 8 10 22 0 38Z" fill="#fff" />
-        </svg>
-        <svg class="l2" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-          <path d="M24 44C24 30 16 22 6 18c0 14 8 22 18 26Z" fill="#fff" />
-        </svg>
-      </div>
+      <!-- Le bain occupe le fond de bout en bout : c'est le sol, pas un
+           décor. Il glisse plus lentement que tout le reste. -->
+      <canvas id="bath" class="bath" data-par="-0.2" aria-hidden="true"></canvas>
+      <p class="bath-alt visually-hidden">Quatre pigments (Tai-chi chuan, Yoga, Pilates et Qi gong) déposés sur un
+        même bain puis réunis en une seule figure par un geste unique.</p>
+
+      <!-- La colonne d'image n'est pas un cadre posé sur la page : elle
+           EN est une paroi. Elle touche le haut, la droite et le bas de
+           la section, et son seul bord intérieur se dissout dans le bain.
+           Béatrice se tient devant, les pieds exactement sur la limite
+           basse : rien n'est coupé, tout se rejoint. -->
+      <figure class="hero-figure">
+        <picture class="figure-photo" data-par="-0.06">
+          <source srcset="assets/img/hero/hero-nature-lac.webp" type="image/webp">
+          <img src="assets/img/hero/hero-nature-lac.jpg" width="1440" height="804" alt="">
+        </picture>
+        <span class="figure-shadow" aria-hidden="true"></span>
+        <picture class="figure-subject">
+          <source srcset="assets/img/bea/bea-cropped.webp" type="image/webp">
+          <img src="assets/img/bea/bea-cropped.png" width="720" height="845" fetchpriority="high"
+            alt="Béatrice Viallon en posture Zenway">
+        </picture>
+        <figcaption><b>Béatrice Viallon</b><span>Animatrice de la section</span></figcaption>
+      </figure>
+
       <div class="wrap hero-grid">
-        <div class="hero-left">
-          <p class="h-eyebrow reveal">Saint-Laurent-du-Var · Alpes-Maritimes</p>
-          <h1>Corps, souffle<br>&amp; <em>état mental</em></h1>
-          <p class="disc reveal d2">Un concept innovant qui fusionne <strong>Tai-chi chuan</strong>,
-            <strong>Yoga</strong>, <strong>Pilates</strong> &amp;
-            <strong>Qi gong</strong> en une seule séance continue, portée par une musique relaxante.
-          </p>
-          <p class="quote reveal d2">Venez partager un moment<br>de détente &amp; de zénitude</p>
-          <p class="trial-note reveal d2">Premier cours d'essai offert, sans engagement.</p>
-          <div class="actions reveal d3">
-            <a href="#inscription" class="btn btn-primary">S'inscrire en ligne</a>
-            <a href="#evenements" class="btn btn-ghost">Événements à venir</a>
+        <div class="hero-copy" data-par="0.03">
+          <picture class="hero-mark">
+            <source srcset="assets/img/logo/logo-zenway.webp" type="image/webp">
+            <img src="assets/img/logo/logo-zenway.png" width="178" height="128" alt="Zenway">
+          </picture>
+          <p class="place"><span class="place-rule" aria-hidden="true"></span>Association sportive ·
+            Saint-Laurent-du-Var</p>
+          <h1>Quatre pratiques.<br>Une seule séance.</h1>
+          <p class="lede">Une seule discipline, qui fusionne quatre traditions en un enchaînement continu,
+            porté par une musique relaxante.</p>
+
+          <!-- Les quatre noms et le lien qui y mène forment un seul bloc :
+               la liste énumère, le lien conduit — ils ne se lisent pas
+               séparément. L'appel à adhérer sort donc de ce cadre. -->
+          <div class="practices">
+            <ol class="drops" aria-label="Les quatre pratiques réunies dans la séance">
+              <li><span class="chip c1"></span>Tai-chi chuan</li>
+              <li><span class="chip c2"></span>Yoga</li>
+              <li><span class="chip c3"></span>Pilates</li>
+              <li><span class="chip c4"></span>Qi gong</li>
+            </ol>
+            <a href="#pratiques" class="link-arrow">Découvrir les quatre pratiques</a>
           </div>
 
-          <!-- Zone visuelle bas-de-hero : encart vidéo + photo de Béa.
-             Desktop : seul l'encart s'affiche (sous les boutons), la photo
-             de Béa est rendue en fond via .hero-photo-bg.
-             Mobile : encart + photo côte à côte, la photo de fond est masquée. -->
-          <div class="hero-bottom">
-            <!-- VIDÉO DE TEASING : configurer HERO_VIDEO_ID en bas de page (section Vidéos) -->
-            <div class="hero-video-badge has-video reveal d4" id="heroVideo">
-              <div class="vthumb">
-                <div class="vempty">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#eaf6ee" stroke-width="1.3"
-                    aria-hidden="true" focusable="false">
-                    <rect x="3" y="5" width="18" height="14" rx="2" />
-                    <path d="M10 9.5l5 2.5-5 2.5z" fill="#eaf6ee" stroke="none" />
-                  </svg>
-                  <span class="lab">Vidéo de teasing</span>
-                </div>
-              </div>
-            </div>
-            <div class="hero-bottom-photo">
-              <picture>
-                <source srcset="assets/img/bea/bea-cropped.webp" type="image/webp">
-                <img src="assets/img/bea/bea-cropped.png" width="720" height="845" loading="lazy"
-                  alt="Béatrice Viallon en posture de Tai-chi chuan, mouvement Zenway">
-              </picture>
-            </div>
+          <div class="hero-actions">
+            <a href="#inscription" class="btn btn-gold btn-big">Nous rejoindre</a>
+            <p class="trial">Mardi 17 h 45 · premier cours d'essai offert, sans engagement.</p>
           </div>
         </div>
-        <div class="hero-right"></div>
-      </div>
-
-      <div class="hero-photo-bg reveal d3">
-        <picture>
-          <source srcset="assets/img/bea/bea-cropped.webp" type="image/webp">
-          <img class="hero-photo-img" src="assets/img/bea/bea-cropped.png" width="720" height="845" fetchpriority="high"
-            alt="Béatrice Viallon en posture de Tai-chi chuan, mouvement Zenway">
-        </picture>
-      </div>
-
-      <div class="scroll-hint reveal d4"><span>Découvrir</span>
-        <div class="mouse"></div>
       </div>
     </section>
 
-    <!-- ============ CONCEPT & PRATIQUES ============ -->
-    <section class="concept" id="concept">
-      <div class="wrap concept-grid">
-        <div class="reveal">
-          <p class="eyebrow">Le concept Zenway</p>
-          <h2>Une seule discipline,<br>quatre <span class="g">racines.</span></h2>
-          <p>Zenway est une discipline unique créée par <strong>Raymond Holle</strong> : elle fusionne, en un seul
-            mouvement
-            continu, le Tai-chi chuan, le Yoga, le Pilates et le Qi gong, le tout porté par une musique relaxante. Ce
-            n'est pas un enchaînement de quatre cours indépendants que l'on choisirait séparément, mais une seule
-            pratique
-            qui puise dans ces quatre traditions.</p>
-          <p>Cette discipline cherche l'harmonie entre l'esprit et le corps, l'équilibre entre la force et la douceur.
-            Au
-            sein de notre section de Saint-Laurent-du-Var, chaque séance devient un moment pour se recentrer, gagner en
-            souplesse, en tonus et en sérénité.</p>
-          <p class="signature">Une parenthèse de détente, accessible à tous.</p>
-          <div class="stats">
-            <div class="stat">
-              <div class="n">4</div>
-              <div class="t">influences fondues en une</div>
-            </div>
-            <div class="stat">
-              <div class="n">1</div>
-              <div class="t">seule séance hebdomadaire</div>
-            </div>
-            <div class="stat">
-              <div class="n">06</div>
-              <div class="t">Saint-Laurent-du-Var</div>
-            </div>
+    <!-- ============ LA SECTION ============ -->
+    <!-- Ce qu'est l'association, en clair, avant toute explication. -->
+    <section class="section-band">
+      <div class="wrap">
+        <dl class="band-grid">
+          <div>
+            <dt>L'association</dt>
+            <dd>Section locale du réseau Zenway, fondé par Raymond Holle</dd>
           </div>
-        </div>
-        <div class="concept-visual reveal d2">
-          <div class="frame">
-            <picture>
-              <source srcset="assets/img/logo/logo-zenway-minimaliste.webp" type="image/webp">
-              <img class="leaf-trio" src="assets/img/logo/logo-zenway-minimaliste.png" alt="" width="760" height="506"
-                loading="lazy">
-            </picture>
-
-            <picture>
-              <source srcset="assets/img/bea/bea-posture-005.webp" type="image/webp">
-              <img class="frame-photo" src="assets/img/bea/bea-posture-005.png" width="701" height="1036" loading="lazy"
-                alt="Béatrice Viallon en posture Zenway, bras levés, en extérieur">
-            </picture>
+          <div>
+            <dt>La séance</dt>
+            <dd>Mardi, 17 h 45 – 18 h 45, au KMCS</dd>
           </div>
-        </div>
+          <div>
+            <dt>L'animatrice</dt>
+            <dd>Béatrice Viallon, sur place à chaque séance</dd>
+          </div>
+          <div>
+            <dt>L'adhésion</dt>
+            <dd>En ligne via HelloAsso, 0 € de frais pour l'association</dd>
+          </div>
+        </dl>
       </div>
+    </section>
 
-      <div class="wrap pratiques-block">
-        <div class="fusion-track reveal">
-          <div class="node">
-            <div class="dot">01</div>
-            <div class="lab">Tai-chi chuan</div>
-          </div>
-          <div class="node">
-            <div class="dot">02</div>
-            <div class="lab">Yoga</div>
-          </div>
-          <div class="node">
-            <div class="dot">03</div>
-            <div class="lab">Pilates</div>
-          </div>
-          <div class="node">
-            <div class="dot">04</div>
-            <div class="lab">Qi gong</div>
+    <!-- ============ CONCEPT ============ -->
+    <section class="lifted" id="concept">
+      <div class="wrap sheet sheet-wide">
+        <!-- Cairn posé à cheval sur l'arête haute de la feuille : la moitié
+             haute du trait court sur le bain, la moitié basse sur le papier. -->
+        <svg class="galet galet-concept" viewBox="0 0 124 136" aria-hidden="true">
+          <linearGradient id="traitCairn" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="136">
+            <stop offset="0.5" style="stop-color: var(--mint);" />
+            <stop offset="0.5" style="stop-color: var(--green-700);" />
+          </linearGradient>
+          <path vector-effect="non-scaling-stroke" stroke="url(#traitCairn)" d="M11,110 C10,97 32,89 62,88 C88,87 112,94 113,110 C114,124 90,133 62,133 C35,133 13,124 12,113 C14,104 16,90 20,80 C19,68 36,60 58,59 C78,58 95,64 96,75 C97,86 79,95 58,95 C39,95 23,89 21,81 C24,72 30,58 40,49 C40,36 52,26 67,26 C81,26 93,32 93,43 C93,54 81,60 67,60 C55,60 44,56 41,50" />
+        </svg>
+        <div class="concept-head">
+          <h2>Une discipline récente, quatre traditions anciennes.</h2>
+          <div>
+            <p>Zenway est une discipline unique créée par <b>Raymond Holle</b> : elle fusionne, en un seul mouvement
+              continu, le Tai-chi chuan, le Yoga, le Pilates et le Qi gong, le tout porté par une musique relaxante.
+              Ce n'est pas un enchaînement de quatre cours indépendants que l'on choisirait séparément, mais une seule
+              pratique qui puise dans ces quatre traditions.</p>
+            <p>Cette discipline cherche l'harmonie entre l'esprit et le corps, l'équilibre entre la force et la
+              douceur. Au sein de notre section de Saint-Laurent-du-Var, chaque séance devient un moment pour se
+              recentrer, gagner en souplesse, en tonus et en sérénité.</p>
           </div>
         </div>
 
-        <div class="cards">
-          <article class="pcard taichi reveal" data-discipline="taichi" role="button" tabindex="0"
-            aria-haspopup="dialog" aria-label="Tai-chi chuan — voir le détail de la discipline">
-            <div class="pic">
+        <p class="single"><b>Une seule séance, toujours les quatre ensemble.</b> Zenway ne propose pas de cours à la
+          carte : chaque séance hebdomadaire suit ce même enchaînement complet, du Tai-chi chuan au Qi gong, sans
+          interruption.</p>
+      </div>
+    </section>
+
+    <!-- ============ LES QUATRE PRATIQUES ============ -->
+    <!-- L'ordre 01 → 04 est celui de l'enchaînement réel de la séance :
+         il porte une information, ce n'est pas une numérotation décorative. -->
+    <section class="lifted" id="pratiques">
+      <div class="wrap sheet sheet-wide">
+        <h2>Les quatre pratiques réunies</h2>
+        <p class="pratiques-intro">Voici les quatre traditions dans lesquelles Zenway puise, dans l'ordre où elles se
+          succèdent au cours de la séance. Chacune apporte sa part au même enchaînement continu.</p>
+
+        <ol class="practice-grid">
+          <li>
+            <article class="practice p1">
+              <span class="practice-no" aria-hidden="true">01</span>
               <picture>
                 <source srcset="assets/img/activites/activite-taichi.webp" type="image/webp">
-                <img src="assets/img/activites/activite-taichi.jpg" alt="Pratiquant en mouvement de Tai-chi chuan en extérieur"
-                  loading="lazy" width="700" height="382">
+                <img src="assets/img/activites/activite-taichi.jpg" width="700" height="382" loading="lazy"
+                  alt="Pratiquant en mouvement de Tai-chi chuan en extérieur">
               </picture>
-            </div>
-            <div class="body">
               <h3>Tai-chi chuan</h3>
-              <div class="lead">Mouvements lents &amp; fluides.</div>
-              <p class="ben"><strong>Équilibre, coordination</strong>, prévention des chutes.</p>
-              <button type="button" class="more" data-discipline="taichi">En savoir plus
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  aria-hidden="true" focusable="false">
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </button>
-            </div>
-          </article>
-          <article class="pcard yoga reveal d1" data-discipline="yoga" role="button" tabindex="0"
-            aria-haspopup="dialog" aria-label="Yoga — voir le détail de la discipline">
-            <div class="pic">
+              <p class="what">Mouvements lents et fluides, enchaînés comme un seul souffle.</p>
+              <p class="gain">Équilibre, coordination, prévention des chutes.</p>
+              <button type="button" class="more" data-modal="d-taichi" aria-haspopup="dialog" aria-label="En savoir plus sur le Tai-chi chuan">En savoir plus</button>
+            </article>
+          </li>
+          <li>
+            <article class="practice p2">
+              <span class="practice-no" aria-hidden="true">02</span>
               <picture>
                 <source srcset="assets/img/activites/activite-yoga.webp" type="image/webp">
-                <img src="assets/img/activites/activite-yoga.jpg" alt="Pratiquante en posture de yoga dans une pièce lumineuse"
-                  loading="lazy" width="700" height="382">
+                <img src="assets/img/activites/activite-yoga.jpg" width="700" height="382" loading="lazy"
+                  alt="Pratiquante en posture de yoga dans une pièce lumineuse">
               </picture>
-            </div>
-            <div class="body">
               <h3>Yoga</h3>
-              <div class="lead">Postures &amp; respiration.</div>
-              <p class="ben"><strong>Souplesse, tonicité</strong>, gestion du stress.</p>
-              <button type="button" class="more" data-discipline="yoga">En savoir plus
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  aria-hidden="true" focusable="false">
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </button>
-            </div>
-          </article>
-          <article class="pcard pilates reveal d2" data-discipline="pilates" role="button" tabindex="0"
-            aria-haspopup="dialog" aria-label="Pilates — voir le détail de la discipline">
-            <div class="pic">
+              <p class="what">Postures et respiration, pour relier le corps et l'esprit.</p>
+              <p class="gain">Souplesse, tonicité, gestion du stress.</p>
+              <button type="button" class="more" data-modal="d-yoga" aria-haspopup="dialog" aria-label="En savoir plus sur le Yoga">En savoir plus</button>
+            </article>
+          </li>
+          <li>
+            <article class="practice p3">
+              <span class="practice-no" aria-hidden="true">03</span>
               <picture>
                 <source srcset="assets/img/activites/activite-pilates.webp" type="image/webp">
-                <img src="assets/img/activites/activite-pilates.jpg" alt="Pratiquante au sol en exercice de Pilates"
-                  loading="lazy" width="700" height="382">
+                <img src="assets/img/activites/activite-pilates.jpg" width="700" height="382" loading="lazy"
+                  alt="Pratiquante au sol en exercice de Pilates">
               </picture>
-            </div>
-            <div class="body">
               <h3>Pilates</h3>
-              <div class="lead">Renforcement profond.</div>
-              <p class="ben"><strong>Gainage, posture</strong>, soulagement du dos.</p>
-              <button type="button" class="more" data-discipline="pilates">En savoir plus
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  aria-hidden="true" focusable="false">
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </button>
-            </div>
-          </article>
-          <article class="pcard qigong reveal d3" data-discipline="qigong" role="button" tabindex="0"
-            aria-haspopup="dialog" aria-label="Qi gong — voir le détail de la discipline">
-            <div class="pic">
+              <p class="what">Renforcement profond des muscles posturaux, en mouvements précis.</p>
+              <p class="gain">Gainage, posture, soulagement du dos.</p>
+              <button type="button" class="more" data-modal="d-pilates" aria-haspopup="dialog" aria-label="En savoir plus sur le Pilates">En savoir plus</button>
+            </article>
+          </li>
+          <li>
+            <article class="practice p4">
+              <span class="practice-no" aria-hidden="true">04</span>
               <picture>
                 <source srcset="assets/img/activites/activite-qigong.webp" type="image/webp">
-                <img src="assets/img/activites/activite-qigong.jpg" alt="Pratiquant de Qi gong dans un jardin japonais"
-                  loading="lazy" width="700" height="382">
+                <img src="assets/img/activites/activite-qigong.jpg" width="700" height="382" loading="lazy"
+                  alt="Pratiquant de Qi gong dans un jardin japonais">
+              </picture>
+              <h3>Qi gong</h3>
+              <p class="what">Souffle et énergie vitale, en gestes très doux inspirés de la nature.</p>
+              <p class="gain">Vitalité, immunité, apaisement profond.</p>
+              <button type="button" class="more" data-modal="d-qigong" aria-haspopup="dialog" aria-label="En savoir plus sur le Qi gong">En savoir plus</button>
+            </article>
+          </li>
+        </ol>
+
+        <!-- Le détail s'ouvre en fenêtre modale, une pratique à la fois. -->
+        <dialog class="detail-modal" id="d-taichi" aria-label="Tai-chi chuan, en détail">
+          <div class="modal-scroll">
+            <button type="button" class="modal-close" aria-label="Fermer">×</button>
+            <div class="modal-figs">
+              <picture>
+                <source srcset="assets/img/disciplines/discipline-taichi-origines.webp" type="image/webp">
+                <img src="assets/img/disciplines/discipline-taichi-origines.jpg" loading="lazy"
+                  alt="Pratiquant en étirement matinal en extérieur">
+              </picture>
+              <picture>
+                <source srcset="assets/img/disciplines/discipline-taichi-aujourdhui.webp" type="image/webp">
+                <img src="assets/img/disciplines/discipline-taichi-aujourdhui.jpg" loading="lazy"
+                  alt="Pratiquante en mouvement fluide face à la mer">
               </picture>
             </div>
-            <div class="body">
-              <h3>Qi gong</h3>
-              <div class="lead">Souffle &amp; énergie vitale.</div>
-              <p class="ben"><strong>Vitalité, immunité</strong>, apaisement profond.</p>
-              <button type="button" class="more" data-discipline="qigong">En savoir plus
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  aria-hidden="true" focusable="false">
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </button>
+            <div class="modal-copy">
+              <h4>D'où vient le tai-chi chuan ?</h4>
+              <p>Né en Chine, le tai-chi chuan puise ses racines dans les arts martiaux internes, façonnés au fil des
+                siècles autour de la philosophie taoïste et du principe du yin et du yang. Contrairement aux arts
+                martiaux fondés sur la force, il cultive la souplesse, l'enracinement et la circulation de l'énergie
+                interne, le qi, à travers des mouvements lents, fluides et continus, enchaînés comme un seul souffle.
+                Plusieurs grandes familles historiques, comme les styles Chen, Yang ou Wu, ont développé leur propre
+                approche, mais toutes partagent cette même recherche de lenteur et de continuité. Longtemps pratiqué
+                en Chine dans les parcs dès l'aube, le tai-chi chuan s'est largement diffusé à travers le monde au
+                cours du XXe siècle. Il est aujourd'hui enseigné sur tous les continents, souvent recommandé par des
+                professionnels de santé pour accompagner le vieillissement en douceur, et pratiqué aussi bien par des
+                débutants que par des sportifs en quête d'un travail plus interne.</p>
+              <h4>Quels bienfaits en attendre ?</h4>
+              <p>Grâce à des mouvements lents et continus, sans à-coups ni impact sur les articulations, le tai-chi
+                chuan développe un ancrage fort dans le sol qui améliore l'équilibre et la stabilité, tout en
+                affinant la coordination entre le geste, la respiration et la concentration. Accessible à tout âge, y
+                compris aux personnes peu habituées à l'activité physique, il contribue à la prévention des chutes,
+                en particulier chez les personnes âgées, tout en renforçant les muscles en douceur, sans contrainte
+                pour les articulations. La lenteur du geste et la concentration qu'il demande apaisent également le
+                mental et affinent la conscience du corps dans l'espace.</p>
+              <p class="detail-note">Comme chaque pratique proposée chez Zenway, le tai-chi chuan s'inscrit en
+                complément d'un suivi médical, jamais en remplacement.</p>
             </div>
-          </article>
-        </div>
+          </div>
+        </dialog>
 
-        <div class="fusion-note reveal">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-            aria-hidden="true" focusable="false">
-            <path d="M12 21s7-4.5 9-9a5 5 0 00-9-3 5 5 0 00-9 3c2 4.5 9 9 9 9z" />
-          </svg>
-          <p><strong>Une seule séance, toujours les quatre ensemble.</strong> Zenway ne propose pas de cours à la carte
-            : chaque
-            séance hebdomadaire suit ce même enchaînement complet, du Tai-chi chuan au Qi gong, sans interruption.</p>
-        </div>
+        <dialog class="detail-modal" id="d-yoga" aria-label="Yoga, en détail">
+          <div class="modal-scroll">
+            <button type="button" class="modal-close" aria-label="Fermer">×</button>
+            <div class="modal-figs">
+              <picture>
+                <source srcset="assets/img/disciplines/discipline-yoga-origines.webp" type="image/webp">
+                <img src="assets/img/disciplines/discipline-yoga-origines.jpg" loading="lazy"
+                  alt="Pratiquante en posture de yoga au sol, intérieur épuré">
+              </picture>
+              <picture>
+                <source srcset="assets/img/disciplines/discipline-yoga-aujourdhui.webp" type="image/webp">
+                <img src="assets/img/disciplines/discipline-yoga-aujourdhui.jpg" loading="lazy"
+                  alt="Pratiquante en posture de yoga dans un parc, lumière naturelle">
+              </picture>
+            </div>
+            <div class="modal-copy">
+              <h4>D'où vient le yoga ?</h4>
+              <p>Le yoga trouve ses origines en Inde, où ses fondements remontent à plusieurs millénaires, notamment
+                à travers les textes du Yoga Sutra de Patanjali. Bien plus qu'une pratique physique, le yoga
+                traditionnel associe posture, respiration et méditation dans une même quête d'unité entre le corps et
+                l'esprit, le mot « yoga » signifiant littéralement « relier ». Il est aujourd'hui l'une des pratiques
+                corps-esprit les plus répandues au monde, présente dans la quasi-totalité des pays et célébrée chaque
+                21 juin à l'occasion d'une journée internationale qui lui est dédiée. De nombreuses écoles se sont
+                développées au fil du temps, comme le hatha, le vinyasa ou le yin, chacune mettant l'accent sur un
+                aspect différent : le mouvement, la respiration ou l'immobilité.</p>
+              <h4>Quels bienfaits en attendre ?</h4>
+              <p>Le yoga repose sur un travail approfondi de la respiration consciente au cœur de chaque posture,
+                avec une grande variété de mouvements, statiques ou dynamiques, adaptables à tous les niveaux. Sa
+                dimension méditative invite au retour au calme intérieur, tout en conjuguant aussi bien souplesse que
+                force. Pratiqué régulièrement, il améliore la souplesse et la mobilité articulaire, renforce les
+                muscles en profondeur et favorise une tonicité générale. Le travail respiratoire et la pleine
+                conscience qu'il demande contribuent également à réduire le stress, à améliorer la qualité du sommeil
+                et à apaiser le système nerveux.</p>
+              <p class="detail-note">Comme chaque pratique proposée chez Zenway, le yoga s'inscrit en complément d'un
+                suivi médical, jamais en remplacement.</p>
+            </div>
+          </div>
+        </dialog>
+
+        <dialog class="detail-modal" id="d-pilates" aria-label="Pilates, en détail">
+          <div class="modal-scroll">
+            <button type="button" class="modal-close" aria-label="Fermer">×</button>
+            <div class="modal-figs">
+              <picture>
+                <source srcset="assets/img/disciplines/discipline-pilates-origines.webp" type="image/webp">
+                <img src="assets/img/disciplines/discipline-pilates-origines.jpg" loading="lazy"
+                  alt="Pratiquantes en étirement au sol, mouvement précis et contrôlé">
+              </picture>
+              <picture>
+                <source srcset="assets/img/disciplines/discipline-pilates-aujourdhui.webp" type="image/webp">
+                <img src="assets/img/disciplines/discipline-pilates-aujourdhui.jpg" loading="lazy"
+                  alt="Duo pratiquant un exercice de Pilates avec ballon lesté">
+              </picture>
+            </div>
+            <div class="modal-copy">
+              <h4>D'où vient le Pilates ?</h4>
+              <p>Le Pilates doit son nom à Joseph Pilates, qui a développé sa méthode au début du XXe siècle.
+                Passionné de gymnastique et de préparation physique, il conçoit un système d'exercices centré sur le
+                renforcement profond des muscles posturaux, qu'il nomme lui-même la « contrologie », le contrôle du
+                corps par l'esprit. Sa méthode s'installe ensuite à New York, où elle séduit rapidement danseurs et
+                athlètes soucieux de préserver leur corps. Elle s'est largement démocratisée depuis les années 1990,
+                portée notamment par le monde de la danse et de la rééducation, et se pratique aujourd'hui partout
+                dans le monde, sur tapis ou sur machines spécialisées comme le reformer ou le cadillac, fréquemment
+                recommandée en complément d'un suivi kinésithérapique pour renforcer le dos et la posture.</p>
+              <h4>Quels bienfaits en attendre ?</h4>
+              <p>Le Pilates centre le travail sur le « centre » du corps, la sangle abdominale profonde, le dos et le
+                bassin, à travers des mouvements précis et contrôlés, réalisés en pleine conscience et avec une
+                attention constante portée à l'alignement et à la posture. Chaque exercice s'accompagne d'une
+                respiration spécifique qui en accentue les effets. Pratiqué régulièrement, il renforce en profondeur
+                la sangle abdominale et les muscles stabilisateurs, améliore la posture et soulage les tensions
+                dorsales, tout en développant un meilleur gainage sans prise de volume musculaire excessive. Il
+                affine également la coordination et la précision du mouvement, pour un dos plus solide au
+                quotidien.</p>
+              <p class="detail-note">Comme chaque pratique proposée chez Zenway, le pilates s'inscrit en complément
+                d'un suivi médical, jamais en remplacement.</p>
+            </div>
+          </div>
+        </dialog>
+
+        <dialog class="detail-modal" id="d-qigong" aria-label="Qi gong, en détail">
+          <div class="modal-scroll">
+            <button type="button" class="modal-close" aria-label="Fermer">×</button>
+            <div class="modal-figs">
+              <picture>
+                <source srcset="assets/img/disciplines/discipline-qigong-origines.webp" type="image/webp">
+                <img src="assets/img/disciplines/discipline-qigong-origines.jpg" loading="lazy"
+                  alt="Pratiquant en posture ample face à la mer, geste inspiré de la nature">
+              </picture>
+              <picture>
+                <source srcset="assets/img/disciplines/discipline-qigong-aujourdhui.webp" type="image/webp">
+                <img src="assets/img/disciplines/discipline-qigong-aujourdhui.jpg" loading="lazy"
+                  alt="Pratiquante dans un intérieur épuré, ambiance bien-être contemporaine">
+              </picture>
+            </div>
+            <div class="modal-copy">
+              <h4>D'où vient le Qi gong ?</h4>
+              <p>Le qi gong, littéralement « travail de l'énergie », est une pratique chinoise ancestrale, étroitement
+                liée à la médecine traditionnelle chinoise et au taoïsme. Depuis des siècles, il associe mouvements
+                lents, respiration et visualisation dans le but de cultiver et faire circuler le qi, l'énergie
+                vitale, à travers le corps. Il est pratiqué chaque matin par de nombreuses personnes en Chine, dans
+                les parcs et jardins publics, et s'est diffusé en Occident notamment à travers les milieux de la
+                santé et du bien-être, où il est de plus en plus proposé en complément d'autres approches, pour son
+                effet apaisant et sa grande douceur.</p>
+              <h4>Quels bienfaits en attendre ?</h4>
+              <p>Basé essentiellement sur le souffle et la circulation de l'énergie, le qi gong se compose de
+                mouvements très doux, souvent inspirés de la nature comme l'oiseau, la grue ou l'arbre, portés par
+                une dimension méditative proche de la pleine conscience en mouvement. Cette douceur le rend
+                accessible même en cas de mobilité réduite. Pratiqué régulièrement, il soutient le système
+                immunitaire et la vitalité générale, apaise en profondeur le système nerveux et réduit le stress,
+                tout en améliorant la capacité respiratoire et en procurant un sentiment durable de calme et de
+                recentrage après chaque séance.</p>
+              <p class="detail-note">Comme chaque pratique proposée chez Zenway, le qi gong s'inscrit en complément
+                d'un suivi médical, jamais en remplacement.</p>
+            </div>
+          </div>
+        </dialog>
       </div>
     </section>
-
-    <!-- ============ MODALES DÉTAIL DISCIPLINE ============ -->
-    <div class="discipline-overlay" id="disciplineOverlay">
-      <button type="button" class="dm-close" aria-label="Fermer">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          aria-hidden="true" focusable="false">
-          <path d="M6 6l12 12M18 6L6 18" />
-        </svg>
-      </button>
-
-      <div class="discipline-modal" data-discipline="taichi" role="dialog" aria-modal="true"
-        aria-labelledby="dmTitleTaichi" hidden>
-        <div class="dm-hero">
-          <picture>
-            <source srcset="assets/img/disciplines/discipline-taichi-hero.webp" type="image/webp">
-            <img src="assets/img/disciplines/discipline-taichi-hero.jpg"
-              alt="Pratiquant de Tai-chi chuan seul dans un parc au lever du jour" width="1440" height="803"
-              loading="lazy">
-          </picture>
-          <h3 class="dm-title" id="dmTitleTaichi">Tai-chi chuan</h3>
-        </div>
-        <div class="dm-body">
-          <h4>D'où vient le tai-chi chuan ?</h4>
-          <p>Né en Chine, le tai-chi chuan puise ses racines dans les arts martiaux internes, façonnés au fil des
-            siècles autour de la philosophie taoïste et du principe du yin et du yang. Contrairement aux arts
-            martiaux fondés sur la force, il cultive la souplesse, l'enracinement et la circulation de l'énergie
-            interne, le qi, à travers des mouvements lents, fluides et continus, enchaînés comme un seul souffle.
-            Plusieurs grandes familles historiques, comme les styles Chen, Yang ou Wu, ont développé leur propre
-            approche, mais toutes partagent cette même recherche de lenteur et de continuité. Longtemps pratiqué en
-            Chine dans les parcs dès l'aube, le tai-chi chuan s'est largement diffusé à travers le monde au cours du
-            XXe siècle. Il est aujourd'hui enseigné sur tous les continents, souvent recommandé par des
-            professionnels de santé pour accompagner le vieillissement en douceur, et pratiqué aussi bien par des
-            débutants que par des sportifs en quête d'un travail plus interne.</p>
-          <div class="dm-inline-img">
-            <picture>
-              <source srcset="assets/img/disciplines/discipline-taichi-origines.webp" type="image/webp">
-              <img src="assets/img/disciplines/discipline-taichi-origines.jpg" alt="Pratiquant en étirement matinal en extérieur"
-                loading="lazy">
-            </picture>
-          </div>
-          <h4>Quels bienfaits en attendre ?</h4>
-          <p>Grâce à des mouvements lents et continus, sans à-coups ni impact sur les articulations, le tai-chi
-            chuan développe un ancrage fort dans le sol qui améliore l'équilibre et la stabilité, tout en affinant
-            la coordination entre le geste, la respiration et la concentration. Accessible à tout âge, y compris
-            aux personnes peu habituées à l'activité physique, il contribue à la prévention des chutes, en
-            particulier chez les personnes âgées, tout en renforçant les muscles en douceur, sans contrainte pour
-            les articulations. La lenteur du geste et la concentration qu'il demande apaisent également le mental
-            et affinent la conscience du corps dans l'espace.</p>
-          <div class="dm-inline-img">
-            <picture>
-              <source srcset="assets/img/disciplines/discipline-taichi-aujourdhui.webp" type="image/webp">
-              <img src="assets/img/disciplines/discipline-taichi-aujourdhui.jpg" alt="Pratiquante en mouvement fluide face à la mer"
-                loading="lazy">
-            </picture>
-          </div>
-          <p class="dm-note">Comme chaque pratique proposée chez Zenway, le tai-chi chuan s'inscrit en complément
-            d'un suivi médical, jamais en remplacement.</p>
-        </div>
-      </div>
-
-      <div class="discipline-modal" data-discipline="yoga" role="dialog" aria-modal="true" aria-labelledby="dmTitleYoga"
-        hidden>
-        <div class="dm-hero">
-          <picture>
-            <source srcset="assets/img/disciplines/discipline-yoga-hero.webp" type="image/webp">
-            <img src="assets/img/disciplines/discipline-yoga-hero.jpg"
-              alt="Pratiquante en posture de yoga dans un intérieur lumineux entouré de plantes" width="1440"
-              height="803" loading="lazy">
-          </picture>
-          <h3 class="dm-title" id="dmTitleYoga">Yoga</h3>
-        </div>
-        <div class="dm-body">
-          <h4>D'où vient le yoga ?</h4>
-          <p>Le yoga trouve ses origines en Inde, où ses fondements remontent à plusieurs millénaires, notamment à
-            travers les textes du Yoga Sutra de Patanjali. Bien plus qu'une pratique physique, le yoga traditionnel
-            associe posture, respiration et méditation dans une même quête d'unité entre le corps et l'esprit — le
-            mot « yoga » signifiant littéralement « relier ». Il est aujourd'hui l'une des pratiques corps-esprit
-            les plus répandues au monde, présente dans la quasi-totalité des pays et célébrée chaque 21 juin à
-            l'occasion d'une journée internationale qui lui est dédiée. De nombreuses écoles se sont développées au
-            fil du temps, comme le hatha, le vinyasa ou le yin, chacune mettant l'accent sur un aspect différent :
-            le mouvement, la respiration ou l'immobilité.</p>
-          <div class="dm-inline-img">
-            <picture>
-              <source srcset="assets/img/disciplines/discipline-yoga-origines.webp" type="image/webp">
-              <img src="assets/img/disciplines/discipline-yoga-origines.jpg"
-                alt="Pratiquante en posture de yoga au sol, intérieur épuré" loading="lazy">
-            </picture>
-          </div>
-          <h4>Quels bienfaits en attendre ?</h4>
-          <p>Le yoga repose sur un travail approfondi de la respiration consciente au cœur de chaque posture, avec
-            une grande variété de mouvements, statiques ou dynamiques, adaptables à tous les niveaux. Sa dimension
-            méditative invite au retour au calme intérieur, tout en conjuguant aussi bien souplesse que force.
-            Pratiqué régulièrement, il améliore la souplesse et la mobilité articulaire, renforce les muscles en
-            profondeur et favorise une tonicité générale. Le travail respiratoire et la pleine conscience qu'il
-            demande contribuent également à réduire le stress, à améliorer la qualité du sommeil et à apaiser le
-            système nerveux.</p>
-          <div class="dm-inline-img">
-            <picture>
-              <source srcset="assets/img/disciplines/discipline-yoga-aujourdhui.webp" type="image/webp">
-              <img src="assets/img/disciplines/discipline-yoga-aujourdhui.jpg"
-                alt="Pratiquante en posture de yoga dans un parc, lumière naturelle" loading="lazy">
-            </picture>
-          </div>
-          <p class="dm-note">Comme chaque pratique proposée chez Zenway, le yoga s'inscrit en complément d'un suivi
-            médical, jamais en remplacement.</p>
-        </div>
-      </div>
-
-      <div class="discipline-modal" data-discipline="pilates" role="dialog" aria-modal="true"
-        aria-labelledby="dmTitlePilates" hidden>
-        <div class="dm-hero">
-          <picture>
-            <source srcset="assets/img/disciplines/discipline-pilates-hero.webp" type="image/webp">
-            <img src="assets/img/disciplines/discipline-pilates-hero.jpg"
-              alt="Pratiquante au sol en exercice de Pilates, intérieur épuré" width="1440" height="803"
-              loading="lazy">
-          </picture>
-          <h3 class="dm-title" id="dmTitlePilates">Pilates</h3>
-        </div>
-        <div class="dm-body">
-          <h4>D'où vient le Pilates ?</h4>
-          <p>Le Pilates doit son nom à Joseph Pilates, qui a développé sa méthode au début du XXe siècle. Passionné
-            de gymnastique et de préparation physique, il conçoit un système d'exercices centré sur le renforcement
-            profond des muscles posturaux, qu'il nomme lui-même la « contrologie », le contrôle du corps par
-            l'esprit. Sa méthode s'installe ensuite à New York, où elle séduit rapidement danseurs et athlètes
-            soucieux de préserver leur corps. Elle s'est largement démocratisée depuis les années 1990, portée
-            notamment par le monde de la danse et de la rééducation, et se pratique aujourd'hui partout dans le
-            monde, sur tapis ou sur machines spécialisées comme le reformer ou le cadillac, fréquemment recommandée
-            en complément d'un suivi kinésithérapique pour renforcer le dos et la posture.</p>
-          <div class="dm-inline-img">
-            <picture>
-              <source srcset="assets/img/disciplines/discipline-pilates-origines.webp" type="image/webp">
-              <img src="assets/img/disciplines/discipline-pilates-origines.jpg"
-                alt="Pratiquantes en étirement au sol, mouvement précis et contrôlé" loading="lazy">
-            </picture>
-          </div>
-          <h4>Quels bienfaits en attendre ?</h4>
-          <p>Le Pilates centre le travail sur le « centre » du corps — la sangle abdominale profonde, le dos et le
-            bassin — à travers des mouvements précis et contrôlés, réalisés en pleine conscience et avec une
-            attention constante portée à l'alignement et à la posture. Chaque exercice s'accompagne d'une
-            respiration spécifique qui en accentue les effets. Pratiqué régulièrement, il renforce en profondeur la
-            sangle abdominale et les muscles stabilisateurs, améliore la posture et soulage les tensions dorsales,
-            tout en développant un meilleur gainage sans prise de volume musculaire excessive. Il affine également
-            la coordination et la précision du mouvement, pour un dos plus solide au quotidien.</p>
-          <div class="dm-inline-img">
-            <picture>
-              <source srcset="assets/img/disciplines/discipline-pilates-aujourdhui.webp" type="image/webp">
-              <img src="assets/img/disciplines/discipline-pilates-aujourdhui.jpg"
-                alt="Duo pratiquant un exercice de Pilates avec ballon lesté" loading="lazy">
-            </picture>
-          </div>
-          <p class="dm-note">Comme chaque pratique proposée chez Zenway, le pilates s'inscrit en complément d'un
-            suivi médical, jamais en remplacement.</p>
-        </div>
-      </div>
-
-      <div class="discipline-modal" data-discipline="qigong" role="dialog" aria-modal="true"
-        aria-labelledby="dmTitleQigong" hidden>
-        <div class="dm-hero">
-          <picture>
-            <source srcset="assets/img/disciplines/discipline-qigong-hero.webp" type="image/webp">
-            <img src="assets/img/disciplines/discipline-qigong-hero.jpg"
-              alt="Pratiquante de Qi gong dans un jardin japonais paisible" width="1440" height="803"
-              loading="lazy">
-          </picture>
-          <h3 class="dm-title" id="dmTitleQigong">Qi gong</h3>
-        </div>
-        <div class="dm-body">
-          <h4>D'où vient le Qi gong ?</h4>
-          <p>Le qi gong, littéralement « travail de l'énergie », est une pratique chinoise ancestrale, étroitement
-            liée à la médecine traditionnelle chinoise et au taoïsme. Depuis des siècles, il associe mouvements
-            lents, respiration et visualisation dans le but de cultiver et faire circuler le qi, l'énergie vitale, à
-            travers le corps. Il est pratiqué chaque matin par de nombreuses personnes en Chine, dans les parcs et
-            jardins publics, et s'est diffusé en Occident notamment à travers les milieux de la santé et du
-            bien-être, où il est de plus en plus proposé en complément d'autres approches, pour son effet apaisant
-            et sa grande douceur.</p>
-          <div class="dm-inline-img">
-            <picture>
-              <source srcset="assets/img/disciplines/discipline-qigong-origines.webp" type="image/webp">
-              <img src="assets/img/disciplines/discipline-qigong-origines.jpg"
-                alt="Pratiquant en posture ample face à la mer, geste inspiré de la nature" loading="lazy">
-            </picture>
-          </div>
-          <h4>Quels bienfaits en attendre ?</h4>
-          <p>Basé essentiellement sur le souffle et la circulation de l'énergie, le qi gong se compose de mouvements
-            très doux, souvent inspirés de la nature comme l'oiseau, la grue ou l'arbre, portés par une dimension
-            méditative proche de la pleine conscience en mouvement. Cette douceur le rend accessible même en cas de
-            mobilité réduite. Pratiqué régulièrement, il soutient le système immunitaire et la vitalité générale,
-            apaise en profondeur le système nerveux et réduit le stress, tout en améliorant la capacité
-            respiratoire et en procurant un sentiment durable de calme et de recentrage après chaque séance.</p>
-          <div class="dm-inline-img">
-            <picture>
-              <source srcset="assets/img/disciplines/discipline-qigong-aujourdhui.webp" type="image/webp">
-              <img src="assets/img/disciplines/discipline-qigong-aujourdhui.jpg"
-                alt="Pratiquante dans un intérieur épuré, ambiance bien-être contemporaine" loading="lazy">
-            </picture>
-          </div>
-          <p class="dm-note">Comme chaque pratique proposée chez Zenway, le qi gong s'inscrit en complément d'un
-            suivi médical, jamais en remplacement.</p>
-        </div>
-      </div>
-    </div>
 
     <!-- ============ PLANNING ============ -->
     <section class="planning" id="planning">
-      <div class="wrap">
-        <div class="sec-head reveal">
-          <p class="eyebrow">Planning</p>
-          <h2>Les séances Zenway</h2>
-          <p>Une seule séance hebdomadaire, qui réunit toujours les quatre pratiques. Retrouvez ici les jours et
-            horaires
-            au KMCS.</p>
+      <div class="wrap planning-grid">
+        <div class="planning-copy">
+          <h2>La séance</h2>
+          <p>Une seule séance hebdomadaire, qui réunit toujours les quatre pratiques, au KMCS.</p>
+          <p class="gold-note">Premier cours d'essai offert, avant toute inscription.</p>
+          <a href="https://maps.app.goo.gl/YJDeT1Dd7B6R1KkK9" target="_blank" rel="noopener" class="btn btn-line">Voir
+            le lieu</a>
         </div>
-        <div class="schedule-list" id="scheduleList"><!-- généré par le script en bas de page --></div>
-        <div class="schedule-cta reveal">
-          <a href="https://maps.app.goo.gl/YJDeT1Dd7B6R1KkK9" target="_blank" rel="noopener"
-            class="btn btn-ghost btn-ghost-light">Voir le lieu</a>
+        <div id="scheduleList"><!-- généré par assets/js/config-planning.js -->
+          <div class="sheet slot">
+            <p class="slot-day">Mardi</p>
+            <p class="slot-time">17 h 45 — 18 h 45</p>
+            <p class="slot-label">Séance Zenway · tous niveaux</p>
+            <p class="slot-place">KMCS, 357 chemin des Iscles, Saint-Laurent-du-Var</p>
+            <p class="slot-start">Début des cours le mardi 8 septembre</p>
+          </div>
         </div>
-        <p class="schedule-note reveal">Premier cours d'essai offert, avant toute inscription.</p>
       </div>
     </section>
 
     <!-- ============ POUR QUI ============ -->
-    <section class="pourqui" id="pourqui">
-      <div class="leaf-bg">
-        <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-          <path d="M24 44C24 26 24 14 24 4c8 8 10 22 0 38Z" fill="#fff" />
-        </svg>
-      </div>
-      <div class="wrap pourqui-grid">
-        <div class="reveal">
-          <p class="eyebrow">Recommandé par les professionnels de santé</p>
-          <h2>Accessible à tous,<br><em>à tout âge.</em></h2>
-          <p>Les bienfaits de Zenway sont reconnus par des kinésithérapeutes et des médecins comme une approche efficace
-            pour prendre soin de son corps — sans prérequis, et en respectant le rythme de chacun.</p>
-          <p style="margin-top:14px">Une démarche tournée vers la <b style="color:#fff">prévention</b> et l'<b
-              style="color:#fff">autonomie</b>, en complément naturel d'un suivi de santé.</p>
-        </div>
-        <div class="benefits reveal d2">
-          <div class="benefit">
-            <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.4" aria-hidden="true" focusable="false">
-                <path d="M12 21s-7-4.5-9-9a5 5 0 019-3 5 5 0 019 3c-2 4.5-9 9-9 9z" />
-              </svg></div>
-            <h3>Bien-être global</h3>
-            <p>Détente du corps et apaisement de l'esprit à chaque séance.</p>
+    <section class="lifted" id="pourqui">
+      <div class="wrap sheet sheet-wide">
+        <h2>Accessible à tous,<br>à tout âge.</h2>
+        <div class="pourqui-grid">
+          <div>
+            <p>Les bienfaits de Zenway sont reconnus par des kinésithérapeutes et des médecins comme une approche
+              efficace pour prendre soin de son corps — sans prérequis, et en respectant le rythme de chacun.</p>
+            <p>Une démarche tournée vers la <b>prévention</b> et l'<b>autonomie</b>, en complément naturel d'un suivi
+              de santé, jamais en remplacement.</p>
+            <figure class="bea">
+              <img src="assets/img/bea/bea-posture-005.png" width="701" height="1036" loading="lazy"
+                alt="Béatrice Viallon en posture Zenway, bras levés, en extérieur">
+              <figcaption>Béatrice Viallon, animatrice de la section</figcaption>
+            </figure>
           </div>
-          <div class="benefit">
-            <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.4" aria-hidden="true" focusable="false">
-                <path d="M12 2v4m0 12v4m10-10h-4M6 12H2" />
-                <circle cx="12" cy="12" r="4" />
-              </svg></div>
-            <h3>Équilibre &amp; posture</h3>
-            <p>Coordination, gainage et prévention des chutes.</p>
-          </div>
-          <div class="benefit">
-            <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.4" aria-hidden="true" focusable="false">
-                <path d="M3 12c4-6 14-6 18 0-4 6-14 6-18 0z" />
-                <circle cx="12" cy="12" r="2.5" />
-              </svg></div>
-            <h3>Gestion du stress</h3>
-            <p>La respiration et la musique relaxante recentrent le mental.</p>
-          </div>
-          <div class="benefit">
-            <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.4" aria-hidden="true" focusable="false">
-                <path d="M20 6L9 17l-5-5" />
-              </svg></div>
-            <h3>Sans prérequis</h3>
-            <p>Débutant ou pratiquant, chacun avance à son rythme.</p>
-          </div>
+          <dl class="gains">
+            <div>
+              <dt>Bien-être global</dt>
+              <dd>Détente du corps et apaisement de l'esprit à chaque séance.</dd>
+            </div>
+            <div>
+              <dt>Équilibre &amp; posture</dt>
+              <dd>Coordination, gainage et prévention des chutes.</dd>
+            </div>
+            <div>
+              <dt>Gestion du stress</dt>
+              <dd>La respiration et la musique relaxante recentrent le mental.</dd>
+            </div>
+            <div>
+              <dt>Sans prérequis</dt>
+              <dd>Débutant ou pratiquant confirmé, chacun avance à son rythme.</dd>
+            </div>
+          </dl>
         </div>
       </div>
     </section>
@@ -737,227 +629,113 @@
     <!-- ============ VIDÉOS ============ -->
     <section class="videos" id="videos">
       <div class="wrap">
-        <div class="sec-head reveal">
-          <p class="eyebrow">Sur YouTube</p>
-          <h2>Voir Zenway en mouvement</h2>
-          <p>Présentations, démonstrations et moments capturés lors de nos séances et événements.</p>
-        </div>
-        <div class="videos-grid" id="videosGrid"><!-- généré par le script en bas de page --></div>
-        <div class="videos-foot reveal">
-          <a class="btn btn-yt" id="ytChannelLink" href="#" target="_blank" rel="noopener">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-              <path
-                d="M22 12s0-3-.4-4.4a2.6 2.6 0 00-1.8-1.8C18.4 5.4 12 5.4 12 5.4s-6.4 0-7.8.4A2.6 2.6 0 002.4 7.6C2 9 2 12 2 12s0 3 .4 4.4a2.6 2.6 0 001.8 1.8c1.4.4 7.8.4 7.8.4s6.4 0 7.8-.4a2.6 2.6 0 001.8-1.8C22 15 22 12 22 12zm-12 3V9l5 3-5 3z" />
-            </svg>
-            Voir toute la chaîne
+        <h2>Zenway en mouvement</h2>
+        <p class="videos-intro">Présentations, démonstrations et moments capturés lors de nos séances et événements.</p>
+        <div class="videos-row">
+          <a class="vcard" id="mainVideoCard" href="https://www.facebook.com/reel/380948047631379" target="_blank" rel="noopener">
+            <img src="assets/img/video/hero-poster.jpg" loading="lazy" alt="">
+            <span class="vplay" aria-hidden="true"></span>
+            <span class="vlab">La séance en vidéo : présentation Zenway</span>
           </a>
+          <div class="vaside">
+            <p>La chaîne YouTube de Béatrice réunit les replays des portes ouvertes et les démonstrations de
+              l'enchaînement complet.</p>
+            <a class="btn btn-line" id="ytChannelLink" href="https://www.youtube.com/@beatricemeunier-r2m" target="_blank"
+              rel="noopener">Voir toute la chaîne</a>
+          </div>
         </div>
+        <div class="videos-gallery" id="videosGrid"><!-- généré par assets/js/config-videos.js --></div>
       </div>
     </section>
 
-    <!-- ============ ÉVÉNEMENTS À VENIR ============ -->
-    <section class="event" id="evenements">
-      <div class="wrap">
-        <div class="inner inner-empty reveal">
-          <div class="leaf-bg">
-            <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-              <path d="M24 44C24 30 16 22 6 18c0 14 8 22 18 26Z" fill="#fff" />
-            </svg>
-          </div>
-          <span class="tag">Événements</span>
-          <h2>Aucun événement prévu<br><span class="g">pour le moment</span></h2>
-          <p class="sub">Revenez bientôt pour découvrir nos prochaines portes ouvertes et rencontres. En attendant,
-            profitez de votre premier cours d'essai offert.</p>
-          <div class="actions" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
-            <a href="#inscription" class="btn btn-primary">S'inscrire</a>
-            <a href="#infos" class="btn btn-ghost">Comment venir</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ INSCRIPTION (HelloAsso) ============ -->
-    <section class="inscription-form" id="inscription">
-      <div class="wrap insc-grid insc-solo">
-        <div class="insc-left reveal">
-          <p class="eyebrow">Inscription en ligne</p>
+    <!-- ============ INSCRIPTION ============ -->
+    <section class="lifted" id="inscription">
+      <div class="wrap insc-grid">
+        <div class="sheet">
+        <!-- Une pierre seule à cheval sur l'arête de la carte d'adhésion. -->
+        <svg class="galet galet-inscription" viewBox="0 0 100 78" aria-hidden="true">
+          <linearGradient id="traitPierre" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="78">
+            <stop offset="0.5" style="stop-color: var(--mint);" />
+            <stop offset="0.5" style="stop-color: var(--green-700);" />
+          </linearGradient>
+          <path vector-effect="non-scaling-stroke" stroke="url(#traitPierre)" d="M7,42 C6,25 24,11 48,10 C72,9 92,21 93,38 C94,55 76,68 52,69 C31,70 13,60 8,47 C13,53 22,58 34,59 C30,53 29,46 32,39" />
+        </svg>
           <h2>Rejoindre Zenway<br>Saint-Laurent-du-Var</h2>
-          <p>Votre adhésion et le règlement se font en quelques minutes, en ligne, via <strong>HelloAsso</strong> — la
-            plateforme
-            des associations françaises.</p>
-
-          <div class="insc-steps">
-            <div class="insc-step">
-              <span class="n">1</span>
-              <span class="lab">Ouvrez le formulaire HelloAsso</span>
-            </div>
-            <div class="insc-step">
-              <span class="n">2</span>
-              <span class="lab">Choisissez votre formule &amp; vos coordonnées</span>
-            </div>
-            <div class="insc-step">
-              <span class="n">3</span>
-              <span class="lab">Réglez en sécurité, reçu immédiat par e-mail</span>
-            </div>
-          </div>
-
-          <ul class="insc-points">
-            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-                aria-hidden="true" focusable="false">
-                <path d="M20 6L9 17l-5-5" />
-              </svg>Premier cours d'essai offert, avant toute inscription</li>
-            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-                aria-hidden="true" focusable="false">
-                <path d="M20 6L9 17l-5-5" />
-              </svg>Paiement sécurisé par carte bancaire</li>
-            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-                aria-hidden="true" focusable="false">
-                <path d="M20 6L9 17l-5-5" />
-              </svg>0 € de frais pour l'association</li>
+          <p>Votre adhésion et le règlement se font en quelques minutes, en ligne, via <b>HelloAsso</b>, la
+            plateforme des associations françaises.</p>
+          <ol class="steps">
+            <li>Ouvrez le formulaire HelloAsso</li>
+            <li>Choisissez votre formule et renseignez vos coordonnées</li>
+            <li>Réglez en sécurité, reçu immédiat par e-mail</li>
+          </ol>
+          <ul class="points">
+            <li>Premier cours d'essai offert, avant toute inscription</li>
+            <li>Paiement sécurisé par carte bancaire</li>
+            <li>0 € de frais pour l'association</li>
           </ul>
-
-          <a class="btn-ha" data-helloasso-link target="_blank" rel="noopener" href="#">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
-              aria-hidden="true" focusable="false">
-              <path d="M5 12h14M13 6l6 6-6 6" />
-            </svg>
-            S'inscrire sur HelloAsso
-          </a>
-
-          <p class="ha-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="1.6" aria-hidden="true" focusable="false">
-              <rect x="5" y="11" width="14" height="9" rx="2" />
-              <path d="M8 11V8a4 4 0 018 0v3" />
-            </svg>Connexion sécurisée — vous restez maître de vos données.</p>
+          <a class="btn btn-gold btn-big" id="haOnlineBtn" data-helloasso-link target="_blank" rel="noopener"
+            href="#" style="display:none">S'inscrire sur HelloAsso</a>
+          <a class="btn btn-gold btn-big" id="haFallbackBtn" href="tel:+33666056649">Appelez-nous pour vous
+            inscrire</a>
+          <p class="secure" id="haOnlineNote" style="display:none">Connexion sécurisée, vous restez maître de vos
+            données.</p>
+          <p class="secure" id="haFallbackNote">Inscription en ligne bientôt disponible — contactez-nous en
+            attendant, par téléphone ou <a href="mailto:contact@zenwaysaintlaurentduvar.fr">e-mail</a>.</p>
         </div>
-
-        <!--
-      ────────────────────────────────────────────────────────────────────────
-      WIDGET HELLOASSO — désactivé tant que le formulaire d'adhésion n'est
-      pas créé côté HelloAsso. Pour réactiver :
-        1. Crée le formulaire d'adhésion sur HelloAsso, renseigne org/campaign
-           et passe ready: true dans assets/js/config-helloasso.js.
-        2. Décommente le bloc ci-dessous et retire la classe "insc-solo"
-           du conteneur .insc-grid plus haut.
-      ────────────────────────────────────────────────────────────────────────
-
-      <div class="insc-widget reveal d2">
-        <div class="wtop">
-          <span class="t"><svg class="lock" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="1.7">
-              <rect x="5" y="11" width="14" height="9" rx="2" />
-              <path d="M8 11V8a4 4 0 018 0v3" />
-            </svg>Adhésion · Zenway Saint-Laurent-du-Var</span>
-          <a class="ext" data-helloasso-link target="_blank" rel="noopener" href="#">Ouvrir ↗</a>
-        </div>
-        <iframe id="haWidget" title="Formulaire d'adhésion HelloAsso" loading="lazy" style="display:none"></iframe>
-        <div class="ha-placeholder" id="haPlaceholder">
-          <div class="ha-logo">HelloAsso</div>
-          <h4>Formulaire à brancher</h4>
-          <p>Renseigne le slug de l'association et de la campagne dans <code>HELLOASSO</code> en haut du script, puis
-            passe <code>ready: true</code>.</p>
-          <a class="btn btn-primary" data-helloasso-link target="_blank" rel="noopener" href="#"
-            style="color:var(--green-900)">Aperçu du lien d'inscription ↗</a>
-        </div>
-      </div>
-      -->
+        <aside class="event">
+          <p class="event-tag">Événements</p>
+          <h3>Aucun événement prévu pour le moment</h3>
+          <p>Revenez bientôt pour découvrir nos prochaines portes ouvertes et rencontres. En attendant, profitez de
+            votre premier cours d'essai offert.</p>
+          <a href="#infos" class="btn btn-line">Comment venir</a>
+        </aside>
       </div>
     </section>
 
     <!-- ============ INFOS PRATIQUES ============ -->
     <section class="infos" id="infos">
       <div class="wrap">
-        <div class="sec-head reveal" style="margin-bottom:44px">
-          <p class="eyebrow">Nous rejoindre</p>
-          <h2>Infos pratiques</h2>
-        </div>
+        <h2>Infos pratiques</h2>
         <div class="infos-grid">
-          <div class="info-card reveal">
-            <h3>Contact &amp; lieu</h3>
-            <div class="info-row">
-              <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="1.5" aria-hidden="true" focusable="false">
-                  <path d="M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11z" />
-                  <circle cx="12" cy="10" r="2.5" />
-                </svg></div>
-              <div>
-                <div class="k">Lieu</div>
-                <div class="v"><a href="https://maps.app.goo.gl/YJDeT1Dd7B6R1KkK9" target="_blank" rel="noopener">KMCS —
-                    357 chemin des Iscles<br>06700 Saint-Laurent-du-Var</a></div>
-              </div>
+          <dl class="info-list">
+            <div>
+              <dt>Lieu</dt>
+              <dd><a href="https://maps.app.goo.gl/YJDeT1Dd7B6R1KkK9" target="_blank" rel="noopener">KMCS, 357 chemin
+                  des Iscles<br>06700 Saint-Laurent-du-Var</a></dd>
             </div>
-            <div class="info-row">
-              <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="1.5" aria-hidden="true" focusable="false">
-                  <rect x="4" y="4" width="16" height="16" rx="3" />
-                  <path d="M9.5 16V8h2.8a2.6 2.6 0 010 5.2H9.5" />
-                </svg></div>
-              <div>
-                <div class="k">Parking</div>
-                <div class="v">Stationnement gratuit sur place</div>
-              </div>
+            <div>
+              <dt>Parking</dt>
+              <dd>Stationnement gratuit sur place</dd>
             </div>
-            <div class="info-row">
-              <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="1.5" aria-hidden="true" focusable="false">
-                  <path d="M5 4h4l2 5-3 2a11 11 0 005 5l2-3 5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" />
-                </svg></div>
-              <div>
-                <div class="k">Téléphone</div>
-                <div class="v"><a href="tel:+33666056649">06 66 05 66 49</a></div>
-              </div>
+            <div>
+              <dt>Téléphone</dt>
+              <dd><a href="tel:+33666056649">06 66 05 66 49</a></dd>
             </div>
-            <div class="info-row">
-              <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="1.5" aria-hidden="true" focusable="false">
-                  <rect x="3" y="5" width="18" height="14" rx="2" />
-                  <path d="M3 7l9 6 9-6" />
-                </svg></div>
-              <div>
-                <div class="k">E-mail</div>
-                <div class="v"><a
-                    href="mailto:contact@zenwaysaintlaurentduvar.fr">contact@zenwaysaintlaurentduvar.fr</a></div>
-              </div>
+            <div>
+              <dt>E-mail</dt>
+              <dd><a href="mailto:contact@zenwaysaintlaurentduvar.fr">contact@zenwaysaintlaurentduvar.fr</a></dd>
             </div>
-            <div class="info-row">
-              <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="1.5" aria-hidden="true" focusable="false">
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M12 7v5l3 2" />
-                </svg></div>
-              <div>
-                <div class="k">Prochain rendez-vous</div>
-                <div class="v">Début des cours le mardi 8 septembre<br>17 h 45 – 18 h 45</div>
-                <a href="#evenements" class="info-row-link">Voir les événements à venir</a>
-              </div>
+            <div>
+              <dt>Prochain rendez-vous</dt>
+              <dd>Mardi 8 septembre, 17 h 45 – 18 h 45</dd>
             </div>
-          </div>
-
-          <div class="map-card reveal d2">
+          </dl>
+          <div class="map-card">
             <iframe title="Plan d'accès KMCS Saint-Laurent-du-Var" loading="lazy"
               referrerpolicy="strict-origin-when-cross-origin"
-              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1442.1935757497079!2d7.1841235!3d43.7025028!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12cdd11d1aa3c0a7%3A0x894ef048acd4af1f!2sKrav%20Maga%20Combat%20Self%20(KMCS)%20Saint%20Laurent%20du%20Var!5e0!3m2!1sfr!2sfr!4v1782476191519!5m2!1sfr!2sfr">
-            </iframe>
-            <div class="map-overlay">
-              <a href="https://www.google.com/maps/dir/?api=1&destination=43.7025028,7.1841235&travelmode=driving"
-                target="_blank" rel="noopener">Ouvrir l'itinéraire ↗</a>
-            </div>
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1442.1935757497079!2d7.1841235!3d43.7025028!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12cdd11d1aa3c0a7%3A0x894ef048acd4af1f!2sKrav%20Maga%20Combat%20Self%20(KMCS)%20Saint%20Laurent%20du%20Var!5e0!3m2!1sfr!2sfr!4v1782476191519!5m2!1sfr!2sfr"></iframe>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ CTA BAND ============ -->
-    <section class="cta-band">
+    <!-- ============ LEVÉE FINALE ============ -->
+    <section class="close">
       <div class="wrap">
-        <div class="reveal">
-          <h2>Envie d'essayer ?</h2>
-          <p>Contactez-nous pour une première séance d'essai offerte, sans engagement.</p>
-          <div class="actions">
-            <a href="#inscription" class="btn btn-primary">S'inscrire en ligne</a>
-            <a href="mailto:contact@zenwaysaintlaurentduvar.fr" class="btn btn-dark">Nous écrire</a>
-            <a href="tel:+33666056649" class="btn btn-dark">Appeler</a>
-          </div>
+        <p class="close-line">Venez partager un moment de détente &amp; de zénitude</p>
+        <div class="close-actions">
+          <a href="#inscription" class="btn btn-gold btn-big">S'inscrire en ligne</a>
+          <a href="tel:+33666056649" class="btn btn-line">Appeler</a>
         </div>
       </div>
     </section>
@@ -965,88 +743,53 @@
 
   <!-- ============ FOOTER ============ -->
   <footer>
-    <div class="wrap">
-      <div class="foot-grid">
-        <div>
-          <a href="#hero" class="logo" aria-label="Zenway Saint-Laurent-du-Var — retour en haut">
-            <picture>
-              <source srcset="assets/img/logo/logo-zenway.webp" type="image/webp">
-              <img src="assets/img/logo/logo-zenway.png" alt="Zenway" height="36" width="50" loading="lazy">
-            </picture>
-          </a>
-          <p class="about">Section de Saint-Laurent-du-Var. Tai-chi chuan, Yoga, Pilates &amp; Qi gong, sur une musique
-            relaxante.</p>
-          <div class="socials">
-            <a href="https://www.instagram.com/zenway06" target="_blank" rel="noopener" aria-label="Instagram"
-              title="@zenway06"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.6">
-                <rect x="3" y="3" width="18" height="18" rx="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-              </svg></a>
-            <a href="https://www.facebook.com/share/1NozThaYE1/?mibextid=wwXIfr" target="_blank" rel="noopener"
-              aria-label="Facebook" title="Zenway Saint-Laurent"><svg width="18" height="18" viewBox="0 0 24 24"
-                fill="currentColor">
-                <path d="M14 9h3V6h-3c-2 0-3 1-3 3v2H9v3h2v7h3v-7h2.5l.5-3H14V9z" />
-              </svg></a>
-            <a href="https://www.youtube.com/@beatricemeunier-r2m" target="_blank" rel="noopener"
-              aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M22 12s0-3-.4-4.4a2.6 2.6 0 00-1.8-1.8C18.4 5.4 12 5.4 12 5.4s-6.4 0-7.8.4A2.6 2.6 0 002.4 7.6C2 9 2 12 2 12s0 3 .4 4.4a2.6 2.6 0 001.8 1.8c1.4.4 7.8.4 7.8.4s6.4 0 7.8-.4a2.6 2.6 0 001.8-1.8C22 15 22 12 22 12zm-12 3V9l5 3-5 3z" />
-              </svg></a>
-          </div>
-        </div>
-        <div>
-          <h3>Naviguer</h3>
-          <ul>
-            <li><a href="#concept">Le concept</a></li>
-            <li><a href="#planning">Planning</a></li>
-            <li><a href="#pourqui">Pour qui</a></li>
-            <li><a href="#videos">Vidéos</a></li>
-            <li><a href="#evenements">Événements</a></li>
-            <li><a href="#inscription">S'inscrire</a></li>
-            <li><a href="#infos">Infos pratiques</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Contact</h3>
-          <ul>
-            <li><a href="tel:+33666056649">06 66 05 66 49</a></li>
-            <li><a href="mailto:contact@zenwaysaintlaurentduvar.fr">contact@zenwaysaintlaurentduvar.fr</a></li>
-            <li>KMCS · 357 chemin des Iscles</li>
-            <li>Saint-Laurent-du-Var (06)</li>
-            <li><a href="https://zenway-rh.fr" target="_blank" rel="noopener">Réseau national Zenway ↗</a></li>
-          </ul>
-        </div>
+    <div class="wrap foot-grid">
+      <div>
+        <img src="assets/img/logo/logo-zenway.png" alt="Zenway" height="36" width="50" loading="lazy">
+        <p>Section de Saint-Laurent-du-Var. Tai-chi chuan, Yoga, Pilates &amp; Qi gong, sur une musique relaxante.</p>
       </div>
-      <div class="foot-bottom">
-        <span>© 2026 Zenway Saint-Laurent-du-Var · Concept Zenway créé par Raymond Holle</span>
-        <span><a href="https://zenway-rh.fr" target="_blank" rel="noopener">zenway-rh.fr</a></span>
+      <nav aria-label="Pied de page">
+        <h3>Naviguer</h3>
+        <ul>
+          <li><a href="#concept">Le concept</a></li>
+          <li><a href="#pratiques">Les quatre pratiques</a></li>
+          <li><a href="#planning">Planning</a></li>
+          <li><a href="#pourqui">Pour qui</a></li>
+          <li><a href="#videos">Vidéos</a></li>
+          <li><a href="#infos">Infos pratiques</a></li>
+        </ul>
+      </nav>
+      <div>
+        <h3>Contact</h3>
+        <ul>
+          <li><a href="tel:+33666056649">06 66 05 66 49</a></li>
+          <li><a href="mailto:contact@zenwaysaintlaurentduvar.fr">contact@zenwaysaintlaurentduvar.fr</a></li>
+          <li>KMCS · 357 chemin des Iscles, Saint-Laurent-du-Var (06)</li>
+          <li><a href="https://zenway-rh.fr" target="_blank" rel="noopener">Réseau national Zenway</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Suivre</h3>
+        <ul>
+          <li><a href="https://www.instagram.com/zenway06" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.facebook.com/share/1NozThaYE1/?mibextid=wwXIfr" target="_blank"
+              rel="noopener">Facebook</a></li>
+          <li><a href="https://www.youtube.com/@beatricemeunier-r2m" target="_blank" rel="noopener">YouTube</a></li>
+        </ul>
       </div>
     </div>
-    <svg width="0" height="0" aria-hidden="true" focusable="false">
-      <defs>
-        <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#9fe3c8" />
-          <stop offset="1" stop-color="#2d6a4f" />
-        </linearGradient>
-      </defs>
-    </svg>
+    <div class="wrap foot-bottom">
+      <span>© 2026 Zenway Saint-Laurent-du-Var · Concept Zenway créé par Raymond Holle</span>
+      <span>zenway-rh.fr</span>
+    </div>
   </footer>
-
-  <!-- ============ RETOUR EN HAUT ============ -->
-  <a href="#hero" class="to-top" id="toTop" aria-label="Revenir en haut du site">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-      <path d="M12 19V5" />
-      <path d="M5 12l7-7 7 7" />
-    </svg>
-  </a>
 
   <script src="assets/js/config-helloasso.js"></script>
   <script src="assets/js/config-videos.js"></script>
   <script src="assets/js/config-planning.js"></script>
-  <script src="assets/js/config-disciplines.js"></script>
+  <script src="assets/js/hero-bath.js"></script>
+  <script src="assets/js/parallax.js"></script>
+  <script src="assets/js/practice-modals.js"></script>
   <script src="assets/js/nav-reveal.js"></script>
 </body>
 
