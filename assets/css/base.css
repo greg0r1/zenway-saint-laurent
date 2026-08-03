@@ -5,6 +5,8 @@
   --green-900: #1b4332;
   --green-800: #22543e;
   --green-700: #2d6a4f;
+  --green-950: #17392b; /* Profondeur du bain, second point du dégradé de fond */
+  --ink-overlay: 19, 48, 35; /* Voile sombre du hero (rgba(var(--ink-overlay), alpha)) */
   --teal: #2f8f7f;
   --teal-bright: #36a18c;
   --mint: #d8f3dc;
@@ -40,7 +42,7 @@ body {
   /* Le bain : jamais un aplat, toujours une profondeur d'eau épaissie */
   background:
     radial-gradient(120% 80% at 20% 0%, var(--green-800), transparent 60%),
-    radial-gradient(100% 70% at 85% 100%, #17392b, transparent 65%),
+    radial-gradient(100% 70% at 85% 100%, var(--green-950), transparent 65%),
     var(--green-900);
   background-attachment: fixed;
   color: var(--mint-soft);

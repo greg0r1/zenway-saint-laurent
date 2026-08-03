@@ -18,12 +18,16 @@
   const ctx = canvas.getContext('2d');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Les quatre pigments, dans l'ordre de l'enchaînement Zenway
+  // Les quatre pigments, dans l'ordre de l'enchaînement Zenway — les
+  // couleurs sont lues depuis les variables CSS (mêmes tons que les
+  // pastilles .c1-.c4 de la légende) pour rester la seule source de vérité.
+  const rootStyle = getComputedStyle(document.documentElement);
+  const cssColor = (name, fallback) => (rootStyle.getPropertyValue(name).trim() || fallback);
   const PIGMENTS = [
-    { name: 'Tai-chi chuan', color: '#2f8f7f' },
-    { name: 'Yoga', color: '#d8f3dc' },
-    { name: 'Pilates', color: '#36a18c' },
-    { name: 'Qi gong', color: '#c9a86a' }
+    { name: 'Tai-chi chuan', color: cssColor('--teal', '#2f8f7f') },
+    { name: 'Yoga', color: cssColor('--mint', '#d8f3dc') },
+    { name: 'Pilates', color: cssColor('--teal-bright', '#36a18c') },
+    { name: 'Qi gong', color: cssColor('--gold', '#c9a86a') }
   ];
 
   const POINTS = 160;

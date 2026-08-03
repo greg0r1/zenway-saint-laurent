@@ -13,6 +13,7 @@
     if (!modal) return;
 
     btn.addEventListener('click', () => {
+      document.body.style.overflow = 'hidden';
       modal.showModal();
     });
 
@@ -25,6 +26,7 @@
     });
 
     modal.addEventListener('close', () => {
+      document.body.style.overflow = '';
       btn.focus();
     });
   });
