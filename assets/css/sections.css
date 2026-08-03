@@ -219,6 +219,12 @@ h2 {
   margin-bottom: 26px;
 }
 
+#scheduleList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .slot {
   padding: 44px 48px;
 }

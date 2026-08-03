@@ -185,6 +185,7 @@
   let settle = null;
   let start = 0;
   let done = false;
+  let started = false;
 
   function finish() {
     if (raf) { cancelAnimationFrame(raf); raf = null; }
@@ -206,6 +207,7 @@
   function play() {
     if (raf) cancelAnimationFrame(raf);
     clearTimeout(settle);
+    started = true;
     done = false;
     if (reduced) { finish(); return; }
     start = performance.now();
@@ -228,7 +230,10 @@
   // qui se verrait comme un bain qui se reforme en plein scroll.
   function reset() {
     if (!size()) return false;
-    if (done) { build(1); paint(); } else { play(); }
+    if (done) { build(1); paint(); }
+    else if (!started) { play(); }
+    // sinon : la séquence est déjà en cours — le redimensionnement est
+    // pris en compte par size(), la frame en vol continue sans relancer.
     return true;
   }
 

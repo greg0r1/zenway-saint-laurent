@@ -20,8 +20,10 @@ const HELLOASSO = {
   if (HELLOASSO.ready){
     const f = document.getElementById('haWidget');
     const ph = document.getElementById('haPlaceholder');
-    f.src = base + '/widget';
-    f.style.display = 'block';
-    if (ph) ph.style.display = 'none';
+    if (f){
+      f.src = base + '/widget';
+      f.style.display = 'block';
+      if (ph) ph.style.display = 'none';
+    }
   }
 })();
