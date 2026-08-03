@@ -1,26 +1,20 @@
 /* ============================================================
    CONFIG VIDÉOS — à adapter au fil des publications YouTube / Facebook
-   1. HERO_VIDEO_ID : la vidéo de teasing YouTube affichée en haut de page
-      (hero). Laisser vide ("") tant qu'aucun teaser YouTube n'est prêt.
-      HERO_VIDEO_FB_URL : alternative à HERO_VIDEO_ID — colle ici l'URL
-      complète d'une vidéo ou d'un Reel Facebook (ex: une publication de
-      la page Zenway). Si rempli, il prend le pas sur HERO_VIDEO_ID.
-   2. YT_CHANNEL_HANDLE / YT_API_KEY : la galerie "Vidéos" récupère
-      automatiquement les derniers uploads de la chaîne via l'API YouTube
-      Data v3. La clé API est restreinte par domaine référent dans Google
-      Cloud Console (Identifiants → clé → Restrictions relatives aux
-      applications) — c'est cette restriction qui la protège, pas le fait
-      qu'elle soit en dur ici (un site statique sans backend ne peut pas
-      la cacher du code source servi au navigateur).
-   3. YT_VIDEOS_COUNT : nombre de vidéos affichées dans la galerie.
-   4. HERO_VIDEO_POSTER : miniature affichée à la place de la vidéo tant
-      que le visiteur n'a pas cliqué (le lecteur Facebook pèse plusieurs
-      mégaoctets et retarde fortement l'affichage du hero s'il se charge
-      d'emblée). Chemin d'une image locale — une image externe serait
-      bloquée par la politique de sécurité (voir img-src dans vercel.json).
-      Laisser vide ("") affiche un visuel de repli aux couleurs Zenway.
+   1. HERO_VIDEO_FB_URL : URL complète d'une vidéo ou d'un Reel Facebook
+      (ex: une publication de la page Zenway) affichée dans la section
+      « Zenway en mouvement ». Laisser vide ("") pour masquer la carte.
+   2. HERO_VIDEO_POSTER : miniature affichée sur la carte vidéo. Chemin
+      d'une image locale — une image externe serait bloquée par la
+      politique de sécurité (voir img-src dans vercel.json).
+   3. YT_CHANNEL_HANDLE / YT_API_KEY : la galerie récupère automatiquement
+      les derniers uploads de la chaîne via l'API YouTube Data v3. La clé
+      API est restreinte par domaine référent dans Google Cloud Console
+      (Identifiants → clé → Restrictions relatives aux applications) —
+      c'est cette restriction qui la protège, pas le fait qu'elle soit en
+      dur ici (un site statique sans backend ne peut pas la cacher du
+      code source servi au navigateur).
+   4. YT_VIDEOS_COUNT : nombre de vidéos affichées dans la galerie.
    ============================================================ */
-const HERO_VIDEO_ID    = ""; // ex: "dQw4w9WgXcQ"
 const HERO_VIDEO_FB_URL = "https://www.facebook.com/reel/380948047631379";
 const HERO_VIDEO_POSTER = "assets/img/video/hero-poster.jpg";
 const YT_CHANNEL_HANDLE = "beatricemeunier-r2m";
@@ -32,65 +26,16 @@ function youtubeEmbed(id){
   return `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" title="Vidéo Zenway" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>`;
 }
 
-function facebookEmbed(url){
-  const src = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=0&mute=1`;
-  return `<iframe src="${src}" title="Vidéo Zenway" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>`;
-}
-
-// Miniature cliquable affichée avant le chargement du lecteur. Le libellé
-// n'apparaît que faute de poster, pour ne pas surcharger une vraie image.
-function facadeMarkup(withLabel){
-  return `<button type="button" class="vplay" aria-label="Lire la vidéo de présentation Zenway">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg>
-  </button>${withLabel ? '<span class="vfacade-lab">Voir la vidéo</span>' : ''}`;
-}
-
-function facebookFallbackLink(url){
-  return `<a class="vfallback" href="${url}" target="_blank" rel="noopener">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-    <span>Voir la vidéo sur Facebook</span>
-  </a>`;
-}
-
-// L'iframe du plugin vidéo Facebook ne se charge pas de façon fiable sur
-// Safari iOS (ITP bloque le stockage tiers nécessaire au lecteur). On y
-// affiche donc un lien direct vers la vidéo plutôt qu'un cadre vide.
-function isIosSafari(){
-  const ua = navigator.userAgent;
-  const isIos = /iPad|iPhone|iPod/.test(ua) || (ua.includes('Macintosh') && navigator.maxTouchPoints > 1);
-  const isSafari = /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS/.test(ua);
-  return isIos && isSafari;
-}
-
-(function setupHeroVideo(){
-  const wrap = document.getElementById('heroVideo');
-  if (!wrap || !(HERO_VIDEO_ID || HERO_VIDEO_FB_URL)) return;
-  const thumb = wrap.querySelector('.vthumb');
-
+(function setupMainVideoCard(){
+  const card = document.getElementById('mainVideoCard');
+  if (!card) return;
   if (HERO_VIDEO_FB_URL){
-    thumb.classList.add('vthumb-fb');
-    if (isIosSafari()){
-      thumb.classList.add('vthumb-fb-fallback');
-      thumb.innerHTML = facebookFallbackLink(HERO_VIDEO_FB_URL);
-      return;
-    }
-    // Façade : le lecteur Facebook pèse plusieurs mégaoctets et sature la
-    // bande passante avant même que le hero ne s'affiche. On ne montre
-    // d'abord qu'une miniature, l'iframe n'est insérée qu'au clic.
-    thumb.classList.add('vthumb-facade');
-    if (HERO_VIDEO_POSTER) thumb.style.backgroundImage = `url(${HERO_VIDEO_POSTER})`;
-    thumb.innerHTML = facadeMarkup(!HERO_VIDEO_POSTER);
-    thumb.addEventListener('click', () => {
-      thumb.classList.remove('vthumb-facade');
-      thumb.style.backgroundImage = '';
-      thumb.innerHTML = facebookEmbed(HERO_VIDEO_FB_URL);
-    }, { once: true });
-    return;
+    card.href = HERO_VIDEO_FB_URL;
+    const img = card.querySelector('img');
+    if (img && HERO_VIDEO_POSTER) img.src = HERO_VIDEO_POSTER;
+  } else {
+    card.style.display = 'none';
   }
-
-  thumb.style.backgroundImage = `url(https://img.youtube.com/vi/${HERO_VIDEO_ID}/hqdefault.jpg)`;
-  thumb.innerHTML = '<button class="vplay" aria-label="Lire le teaser"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>';
-  thumb.addEventListener('click', () => { thumb.innerHTML = youtubeEmbed(HERO_VIDEO_ID); }, { once: true });
 })();
 
 function renderVideosGrid(grid, videos){
@@ -100,11 +45,11 @@ function renderVideosGrid(grid, videos){
   }
 
   grid.innerHTML = videos.map(v => `
-    <article class="vcard">
+    <article class="vgrid-card">
       <div class="vthumb" style="background-image:url(https://img.youtube.com/vi/${v.id}/hqdefault.jpg)" data-id="${v.id}">
-        <button class="vplay" aria-label="Lire la vidéo"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+        <button class="vplay" aria-label="Lire la vidéo"></button>
       </div>
-      <div class="vmeta"><h3>${v.title}</h3><p>${v.desc}</p></div>
+      <div class="vgrid-meta"><h3>${v.title}</h3><p>${v.desc}</p></div>
     </article>
   `).join('');
 

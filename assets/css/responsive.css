@@ -1,211 +1,295 @@
 /* ============================================================
-   RESPONSIVE — media queries (charge en dernier)
+   RESPONSIVE — media queries (chargé en dernier)
    ============================================================ */
-@media (max-width: 980px) {
-  .hero-grid,
-  .concept-grid,
-  .pourqui-grid,
-  .infos-grid,
-  .insc-grid {
-    grid-template-columns: 1fr;
-  }
-  .cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .hero {
-    flex-direction: column;
-    justify-content: flex-start;
-    min-height: auto;
-    padding: 104px 0 28px;
-  }
-  .hero-right {
-    display: none;
-  }
-  .hero-left {
-    width: 100%;
-  }
-  .hero .h-eyebrow {
-    margin-bottom: 18px;
-    font-size: 1.05rem;
-  }
-  .hero h1 {
-    margin-bottom: 8px;
-    font-size: clamp(2.9rem, 8vw, 3.6rem);
-  }
-  .hero .disc {
-    margin: 18px 0 8px;
-    font-size: 1.2rem;
-    max-width: none;
-    line-height: 1.5;
-  }
-  .hero .quote {
-    margin: 14px 0 22px;
-    font-size: 1.9rem;
-  }
-  .hero .trial-note {
-    margin: -14px 0 22px;
-    font-size: 1.05rem;
-  }
-  .hero .actions {
-    gap: 12px;
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .hero .actions .btn {
-    width: 100%;
-    justify-content: center;
-    padding: 19px 14px;
-    font-size: 1.05rem;
-  }
-  /* sur mobile : la photo de Béa est masquée, la vidéo occupe toute la largeur */
-  .hero-photo-bg {
-    display: none;
-  }
-  .hero-bottom-photo {
-    display: none;
-  }
-  .hero-bottom {
-    width: 100%;
-    margin-top: 22px;
-  }
-  .hero-video-badge {
-    position: relative;
-    width: 100%;
-    height: auto;
-    margin: 0;
-    aspect-ratio: 16/9;
-  }
-  .scroll-hint {
-    display: none;
-  }
-  .steps {
-    grid-template-columns: 1fr;
-  }
-  .videos-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-  .fusion-track {
-    display: none;
-  }
-  .inscription-cta {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .concept-visual {
-    order: -1;
-  }
-  .event .inner {
-    padding: 40px 30px;
-  }
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1080px) {
   .foot-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 40px 30px;
   }
 }
-@media (max-width: 680px) {
-  section[id] {
-    scroll-margin-top: 70px;
+
+@media (max-width: 980px) {
+  :root {
+    --gut: 20px;
   }
-  section[id]:not(.hero) {
-    min-height: 0;
+
+  section {
+    padding: 74px 0;
   }
-  header.nav .links {
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: 78%;
-    max-width: 320px;
-    background: var(--green-900);
+
+  .hero-grid,
+  .concept-head,
+  .planning-grid,
+  .pourqui-grid,
+  .videos-row,
+  .insc-grid,
+  .infos-grid {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
+  .sheet,
+  .sheet-wide {
+    padding: 40px 34px 44px;
+  }
+
+  .practice-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 34px 24px;
+  }
+
+  .videos-gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .modal-copy {
+    padding: 32px 32px 0;
+  }
+
+  .band-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .band-grid > div {
+    padding: 26px 24px 28px;
+  }
+
+  .band-grid > div:nth-child(2n) {
+    border-right: 0;
+    padding-right: 0;
+  }
+
+  .band-grid > div:nth-child(2n+1) {
+    padding-left: 0;
+  }
+
+  .band-grid > div:nth-child(-n+2) {
+    border-bottom: 1px solid rgba(231, 214, 173, 0.18);
+  }
+
+  /* Sur une colonne la paroi d'image quitte le flux absolu et devient
+     une bande pleine largeur PLACÉE SOUS LE TEXTE — l'ordre du DOM la
+     met avant, l'ordre visuel la remet après. Béatrice y reste entière,
+     posée sur la même ligne basse qu'au format large. */
+  .hero {
+    min-height: auto;
+    padding: 28px 0 0;
+    display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 26px;
-    transform: translateX(100%);
-    transition: transform 0.35s ease;
-    padding: 40px;
   }
-  header.nav .links.open {
-    transform: none;
+
+  .hero-grid {
+    order: 1;
   }
-  header.nav .links.no-transition {
-    transition: none;
+
+  .hero-copy {
+    max-width: none;
   }
-  header.nav .links a {
-    font-size: 1.05rem;
+
+  /* La paroi d'image rejoint le flux normal ici : .hero devient donc
+     bien plus haut que le seul bloc de texte. Le bain reste calé en
+     `%` de .hero (voir .bath) — sans plafond, son canvas explose à la
+     mesure de toute la section au lieu du seul texte qu'il éclaire,
+     ce qui pèse sur le rendu pendant le scroll. */
+  .bath {
+    top: -18vw;
+    bottom: auto;
+    height: 130vw;
   }
-  .burger {
-    display: block;
-    z-index: 60;
+
+  .hero-figure {
+    order: 2;
+    position: relative;
+    width: auto;
+    height: 112vw;
+    min-height: 420px;
+    max-height: 560px;
+    margin: 46px calc(var(--gut) * -1) 0;
   }
-  .logo-city {
+
+  .figure-photo {
+    inset: 0;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
+  }
+
+  /* Le dégradé devient vertical ici : il ne masque plus le second
+     pratiquant du cliché. C'est donc au cadrage seul de l'exclure. */
+  .figure-photo img {
+    transform: scale(1.5);
+  }
+
+  .figure-subject {
+    left: 0;
+    right: 0;
+    top: 6%;
+    bottom: 0;
+  }
+
+  .figure-shadow {
+    left: 22%;
+    right: 22%;
+    bottom: 6px;
+  }
+}
+
+@media (max-width: 680px) {
+  body {
+    font-size: 1.02rem;
+  }
+
+  /* Plein écran jusqu'au bas de la vitre, jamais une carte qui
+     s'arrête à mi-hauteur : sous elle, rien de la page ne doit
+     rester visible ni atteignable tant que le menu est ouvert. */
+  .links {
+    position: fixed;
+    inset: 72px 0 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--green-900);
+    border-bottom: 2px solid var(--gold);
+    padding: 8px 20px 24px;
+    overflow-y: auto;
     display: none;
   }
-  .cards {
+
+  .links.open {
+    display: flex;
+  }
+
+  .links a {
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(216, 243, 220, 0.14);
+    font-size: 1.02rem;
+  }
+
+  .links .cta {
+    margin-top: 14px;
+    text-align: center;
+    padding: 15px;
+  }
+
+  .burger {
+    display: flex;
+  }
+
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  .practice-grid {
     grid-template-columns: 1fr;
   }
-  .benefits {
+
+  .practice img {
+    height: 200px;
+  }
+
+  .band-grid {
     grid-template-columns: 1fr;
   }
-  .videos-grid {
+
+  .band-grid > div {
+    padding: 22px 0 24px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(231, 214, 173, 0.18);
+  }
+
+  .band-grid > div:last-child {
+    border-bottom: 0;
+  }
+
+  .detail-modal {
+    width: 94vw;
+    max-height: 90vh;
+  }
+
+  .modal-scroll {
+    max-height: 90vh;
+  }
+
+  .modal-figs {
     grid-template-columns: 1fr;
   }
-  .concept .stats {
-    gap: 24px;
+
+  .modal-figs img {
+    height: 200px;
   }
-  .fusion-note {
-    padding: 18px 18px;
-    margin-top: 26px;
+
+  .modal-copy {
+    padding: 28px 22px 0;
   }
-  .schedule-item {
-    flex-wrap: wrap;
-    gap: 14px;
+
+  .practices {
+    padding: 14px 16px 12px;
   }
-  .wrap {
-    padding: 0 18px;
-  }
-  .hero {
-    padding: 88px 0 18px;
-  }
-  .hero-bottom {
-    margin-top: 18px;
-  }
-  .hero h1 {
-    font-size: 2.5rem;
-  }
-  .hero .h-eyebrow {
+
+  /* Sous 680px les quatre noms passent en deux rangs égaux : les filets
+     de séparation ne traversent plus une ligne qui casse au hasard. */
+  .drops {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 11px;
     margin-bottom: 12px;
-    font-size: 0.95rem;
+    padding-bottom: 12px;
   }
-  .hero .disc {
-    font-size: 1.05rem;
-    margin: 12px 0 6px;
-    line-height: 1.46;
+
+  .drops li {
+    padding: 0 0 0 14px;
+    font-size: 0.98rem;
   }
-  .hero .quote {
-    font-size: 1.55rem;
-    margin: 8px 0 16px;
+
+  .drops li:nth-child(odd) {
+    padding-left: 0;
+    border-left: 0;
   }
-  .hero .trial-note {
-    font-size: 0.95rem;
-    margin: -10px 0 16px;
+
+  .place {
+    letter-spacing: 0.18em;
   }
-  .hero .actions {
-    gap: 10px;
+
+  .hero-mark {
+    width: 124px;
   }
-  .hero .actions .btn {
-    padding: 17px 12px;
-    font-size: 1rem;
+
+  /* la paroi déborde des gouttières : le cartel se recale dessus pour
+     ne pas venir affleurer le bord de l'écran */
+  .hero-figure figcaption {
+    right: calc(var(--gut) + 20px);
+    top: 20px;
+    padding: 11px 16px;
   }
-  .info-card {
-    padding: 18px;
+
+  .info-list > div {
+    grid-template-columns: 1fr;
+    gap: 4px;
   }
-  .info-row {
-    gap: 10px;
+
+  .vcard img {
+    height: 230px;
   }
-  .info-row .ic {
-    width: 32px;
-    height: 32px;
+
+  .videos-gallery {
+    grid-template-columns: 1fr;
   }
-  .info-row .v {
-    font-size: 1.05rem;
+
+  .close {
+    padding: 80px 0 88px;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+
 }

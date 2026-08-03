@@ -1,31 +1,33 @@
 /* ============================================================
-   NAV-REVEAL — état de la nav au scroll, menu burger, animations
-   d'apparition au défilement
+   NAV-REVEAL — menu burger de l'en-tête
    ============================================================ */
+(function burgerMenu() {
+  const burger = document.getElementById('burger');
+  const links = document.getElementById('navlinks');
+  if (!burger || !links) return;
 
-// Nav scroll state + bouton retour en haut
-const nav = document.getElementById('nav');
-const toTop = document.getElementById('toTop');
-const onScroll = () => {
-  nav.classList.toggle('scrolled', window.scrollY > 40);
-  if (toTop) toTop.classList.toggle('show', window.scrollY > 600);
-};
-window.addEventListener('scroll', onScroll); onScroll();
+  // Le menu ouvert occupe tout l'écran : la page derrière ne doit
+  // plus défiler ni rester atteignable, sous peine de laisser
+  // deviner un fond qui continue à vivre sous le panneau.
+  function setOpen(open) {
+    links.classList.toggle('open', open);
+    document.body.classList.toggle('menu-open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+  }
 
-// Burger menu
-const burger = document.getElementById('burger');
-const links = document.getElementById('navlinks');
-burger.addEventListener('click', () => {
-  links.classList.remove('no-transition');
-  links.classList.toggle('open');
-});
-links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-  links.classList.add('no-transition');
-  links.classList.remove('open');
-}));
+  burger.addEventListener('click', () => {
+    setOpen(!links.classList.contains('open'));
+  });
 
-// Scroll reveal
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-}, { threshold: .14 });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  links.addEventListener('click', (e) => {
+    if (e.target.tagName === 'A') setOpen(false);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && links.classList.contains('open')) {
+      setOpen(false);
+      burger.focus();
+    }
+  });
+})();
