@@ -50,6 +50,12 @@
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/dmsans-latin.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-normal-latin.woff2" crossorigin>
 
+  <!-- Domaines tiers sollicités dès le chargement (vidéo Facebook, miniatures
+       et API YouTube de la galerie) — voir assets/js/config-videos.js. -->
+  <link rel="preconnect" href="https://www.facebook.com">
+  <link rel="preconnect" href="https://img.youtube.com">
+  <link rel="preconnect" href="https://www.googleapis.com" crossorigin>
+
   <!-- Préchargement de l'image LCP du hero (desktop) — voir .hero-photo-bg.
        media évite de la précharger en mobile où elle n'est pas affichée. -->
   <link rel="preload" as="image" href="assets/img/bea/bea-cropped.webp" type="image/webp" media="(min-width: 981px)"
@@ -638,6 +644,7 @@
               rel="noopener">Voir toute la chaîne</a>
           </div>
         </div>
+        <div class="videos-gallery" id="videosGrid"><!-- généré par assets/js/config-videos.js --></div>
       </div>
     </section>
 
