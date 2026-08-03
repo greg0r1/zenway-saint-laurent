@@ -1,235 +1,375 @@
 /* ============================================================
-   HERO — section d'accueil, boutons, visuel et carte événement
+   HERO — le bain de pigments, la paroi d'image, l'accroche
    ============================================================ */
+/* ---------- HERO — le bain ---------- */
 .hero {
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
   position: relative;
-  background:
-    radial-gradient(
-      120% 90% at 78% 8%,
-      rgba(54, 161, 140, 0.5) 0%,
-      rgba(54, 161, 140, 0) 55%
-    ),
-    radial-gradient(
-      90% 80% at 12% 90%,
-      rgba(13, 54, 40, 0.55) 0%,
-      rgba(13, 54, 40, 0) 60%
-    ),
-    linear-gradient(150deg, #0f3a2c 0%, var(--green-700) 48%, var(--teal) 100%);
-  color: #f3faf5;
+  /* Nav (73px) + hero + la bande « L'association… » doivent tenir dans
+     un seul écran au chargement : rien à faire défiler pour voir le
+     titre, l'image, l'appel à l'action, ni le haut de la bande qui
+     suit. 136px est la hauteur réelle mesurée de cette bande sur deux
+     lignes de texte. Plancher pour les écrans bas, plafond pour ne pas
+     étirer la mise en page sur les très grands. */
+  min-height: clamp(440px, calc(100vh - 73px - 136px), 640px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px 0;
   overflow: hidden;
-  padding: 140px 0 90px;
+  isolation: isolate;
 }
-.hero .leaf-bg {
+
+/* Le bain est le sol de l'écran, pas un décor derrière un décor : plein
+   cadre, pigments lisibles, débordé pour que la parallaxe ne découvre
+   jamais son bord. */
+.bath {
+  position: absolute;
+  inset: -22% 0;
+  width: 100%;
+  height: 144%;
+  z-index: 0;
+  opacity: 0.78;
+  filter: blur(0.4px);
+  will-change: transform;
+  pointer-events: none;
+  /* Sans ce fondu, les galets pris entre le bord haut/bas du canvas et
+     le `overflow: hidden` du hero se font trancher net — on voit la
+     coupe plutôt qu'un galet qui sort du cadre. Le dégradé s'amorce
+     bien avant les deux points de coupe réels (calés ici en `%` du
+     canvas, valables aussi bien pour la grande cuve du bureau que
+     pour le canvas recadré du mobile) : le galet est invisible avant
+     d'atteindre la limite. */
+  mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 68%, transparent 88%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 68%, transparent 88%);
+}
+
+/* Un pigment menthe qui passe derrière le titre le rendrait illisible :
+   le bain est donc voilé du côté du texte, et laissé nu du côté de
+   l'image, où il n'a rien à porter. */
+.hero::before {
+  content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.1;
+  z-index: 1;
+  background: linear-gradient(101deg,
+      rgba(19, 48, 35, 0.95) 0%,
+      rgba(19, 48, 35, 0.9) 30%,
+      rgba(19, 48, 35, 0.4) 52%,
+      transparent 66%);
   pointer-events: none;
-}
-.hero .leaf-bg svg {
-  position: absolute;
-  width: 540px;
-  height: 540px;
-}
-.hero .leaf-bg .l1 {
-  top: -130px;
-  right: -120px;
-  transform: rotate(20deg);
-}
-.hero .leaf-bg .l2 {
-  bottom: -180px;
-  left: -150px;
-  transform: rotate(-160deg);
-  width: 620px;
-  height: 620px;
 }
 
 .hero-grid {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 48px;
-  align-items: center;
   position: relative;
-  z-index: 2;
-}
-.hero .h-eyebrow {
-  color: var(--gold-soft);
-  margin-bottom: 22px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.hero .h-eyebrow::before {
-  content: "";
-  width: 42px;
-  height: 1px;
-  background: var(--gold-soft);
-  opacity: 0.7;
-}
-.hero h1 {
-  font-size: clamp(2.7rem, 6vw, 4.6rem);
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-.hero h1 em {
-  font-style: italic;
-  color: var(--mint);
-}
-.hero .disc {
-  font-family: var(--sans);
-  font-weight: 500;
-  font-size: clamp(1rem, 1.6vw, 1.18rem);
-  color: #dcefe2;
-  max-width: 34ch;
-  margin: 24px 0 6px;
-  line-height: 1.55;
-}
-.hero .disc b {
-  color: #fff;
-  font-weight: 700;
-}
-.hero .quote {
-  font-family: var(--script);
-  font-size: clamp(1.7rem, 3.4vw, 2.4rem);
-  color: var(--mint);
-  margin: 18px 0 36px;
-  line-height: 1.2;
-}
-.hero .trial-note {
-  font-family: var(--sans);
-  font-size: 0.92rem;
-  color: var(--gold-soft);
-  margin: -22px 0 28px;
-}
-.hero .actions {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-  font-size: 0.92rem;
-  padding: 15px 26px;
-  border-radius: 999px;
-  cursor: pointer;
-  border: 0;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s,
-    color 0.2s;
-  letter-spacing: 0.01em;
-}
-.btn-primary {
-  background: var(--gold);
-  color: var(--green-900);
-  box-shadow: 0 14px 30px -14px rgba(201, 168, 106, 0.7);
-}
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 36px -14px rgba(201, 168, 106, 0.9);
-}
-.btn-ghost {
-  background: transparent;
-  color: #eaf6ee;
-  border: 1.5px solid rgba(255, 255, 255, 0.4);
-}
-.btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: #fff;
-  transform: translateY(-2px);
+  z-index: 3;
+  width: 100%;
 }
 
-/* hero visual : photo de Béa posée en pleine couleur sur le fond, côté droit */
-.hero-photo-bg {
+/* Le texte se pose directement sur le bain : pas de carte blanche, la
+   typographie porte seule. Sa largeur s'arrête avant la paroi d'image. */
+.hero-copy {
+  max-width: 34rem;
+  will-change: transform;
+}
+
+/* Le logo Zenway complet ouvre la colonne, au-dessus de la ligne de
+   section — plus large que haut, contrairement au sceau minimaliste. */
+.hero-mark {
+  display: block;
+  width: 148px;
+  margin-bottom: 14px;
+}
+
+.hero-mark img {
+  width: 100%;
+  height: auto;
+}
+
+.place {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+  margin-bottom: 14px;
+}
+
+.place-rule {
+  width: 42px;
+  height: 2px;
+  flex: none;
+  background: var(--gold);
+}
+
+h1 {
+  font-size: clamp(2.2rem, 3.4vw, 3.2rem);
+  color: var(--paper);
+  letter-spacing: -0.012em;
+  margin-bottom: 12px;
+}
+
+.lede {
+  font-size: 1.12rem;
+  max-width: 42ch;
+  color: rgba(238, 247, 240, 0.86);
+}
+
+/* ---------- La paroi d'image ---------- */
+/* Elle touche le haut, la droite et le bas de la section : aucun bord
+   franc au milieu de la page, donc rien qui se lise comme un cadre
+   découpé et posé. */
+.hero-figure {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   width: 46%;
-  z-index: 1;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  pointer-events: none;
-}
-.hero-photo-img {
-  position: relative;
-  height: 88%;
-  width: auto;
-  max-width: 96%;
-  object-fit: contain;
-  object-position: bottom right;
-  filter: drop-shadow(0 30px 26px rgba(8, 30, 22, 0.3));
-}
-/* zone visuelle bas-de-hero (encart vidéo + photo) — comportement desktop par défaut */
-.hero-bottom {
-  margin-top: 26px;
-}
-.hero-bottom-photo {
-  display: none;
-} /* la photo de Béa est en fond sur desktop */
-.hero-video-badge {
-  position: relative;
-  width: 220px;
-  height: 146px;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  border: 3px solid rgba(255, 255, 255, 0.9);
-  z-index: 4;
-  pointer-events: auto;
+  margin: 0;
+  z-index: 2;
 }
 
-.scroll-hint {
+.figure-photo {
   position: absolute;
-  bottom: 26px;
-  left: 50%;
-  transform: translateX(-50%);
+  inset: -8% 0;
+  display: block;
+  /* Le seul bord intérieur se dissout dans le bain : la photo entre
+     dans la page au lieu d'y être collée. */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 26%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 26%);
+  will-change: transform;
+}
+
+.figure-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Cadré tout à droite et agrandi, sur les arbres et le plan d'eau :
+     le pratiquant du cliché — jusqu'au bout de son bras tendu — reste
+     hors champ. Béatrice est la seule personne de l'écran. */
+  object-position: 100% 46%;
+  transform: scale(1.18);
+  transform-origin: 100% 46%;
+  filter: saturate(0.78) brightness(0.78) contrast(1.05);
+}
+
+/* Ombre de contact : c'est elle qui pose Béatrice au sol. Sans elle,
+   un détourage flotte toujours. */
+.figure-shadow {
+  position: absolute;
+  left: 12%;
+  right: 4%;
+  bottom: -12px;
+  height: 30px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(8, 24, 17, 0.7), transparent);
+  filter: blur(9px);
+  z-index: 1;
+}
+
+/* Béatrice est entière et posée : ses pieds tombent exactement sur la
+   ligne basse de la section, là où commence la bande d'infos. Rien
+   n'est coupé — le sol de l'image est le bord de la section. */
+.figure-subject {
+  position: absolute;
+  left: -14%;
+  right: 0;
+  bottom: 0;
+  top: 10%;
+  display: block;
+  z-index: 2;
+}
+
+.figure-subject img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  filter: drop-shadow(0 20px 26px rgba(8, 24, 17, 0.5)) contrast(1.05);
+}
+
+/* Le cartel se cale dans l'angle haut de la paroi, hors de la
+   silhouette, entièrement à l'intérieur de l'image. */
+.hero-figure figcaption {
+  position: absolute;
+  right: 40px;
+  top: 44px;
   z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 7px;
-  color: #cfe6d7;
+  background: var(--paper);
+  color: var(--green-900);
+  padding: 13px 20px;
+  font-size: 0.86rem;
+  line-height: 1.3;
+  box-shadow: 0 20px 44px -24px rgba(0, 0, 0, 0.9);
+}
+
+.hero-figure figcaption span {
+  display: block;
   font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 22px;
+  margin: 22px 0 0;
+}
+
+/* Le lien vit maintenant dans le bloc des pratiques : il n'a plus à
+   disputer sa place à l'or, il termine l'énumération. */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--mint);
+  text-decoration: none;
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgba(216, 243, 220, 0.42);
+  transition: color 0.2s ease, border-color 0.2s ease, gap 0.2s ease;
+}
+
+.link-arrow::after {
+  content: "→";
+}
+
+.link-arrow:hover,
+.link-arrow:focus-visible {
+  color: var(--paper);
+  border-bottom-color: var(--gold);
+  gap: 13px;
+}
+
+.trial {
+  font-size: 0.9rem;
+  color: var(--gold-soft);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* ---------- Le bloc des quatre pratiques ---------- */
+/* Les quatre noms sont la promesse du site : ils ne se contentent plus
+   d'une ligne de légende sous l'accroche, ils tiennent un cadre à eux,
+   avec le lien qui y conduit. Le voile sombre n'est pas un décor : il
+   tient les noms lisibles au-dessus des pigments qui bougent dessous. */
+.practices {
+  margin: 22px 0 0;
+  padding: 15px 20px 13px;
+  background: rgba(14, 38, 27, 0.46);
+  border: 1px solid rgba(216, 243, 220, 0.24);
+  border-radius: 2px;
+}
+
+.drops {
+  list-style: none;
+  margin: 0 0 13px;
+  padding: 0 0 13px;
+  border-bottom: 1px solid rgba(216, 243, 220, 0.18);
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+
+/* Chaque nom occupe sa propre travée, séparée par un filet : quatre
+   entrées de même rang, jamais une énumération qui coule. */
+.drops li {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 2px 16px;
+  border-left: 1px solid rgba(216, 243, 220, 0.18);
+  font-size: 1.06rem;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  color: rgba(238, 247, 240, 0.72);
+  transition: color 0.5s ease;
+}
+
+.drops li:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.drops li.in {
+  color: var(--paper);
+}
+
+.chip {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  flex: none;
+  outline: 1px solid rgba(216, 243, 220, 0.28);
+  opacity: 0.35;
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.drops li.in .chip {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.c1 { background: var(--teal); }
+.c2 { background: var(--mint); }
+.c3 { background: var(--teal-bright); }
+.c4 { background: var(--gold); }
+
+/* ---------- LA SECTION : ce qu'est l'association, en clair ---------- */
+.section-band {
+  background: var(--green-800);
+  border-top: 1px solid rgba(231, 214, 173, 0.22);
+  border-bottom: 1px solid rgba(231, 214, 173, 0.22);
+  padding: 0;
+}
+
+.band-grid {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.band-grid > div {
+  padding: 30px 30px 32px;
+  border-right: 1px solid rgba(231, 214, 173, 0.18);
+}
+
+.band-grid > div:first-child {
+  padding-left: 0;
+}
+
+.band-grid > div:last-child {
+  border-right: 0;
+  padding-right: 0;
+}
+
+.band-grid dt {
+  font-size: 0.68rem;
+  font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
+  /* l'or plein tombe sous 4.5:1 sur le vert 800 à cette taille */
+  color: var(--gold-soft);
+  margin-bottom: 10px;
 }
-.scroll-hint .mouse {
-  width: 22px;
-  height: 36px;
-  border: 1.5px solid rgba(207, 230, 215, 0.6);
-  border-radius: 12px;
+
+.band-grid dd {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--paper);
+}
+
+/* ---------- Rythme des sections ---------- */
+section {
+  padding: 100px 0;
   position: relative;
-}
-.scroll-hint .mouse::after {
-  content: "";
-  position: absolute;
-  top: 7px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 3px;
-  height: 7px;
-  background: #cfe6d7;
-  border-radius: 2px;
-  animation: wheel 1.6s infinite;
-}
-@keyframes wheel {
-  0% {
-    opacity: 1;
-    top: 7px;
-  }
-  70% {
-    opacity: 0;
-    top: 16px;
-  }
-  100% {
-    opacity: 0;
-  }
 }
