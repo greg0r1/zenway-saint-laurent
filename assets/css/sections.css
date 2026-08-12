@@ -330,10 +330,6 @@ h2 {
 
 .ha-action-card {
   margin: 22px 0 20px;
-  padding: 26px 26px 28px;
-  background: var(--mint-soft);
-  border: 1px solid rgba(201, 168, 106, 0.55);
-  box-shadow: 0 24px 50px -30px rgba(27, 67, 50, 0.6);
 }
 
 .secure {
@@ -372,7 +368,7 @@ h2 {
 .ha-widget-frame {
   display: block;
   width: 100%;
-  height: 620px;
+  height: 800px;
   border: none;
   background: var(--paper);
 }
