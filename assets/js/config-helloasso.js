@@ -32,13 +32,35 @@ const HELLOASSO = {
     if (onlineNote) onlineNote.style.display = '';
     if (fallbackNote) fallbackNote.style.display = 'none';
 
-    // Widget embarqué (optionnel) -> affiché seulement si ready
+    // Widget embarqué (optionnel) -> affiché seulement si ready. Un
+    // loader s'affiche pendant le chargement de l'iframe ; si elle ne
+    // charge pas dans le délai imparti (ou en erreur réseau), le bloc
+    // widget disparaît et il ne reste que le bouton HelloAsso.
+    const wrap = document.getElementById('haWidgetWrap');
     const f = document.getElementById('haWidget');
     const ph = document.getElementById('haPlaceholder');
-    if (f){
+    if (f && wrap){
+      if (ph){
+        ph.textContent = 'Chargement du formulaire d’adhésion...';
+        ph.classList.add('ha-widget-loading');
+      }
+
+      let loaded = false;
+      const giveUp = () => { if (!loaded) wrap.style.display = 'none'; };
+      const timeout = setTimeout(giveUp, 8000);
+
+      f.addEventListener('load', () => {
+        loaded = true;
+        clearTimeout(timeout);
+        f.style.display = 'block';
+        if (ph) ph.style.display = 'none';
+      });
+      f.addEventListener('error', () => {
+        clearTimeout(timeout);
+        giveUp();
+      });
+
       f.src = base + '/widget';
-      f.style.display = 'block';
-      if (ph) ph.style.display = 'none';
     }
   }
 })();
