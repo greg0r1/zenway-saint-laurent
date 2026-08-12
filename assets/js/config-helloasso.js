@@ -8,10 +8,10 @@
    téléphone/e-mail au lieu d'un lien HelloAsso non confirmé (voir #inscription).
    ============================================================ */
 const HELLOASSO = {
-  org: "zenway-saint-laurent-du-var", // slug de l'association
-  type: "adhesions",                  // "adhesions" | "evenements" | "boutiques"
-  campaign: "adhesion-2026-2027",     // slug de la campagne
-  ready: false                        // → true quand les slugs sont corrects
+  org: "zenway-st-laurent-du-var", // slug de l'association
+  type: "adhesions",               // "adhesions" | "evenements" | "boutiques"
+  campaign: "zenway-st-laurent-du-var", // slug de la campagne
+  ready: true                      // → true quand les slugs sont corrects
 };
 
 (function setupHelloAsso(){
@@ -32,13 +32,48 @@ const HELLOASSO = {
     if (onlineNote) onlineNote.style.display = '';
     if (fallbackNote) fallbackNote.style.display = 'none';
 
-    // Widget embarqué (optionnel) -> affiché seulement si ready
+    // Widget embarqué (optionnel) -> affiché seulement si ready. Un
+    // loader s'affiche pendant le chargement de l'iframe ; si elle ne
+    // charge pas dans le délai imparti (ou en erreur réseau), le bloc
+    // widget disparaît et il ne reste que le bouton HelloAsso.
+    const wrap = document.getElementById('haWidgetWrap');
     const f = document.getElementById('haWidget');
     const ph = document.getElementById('haPlaceholder');
-    if (f){
+    if (f && wrap){
+      if (ph){
+        ph.textContent = 'Chargement du formulaire d’adhésion...';
+        ph.classList.add('ha-widget-loading');
+      }
+
+      let loaded = false;
+      const giveUp = () => { if (!loaded) wrap.style.display = 'none'; };
+      const timeout = setTimeout(giveUp, 8000);
+      const requestedAt = Date.now();
+
+      f.addEventListener('load', () => {
+        // Une page d'erreur ou une frame refusée (mauvais slug, embarquement
+        // bloqué) se charge quasi instantanément, contrairement au vrai
+        // formulaire : on l'assimile à un échec plutôt que d'afficher une
+        // iframe cassée à la place du repli.
+        if (Date.now() - requestedAt < 350){
+          clearTimeout(timeout);
+          giveUp();
+          return;
+        }
+        loaded = true;
+        clearTimeout(timeout);
+        f.style.display = 'block';
+        if (ph) ph.style.display = 'none';
+      });
+      f.addEventListener('error', () => {
+        clearTimeout(timeout);
+        giveUp();
+      });
+
       f.src = base + '/widget';
-      f.style.display = 'block';
-      if (ph) ph.style.display = 'none';
     }
+  } else {
+    const wrap = document.getElementById('haWidgetWrap');
+    if (wrap) wrap.style.display = 'none';
   }
 })();

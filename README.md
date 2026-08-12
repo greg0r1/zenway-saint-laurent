@@ -1,66 +1,315 @@
 # Zenway Saint-Laurent-du-Var — Site vitrine
 
-Site statique (HTML/CSS/JS, sans backend) pour la section Zenway de Saint-Laurent-du-Var.
-Inscriptions gérées via HelloAsso (lien externe + emplacement prêt pour le widget iframe).
+Site statique minimaliste (HTML/CSS/JS vanilla, sans dépendances) pour la section locale Zenway de Saint-Laurent-du-Var. Hébergé sur Vercel avec déploiement automatique depuis GitHub.
 
-## Déploiement sur GitHub Pages
+**[Voir le site en production](https://zenway-saint-laurent.vercel.app)**
 
-### 1. Créer le repo
+---
 
-Sur ton compte GitHub perso, crée un nouveau repo (public), par exemple `zenway-saint-laurent`.
-Ne l'initialise pas avec un README depuis l'interface (on a déjà tout en local).
+## 📋 Stack technique
 
-### 2. Pousser le site
+- **HTML / CSS / JS vanilla uniquement** — aucun framework, aucun bundler, aucune dépendance npm
+- **Un seul fichier `index.html`** auto-suffisant à la racine
+- **CSS modulaire** : découpé par domaine fonctionnel dans `assets/css/`
+- **JS modulaire** : découpé par domaine fonctionnel dans `assets/js/`
+- **Hébergement** : [Vercel](https://vercel.com) (déploiement automatique à chaque push sur `main`)
+- **Inscriptions** : intégration HelloAsso (lien externe + widget iframe)
 
-Depuis ce dossier :
+---
 
-```bash
-git init
-git add .
-git commit -m "Site Zenway Saint-Laurent-du-Var"
-git branch -M main
-git remote add origin https://github.com/<TON-COMPTE>/zenway-saint-laurent.git
-git push -u origin main
-```
+## 🚀 Démarrage local
 
-### 3. Activer GitHub Pages
+### Prérequis
 
-Dans le repo sur GitHub : **Settings → Pages**
-- Source : `Deploy from a branch`
-- Branch : `main` / `(root)`
-- Save
+- **Git** (pour cloner le repo)
+- **Python 3** (pour lancer un serveur statique) ou **Node.js** (optionnel)
 
-Le site sera disponible (1-2 min après) à :
-
-```
-https://<TON-COMPTE>.github.io/zenway-saint-laurent/
-```
-
-### 4. Mises à jour
-
-À chaque modification de `index.html` :
+### Installation
 
 ```bash
-git add .
-git commit -m "Description de la modif"
-git push
+# Cloner le repo
+git clone https://github.com/greg0r1/zenway-saint-laurent.git
+cd zenway-saint-laurent
+
+# Passer sur la branche develop pour développer
+git checkout develop
 ```
 
-GitHub Pages republie automatiquement en quelques minutes.
+### Lancer le serveur de développement
 
-## Domaine personnalisé (plus tard)
+```bash
+# Option 1 : Python 3 (recommandé, aucune dépendance supplémentaire)
+python3 -m http.server 8000
 
-Une fois la décision prise avec Raymond sur le sous-domaine de `zenway-rh.fr` :
+# Option 2 : Node.js (si http-server est installé)
+npx http-server
+```
 
-1. Dans **Settings → Pages → Custom domain**, saisir le sous-domaine choisi (ex. `saint-laurent-du-var.zenway-rh.fr`). GitHub crée automatiquement un fichier `CNAME` à la racine du repo.
-2. Chez le gestionnaire DNS de `zenway-rh.fr`, ajouter un enregistrement :
-   - Type : `CNAME`
-   - Nom : le sous-domaine choisi (ex. `saint-laurent-du-var`)
-   - Valeur : `<TON-COMPTE>.github.io`
-3. Attendre la propagation DNS (quelques minutes à 24h), puis cocher "Enforce HTTPS" dans les paramètres Pages une fois le check DNS validé.
+Puis ouvrir **`http://localhost:8000`** dans le navigateur.
 
-## À faire avant mise en ligne publique
+> **Note** : Le serveur recharge automatiquement si tu modifies les fichiers CSS/JS/HTML (via un outil comme [Live.js](https://livereload.com/) en local, ou via Vercel Preview si tu pushes une branche).
 
-- Remplacer les photos placeholder (hero, ambiance, 4 pratiques) — voir commentaires `REMPLACER` dans `index.html`.
-- Remplacer l'URL du formulaire HelloAsso (section Inscriptions) par le vrai lien une fois le formulaire créé.
-- Vérifier les coordonnées de la carte (section Infos pratiques).
+---
+
+## 📁 Structure du projet
+
+```
+zenway-saint-laurent/
+├── index.html              ← page unique, auto-suffisante
+├── assets/
+│   ├── css/
+│   │   ├── fonts.css       ← @font-face des polices auto-hébergées
+│   │   ├── base.css        ← variables CSS, reset, typo, logo, animations
+│   │   ├── nav.css         ← en-tête fixe, navigation, burger menu
+│   │   ├── hero.css        ← section accueil avec vidéo teaser
+│   │   ├── sections.css    ← concept, planning, vidéos, inscriptions, infos pratiques
+│   │   ├── footer.css      ← pied de page
+│   │   └── responsive.css  ← media queries (chargé en dernier)
+│   ├── fonts/              ← polices auto-hébergées (woff2, sous-ensembles latin)
+│   │   ├── cormorant-garamond-*.woff2
+│   │   ├── dm-sans-*.woff2
+│   │   └── caveat-*.woff2
+│   ├── js/
+│   │   ├── config-helloasso.js     ← configuration HelloAsso (slugs, widget)
+│   │   ├── config-videos.js        ← vidéo teaser hero + galerie YouTube
+│   │   ├── config-planning.js      ← créneaux de séance affichés
+│   │   ├── config-evenements.js    ← événements HelloAsso (préparation future)
+│   │   └── nav-reveal.js           ← navigation, burger menu, animations reveal
+│   └── img/
+│       ├── logo-zenway.png         ← logo complet (nav, footer)
+│       ├── bea-posture-005.png     ← photo de Béatrice en posture Zenway
+│       ├── activite-taichi.jpg     ← pratique Tai-chi chuan
+│       ├── activite-yoga.jpg       ← pratique Yoga
+│       ├── activite-pilates.jpg    ← pratique Pilates
+│       └── activite-qigong.jpg     ← pratique Qi gong
+├── .gitignore
+├── CLAUDE.md               ← instructions permanentes pour les développeurs
+└── README.md               ← ce fichier
+```
+
+---
+
+## 🔄 Workflow Git
+
+### Branches
+
+| Branche         | Rôle                                                | Vercel          |
+| --------------- | --------------------------------------------------- | --------------- |
+| `main`          | Production — déploiement automatique à chaque push  | URL production  |
+| `develop`       | Développement en cours                              | Preview URL     |
+| `feature/<nom>` | Nouvelle fonctionnalité                             | Preview URL     |
+| `fix/<nom>`     | Correction de bug                                   | Preview URL     |
+| `content/<nom>` | Mise à jour de contenu uniquement                   | Preview URL     |
+
+### Cycle de développement
+
+1. **Créer une branche** à partir de `develop` :
+   ```bash
+   git checkout develop
+   git pull origin develop
+   git checkout -b feature/ma-fonctionnalite
+   ```
+
+2. **Développer et committer** avec [Conventional Commits](https://www.conventionalcommits.org/) :
+   ```bash
+   git add .
+   git commit -m "feat(section): description en français"
+   git push origin feature/ma-fonctionnalite
+   ```
+
+3. **Ouvrir une Pull Request** vers `develop` (pas vers `main`) via GitHub.
+
+4. **Tester sur la preview Vercel** — un lien est généré automatiquement sur la PR.
+
+5. **Merger dans `develop`** une fois validé et approuvé.
+
+6. **Merger `develop` dans `main`** quand prêt pour la production.
+
+### Convention de commits
+
+```
+<type>(<scope>): <description courte en français>
+```
+
+**Types autorisés :**
+
+- `feat` : nouvelle fonctionnalité ou section
+- `fix` : correction de bug
+- `content` : modification de texte, image, ou données config
+- `style` : modification CSS sans impact fonctionnel
+- `refactor` : restructuration du code
+- `chore` : maintenance (config, deps, etc.)
+
+**Exemple :**
+```
+feat(inscription): ajout du widget HelloAsso embarqué
+fix(hero): correction du positionnement vidéo sur mobile
+content(planning): mise à jour des créneaux de juillet
+```
+
+---
+
+## ✏️ Éditer le contenu
+
+### Vidéos (teaser hero + galerie)
+
+Fichier : `assets/js/config-videos.js`
+
+```js
+const CONFIG_VIDEOS = {
+  teaser: {
+    youtubeId: "XXXXX", // ID de la vidéo YouTube teaser
+    duration: "1:30"
+  },
+  gallery: [
+    { youtubeId: "XXXXX", title: "Titre de la vidéo" },
+    // ...
+  ]
+};
+```
+
+### Planning (créneaux de séance)
+
+Fichier : `assets/js/config-planning.js`
+
+```js
+const CONFIG_PLANNING = [
+  { day: "Mardi", time: "17:45 – 18:45", location: "KMCS, Saint-Laurent-du-Var" },
+  // ...
+];
+```
+
+### HelloAsso (adhésions + événements)
+
+Fichier : `assets/js/config-helloasso.js`
+
+```js
+const CONFIG_HELLOASSO = {
+  adhesions: {
+    ready: true,
+    campaign: "zenway-st-laurent-du-var",
+    form: "adhesions",
+    slug: "zenway-st-laurent-du-var"
+  },
+  evenements: {
+    ready: false, // À passer à true quand des événements sont créés
+    campaign: "zenway-st-laurent-du-var",
+    form: "evenements",
+    slug: "zenway-st-laurent-du-var"
+  }
+};
+```
+
+---
+
+## 🎨 Charte graphique
+
+### Palette de couleurs (CSS variables)
+
+Toutes les couleurs sont définies dans `assets/css/base.css` :
+
+```css
+--green-900: #1b4332    /* Fonds foncés */
+--green-800: #22543e
+--green-700: #2d6a4f
+--teal: #2f8f7f        /* Accent principal */
+--teal-bright: #36a18c
+--mint: #d8f3dc        /* Fonds clairs */
+--mint-soft: #eef7f0
+--beige: #f5f1e8
+--paper: #faf8f2       /* Fond général */
+--gold: #c9a86a        /* Boutons CTA */
+--gold-soft: #e7d6ad
+--ink: #243029         /* Texte principal */
+--ink-soft: #4b5a51    /* Texte secondaire */
+```
+
+**Règle** : ne jamais ajouter une couleur hors cette palette sans la documenter.
+
+### Typographies (Google Fonts auto-hébergées)
+
+| Usage              | Police             | CSS variable |
+| ------------------ | ------------------ | ------------ |
+| Titres (H1–H3)     | Cormorant Garamond | `--serif`    |
+| Texte courant      | DM Sans            | `--sans`     |
+| Accents manuscrits | Caveat             | `--script`   |
+
+**Règle** : Caveat uniquement pour les accroches courtes (max une ligne).
+
+### Logo
+
+Trois feuilles SVG en dégradé vert/teal. Texte : « zen » en DM Sans gras blanc, « way » en Caveat teal. Ne jamais modifier les proportions ou les couleurs.
+
+---
+
+## ♿ Accessibilité
+
+- ✅ Attributs `alt` sur toutes les images
+- ✅ `aria-label` sur les boutons sans texte visible
+- ✅ Contraste WCAG AA minimum
+- ✅ Structure HTML valide (un seul `<h1>`, hiérarchie des headings)
+
+---
+
+## 🚀 Déploiement
+
+### À Vercel (production)
+
+Le déploiement est **automatique** :
+
+1. Pusher sur `main` → Vercel détecte le changement et redéploie en production
+2. Pusher sur une branche `feature/*` → Vercel génère une **preview URL** pour tester avant de merger
+
+**Vérifier le statut du déploiement :**
+```bash
+vercel --prod  # Voir le statut en ligne de commande (si Vercel CLI est installé)
+```
+
+### Paramètres Vercel
+
+- **Build Command** : (aucun — site statique)
+- **Output Directory** : `.` (racine)
+- **Environment** : production
+
+---
+
+## 🔍 Validation avant commit
+
+Avant de pousser, vérifier :
+
+- ✅ Structure HTML valide (balises ouvertes/fermées, un seul `<h1>`)
+- ✅ Aucune image cassée ou placeholder oublié
+- ✅ Responsive design OK sur mobile (375px)
+- ✅ Aucune console error en F12
+- ✅ Commit message clair et en français
+
+---
+
+## 📝 Message clé du projet
+
+⚠️ **Important** : Zenway n'est **pas** un enchaînement de quatre cours séparés. C'est **une seule discipline** qui fusionne Tai-chi chuan, Yoga, Pilates et Qi gong dans un seul enchaînement continu, sur une musique relaxante. **Ne jamais présenter les quatre pratiques comme des options ou des cours indépendants.**
+
+---
+
+## 📞 Contacts
+
+- **Animatrice** : Béatrice Viallon (Béa)
+- **Téléphone** : 06 66 05 66 49
+- **E-mail** : contact@zenwaysaintlaurentduvar.fr
+- **Lieu** : KMCS, 357 chemin des Iscles, Saint-Laurent-du-Var (06700)
+- **Séance** : Mardi 17h45 – 18h45
+
+---
+
+## 📄 Licence
+
+Contenu propriétaire. Copie non autorisée sans accord explicite.
+
+---
+
+## 🔗 Ressources
+
+- [CLAUDE.md](./CLAUDE.md) — instructions permanentes pour les développeurs
+- [Zenway (fondateur)](https://zenway-rh.fr)
+- [HelloAsso](https://www.helloasso.com)
+- [Vercel](https://vercel.com)
