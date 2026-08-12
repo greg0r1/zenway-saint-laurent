@@ -8,10 +8,10 @@
    téléphone/e-mail au lieu d'un lien HelloAsso non confirmé (voir #inscription).
    ============================================================ */
 const HELLOASSO = {
-  org: "zenway-saint-laurent-du-var", // slug de l'association
-  type: "adhesions",                  // "adhesions" | "evenements" | "boutiques"
-  campaign: "adhesion-2026-2027",     // slug de la campagne
-  ready: false                        // → true quand les slugs sont corrects
+  org: "zenway-st-laurent-du-var", // slug de l'association
+  type: "adhesions",               // "adhesions" | "evenements" | "boutiques"
+  campaign: "zenway-st-laurent-du-var", // slug de la campagne
+  ready: true                      // → true quand les slugs sont corrects
 };
 
 (function setupHelloAsso(){
