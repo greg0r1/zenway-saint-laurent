@@ -34,7 +34,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; manifest-src https://vercel.com; script-src 'self' https://vercel.live; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://img.youtube.com; font-src 'self'; connect-src 'self' https://www.googleapis.com https://vitals.vercel-insights.com https://vercel.com; frame-src https://www.google.com https://www.facebook.com https://www.youtube.com https://www.helloasso.com https://vercel.live; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
+          "value": "default-src 'self'; manifest-src 'self' https://vercel.com; script-src 'self' https://vercel.live; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://img.youtube.com; font-src 'self'; connect-src 'self' https://www.googleapis.com https://vitals.vercel-insights.com https://vercel.com; frame-src https://www.google.com https://www.facebook.com https://www.youtube.com https://www.helloasso.com https://vercel.live; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
         }
       ]
     }
