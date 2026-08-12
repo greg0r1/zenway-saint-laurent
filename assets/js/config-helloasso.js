@@ -48,8 +48,18 @@ const HELLOASSO = {
       let loaded = false;
       const giveUp = () => { if (!loaded) wrap.style.display = 'none'; };
       const timeout = setTimeout(giveUp, 8000);
+      const requestedAt = Date.now();
 
       f.addEventListener('load', () => {
+        // Une page d'erreur ou une frame refusée (mauvais slug, embarquement
+        // bloqué) se charge quasi instantanément, contrairement au vrai
+        // formulaire : on l'assimile à un échec plutôt que d'afficher une
+        // iframe cassée à la place du repli.
+        if (Date.now() - requestedAt < 350){
+          clearTimeout(timeout);
+          giveUp();
+          return;
+        }
         loaded = true;
         clearTimeout(timeout);
         f.style.display = 'block';
@@ -62,5 +72,8 @@ const HELLOASSO = {
 
       f.src = base + '/widget';
     }
+  } else {
+    const wrap = document.getElementById('haWidgetWrap');
+    if (wrap) wrap.style.display = 'none';
   }
 })();
