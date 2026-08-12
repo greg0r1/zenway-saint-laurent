@@ -100,6 +100,7 @@ zenway-saint-laurent/
 │   │                          pour éviter l'appel à fonts.googleapis.com)
 │   ├── js/
 │   │   ├── config-helloasso.js  ← slugs HelloAsso, injection des liens/widget
+│   │   ├── config-evenements.js ← slugs HelloAsso événements, prêt mais inactif tant qu'aucun événement n'est configuré
 │   │   ├── config-videos.js     ← vidéo teaser hero + galerie YouTube
 │   │   ├── config-planning.js   ← créneaux de séance affichés
 │   │   └── nav-reveal.js        ← scroll nav, burger menu, animations reveal
