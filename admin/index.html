@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration · Zenway Saint-Laurent-du-Var</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="stylesheet" href="../assets/css/fonts.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+
+<body class="admin-body">
+  <div class="admin-wrap">
+    <div class="admin-header">
+      <h1>Administration · Événements</h1>
+      <div id="dashboardHeader" hidden>
+        <span class="who" id="who"></span>
+        <button type="button" id="logoutBtn" class="admin-btn-ghost" style="margin-left:12px;padding:6px 14px;border-radius:4px;">Se déconnecter</button>
+      </div>
+    </div>
+
+    <!-- ============ CONNEXION ============ -->
+    <section id="loginView" class="admin-card admin-login">
+      <p>Connectez-vous avec le compte Google autorisé pour gérer les événements affichés sur le site.</p>
+      <div id="gsiButton"></div>
+      <p class="admin-error" id="loginError" hidden></p>
+    </section>
+
+    <!-- ============ TABLEAU DE BORD ============ -->
+    <section id="dashboardView" hidden>
+      <div class="admin-card">
+        <h2 id="formTitle">Ajouter un événement</h2>
+        <form id="eventForm" class="admin-form">
+          <label for="f-title">Titre</label>
+          <input type="text" id="f-title" name="title" required>
+
+          <label for="f-tag">Étiquette</label>
+          <input type="text" id="f-tag" name="tag" value="Prochain événement">
+
+          <label for="f-description">Description</label>
+          <textarea id="f-description" name="description"></textarea>
+
+          <label for="f-link">Lien (HelloAsso ou autre)</label>
+          <input type="url" id="f-link" name="link_url" placeholder="https://www.helloasso.com/..." required>
+
+          <div class="admin-check">
+            <input type="checkbox" id="f-active" name="active">
+            <label for="f-active">Afficher sur le site (bandeau + section événements)</label>
+          </div>
+
+          <div class="admin-actions">
+            <button type="submit" class="admin-btn-primary">Enregistrer</button>
+            <button type="button" id="cancelEditBtn" class="admin-btn-ghost" hidden>Annuler la modification</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="admin-card">
+        <h2>Événements existants</h2>
+        <div class="admin-events-list" id="eventsList"></div>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="../assets/js/config-admin.js"></script>
+  <script src="../assets/js/admin.js"></script>
+</body>
+
+</html>

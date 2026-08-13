@@ -1,0 +1,199 @@
+/* ============================================================
+   ADMIN — page d'administration des événements (accès restreint)
+   ============================================================ */
+.admin-body {
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.admin-wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 48px 24px 96px;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.admin-header h1 {
+  font-family: var(--serif);
+  font-size: 1.7rem;
+  color: var(--green-800);
+}
+
+.admin-header .who {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.admin-card {
+  background: #fff;
+  border: 1px solid var(--mint);
+  border-radius: 6px;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.admin-login {
+  text-align: center;
+  padding: 64px 28px;
+}
+
+.admin-login p {
+  color: var(--ink-soft);
+  margin-bottom: 24px;
+}
+
+#gsiButton {
+  display: flex;
+  justify-content: center;
+}
+
+.admin-error {
+  color: #a3341f;
+  background: #fbeae6;
+  border: 1px solid #eec3b8;
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  margin-top: 18px;
+}
+
+.admin-form label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--green-800);
+  margin: 14px 0 6px;
+}
+
+.admin-form input[type="text"],
+.admin-form input[type="url"],
+.admin-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--mint);
+  border-radius: 4px;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.admin-form textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.admin-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.admin-check label {
+  margin: 0;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.admin-actions button {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 0;
+}
+
+.admin-btn-primary {
+  background: var(--green-700);
+  color: #fff;
+}
+
+.admin-btn-primary:hover {
+  background: var(--teal-bright);
+}
+
+.admin-btn-ghost {
+  background: transparent;
+  border: 1px solid var(--mint) !important;
+  color: var(--ink-soft);
+}
+
+.admin-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-event-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--mint);
+  border-radius: 4px;
+}
+
+.admin-event-row.is-active {
+  border-color: var(--gold);
+  background: var(--mint-soft);
+}
+
+.admin-event-row h3 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.admin-event-row p {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.admin-event-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--green-800);
+  background: var(--gold-soft);
+  border-radius: 2px;
+  padding: 2px 8px;
+  margin-bottom: 6px;
+}
+
+.admin-event-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.admin-event-buttons button {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid var(--mint);
+  background: #fff;
+}
+
+.admin-empty {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
