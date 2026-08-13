@@ -34,6 +34,10 @@
     padding: 40px 34px 44px;
   }
 
+  .admin-login-card {
+    padding: 40px 28px 36px;
+  }
+
   .practice-grid {
     grid-template-columns: 1fr 1fr;
     gap: 34px 24px;

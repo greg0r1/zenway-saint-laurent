@@ -13,27 +13,31 @@
 </head>
 
 <body class="admin-body">
-  <div class="admin-wrap">
-    <div class="admin-header">
-      <h1>Administration</h1>
-      <div id="dashboardHeader" hidden>
-        <span class="who" id="who"></span>
-        <button type="button" id="logoutBtn" class="admin-btn-ghost" style="margin-left:12px;padding:6px 14px;border-radius:4px;">Se déconnecter</button>
-      </div>
-    </div>
 
-    <!-- ============ CONNEXION ============ -->
-    <section id="loginView" class="admin-card admin-login">
-      <p>Connectez-vous avec un compte Google autorisé pour accéder à l'administration.</p>
-      <div id="gsiButton"></div>
+  <!-- ============ CONNEXION ============ -->
+  <section id="loginView" class="admin-login-screen">
+    <div class="admin-login-card">
+      <img class="admin-login-logo" src="../assets/img/logo/logo-zenway.png" alt="Zenway" width="58" height="42">
+      <h1 class="admin-login-title">Administration</h1>
+      <p class="admin-login-text">Connectez-vous avec un compte Google autorisé pour gérer les événements du site de Saint-Laurent-du-Var.</p>
+      <div id="gsiButton" class="admin-login-gsi"></div>
       <p class="admin-error" id="loginError" hidden></p>
-    </section>
+    </div>
+  </section>
 
-    <!-- ============ TABLEAU DE BORD ============ -->
-    <!-- Coquille commune à tous les modules admin (voir assets/js/admin.js) :
-         les onglets et le contenu sont générés depuis window.AdminModules,
-         alimenté par chaque assets/js/admin-<module>.js. -->
+  <!-- ============ TABLEAU DE BORD ============ -->
+  <!-- Coquille commune à tous les modules admin (voir assets/js/admin.js) :
+       les onglets et le contenu sont générés depuis window.AdminModules,
+       alimenté par chaque assets/js/admin-<module>.js. -->
+  <div class="admin-wrap">
     <section id="dashboardView" hidden>
+      <div class="admin-header">
+        <h1>Administration</h1>
+        <div id="dashboardHeader" hidden>
+          <span class="who" id="who"></span>
+          <button type="button" id="logoutBtn" class="admin-btn-ghost" style="margin-left:12px;padding:6px 14px;border-radius:4px;">Se déconnecter</button>
+        </div>
+      </div>
       <nav class="admin-tabs" id="adminTabs" hidden></nav>
       <div id="adminContent"></div>
     </section>
