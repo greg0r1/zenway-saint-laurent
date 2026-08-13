@@ -14,9 +14,10 @@
 
 .admin-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px 16px;
   margin-bottom: 40px;
 }
 
@@ -32,6 +33,28 @@
   color: var(--mint);
 }
 
+.admin-header-account {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-header-account .admin-logout-btn {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 12px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--mint);
+}
+
+.admin-header-account .admin-logout-btn:hover {
+  color: var(--paper);
+  background: rgba(216, 243, 220, 0.12);
+}
+
 .admin-tabs {
   display: flex;
   gap: 4px;
@@ -43,7 +66,7 @@
   font-family: var(--sans);
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--ink-soft);
+  color: var(--mint);
   background: transparent;
   border: 0;
   border-bottom: 2px solid transparent;
@@ -51,13 +74,18 @@
   cursor: pointer;
 }
 
+.admin-tab:hover {
+  color: var(--paper);
+}
+
 .admin-tab.is-active {
-  color: var(--green-800);
+  color: var(--paper);
   border-bottom-color: var(--gold);
 }
 
 .admin-card {
   background: #fff;
+  color: var(--ink);
   border: 1px solid var(--mint);
   border-radius: 6px;
   padding: 28px;
@@ -123,9 +151,9 @@
 }
 
 .admin-error {
-  color: #a3341f;
-  background: #fbeae6;
-  border: 1px solid #eec3b8;
+  color: var(--danger);
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
   border-radius: 4px;
   padding: 10px 14px;
   font-size: 0.88rem;
@@ -253,12 +281,13 @@
 
 .admin-event-buttons button {
   font-family: var(--sans);
-  font-size: 0.8rem;
-  padding: 6px 12px;
+  font-size: 0.85rem;
+  padding: 11px 14px;
   border-radius: 4px;
   cursor: pointer;
   border: 1px solid var(--mint);
   background: #fff;
+  color: var(--ink);
 }
 
 .admin-empty {

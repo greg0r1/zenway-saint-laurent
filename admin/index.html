@@ -29,19 +29,19 @@
   <!-- Coquille commune à tous les modules admin (voir assets/js/admin.js) :
        les onglets et le contenu sont générés depuis window.AdminModules,
        alimenté par chaque assets/js/admin-<module>.js. -->
-  <div class="admin-wrap">
+  <main class="admin-wrap">
     <section id="dashboardView" hidden>
       <div class="admin-header">
         <h1>Administration</h1>
-        <div id="dashboardHeader" hidden>
+        <div id="dashboardHeader" class="admin-header-account" hidden>
           <span class="who" id="who"></span>
-          <button type="button" id="logoutBtn" class="admin-btn-ghost" style="margin-left:12px;padding:6px 14px;border-radius:4px;">Se déconnecter</button>
+          <button type="button" id="logoutBtn" class="admin-btn-ghost admin-logout-btn">Se déconnecter</button>
         </div>
       </div>
       <nav class="admin-tabs" id="adminTabs" hidden></nav>
       <div id="adminContent"></div>
     </section>
-  </div>
+  </main>
 
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="../assets/js/config-admin.js"></script>
