@@ -72,7 +72,17 @@ assets/js/
 ├── admin-auth.js           ← connexion Google + session, partagé par tous les modules admin
 ├── admin-events.js         ← module « Événements » (CRUD), s'enregistre dans window.AdminModules
 └── admin.js                ← coquille : onglets, montage/démontage des modules
+
+db/
+├── README.md               ← conventions de schéma + procédure d'application
+└── migrations/             ← scripts SQL numérotés, append-only, à jouer dans l'ordre
+    ├── 001_socle.sql        ← pgcrypto + fonction partagée set_updated_at()
+    └── 002_evenements.sql   ← table events (module « Événements »)
 ```
+
+### Schéma de base de données
+
+Le schéma vit dans `db/migrations/`, en fichiers SQL numérotés joués à la main dans l'éditeur SQL Supabase. Règles : **append-only** (on ne modifie jamais un fichier déjà exécuté en production, on en ajoute un nouveau), scripts idempotents, et pour toute table `id uuid` + `created_at`/`updated_at` + trigger `set_updated_at` + **RLS activée sans policy** (l'API passe par la clé `service_role` qui contourne RLS). Détail et modèle complet dans `db/README.md`.
 
 ### Ajouter un module admin
 
@@ -81,6 +91,7 @@ Pour ajouter une nouvelle section à l'admin (autre chose que les événements) 
 1. Créer `assets/js/admin-<nom>.js` qui s'enregistre en poussant `{ id, label, mount(container), unmount() }` dans `window.AdminModules` (voir `admin-events.js` comme modèle).
 2. L'inclure dans `admin/index.html`, après `admin-auth.js` et avant `admin.js`.
 3. Si le module a besoin de stockage, décider au cas par cas si `api/` et Supabase sont réutilisés (nouvelle table) ou si une autre solution convient — ce n'est plus couvert par la règle « strictement limité aux événements » ci-dessus une fois la décision prise explicitement avec l'utilisateur.
+4. Si une nouvelle table est décidée, ajouter un fichier `db/migrations/<NNN>_<module>.sql` en suivant le modèle de `db/README.md` (jamais de modification d'une migration déjà appliquée).
 
 La coquille (`admin.js`) n'a pas besoin d'être modifiée : elle lit `window.AdminModules` et affiche les onglets automatiquement dès qu'il y en a plus d'un.
 
@@ -192,6 +203,7 @@ zenway-saint-laurent/
 ├── admin/
 │   └── index.html       ← page d'administration des événements (voir « Exception backend »)
 ├── api/                 ← fonctions serverless Vercel (voir « Exception backend »)
+├── db/                  ← migrations SQL Supabase (voir « Exception backend »)
 ├── package.json         ← dépendances de api/ uniquement (aucun build step pour le site)
 ├── .gitignore          ← exclut .DS_Store et autres fichiers système
 ├── CLAUDE.md           ← ce fichier

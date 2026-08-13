@@ -281,21 +281,7 @@ Le site public reste statique, mais une exception existe pour la gestion des év
 ### 1. Créer le projet Supabase
 
 1. Créer un projet sur [supabase.com](https://supabase.com) (le plan gratuit suffit largement).
-2. Dans l'éditeur SQL du projet, exécuter :
-
-```sql
-create table if not exists events (
-  id uuid primary key default gen_random_uuid(),
-  title text not null,
-  description text not null default '',
-  tag text not null default 'Prochain événement',
-  link_url text not null,
-  active boolean not null default false,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
-);
-```
-
+2. Dans l'éditeur SQL du projet, exécuter les fichiers de `db/migrations/` **dans l'ordre des numéros** (`001_socle.sql`, puis `002_evenements.sql`). Les scripts sont idempotents : les rejouer ne casse rien. Voir `db/README.md` pour le détail des conventions et l'ajout de nouvelles tables.
 3. Dans Project Settings → API, récupérer l'URL du projet et la clé **`service_role`** (jamais la clé `anon`, jamais exposée au navigateur).
 
 ### 2. Créer les identifiants Google OAuth
