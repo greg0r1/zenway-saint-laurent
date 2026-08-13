@@ -45,7 +45,8 @@ Le reste du site reste 100 % statique (HTML/CSS/JS vanilla, zéro build). Une se
 - **Authentification admin** : Google Sign-In (Google Identity Services, client-side), avec vérification du token côté serveur (`google-auth-library`) et **whitelist d'emails** (`ADMIN_EMAILS`) — seuls les emails listés peuvent accéder à l'admin, peu importe le compte Google utilisé.
 - **Session admin** : cookie `httpOnly`/`Secure` signé (HMAC, `crypto` natif Node — pas de dépendance JWT dédiée).
 - **`package.json` racine** : existe uniquement pour les dépendances de `api/` (`@supabase/supabase-js`, `google-auth-library`). N'affecte pas le déploiement du site statique (pas de build step, Vercel sert `index.html`/`assets/` tel quel et déploie `api/` comme fonctions).
-- **Page admin conçue comme une coquille extensible** : `admin/index.html` gère la connexion (partagée) et un système d'onglets qui monte des modules déclarés dans `window.AdminModules`. Aujourd'hui un seul module (« Événements ») ; l'admin est destinée à accueillir d'autres sections à l'avenir (voir « Ajouter un module admin » ci-dessous). Cela ne change rien à la portée du backend/BDD lui-même, qui reste strictement limité aux événements tant qu'aucune autre décision n'est prise.
+- **Page admin conçue comme un atelier de feuilles** : `admin/index.html` gère la connexion (partagée) puis monte **toutes** les feuilles sur une seule page, une par module déclaré dans `window.AdminModules`. Pas d'onglets, pas de routeur : la réglette de gauche est un sommaire qui suit la lecture. Trois modules aujourd'hui — « Événements » (CRUD complet), « Planning » et « Infos pratiques » (lecture seule, voir ci-dessous). L'admin est destinée à en accueillir d'autres (voir « Ajouter un module admin »). Cela ne change rien à la portée du backend/BDD, qui reste strictement limité aux événements tant qu'aucune autre décision n'est prise.
+- **Les modules en lecture seule ne recopient aucune valeur** : « Planning » lit `assets/js/config-planning.js`, « Infos pratiques » lit la section `#infos` de `index.html` au moment de l'ouverture. Ils affichent donc toujours ce qui est réellement en ligne et ne peuvent pas dériver. Chacun porte un encart qui dit franchement où éditer en attendant que la modification soit branchée.
 
 ### Fichiers
 
@@ -65,13 +66,15 @@ api/
     └── [id].js            ← PUT (modifier, admin) / DELETE (admin)
 
 admin/
-└── index.html            ← coquille admin : connexion + onglets + zone de contenu
+└── index.html            ← coquille admin : connexion + jeu d'icônes + pile de feuilles
 
 assets/js/
 ├── config-admin.js        ← identifiant client Google (page /admin uniquement)
 ├── admin-auth.js           ← connexion Google + session, partagé par tous les modules admin
 ├── admin-events.js         ← module « Événements » (CRUD), s'enregistre dans window.AdminModules
-└── admin.js                ← coquille : onglets, montage/démontage des modules
+├── admin-planning.js       ← module « Planning » (lecture seule de config-planning.js)
+├── admin-infos.js          ← module « Infos pratiques » (lecture seule de index.html)
+└── admin.js                ← coquille : sommaire, montage des feuilles
 
 db/
 ├── README.md               ← conventions de schéma + procédure d'application
@@ -88,12 +91,14 @@ Le schéma vit dans `db/migrations/`, en fichiers SQL numérotés joués à la m
 
 Pour ajouter une nouvelle section à l'admin (autre chose que les événements) :
 
-1. Créer `assets/js/admin-<nom>.js` qui s'enregistre en poussant `{ id, label, mount(container), unmount() }` dans `window.AdminModules` (voir `admin-events.js` comme modèle).
+1. Créer `assets/js/admin-<nom>.js` qui s'enregistre en poussant `{ id, label, icon, summary, mount(container, sheet), unmount() }` dans `window.AdminModules` (voir `admin-events.js` comme modèle). `icon` est l'identifiant d'un symbole du jeu d'icônes de `admin/index.html`, `summary` la phrase qui dit ce que la feuille commande sur le site public. L'objet `sheet` reçu par `mount` expose `sheet.setState({ text, short, live })` — l'état de publication, écrit en toutes lettres sur la feuille et en abrégé dans le sommaire — et `sheet.flash(message)` pour une confirmation discrète.
 2. L'inclure dans `admin/index.html`, après `admin-auth.js` et avant `admin.js`.
 3. Si le module a besoin de stockage, décider au cas par cas si `api/` et Supabase sont réutilisés (nouvelle table) ou si une autre solution convient — ce n'est plus couvert par la règle « strictement limité aux événements » ci-dessus une fois la décision prise explicitement avec l'utilisateur.
 4. Si une nouvelle table est décidée, ajouter un fichier `db/migrations/<NNN>_<module>.sql` en suivant le modèle de `db/README.md` (jamais de modification d'une migration déjà appliquée).
 
-La coquille (`admin.js`) n'a pas besoin d'être modifiée : elle lit `window.AdminModules` et affiche les onglets automatiquement dès qu'il y en a plus d'un.
+La coquille (`admin.js`) n'a pas besoin d'être modifiée : elle lit `window.AdminModules`, fabrique une feuille et une entrée de sommaire par module, et suit la lecture au défilement.
+
+Toute feuille doit déclarer son état de publication via `sheet.setState` : c'est ce qui distingue cet atelier d'un simple formulaire. Les règles visuelles (feuille de papier à angles vifs, or rare, chapeau typographique interdit, pas de carte dans une carte) sont dans `DESIGN.md`.
 
 ### Variables d'environnement (à définir dans Vercel → Settings → Environment Variables)
 
@@ -176,7 +181,7 @@ zenway-saint-laurent/
 │   │   ├── sections.css     ← concept & pratiques, planning, pour qui,
 │   │   │                      vidéos, événements, inscriptions, infos, cta
 │   │   ├── video.css        ← composant vidéo (teaser + galerie)
-│   │   ├── admin.css        ← page /admin (coquille + tous les modules)
+│   │   ├── admin.css        ← page /admin (atelier : coquille + tous les modules)
 │   │   ├── footer.css       ← pied de page
 │   │   └── responsive.css   ← media queries (chargé en dernier)
 │   ├── fonts/               ← woff2 Cormorant Garamond / DM Sans / Caveat
@@ -188,7 +193,9 @@ zenway-saint-laurent/
 │   │   ├── config-admin.js      ← identifiant client Google (page /admin uniquement)
 │   │   ├── admin-auth.js        ← connexion Google + session, partagé par les modules admin
 │   │   ├── admin-events.js      ← module admin « Événements » (CRUD)
-│   │   ├── admin.js             ← coquille admin : onglets, montage des modules
+│   │   ├── admin-planning.js    ← module admin « Planning » (lecture seule)
+│   │   ├── admin-infos.js       ← module admin « Infos pratiques » (lecture seule)
+│   │   ├── admin.js             ← coquille admin : sommaire, montage des feuilles
 │   │   ├── config-videos.js     ← vidéo teaser hero + galerie YouTube
 │   │   ├── config-planning.js   ← créneaux de séance affichés
 │   │   └── nav-reveal.js        ← scroll nav, burger menu, animations reveal
@@ -206,6 +213,8 @@ zenway-saint-laurent/
 ├── db/                  ← migrations SQL Supabase (voir « Exception backend »)
 ├── package.json         ← dépendances de api/ uniquement (aucun build step pour le site)
 ├── .gitignore          ← exclut .DS_Store et autres fichiers système
+├── PRODUCT.md          ← vérité produit durable (public, usage, contraintes)
+├── DESIGN.md           ← système visuel : palette, typo, formes, composants, règles
 ├── CLAUDE.md           ← ce fichier
 └── README.md           ← instructions déploiement et mise à jour
 ```

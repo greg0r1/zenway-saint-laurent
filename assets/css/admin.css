@@ -1,99 +1,90 @@
 /* ============================================================
-   ADMIN — page d'administration des événements (accès restreint)
+   ADMIN — l'atelier : des feuilles de papier posées sur le bain
+   vert du site. Une seule page, un sommaire en réglette, aucun
+   onglet. Couvre l'écran de connexion, la coquille et tous les
+   modules (voir assets/js/admin.js).
    ============================================================ */
-.admin-body {
+.bo {
+  /* Jetons propres à l'atelier, dérivés de la palette du site */
+  --bo-sheet: var(--paper);
+  --bo-field: #fff;
+  --bo-rule: rgba(36, 48, 41, 0.16);
+  --bo-rule-soft: rgba(36, 48, 41, 0.08);
+  --bo-lift: 0 30px 70px -34px rgba(0, 0, 0, 0.85);
+  --bo-lift-soft: 0 14px 34px -20px rgba(0, 0, 0, 0.6);
+  --bo-bar-h: 66px;
+
   min-height: 100vh;
+  font-size: 1rem;
 }
 
-.admin-wrap {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 48px 24px 96px;
-  color: var(--mint-soft);
+.bo-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 }
 
-.admin-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px 16px;
-  margin-bottom: 40px;
+/* `display` posé en dur écrase l'attribut hidden : chaque composant
+   qui en pose un doit le rendre à l'attribut. */
+.bo [hidden] {
+  display: none !important;
 }
 
-.admin-header h1 {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: 1.9rem;
-  color: var(--paper);
+/* Le tracé se pose sur le <svg> qui porte le <use>, jamais sur le
+   <symbol> : un sélecteur ne franchit pas le clone, une propriété
+   héritée si. */
+.bo-ico {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.admin-header .who {
-  font-size: 0.85rem;
-  color: var(--mint);
+.bo-ico-lg {
+  width: 22px;
+  height: 22px;
 }
 
-.admin-header-account {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
+/* Le focus doré du site disparaît sur le papier : sur les feuilles
+   il passe en teal, il ne reste doré que sur le bain vert. */
+.bo-sheet a:focus-visible,
+.bo-sheet button:focus-visible,
+.bo-sheet input:focus-visible,
+.bo-sheet textarea:focus-visible,
+.bo-gate-card a:focus-visible,
+.bo-gate-card button:focus-visible {
+  outline: 2px solid var(--teal-bright);
+  outline-offset: 2px;
 }
 
-.admin-header-account .admin-logout-btn {
-  font-family: var(--sans);
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 12px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  color: var(--mint);
-}
-
-.admin-header-account .admin-logout-btn:hover {
-  color: var(--paper);
-  background: rgba(216, 243, 220, 0.12);
-}
-
-.admin-tabs {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--mint);
-}
-
-.admin-tab {
-  font-family: var(--sans);
+.bo-skip {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 20;
+  background: var(--gold);
+  color: var(--green-900);
+  font-weight: 700;
   font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--mint);
-  background: transparent;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  padding: 10px 16px;
-  cursor: pointer;
+  padding: 12px 18px;
+  text-decoration: none;
+  transition: top 0.18s ease;
 }
 
-.admin-tab:hover {
-  color: var(--paper);
+.bo-skip:focus {
+  top: 12px;
 }
 
-.admin-tab.is-active {
-  color: var(--paper);
-  border-bottom-color: var(--gold);
-}
-
-.admin-card {
-  background: #fff;
-  color: var(--ink);
-  border: 1px solid var(--mint);
-  border-radius: 6px;
-  padding: 28px;
-  margin-bottom: 24px;
-}
-
-/* ---------- Connexion ---------- */
-.admin-login-screen {
+/* ============================================================
+   CONNEXION — la première feuille, seule sur le bain
+   ============================================================ */
+.bo-gate {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -103,194 +94,1099 @@
   overflow: hidden;
 }
 
-.admin-login-screen[hidden] {
+.bo-gate[hidden] {
   display: none;
 }
 
-.admin-login-screen::before {
-  content: "";
-  position: absolute;
-  inset: -20%;
-  background: radial-gradient(circle, var(--teal) 0%, transparent 68%);
-  opacity: 0.16;
-  filter: blur(10px);
-  pointer-events: none;
-}
-
-.admin-login-card {
+.bo-gate-card {
   position: relative;
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
   text-align: center;
-  background: var(--paper);
+  background: var(--bo-sheet);
   color: var(--ink);
-  padding: 48px 40px 44px;
-  box-shadow: 0 30px 70px -34px rgba(0, 0, 0, 0.85);
+  padding: 48px 40px 36px;
+  box-shadow: var(--bo-lift);
 }
 
-.admin-login-logo {
+.bo-gate-logo {
   margin: 0 auto 24px;
 }
 
-.admin-login-title {
+.bo-gate-title {
+  font-family: var(--serif);
   font-size: 2.1rem;
   color: var(--green-900);
   margin-bottom: 14px;
 }
 
-.admin-login-text {
+.bo-gate-text {
   color: var(--ink-soft);
   font-size: 0.95rem;
-  max-width: 30ch;
+  line-height: 1.6;
+  max-width: 31ch;
   margin: 0 auto 28px;
 }
 
-.admin-login-gsi {
+.bo-gate-gsi {
   display: flex;
   justify-content: center;
+  min-height: 44px;
 }
 
-.admin-error {
-  color: var(--danger);
-  background: var(--danger-bg);
-  border: 1px solid var(--danger-border);
-  border-radius: 4px;
-  padding: 10px 14px;
-  font-size: 0.88rem;
-  margin-top: 18px;
+.bo-gate-foot {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   text-align: left;
+  gap: 8px;
+  margin: 28px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--bo-rule-soft);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
 }
 
-.admin-form label {
+.bo-gate-foot .bo-ico {
+  width: 15px;
+  height: 15px;
+  margin-top: 3px;
+}
+
+/* ============================================================
+   BARRE — le bandeau vert, fin, collé en haut
+   ============================================================ */
+.bo-app[hidden] {
+  display: none;
+}
+
+.bo-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--green-900);
+  border-bottom: 1px solid rgba(231, 214, 173, 0.24);
+}
+
+.bo-bar-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  min-height: var(--bo-bar-h);
+  padding: 10px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+}
+
+.bo-bar-mark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bo-bar-name {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--sans);
+  font-size: 0.96rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--paper);
+}
+
+.bo-bar-name em {
+  font-style: normal;
+  font-size: 0.76rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+
+.bo-bar-side {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.bo-bar-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.87rem;
+  font-weight: 600;
+  color: var(--mint);
+  text-decoration: none;
+  padding: 10px 4px;
+}
+
+.bo-bar-link:hover {
+  color: var(--gold-soft);
+}
+
+.bo-bar-who {
+  font-size: 0.82rem;
+  color: rgba(216, 243, 220, 0.72);
+  max-width: 24ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   COQUILLE — réglette de sommaire + pile de feuilles
+   ============================================================ */
+.bo-shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 44px 28px 110px;
+  display: grid;
+  grid-template-columns: 196px minmax(0, 1fr);
+  gap: 44px;
+  align-items: start;
+}
+
+/* La réglette : un filet vertical, chaque section pendue dessus par
+   un cran. Le cran de la section lue s'allonge et passe à l'or. */
+.bo-rail {
+  position: sticky;
+  top: calc(var(--bo-bar-h) + 28px);
+  border-left: 1px solid rgba(216, 243, 220, 0.22);
+  padding: 2px 0;
+}
+
+.bo-rail-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 11px 0 11px 22px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: rgba(216, 243, 220, 0.68);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.bo-rail-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+/* Le sommaire dit ce que chaque partie du site publie, sans avoir à
+   descendre jusqu'à sa feuille. */
+.bo-rail-state {
+  font-size: 0.76rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: rgba(216, 243, 220, 0.55);
+}
+
+.bo-rail-state.is-live {
+  color: var(--gold-soft);
+}
+
+.bo-rail-state:empty {
+  display: none;
+}
+
+/* Le cran s'allonge par transform, jamais par width : la géométrie
+   reste fixe, seule la matière bouge. */
+.bo-rail-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 16px;
+  height: 2px;
+  background: rgba(216, 243, 220, 0.3);
+  transform: scaleX(0.5);
+  transform-origin: left center;
+  transition: transform 0.24s ease, background-color 0.24s ease;
+}
+
+.bo-rail-item:hover {
+  color: var(--paper);
+}
+
+.bo-rail-item:hover::before {
+  transform: scaleX(0.82);
+  background: var(--mint);
+}
+
+.bo-rail-item[aria-current="true"] {
+  color: var(--paper);
+}
+
+.bo-rail-item[aria-current="true"]::before {
+  transform: scaleX(1);
+  background: var(--gold);
+}
+
+.bo-rail-item .bo-ico {
+  opacity: 0.75;
+  margin-top: 2px;
+}
+
+.bo-rail-item[aria-current="true"] .bo-ico {
+  opacity: 1;
+}
+
+.bo-sheets {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  min-width: 0;
+}
+
+.bo-sheets:focus {
+  outline: none;
+}
+
+/* ============================================================
+   LA FEUILLE
+   ============================================================ */
+.bo-sheet {
+  background: var(--bo-sheet);
+  color: var(--ink);
+  padding: 38px 42px 42px;
+  box-shadow: var(--bo-lift);
+  scroll-margin-top: calc(var(--bo-bar-h) + 24px);
+}
+
+/* Un seul mouvement, joué une fois à l'arrivée : les feuilles se posent
+   l'une après l'autre. Il ne touche ni à l'opacité ni à la visibilité —
+   une animation en pause (onglet en arrière-plan) doit laisser une
+   feuille lisible, seulement décalée de quelques pixels. */
+.bo.is-ready .bo-sheet {
+  animation: bo-lay 0.62s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+.bo.is-ready .bo-sheet:nth-child(2) { animation-delay: 0.07s; }
+.bo.is-ready .bo-sheet:nth-child(3) { animation-delay: 0.14s; }
+.bo.is-ready .bo-sheet:nth-child(4) { animation-delay: 0.21s; }
+.bo.is-ready .bo-sheet:nth-child(n + 5) { animation-delay: 0.28s; }
+
+@keyframes bo-lay {
+  from {
+    transform: translateY(18px);
+    box-shadow: 0 6px 18px -12px rgba(0, 0, 0, 0.6);
+  }
+}
+
+.bo-sheet-head {
+  margin-bottom: 26px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--bo-rule);
+}
+
+.bo-sheet-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 1.95rem;
+  line-height: 1.1;
+  color: var(--green-900);
+}
+
+.bo-sheet-title .bo-ico {
+  color: var(--teal);
+  margin-top: 3px;
+}
+
+.bo-sheet-say {
+  margin: 10px 0 0;
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 62ch;
+}
+
+/* L'état de publication, écrit en toutes lettres — jamais porté par
+   la seule couleur. */
+.bo-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 7px 14px 7px 11px;
+  border-radius: 2px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  background: var(--mint-soft);
+  color: var(--green-800);
+  box-shadow: inset 0 0 0 1px var(--bo-rule-soft);
+}
+
+.bo-state-live {
+  background: var(--gold-soft);
+  color: #5a4415;
+  box-shadow: inset 0 0 0 1px rgba(122, 94, 34, 0.28);
+}
+
+.bo-state .bo-ico {
+  width: 16px;
+  height: 16px;
+}
+
+/* ============================================================
+   BLOCS INTERNES
+   ============================================================ */
+.bo-block + .bo-block {
+  margin-top: 34px;
+  padding-top: 30px;
+  border-top: 1px solid var(--bo-rule-soft);
+}
+
+.bo-block-title {
+  font-family: var(--sans);
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--green-900);
+  margin-bottom: 4px;
+}
+
+.bo-block-note {
+  margin: 0 0 20px;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  max-width: 62ch;
+}
+
+/* ============================================================
+   FORMULAIRES
+   ============================================================ */
+/* Un champ ne s'étire pas à la largeur de la feuille : au-delà, l'œil
+   perd le lien entre le libellé et la fin de la ligne saisie. */
+.bo-field {
+  margin-bottom: 18px;
+  max-width: 620px;
+}
+
+.bo-field label,
+.bo-label {
   display: block;
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--green-800);
-  margin: 14px 0 6px;
-}
-
-.admin-form input[type="text"],
-.admin-form input[type="url"],
-.admin-form textarea {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid var(--mint);
-  border-radius: 4px;
-  font-family: var(--sans);
-  font-size: 0.95rem;
-  color: var(--ink);
-}
-
-.admin-form textarea {
-  min-height: 90px;
-  resize: vertical;
-}
-
-.admin-check {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 16px;
-}
-
-.admin-check label {
-  margin: 0;
-}
-
-.admin-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 22px;
-}
-
-.admin-actions button {
-  font-family: var(--sans);
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  border: 0;
-}
-
-.admin-btn-primary {
-  background: var(--green-700);
-  color: #fff;
-}
-
-.admin-btn-primary:hover {
-  background: var(--teal-bright);
-}
-
-.admin-btn-ghost {
-  background: transparent;
-  border: 1px solid var(--mint) !important;
-  color: var(--ink-soft);
-}
-
-.admin-events-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.admin-event-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 16px;
-  border: 1px solid var(--mint);
-  border-radius: 4px;
-}
-
-.admin-event-row.is-active {
-  border-color: var(--gold);
-  background: var(--mint-soft);
-}
-
-.admin-event-row h3 {
-  font-size: 1rem;
-  margin-bottom: 4px;
-}
-
-.admin-event-row p {
-  font-size: 0.85rem;
-  color: var(--ink-soft);
-}
-
-.admin-event-badge {
-  display: inline-block;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--green-800);
-  background: var(--gold-soft);
-  border-radius: 2px;
-  padding: 2px 8px;
   margin-bottom: 6px;
 }
 
-.admin-event-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  flex-shrink: 0;
+.bo-field input[type="text"],
+.bo-field input[type="url"],
+.bo-field textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 14px;
+  background: var(--bo-field);
+  border: 1px solid var(--bo-rule);
+  border-radius: 3px;
+  font-family: var(--sans);
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--ink);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
-.admin-event-buttons button {
-  font-family: var(--sans);
-  font-size: 0.85rem;
-  padding: 11px 14px;
-  border-radius: 4px;
+.bo-field input::placeholder,
+.bo-field textarea::placeholder {
+  color: #7b8a80;
+}
+
+.bo-field input:hover,
+.bo-field textarea:hover {
+  border-color: rgba(36, 48, 41, 0.34);
+}
+
+.bo-field input:focus,
+.bo-field textarea:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(47, 143, 127, 0.18);
+}
+
+.bo-field textarea {
+  min-height: 104px;
+  resize: vertical;
+}
+
+.bo-hint {
+  margin: 6px 0 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* La case « afficher sur le site » est la décision de la feuille :
+   elle occupe son propre encart. */
+.bo-switch {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 620px;
+  margin: 22px 0 4px;
+  padding: 16px 18px;
+  background: var(--mint-soft);
+  box-shadow: inset 0 0 0 1px var(--bo-rule-soft);
+}
+
+.bo-switch input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  flex: none;
+  accent-color: var(--green-700);
   cursor: pointer;
-  border: 1px solid var(--mint);
-  background: #fff;
+}
+
+.bo-switch label {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--green-900);
+  cursor: pointer;
+}
+
+.bo-switch .bo-hint {
+  margin-top: 3px;
+  font-weight: 400;
+}
+
+.bo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+/* ============================================================
+   BOUTONS
+   ============================================================ */
+.bo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 12px 20px;
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.2;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease,
+    transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.bo-btn-primary {
+  background: var(--gold);
+  color: var(--green-900);
+  font-weight: 700;
+}
+
+.bo-btn-primary:hover {
+  background: var(--gold-soft);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px -14px rgba(0, 0, 0, 0.7);
+}
+
+.bo-btn-line {
+  border-color: var(--bo-rule);
   color: var(--ink);
 }
 
-.admin-empty {
-  color: var(--ink-soft);
+.bo-btn-line:hover {
+  background: var(--mint-soft);
+  border-color: var(--green-700);
+}
+
+.bo-btn-danger {
+  border-color: var(--danger-border);
+  color: var(--danger);
+}
+
+.bo-btn-danger:hover {
+  background: var(--danger-bg);
+  border-color: var(--danger);
+}
+
+/* Sur le bain vert */
+.bo-btn-quiet {
+  border-color: rgba(216, 243, 220, 0.38);
+  color: var(--mint);
+  min-height: 42px;
+  padding: 10px 16px;
+  font-size: 0.87rem;
+}
+
+.bo-btn-quiet:hover {
+  background: rgba(216, 243, 220, 0.12);
+  border-color: var(--mint);
+  color: var(--paper);
+}
+
+.bo-btn-sm {
+  min-height: 40px;
+  padding: 9px 14px;
+  font-size: 0.85rem;
+}
+
+.bo-btn:disabled,
+.bo-btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.bo-btn:disabled:hover,
+.bo-btn[aria-disabled="true"]:hover {
+  background: transparent;
+  transform: none;
+  box-shadow: none;
+}
+
+.bo-btn-primary:disabled:hover {
+  background: var(--gold);
+}
+
+/* Le bouton qui travaille : sa roue remplace son icône */
+.bo-spin {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  opacity: 0.75;
+  animation: bo-turn 0.7s linear infinite;
+}
+
+@keyframes bo-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================
+   LISTES — des lignes séparées par un filet, jamais des cartes
+   posées dans une carte
+   ============================================================ */
+.bo-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.bo-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 0;
+  border-top: 1px solid var(--bo-rule-soft);
+}
+
+.bo-item:first-child {
+  border-top: 0;
+  padding-top: 4px;
+}
+
+/* La ligne publiée : un champ de couleur qui déborde jusqu'aux
+   marges de la feuille, pas un liseré collé sur le bord. */
+.bo-item-live {
+  background: var(--mint-soft);
+  margin: 0 -42px;
+  padding: 22px 42px;
+  border-top-color: transparent;
+}
+
+.bo-item-live + .bo-item {
+  border-top-color: transparent;
+}
+
+.bo-item-body {
+  min-width: 0;
+}
+
+.bo-item-title {
+  font-family: var(--sans);
+  font-size: 1.04rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--green-900);
+  margin: 0 0 3px;
+  overflow-wrap: anywhere;
+}
+
+/* L'étiquette est une donnée de l'événement, posée sous son titre :
+   au-dessus et en capitales espacées, elle se lirait comme un chapeau
+   décoratif alors qu'elle nomme un champ que le visiteur verra. */
+.bo-item-tag {
+  margin: 0 0 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--teal);
+}
+
+.bo-item-text {
+  margin: 0;
   font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 58ch;
+  overflow-wrap: anywhere;
+}
+
+/* L'icône reste sur la première ligne : une adresse longue s'enroule
+   sous elle-même, jamais autour du pictogramme. */
+.bo-item-link {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin-top: 8px;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--green-700);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.bo-item-link .bo-ico {
+  width: 15px;
+  height: 15px;
+  margin-top: 3px;
+}
+
+.bo-item-link:hover {
+  color: var(--teal-bright);
+  text-decoration: underline;
+}
+
+.bo-item-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  padding: 4px 10px 4px 8px;
+  border-radius: 2px;
+  background: var(--gold-soft);
+  color: #5a4415;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.bo-item-badge .bo-ico {
+  width: 14px;
+  height: 14px;
+}
+
+/* Largeur commune : les piles de boutons s'alignent d'une ligne à
+   l'autre au lieu de dessiner un bord en dents de scie. */
+.bo-item-tools {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  flex: none;
+  min-width: 176px;
+}
+
+/* La suppression se confirme sur place, jamais dans une fenêtre
+   système qui arrache l'utilisateur à sa page. */
+.bo-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  background: var(--danger-bg);
+  box-shadow: inset 0 0 0 1px var(--danger-border);
+  border-radius: 3px;
+}
+
+.bo-confirm p {
+  margin: 0;
+  font-size: 0.83rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--danger);
+  max-width: 22ch;
+}
+
+.bo-confirm-row {
+  display: flex;
+  gap: 8px;
+}
+
+.bo-btn-solid-danger {
+  background: var(--danger);
+  color: #fff;
+  border-color: var(--danger);
+}
+
+.bo-btn-solid-danger:hover {
+  background: #86260f;
+  border-color: #86260f;
+}
+
+/* ============================================================
+   ÉTATS — chargement, vide, erreur, confirmation
+   ============================================================ */
+.bo-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  padding-top: 4px;
+}
+
+.bo-skeleton-row {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.bo-skeleton-bar {
+  height: 12px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--mint-soft), #e2eee5, var(--mint-soft));
+  background-size: 240% 100%;
+  animation: bo-sweep 1.5s ease-in-out infinite;
+}
+
+@keyframes bo-sweep {
+  from { background-position: 130% 0; }
+  to { background-position: -30% 0; }
+}
+
+.bo-empty {
+  padding: 34px 28px;
+  text-align: center;
+  background: var(--mint-soft);
+  box-shadow: inset 0 0 0 1px var(--bo-rule-soft);
+}
+
+.bo-empty .bo-ico {
+  width: 26px;
+  height: 26px;
+  margin: 0 auto 12px;
+  color: var(--teal);
+}
+
+.bo-empty-title {
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--green-900);
+  margin-bottom: 6px;
+}
+
+.bo-empty p {
+  margin: 0 auto;
+  max-width: 46ch;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.bo-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 18px 0 0;
+  padding: 13px 16px;
+  border-radius: 3px;
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  text-align: left;
+}
+
+.bo-alert .bo-ico {
+  margin-top: 2px;
+}
+
+.bo-alert-actions {
+  margin-top: 10px;
+}
+
+/* Confirmation d'enregistrement : une ligne discrète, qui s'efface */
+.bo-flash {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 18px;
+  padding: 11px 15px;
+  background: var(--mint);
+  color: var(--green-800);
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: 3px;
+}
+
+.bo-flash[hidden] {
+  display: none;
+}
+
+.bo-flash .bo-ico {
+  color: var(--green-700);
+}
+
+/* ============================================================
+   TABLEAU DE VALEURS — les modules encore en lecture seule
+   ============================================================ */
+.bo-values {
+  display: flex;
+  flex-direction: column;
+}
+
+.bo-value {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 8px 24px;
+  padding: 14px 0;
+  border-top: 1px solid var(--bo-rule-soft);
+}
+
+.bo-value:first-child {
+  border-top: 0;
+}
+
+.bo-value dt {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--green-800);
+}
+
+.bo-value dt .bo-ico {
+  color: var(--teal);
+}
+
+.bo-value dd {
+  margin: 0;
+  font-size: 0.96rem;
+  line-height: 1.55;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.bo-value dd small {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.83rem;
+  color: var(--ink-soft);
+}
+
+/* L'aveu honnête : ce module se lit mais ne s'édite pas encore. */
+.bo-pending {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-top: 26px;
+  padding: 16px 18px;
+  background: var(--beige);
+  box-shadow: inset 0 0 0 1px rgba(122, 94, 34, 0.16);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: #5a4415;
+}
+
+.bo-pending .bo-ico {
+  margin-top: 2px;
+  flex: none;
+}
+
+.bo-pending strong {
+  display: block;
+  font-weight: 700;
+  color: #4a3711;
+}
+
+/* Pas de pastille grise autour d'un nom de fichier : le poids suffit,
+   et la ponctuation qui suit reste collée au mot. */
+.bo-pending code {
+  font-family: var(--sans);
+  font-weight: 700;
+  color: #4a3711;
+}
+
+/* ============================================================
+   ADAPTATION
+   ============================================================ */
+@media (max-width: 940px) {
+  .bo-shell {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding: 0 0 96px;
+  }
+
+  /* Le sommaire quitte la marge et devient une bande horizontale
+     accrochée sous la barre. */
+  .bo-rail {
+    position: sticky;
+    top: var(--bo-bar-h);
+    z-index: 9;
+    display: flex;
+    gap: 4px;
+    border-left: 0;
+    border-bottom: 1px solid rgba(216, 243, 220, 0.2);
+    background: var(--green-900);
+    padding: 0 16px;
+    margin-bottom: 32px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .bo-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .bo-rail-item {
+    padding: 15px 12px;
+    white-space: nowrap;
+  }
+
+  .bo-rail-item::before {
+    left: 12px;
+    right: 12px;
+    top: auto;
+    bottom: 0;
+    width: auto;
+    height: 2px;
+    background: transparent;
+    transform: none;
+    transition: background-color 0.24s ease;
+  }
+
+  .bo-rail-item:hover::before {
+    transform: none;
+    background: rgba(216, 243, 220, 0.45);
+  }
+
+  .bo-rail-item[aria-current="true"]::before {
+    transform: none;
+    background: var(--gold);
+  }
+
+  .bo-sheets {
+    gap: 28px;
+    padding: 0 16px;
+  }
+
+  .bo-sheet {
+    padding: 32px 26px 34px;
+    scroll-margin-top: calc(var(--bo-bar-h) + 62px);
+  }
+
+  .bo-item-live {
+    margin: 0 -26px;
+    padding: 22px 26px;
+  }
+}
+
+@media (max-width: 700px) {
+  /* La barre passe sur trois lignes ici : collée en haut, elle mange le
+     tiers de l'écran. On la laisse défiler et c'est le sommaire, seul
+     utile en cours de saisie, qui reste accroché. */
+  .bo-bar {
+    position: static;
+  }
+
+  .bo-bar-inner {
+    padding: 10px 16px;
+  }
+
+  .bo-bar-who {
+    max-width: 100%;
+    order: 3;
+    flex-basis: 100%;
+  }
+
+  .bo-rail {
+    top: 0;
+  }
+
+  .bo-sheet {
+    scroll-margin-top: 62px;
+  }
+
+  .bo-item-tools {
+    min-width: 0;
+  }
+
+  .bo-sheet-title {
+    font-size: 1.65rem;
+  }
+
+  .bo-item {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .bo-item-tools {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .bo-confirm {
+    width: 100%;
+  }
+
+  .bo-confirm p {
+    max-width: none;
+  }
+
+  .bo-value {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+}
+
+@media (max-width: 520px) {
+  .bo-sheets {
+    padding: 0 12px;
+  }
+
+  .bo-sheet {
+    padding: 28px 20px 30px;
+  }
+
+  .bo-item-live {
+    margin: 0 -20px;
+    padding: 20px;
+  }
+
+  .bo-gate-card {
+    padding: 40px 24px 30px;
+  }
+
+  .bo-actions .bo-btn {
+    flex: 1 1 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bo.is-ready .bo-sheet {
+    animation: none;
+  }
 }
