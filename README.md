@@ -8,7 +8,8 @@ Site statique minimaliste (HTML/CSS/JS vanilla, sans dépendances) pour la secti
 
 ## 📋 Stack technique
 
-- **HTML / CSS / JS vanilla uniquement** — aucun framework, aucun bundler, aucune dépendance npm
+- **HTML / CSS / JS vanilla uniquement** — aucun framework, aucun bundler, aucune dépendance npm côté site public
+- **Exception** : gestion des événements via Supabase + fonctions Vercel (`api/`) + admin protégée par Google (voir « Gestion des événements » plus bas)
 - **Un seul fichier `index.html`** auto-suffisant à la racine
 - **CSS modulaire** : découpé par domaine fonctionnel dans `assets/css/`
 - **JS modulaire** : découpé par domaine fonctionnel dans `assets/js/`
@@ -270,6 +271,58 @@ vercel --prod  # Voir le statut en ligne de commande (si Vercel CLI est install�
 - **Build Command** : (aucun — site statique)
 - **Output Directory** : `.` (racine)
 - **Environment** : production
+
+---
+
+## 🗓️ Gestion des événements (admin)
+
+Le site public reste statique, mais une exception existe pour la gestion des événements (portes ouvertes, rencontres...) : elle repose sur Supabase (base de données), des fonctions serverless Vercel (`api/`) et une connexion Google restreinte à une liste d'emails (`admin/`). Voir `CLAUDE.md` → « Exception backend — gestion des événements » pour le détail de l'architecture et des règles.
+
+### 1. Créer le projet Supabase
+
+1. Créer un projet sur [supabase.com](https://supabase.com) (le plan gratuit suffit largement).
+2. Dans l'éditeur SQL du projet, exécuter :
+
+```sql
+create table if not exists events (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  description text not null default '',
+  tag text not null default 'Prochain événement',
+  link_url text not null,
+  active boolean not null default false,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+```
+
+3. Dans Project Settings → API, récupérer l'URL du projet et la clé **`service_role`** (jamais la clé `anon`, jamais exposée au navigateur).
+
+### 2. Créer les identifiants Google OAuth
+
+1. Sur [Google Cloud Console](https://console.cloud.google.com), créer (ou réutiliser) un projet.
+2. APIs & Services → Écran de consentement OAuth : configurer un écran de type « externe » (ou « interne » si Google Workspace), pas besoin de validation Google pour un usage interne à quelques comptes.
+3. APIs & Services → Identifiants → Créer des identifiants → ID client OAuth → type **Application Web**.
+4. Dans « Origines JavaScript autorisées », ajouter l'URL de production (`https://www.zenwaysaintlaurentduvar.fr`) et les URLs de preview Vercel utilisées.
+5. Copier le **Client ID** obtenu dans `assets/js/config-admin.js` (`googleClientId`) — ce n'est pas une donnée secrète.
+
+### 3. Variables d'environnement Vercel
+
+Dans le projet Vercel → Settings → Environment Variables, ajouter :
+
+| Variable | Valeur |
+| --- | --- |
+| `SUPABASE_URL` | URL du projet Supabase |
+| `SUPABASE_SERVICE_ROLE_KEY` | Clé `service_role` Supabase |
+| `GOOGLE_CLIENT_ID` | Même Client ID que dans `config-admin.js` |
+| `ADMIN_EMAILS` | Emails autorisés à administrer, séparés par des virgules (ex: `contact@zenwaysaintlaurentduvar.fr,graphigreg@gmail.com`) |
+| `SESSION_SECRET` | Chaîne aléatoire longue (ex : générée avec `openssl rand -hex 32`) |
+
+Redéployer après avoir ajouté ces variables.
+
+### 4. Utiliser l'admin
+
+Se rendre sur `https://<domaine>/admin/`, se connecter avec un compte Google listé dans `ADMIN_EMAILS`, puis créer/modifier/supprimer les événements. Seul l'événement marqué « Afficher sur le site » apparaît dans le bandeau et la section événements du site public (un seul à la fois).
 
 ---
 

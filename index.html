@@ -199,6 +199,17 @@
 
 <body>
 
+  <!-- ============ BANDEAU ÉVÉNEMENT ============ -->
+  <!-- Masqué par défaut ; affiché par assets/js/events-banner.js quand un
+       événement actif existe (voir /api/events/active). -->
+  <a href="#" class="event-banner" id="eventBanner" target="_blank" rel="noopener" hidden>
+    <span class="wrap event-banner-inner">
+      <span class="event-banner-tag" id="eventBannerTag">Prochain événement</span>
+      <span class="event-banner-title" id="eventBannerTitle"></span>
+      <span class="event-banner-arrow" aria-hidden="true">→</span>
+    </span>
+  </a>
+
   <!-- ============ NAV ============ -->
   <header class="nav">
     <div class="wrap bar">
@@ -683,12 +694,12 @@
           <p class="insc-recap">En ligne en 3 étapes : formule, coordonnées, règlement sécurisé — reçu immédiat par
             e-mail. Premier cours d'essai offert avant toute inscription, 0 € de frais pour l'association.</p>
         </div>
-        <aside class="event">
-          <p class="event-tag">Événements</p>
-          <h3>Aucun événement prévu pour le moment</h3>
-          <p>Revenez bientôt pour découvrir nos prochaines portes ouvertes et rencontres. En attendant, profitez de
-            votre premier cours d'essai offert.</p>
-          <a href="#infos" class="btn btn-line">Comment venir</a>
+        <aside class="event" id="eventAside">
+          <p class="event-tag" id="eventAsideTag">Événements</p>
+          <h3 id="eventAsideTitle">Aucun événement prévu pour le moment</h3>
+          <p id="eventAsideDesc">Revenez bientôt pour découvrir nos prochaines portes ouvertes et rencontres. En
+            attendant, profitez de votre premier cours d'essai offert.</p>
+          <a href="#infos" class="btn btn-line" id="eventAsideLink">Comment venir</a>
         </aside>
       </div>
     </section>
@@ -786,7 +797,7 @@
   </footer>
 
   <script src="assets/js/config-helloasso.js"></script>
-  <script src="assets/js/config-evenements.js"></script>
+  <script src="assets/js/events-banner.js"></script>
   <script src="assets/js/config-videos.js"></script>
   <script src="assets/js/config-planning.js"></script>
   <script src="assets/js/hero-bath.js"></script>

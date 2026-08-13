@@ -28,8 +28,80 @@ Zenway n'est **pas** un enchaînement de quatre cours séparés. C'est **une seu
 - Un seul fichier `index.html` à la racine (déployable tel quel), le CSS est découpé en fichiers statiques dans `assets/css/`, le JS en fichiers statiques dans `assets/js/`.
 - Les assets externes (images, fonts) sont référencés par URL ou placés dans `assets/`.
 - Les données configurables (planning, vidéos, HelloAsso) sont dans des fichiers dédiés de `assets/js/`, clairement séparés du code de rendu.
-- Aucune dépendance npm. Aucun `package.json`. Aucun build step.
+- Aucune dépendance npm côté site public. Aucun build step, aucun bundler pour `index.html` / `assets/`.
 - **Pas de fichier `.nojekyll`** — inutile sur Vercel, réservé à GitHub Pages.
+- **Exception backend (voir section dédiée ci-dessous)** : un petit backend serverless existe uniquement pour la gestion des événements (stockage + admin). Il vit dans `api/` (+ `package.json` racine pour ses seules dépendances) et ne change rien à la nature statique du reste du site.
+
+---
+
+## Exception backend — gestion des événements
+
+Le reste du site reste 100 % statique (HTML/CSS/JS vanilla, zéro build). Une seule fonctionnalité déroge à la règle « pas de backend / pas de base de données » : la gestion des événements (portes ouvertes, rencontres...), pour permettre à Béatrice de publier un événement sans toucher au code.
+
+### Stack de cette exception
+
+- **Base de données** : Supabase (Postgres), table unique `events`.
+- **Fonctions serverless** : Vercel Functions (Node.js) dans `api/`, routage par fichiers.
+- **Authentification admin** : Google Sign-In (Google Identity Services, client-side), avec vérification du token côté serveur (`google-auth-library`) et **whitelist d'emails** (`ADMIN_EMAILS`) — seuls les emails listés peuvent accéder à l'admin, peu importe le compte Google utilisé.
+- **Session admin** : cookie `httpOnly`/`Secure` signé (HMAC, `crypto` natif Node — pas de dépendance JWT dédiée).
+- **`package.json` racine** : existe uniquement pour les dépendances de `api/` (`@supabase/supabase-js`, `google-auth-library`). N'affecte pas le déploiement du site statique (pas de build step, Vercel sert `index.html`/`assets/` tel quel et déploie `api/` comme fonctions).
+- **Page admin conçue comme une coquille extensible** : `admin/index.html` gère la connexion (partagée) et un système d'onglets qui monte des modules déclarés dans `window.AdminModules`. Aujourd'hui un seul module (« Événements ») ; l'admin est destinée à accueillir d'autres sections à l'avenir (voir « Ajouter un module admin » ci-dessous). Cela ne change rien à la portée du backend/BDD lui-même, qui reste strictement limité aux événements tant qu'aucune autre décision n'est prise.
+
+### Fichiers
+
+```
+api/
+├── _lib/
+│   ├── supabase.js     ← client Supabase (clé service_role, jamais exposée au front)
+│   ├── session.js       ← création/vérification du cookie de session admin
+│   └── google.js        ← vérification du token Google (audience = GOOGLE_CLIENT_ID)
+├── auth/
+│   ├── google.js        ← POST : vérifie le token Google, whitelist, pose le cookie
+│   ├── me.js             ← GET : session admin active ?
+│   └── logout.js         ← POST : efface le cookie
+└── events/
+    ├── active.js         ← GET public : l'événement actif (ou null) pour le site
+    ├── index.js          ← GET (liste, admin) / POST (créer, admin)
+    └── [id].js            ← PUT (modifier, admin) / DELETE (admin)
+
+admin/
+└── index.html            ← coquille admin : connexion + onglets + zone de contenu
+
+assets/js/
+├── config-admin.js        ← identifiant client Google (page /admin uniquement)
+├── admin-auth.js           ← connexion Google + session, partagé par tous les modules admin
+├── admin-events.js         ← module « Événements » (CRUD), s'enregistre dans window.AdminModules
+└── admin.js                ← coquille : onglets, montage/démontage des modules
+```
+
+### Ajouter un module admin
+
+Pour ajouter une nouvelle section à l'admin (autre chose que les événements) :
+
+1. Créer `assets/js/admin-<nom>.js` qui s'enregistre en poussant `{ id, label, mount(container), unmount() }` dans `window.AdminModules` (voir `admin-events.js` comme modèle).
+2. L'inclure dans `admin/index.html`, après `admin-auth.js` et avant `admin.js`.
+3. Si le module a besoin de stockage, décider au cas par cas si `api/` et Supabase sont réutilisés (nouvelle table) ou si une autre solution convient — ce n'est plus couvert par la règle « strictement limité aux événements » ci-dessus une fois la décision prise explicitement avec l'utilisateur.
+
+La coquille (`admin.js`) n'a pas besoin d'être modifiée : elle lit `window.AdminModules` et affiche les onglets automatiquement dès qu'il y en a plus d'un.
+
+### Variables d'environnement (à définir dans Vercel → Settings → Environment Variables)
+
+| Variable | Rôle |
+| --- | --- |
+| `SUPABASE_URL` | URL du projet Supabase |
+| `SUPABASE_SERVICE_ROLE_KEY` | Clé service_role Supabase (accès serveur uniquement, jamais exposée au front) |
+| `GOOGLE_CLIENT_ID` | Client ID OAuth 2.0 créé dans Google Cloud Console |
+| `ADMIN_EMAILS` | Emails autorisés à administrer, séparés par des virgules |
+| `SESSION_SECRET` | Secret aléatoire long, sert à signer le cookie de session admin |
+
+Voir `README.md` pour la procédure complète (SQL Supabase, config Google Cloud Console).
+
+### Règles propres à cette exception
+
+- Ne jamais élargir ce backend à autre chose que les événements (pas d'espace membre, pas de gestion des adhésions — HelloAsso reste seul responsable de ça).
+- Le site public ne doit jamais appeler Supabase directement : tout passe par `api/events/active.js`, seule route publique, qui ne renvoie que les champs nécessaires à l'affichage.
+- La clé `SUPABASE_SERVICE_ROLE_KEY` ne doit jamais apparaître dans un fichier de `assets/` ou dans `index.html`.
+- `admin/index.html` n'est pas listé dans la nav publique ni le footer — accès par URL directe uniquement, protégé par la connexion Google + whitelist.
 
 ---
 
@@ -93,6 +165,7 @@ zenway-saint-laurent/
 │   │   ├── sections.css     ← concept & pratiques, planning, pour qui,
 │   │   │                      vidéos, événements, inscriptions, infos, cta
 │   │   ├── video.css        ← composant vidéo (teaser + galerie)
+│   │   ├── admin.css        ← page /admin (coquille + tous les modules)
 │   │   ├── footer.css       ← pied de page
 │   │   └── responsive.css   ← media queries (chargé en dernier)
 │   ├── fonts/               ← woff2 Cormorant Garamond / DM Sans / Caveat
@@ -100,7 +173,11 @@ zenway-saint-laurent/
 │   │                          pour éviter l'appel à fonts.googleapis.com)
 │   ├── js/
 │   │   ├── config-helloasso.js  ← slugs HelloAsso, injection des liens/widget
-│   │   ├── config-evenements.js ← slugs HelloAsso événements, prêt mais inactif tant qu'aucun événement n'est configuré
+│   │   ├── events-banner.js     ← fetch /api/events/active, alimente bandeau + section événements
+│   │   ├── config-admin.js      ← identifiant client Google (page /admin uniquement)
+│   │   ├── admin-auth.js        ← connexion Google + session, partagé par les modules admin
+│   │   ├── admin-events.js      ← module admin « Événements » (CRUD)
+│   │   ├── admin.js             ← coquille admin : onglets, montage des modules
 │   │   ├── config-videos.js     ← vidéo teaser hero + galerie YouTube
 │   │   ├── config-planning.js   ← créneaux de séance affichés
 │   │   └── nav-reveal.js        ← scroll nav, burger menu, animations reveal
@@ -112,6 +189,10 @@ zenway-saint-laurent/
 │       ├── activite-yoga.jpg           ← photo pratique Yoga
 │       ├── activite-pilates.jpg        ← photo pratique Pilates
 │       └── activite-qigong.jpg         ← photo pratique Qi gong
+├── admin/
+│   └── index.html       ← page d'administration des événements (voir « Exception backend »)
+├── api/                 ← fonctions serverless Vercel (voir « Exception backend »)
+├── package.json         ← dépendances de api/ uniquement (aucun build step pour le site)
 ├── .gitignore          ← exclut .DS_Store et autres fichiers système
 ├── CLAUDE.md           ← ce fichier
 └── README.md           ← instructions déploiement et mise à jour
@@ -243,7 +324,7 @@ chore(vercel): suppression du fichier .nojekyll inutile sur Vercel
 
 - ❌ Angular, React, Vue ou tout autre framework
 - ❌ npm / node_modules / package.json
-- ❌ Backend, API maison, base de données
+- ❌ Backend, API maison, base de données — **sauf l'exception documentée dans « Exception backend — gestion des événements »**, strictement limitée à cet usage
 - ❌ Espace membre (décision prise — HelloAsso couvre les besoins de gestion)
 - ❌ Écriture inclusive
 - ❌ Nouvelle couleur hors palette définie

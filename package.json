@@ -1,0 +1,12 @@
+{
+  "name": "zenway-saint-laurent-api",
+  "private": true,
+  "description": "Dépendances des fonctions serverless api/ (gestion des événements). Le site public (index.html + assets/) reste statique, sans build step.",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "google-auth-library": "^9.14.1"
+  }
+}
