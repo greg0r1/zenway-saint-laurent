@@ -7,5 +7,5 @@
    3. Colle l'ID client ci-dessous.
    ============================================================ */
 const CONFIG_ADMIN = {
-  googleClientId: "REMPLACER_PAR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+  googleClientId: "903399244650-81vijq3djfk70pon6vgs3ln0t2cqtkpu.apps.googleusercontent.com"
 };
