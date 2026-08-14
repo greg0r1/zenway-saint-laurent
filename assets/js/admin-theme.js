@@ -1,5 +1,5 @@
 /* ============================================================
-   ADMIN-THEME — clair / sombre pour l'atelier.
+   ADMIN-THEME — clair / sombre pour la console.
    Chargé dans le <head>, en synchrone : le thème doit être posé sur
    <html> avant le premier rendu, sinon la page apparaît en clair une
    fraction de seconde avant de basculer.

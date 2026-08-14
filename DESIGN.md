@@ -102,10 +102,6 @@ typography:
     lineHeight: 1.3
     letterSpacing: "0.1em"
     textTransform: "uppercase"
-  script-accent:
-    fontFamily: "Caveat, cursive"
-    fontSize: "1.5rem"
-    fontWeight: 400
 rounded:
   none: "0"
   xs: "2px"
@@ -193,7 +189,7 @@ Le public du site est majoritairement senior : la densité reste basse, les cibl
 - Côté site : un fond en profondeur d'eau, du papier à angles vifs, une ombre longue comme seule source de relief
 - Côté admin : une charpente de console classique, des filets de 1 px, deux thèmes complets
 - L'or rare et décisif dans les deux mondes ; le teal réservé à l'attention et au focus
-- Cormorant pour les titres, DM Sans pour tout le reste, Caveat une ligne à la fois et jamais dans l'admin
+- Cormorant pour les titres, DM Sans pour tout le reste — deux polices, pas une de plus
 - Des icônes tracées, jamais un glyphe unicode ni un emoji
 - L'état écrit avant d'être coloré
 
@@ -241,9 +237,8 @@ Les rôles principaux : `--ad-bg` (le fond de la zone de travail), `--ad-surface
 
 **Display Font :** Cormorant Garamond (Georgia, serif)
 **Body Font :** DM Sans (system-ui, sans-serif)
-**Accent Font :** Caveat (cursive)
 
-Les trois sont auto-hébergées en woff2 dans `assets/fonts/` (sous-ensembles latin et latin-ext) : aucun appel à `fonts.googleapis.com`.
+Les deux sont auto-hébergées en woff2 dans `assets/fonts/` (sous-ensembles latin et latin-ext) : aucun appel à `fonts.googleapis.com`. Une troisième, Caveat, figurait ici sans habiller le moindre texte ; elle a été retirée du projet.
 
 **Character :** un serif de la Renaissance, léger et haut d'axe, posé sur une grotesque géométrique tiède. Le contraste est fort en dessin mais faible en taille : les titres ne hurlent pas, ils changent de voix.
 
@@ -268,7 +263,7 @@ Les trois sont auto-hébergées en woff2 dans `assets/fonts/` (sous-ensembles la
 
 **La règle de l'échelle serrée.** Entre deux niveaux consécutifs de l'interface, le rapport reste entre 1,12 et 1,2. La hiérarchie se fait au poids et à la famille avant de se faire à la taille. L'admin a son propre barreau, plus serré que celui du site : c'est une échelle d'interface, pas une échelle éditoriale.
 
-**La règle du serif rare en mode tâche.** Dans l'admin, Cormorant ne touche que deux choses : le titre de page et le titre du panneau. Tout ce qui est libellé, bouton, valeur ou donnée est en DM Sans. Caveat n'entre pas du tout dans l'admin.
+**La règle du serif rare en mode tâche.** Dans l'admin, Cormorant ne touche que deux choses : le titre de page et le titre du panneau. Tout ce qui est libellé, bouton, valeur ou donnée est en DM Sans.
 
 **La règle du chapeau interdit.** Aucun sur-titre en petites capitales espacées au-dessus d'un titre. L'overline existe, mais comme en-tête de colonne, titre de bloc ou étiquette de contexte dans le panneau — jamais comme amorce d'un titre.
 
@@ -391,7 +386,7 @@ Chaque page de l'admin dit en toutes lettres ce que le site publie à cause d'el
 - **Don't** poser un sur-titre en petites capitales espacées au-dessus d'un titre.
 - **Don't** utiliser un liseré coloré de plus de 1 px sur le flanc d'un bloc pour marquer un état.
 - **Don't** introduire une couleur hors palette sans la déclarer en variable.
-- **Don't** faire entrer Caveat dans l'administration, ni l'utiliser sur plus d'une ligne sur le site.
+- **Don't** ajouter une troisième police : Cormorant et DM Sans suffisent, et une police déclarée sans usage réel finit par être retirée.
 - **Don't** employer une fenêtre système (`confirm`, `alert`) : la confirmation de suppression se joue dans le panneau, et propose l'archivage comme sortie.
 - **Don't** poser du flou ou du verre en décoration ; le relief de ce système est une ombre et un filet, pas une texture.
 - **Don't** arrondir une surface de contenu.

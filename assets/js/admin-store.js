@@ -1,5 +1,5 @@
 /* ============================================================
-   ADMIN-STORE — la source unique des événements pour l'atelier.
+   ADMIN-STORE — la source unique des événements pour la console.
    Le tableau de bord et la feuille « Événements » lisent la même
    liste : publier depuis l'une met l'autre à jour sans rechargement,
    et l'API n'est interrogée qu'une fois.
@@ -115,7 +115,7 @@ const AdminStore = (function adminStore() {
     await charger();
   }
 
-  /* --------- Mise en forme des dates, partagée par les feuilles --------- */
+  /* ---------- Mise en forme des dates, partagée par les pages ---------- */
 
   const MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
     'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];

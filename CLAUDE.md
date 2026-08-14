@@ -70,7 +70,7 @@ api/
     └── [id].js            ← PUT (modifier, admin) / DELETE (admin)
 
 admin/
-└── index.html            ← coquille admin : connexion + jeu d'icônes + pile de feuilles
+└── index.html            ← coquille admin : connexion + jeu d'icônes + charpente de la console
 
 assets/js/
 ├── config-admin.js         ← identifiant client Google (page /admin uniquement)
@@ -82,7 +82,7 @@ assets/js/
 ├── admin-events.js         ← module « Événements » (CRUD via le panneau)
 ├── admin-planning.js       ← module « Planning » (lecture seule de config-planning.js)
 ├── admin-infos.js          ← module « Infos pratiques » (lecture seule de index.html)
-└── admin.js                ← coquille : sommaire, montage des feuilles, interrupteur de thème
+└── admin.js                ← coquille : menu latéral, montage des pages, interrupteur de thème
 
 db/
 ├── README.md               ← conventions de schéma + procédure d'application
@@ -153,19 +153,18 @@ Voir `README.md` pour la procédure complète (SQL Supabase, config Google Cloud
 
 Ne jamais introduire de nouvelle couleur sans l'ajouter en variable CSS et justifier son usage.
 
-### Typographies (Google Fonts, déjà chargées)
+### Typographies (auto-hébergées, woff2 dans `assets/fonts/`)
 
-| Variable CSS | Police             | Usage                               |
-| ------------ | ------------------ | ----------------------------------- |
-| `--serif`    | Cormorant Garamond | H1, H2, H3, citations grandes       |
-| `--sans`     | DM Sans            | Texte courant, nav, boutons         |
-| `--script`   | Caveat             | Accents manuscrits courts, taglines |
+| Variable CSS | Police             | Usage                         |
+| ------------ | ------------------ | ----------------------------- |
+| `--serif`    | Cormorant Garamond | H1, H2, H3, citations grandes |
+| `--sans`     | DM Sans            | Texte courant, nav, boutons   |
 
-Ne jamais utiliser d'autre police. Caveat est réservé aux phrases courtes (max une ligne) — jamais pour des paragraphes.
+Deux polices, pas une de plus. Une troisième, Caveat, a longtemps été déclarée sans jamais habiller le moindre texte : elle a été retirée. Ne pas la réintroduire sans un usage réel et décidé.
 
 ### Logo
 
-Trois feuilles SVG en dégradé vert/teal. Le mot « zen » en DM Sans gras blanc, « way » en Caveat teal. Ne jamais déformer, recolorer ou modifier les proportions.
+Trois feuilles SVG en dégradé vert/teal. Le mot « zen » en DM Sans gras blanc, « way » en lettrage manuscrit teal. Le logo est une image (`assets/img/logo/logo-zenway.png` et sa variante webp) : son lettrage est dessiné, pas composé par une police du site. Ne jamais déformer, recolorer ou modifier les proportions.
 
 ---
 
@@ -194,15 +193,22 @@ zenway-saint-laurent/
 │   │   ├── sections.css     ← concept & pratiques, planning, pour qui,
 │   │   │                      vidéos, événements, inscriptions, infos, cta
 │   │   ├── video.css        ← composant vidéo (teaser + galerie)
-│   │   ├── admin.css        ← page /admin (atelier : coquille + tous les modules)
+│   │   ├── discipline-modal.css ← fiches des quatre disciplines (modale)
+│   │   ├── admin.css        ← page /admin (console : coquille + tous les modules)
 │   │   ├── footer.css       ← pied de page
 │   │   └── responsive.css   ← media queries (chargé en dernier)
-│   ├── fonts/               ← woff2 Cormorant Garamond / DM Sans / Caveat
+│   ├── fonts/               ← woff2 Cormorant Garamond / DM Sans
 │   │                          (sous-ensembles latin + latin-ext, auto-hébergés
 │   │                          pour éviter l'appel à fonts.googleapis.com)
 │   ├── js/
 │   │   ├── config-helloasso.js  ← slugs HelloAsso, injection des liens/widget
+│   │   ├── config-videos.js     ← vidéo teaser hero + galerie YouTube
+│   │   ├── config-planning.js   ← créneaux de séance affichés
 │   │   ├── events-banner.js     ← fetch /api/events/active, alimente bandeau + section événements
+│   │   ├── nav-reveal.js        ← scroll nav, burger menu, animations reveal
+│   │   ├── hero-bath.js         ← animation du bain du hero
+│   │   ├── parallax.js          ← défilement parallaxe des visuels
+│   │   ├── practice-modals.js   ← ouverture des fiches disciplines
 │   │   ├── config-admin.js      ← identifiant client Google (page /admin uniquement)
 │   │   ├── admin-theme.js       ← thème clair/sombre de l'admin (chargé dans le <head>)
 │   │   ├── admin-auth.js        ← connexion Google + session, partagé par les modules admin
@@ -212,24 +218,32 @@ zenway-saint-laurent/
 │   │   ├── admin-events.js      ← module admin « Événements » (CRUD)
 │   │   ├── admin-planning.js    ← module admin « Planning » (lecture seule)
 │   │   ├── admin-infos.js       ← module admin « Infos pratiques » (lecture seule)
-│   │   ├── admin.js             ← coquille admin : sommaire, montage des feuilles, thème
-│   │   ├── config-videos.js     ← vidéo teaser hero + galerie YouTube
-│   │   ├── config-planning.js   ← créneaux de séance affichés
-│   │   └── nav-reveal.js        ← scroll nav, burger menu, animations reveal
-│   └── img/
-│       ├── logo-zenway.png             ← logo complet (nav, footer)
-│       ├── logo-zenway-minimaliste.png ← variante du logo (visuel concept)
-│       ├── bea-posture-005.png         ← photo de Béatrice en posture Zenway
-│       ├── activite-taichi.jpg         ← photo pratique Tai-chi chuan
-│       ├── activite-yoga.jpg           ← photo pratique Yoga
-│       ├── activite-pilates.jpg        ← photo pratique Pilates
-│       └── activite-qigong.jpg         ← photo pratique Qi gong
+│   │   └── admin.js             ← coquille admin : menu, montage des pages, thème
+│   └── img/                 ← chaque photo existe en .jpg (ou .png) + .webp,
+│       │                      servies via <picture> ; les favicons et l'og-image
+│       │                      n'ont pas de variante webp
+│       ├── logo/            ← logo-zenway (nav, footer)
+│       ├── bea/             ← photos de Béatrice
+│       ├── activites/       ← les quatre pratiques (cartes de la page d'accueil)
+│       ├── disciplines/     ← fiches disciplines : *-origines et *-aujourdhui
+│       ├── hero/            ← visuel de la section d'accueil
+│       ├── video/           ← affiche de la vidéo teaser
+│       ├── favicons/        ← déclinaisons d'icône (16 → 512 px)
+│       └── meta/            ← og-image du partage social
 ├── admin/
 │   └── index.html       ← page d'administration des événements (voir « Exception backend »)
 ├── api/                 ← fonctions serverless Vercel (voir « Exception backend »)
 ├── db/                  ← migrations SQL Supabase (voir « Exception backend »)
 ├── package.json         ← dépendances de api/ uniquement (aucun build step pour le site)
-├── .gitignore          ← exclut .DS_Store et autres fichiers système
+├── vercel.json          ← en-têtes HTTP : cache, sécurité, CSP
+├── .github/workflows/   ← indexnow.yml : signale les mises à jour aux moteurs
+├── robots.txt           ← règles d'exploration
+├── sitemap.xml          ← plan du site
+├── llms.txt             ← résumé du site pour les agents conversationnels
+├── site.webmanifest     ← manifeste (nom, icônes, couleurs)
+├── favicon.ico          ← icône de repli
+├── 4fdd1f90…​.txt         ← clé de vérification IndexNow (ne pas renommer)
+├── .gitignore          ← exclut .DS_Store, .vercel, .impeccable, .env.local
 ├── PRODUCT.md          ← vérité produit durable (public, usage, contraintes)
 ├── DESIGN.md           ← système visuel : palette, typo, formes, composants, règles
 ├── CLAUDE.md           ← ce fichier

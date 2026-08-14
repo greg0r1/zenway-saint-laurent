@@ -43,8 +43,8 @@ Zenway est **une seule discipline** qui fusionne Tai-chi chuan, Yoga, Pilates et
 
 - Nom : Zenway Saint-Laurent-du-Var. Animatrice : Béatrice Viallon (Béa).
 - Palette figée, déjà en variables CSS : verts profonds (`--green-900` `#1b4332`, `--green-800`, `--green-700`), teal (`--teal` `#2f8f7f`, `--teal-bright`), menthes claires (`--mint`, `--mint-soft`), papier et beige (`--paper`, `--beige`), or (`--gold` `#c9a86a`, `--gold-soft`), encres (`--ink`, `--ink-soft`). Aucune couleur hors palette sans variable déclarée.
-- Trois polices, auto-hébergées, aucune autre : Cormorant Garamond (titres), DM Sans (texte courant, interface), Caveat (accents manuscrits d'une ligne maximum).
-- Logo : trois feuilles SVG en dégradé vert/teal, « zen » en DM Sans gras, « way » en Caveat teal. Jamais déformé ni recoloré.
+- Deux polices, auto-hébergées, aucune autre : Cormorant Garamond (titres), DM Sans (texte courant, interface). Une troisième, Caveat, a été retirée : déclarée de longue date, elle n'habillait aucun texte.
+- Logo : trois feuilles SVG en dégradé vert/teal, « zen » en DM Sans gras, « way » en lettrage manuscrit teal. C'est une image, son lettrage est dessiné et ne dépend d'aucune police du site. Jamais déformé ni recoloré.
 - Ton : français standard, masculin générique, jamais d'écriture inclusive. Vouvoiement, chaleureux et apaisant, jamais directif ni médical. Champ lexical : zénitude, harmonie, équilibre, douceur, souffle, sérénité. Zéro emoji dans le contenu.
 - L'utilisateur a explicitement demandé que le backoffice reprenne les couleurs du thème du site.
 
