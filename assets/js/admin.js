@@ -25,6 +25,7 @@
   const logoutBtn = document.getElementById('logoutBtn');
   const railEl = document.getElementById('adminRail');
   const sheetsEl = document.getElementById('bo-sheets');
+  const themeBtn = document.getElementById('themeBtn');
 
   const modules = window.AdminModules || [];
   const sheets = [];
@@ -181,8 +182,28 @@
     });
   }
 
+  /* ---------- Interrupteur clair / sombre ---------- */
+
+  /* Le bouton annonce ce vers quoi il emmène, jamais l'état actuel :
+     l'icône lune veut dire « passer en sombre ». */
+  function refletTheme(actif) {
+    if (!themeBtn) return;
+    const versSombre = actif !== 'sombre';
+    themeBtn.innerHTML = `<svg class="bo-ico" aria-hidden="true"><use href="#${versSombre ? 'i-moon' : 'i-sun'}" /></svg>`;
+    themeBtn.setAttribute('aria-label', versSombre ? 'Passer en thème sombre' : 'Passer en thème clair');
+    themeBtn.title = themeBtn.getAttribute('aria-label');
+  }
+
+  if (themeBtn) {
+    refletTheme(AdminTheme.actuel().actif);
+    AdminTheme.surChangement(refletTheme);
+    themeBtn.addEventListener('click', () => AdminTheme.basculer());
+  }
+
   logoutBtn.addEventListener('click', async () => {
+    if (window.AdminPanel && AdminPanel.estOuvert()) AdminPanel.fermer();
     await AdminAuth.logout();
+    if (window.AdminStore) AdminStore.reinitialiser();
     showLogin();
     AdminAuth.initGoogleButton(showDashboard);
   });

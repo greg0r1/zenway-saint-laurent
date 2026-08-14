@@ -17,6 +17,7 @@ est sans risque.
 | --- | --- |
 | `001_socle.sql` | Extension `pgcrypto`, fonction partagée `set_updated_at()` |
 | `002_evenements.sql` | Table `events` (module admin « Événements ») |
+| `003_evenements_dates.sql` | Colonnes `starts_at` (date de l'événement) et `archived` sur `events` |
 
 ## Ajouter une table pour un nouveau module admin
 

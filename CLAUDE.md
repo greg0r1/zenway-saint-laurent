@@ -50,6 +50,12 @@ Le reste du site reste 100 % statique (HTML/CSS/JS vanilla, zéro build). Une se
 
 ### Fichiers
 
+- **Thème clair / sombre** : l'admin porte les deux, réglés par `data-theme` sur `<html>` (`assets/js/admin-theme.js`, chargé en synchrone dans le `<head>` pour éviter l'éclair au chargement). Sans choix explicite, on suit `prefers-color-scheme`. La règle qui tient les deux thèmes : **la feuille est toujours d'un cran plus claire que son bain**, et la barre du haut reste vert profond dans les deux cas — c'est l'ancre d'identité. Aucune couleur en dur dans les composants : tout passe par les jetons `--bo-*` définis en tête de `admin.css`.
+- **Panneau latéral** : tout ce qui agit (consulter une fiche, modifier, mettre en ligne, archiver, supprimer) se passe dans un panneau unique et partagé (`assets/js/admin-panel.js`), bâti sur `<dialog>` natif — piège à focus, Échap et voile de fond viennent du navigateur. Les feuilles ne contiennent que de la lecture et des cartes. Sur mobile le panneau prend tout l'écran.
+- **Magasin partagé** : les événements sont lus une seule fois et diffusés (`assets/js/admin-store.js`). Le tableau de bord et la feuille « Événements » s'y abonnent : publier depuis l'un met l'autre à jour sans rechargement.
+
+### Fichiers
+
 ```
 api/
 ├── _lib/
@@ -69,18 +75,23 @@ admin/
 └── index.html            ← coquille admin : connexion + jeu d'icônes + pile de feuilles
 
 assets/js/
-├── config-admin.js        ← identifiant client Google (page /admin uniquement)
+├── config-admin.js         ← identifiant client Google (page /admin uniquement)
+├── admin-theme.js          ← thème clair/sombre, chargé en synchrone dans le <head>
 ├── admin-auth.js           ← connexion Google + session, partagé par tous les modules admin
-├── admin-events.js         ← module « Événements » (CRUD), s'enregistre dans window.AdminModules
+├── admin-store.js          ← magasin des événements + mise en forme des dates
+├── admin-panel.js          ← panneau latéral partagé (<dialog>), utilisé par tous les modules
+├── admin-dashboard.js      ← module « Tableau de bord » (lecture du magasin + planning)
+├── admin-events.js         ← module « Événements » (CRUD via le panneau)
 ├── admin-planning.js       ← module « Planning » (lecture seule de config-planning.js)
 ├── admin-infos.js          ← module « Infos pratiques » (lecture seule de index.html)
-└── admin.js                ← coquille : sommaire, montage des feuilles
+└── admin.js                ← coquille : sommaire, montage des feuilles, interrupteur de thème
 
 db/
 ├── README.md               ← conventions de schéma + procédure d'application
 └── migrations/             ← scripts SQL numérotés, append-only, à jouer dans l'ordre
-    ├── 001_socle.sql        ← pgcrypto + fonction partagée set_updated_at()
-    └── 002_evenements.sql   ← table events (module « Événements »)
+    ├── 001_socle.sql             ← pgcrypto + fonction partagée set_updated_at()
+    ├── 002_evenements.sql        ← table events (module « Événements »)
+    └── 003_evenements_dates.sql  ← colonnes starts_at (date) et archived sur events
 ```
 
 ### Schéma de base de données
@@ -191,11 +202,15 @@ zenway-saint-laurent/
 │   │   ├── config-helloasso.js  ← slugs HelloAsso, injection des liens/widget
 │   │   ├── events-banner.js     ← fetch /api/events/active, alimente bandeau + section événements
 │   │   ├── config-admin.js      ← identifiant client Google (page /admin uniquement)
+│   │   ├── admin-theme.js       ← thème clair/sombre de l'admin (chargé dans le <head>)
 │   │   ├── admin-auth.js        ← connexion Google + session, partagé par les modules admin
+│   │   ├── admin-store.js       ← magasin des événements + mise en forme des dates
+│   │   ├── admin-panel.js       ← panneau latéral partagé de l'admin (<dialog>)
+│   │   ├── admin-dashboard.js   ← module admin « Tableau de bord »
 │   │   ├── admin-events.js      ← module admin « Événements » (CRUD)
 │   │   ├── admin-planning.js    ← module admin « Planning » (lecture seule)
 │   │   ├── admin-infos.js       ← module admin « Infos pratiques » (lecture seule)
-│   │   ├── admin.js             ← coquille admin : sommaire, montage des feuilles
+│   │   ├── admin.js             ← coquille admin : sommaire, montage des feuilles, thème
 │   │   ├── config-videos.js     ← vidéo teaser hero + galerie YouTube
 │   │   ├── config-planning.js   ← créneaux de séance affichés
 │   │   └── nav-reveal.js        ← scroll nav, burger menu, animations reveal

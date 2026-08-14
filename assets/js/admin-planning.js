@@ -8,8 +8,8 @@
 (function registerPlanningModule() {
   let root = null;
 
-  function icon(id) {
-    return `<svg class="bo-ico" aria-hidden="true"><use href="#${id}" /></svg>`;
+  function icon(id, classe) {
+    return `<svg class="bo-ico${classe ? ' ' + classe : ''}" aria-hidden="true"><use href="#${id}" /></svg>`;
   }
 
   function escapeHtml(str) {
@@ -48,24 +48,23 @@
   }
 
   function renderSlots(slots) {
-    return `<div class="bo-list">${slots.map((slot) => `
-      <article class="bo-item">
-        <div class="bo-item-body">
-          <h4 class="bo-item-title">${escapeHtml(slot.day)}, ${escapeHtml(slot.time)}</h4>
-          ${slot.label ? `<p class="bo-item-text">${escapeHtml(slot.label)}</p>` : ''}
-          <dl class="bo-values">
-            ${slot.place ? `
-              <div class="bo-value">
-                <dt>${icon('i-pin')}Lieu</dt>
-                <dd>${escapeHtml(slot.place)}</dd>
-              </div>` : ''}
-            ${slot.note ? `
-              <div class="bo-value">
-                <dt>${icon('i-calendar')}Mention</dt>
-                <dd>${escapeHtml(slot.note)}</dd>
-              </div>` : ''}
-          </dl>
-        </div>
+    return `<div class="bo-grid">${slots.map((slot) => `
+      <article class="bo-card">
+        <p class="bo-card-label">${icon('i-clock')}${escapeHtml(slot.day)}</p>
+        <p class="bo-card-value">${escapeHtml(slot.time)}</p>
+        ${slot.label ? `<p class="bo-card-note">${escapeHtml(slot.label)}</p>` : ''}
+        <dl class="bo-values">
+          ${slot.place ? `
+            <div class="bo-value">
+              <dt>${icon('i-pin')}Lieu</dt>
+              <dd>${escapeHtml(slot.place)}</dd>
+            </div>` : ''}
+          ${slot.note ? `
+            <div class="bo-value">
+              <dt>${icon('i-calendar')}Mention</dt>
+              <dd>${escapeHtml(slot.note)}</dd>
+            </div>` : ''}
+        </dl>
       </article>
     `).join('')}</div>`;
   }
@@ -73,7 +72,7 @@
   function renderEmpty() {
     return `
       <div class="bo-empty">
-        ${icon('i-clock')}
+        ${icon('i-clock', 'bo-ico-xl')}
         <p class="bo-empty-title">Aucun créneau enregistré</p>
         <p>La section « Planning » du site affiche à la place un message invitant les visiteurs à vous contacter pour connaître les prochains horaires.</p>
       </div>

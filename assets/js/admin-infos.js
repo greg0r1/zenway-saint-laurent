@@ -20,8 +20,8 @@
   let root = null;
   let sheet = null;
 
-  function icon(id) {
-    return `<svg class="bo-ico" aria-hidden="true"><use href="#${id}" /></svg>`;
+  function icon(id, classe) {
+    return `<svg class="bo-ico${classe ? ' ' + classe : ''}" aria-hidden="true"><use href="#${id}" /></svg>`;
   }
 
   function iconFor(label) {
@@ -117,7 +117,7 @@
       sheet.setState({ live: false, short: 'Rien trouvé', text: 'Aucune info pratique trouvée sur le site' });
       root.innerHTML = `
         <div class="bo-empty">
-          ${icon('i-info')}
+          ${icon('i-info', 'bo-ico-xl')}
           <p class="bo-empty-title">Rien à afficher</p>
           <p>La section « Infos pratiques » du site ne contient aucune ligne lisible. Vérifiez le fichier <code>index.html</code>.</p>
         </div>
