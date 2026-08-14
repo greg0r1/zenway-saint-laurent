@@ -401,7 +401,7 @@
     const modif = !!ev;
     const corps = document.createElement('div');
     corps.innerHTML = `
-      <form class="ad-form" novalidate>
+      <form novalidate>
         <div class="ad-field">
           <label for="ev-title">Titre</label>
           <input type="text" id="ev-title" required value="${echapper(ev ? ev.title : '')}">

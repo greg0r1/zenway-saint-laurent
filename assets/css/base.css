@@ -17,13 +17,9 @@
   --gold-soft: #e7d6ad;
   --ink: #243029;
   --ink-soft: #4b5a51;
-  --danger: #a3341f; /* Erreurs de formulaire (admin) */
-  --danger-bg: #fbeae6;
-  --danger-border: #eec3b8;
 
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: "DM Sans", system-ui, sans-serif;
-  --script: "Caveat", cursive;
 
   --maxw: 1180px;
   --gut: 30px;
