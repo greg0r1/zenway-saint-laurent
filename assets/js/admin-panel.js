@@ -1,13 +1,13 @@
 /* ============================================================
-   ADMIN-PANEL — le panneau latéral de l'atelier.
-   Un seul panneau pour toute l'admin : voir un élément, le modifier,
+   ADMIN-PANEL — le panneau latéral de la console.
+   Un seul panneau pour toute l'admin : voir une fiche, la modifier,
    confirmer une suppression. Bâti sur <dialog> natif, qui apporte le
    piège à focus, la fermeture par Échap et le voile de fond sans
    qu'on ait à les réécrire.
 
    AdminPanel.ouvrir({ titre, chapeau, icone, corps, actions, surFermeture })
      corps   : un élément DOM (le panneau ne fabrique pas le contenu)
-     actions : [{ id, label, icone, style, onClick, occupe }]
+     actions : [{ id, label, icone, style, onClick }]
    AdminPanel.fermer()          — referme et rend le focus
    AdminPanel.occuper(id, bool) — met une action en attente
    AdminPanel.alerte(message)   — un message d'erreur dans le pied
@@ -19,34 +19,34 @@ const AdminPanel = (function adminPanel() {
   let enFermeture = false;
 
   function icone(id, classe) {
-    return `<svg class="bo-ico${classe ? ' ' + classe : ''}" aria-hidden="true"><use href="#${id}" /></svg>`;
+    return `<svg class="ad-ico${classe ? ' ' + classe : ''}" aria-hidden="true"><use href="#${id}" /></svg>`;
   }
 
   function monter() {
     if (dialogue) return;
     dialogue = document.createElement('dialog');
-    dialogue.className = 'bo-panel';
-    dialogue.setAttribute('aria-labelledby', 'bo-panel-title');
+    dialogue.className = 'ad-panel';
+    dialogue.setAttribute('aria-labelledby', 'ad-panel-title');
     dialogue.innerHTML = `
-      <form method="dialog" class="bo-panel-shell">
-        <header class="bo-panel-head">
-          <div class="bo-panel-ident">
-            <span class="bo-panel-ico" data-slot="icone"></span>
-            <div>
-              <p class="bo-panel-chapeau" data-slot="chapeau"></p>
-              <h2 class="bo-panel-title" id="bo-panel-title" data-slot="titre"></h2>
+      <div class="ad-panel-shell">
+        <header class="ad-panel-head">
+          <div class="ad-panel-ident">
+            <span class="ad-panel-ico" data-slot="icone"></span>
+            <div class="ad-panel-names">
+              <p class="ad-panel-chapeau" data-slot="chapeau"></p>
+              <h2 class="ad-panel-title" id="ad-panel-title" data-slot="titre"></h2>
             </div>
           </div>
-          <button type="button" class="bo-panel-close" data-close aria-label="Fermer le panneau">
+          <button type="button" class="ad-icon-btn ad-panel-close" data-close aria-label="Fermer le panneau">
             ${icone('i-close')}
           </button>
         </header>
-        <div class="bo-panel-body" data-slot="corps" tabindex="-1"></div>
-        <footer class="bo-panel-foot">
-          <div class="bo-alert" data-slot="alerte" role="alert" hidden></div>
-          <div class="bo-panel-actions" data-slot="actions"></div>
+        <div class="ad-panel-body" data-slot="corps" tabindex="-1"></div>
+        <footer class="ad-panel-foot">
+          <div class="ad-alert" data-slot="alerte" role="alert" hidden></div>
+          <div class="ad-panel-actions" data-slot="actions"></div>
         </footer>
-      </form>
+      </div>
     `;
     document.body.appendChild(dialogue);
 
@@ -79,7 +79,7 @@ const AdminPanel = (function adminPanel() {
       corpsEl.innerHTML = '';
       piedEl.innerHTML = '';
       cacherAlerte();
-      document.body.classList.remove('bo-panel-ouvert');
+      document.body.classList.remove('ad-panel-ouvert');
       if (rappel) rappel();
     });
   }
@@ -92,7 +92,7 @@ const AdminPanel = (function adminPanel() {
     titreEl.textContent = config.titre || '';
     chapeauEl.textContent = config.chapeau || '';
     chapeauEl.hidden = !config.chapeau;
-    icoEl.innerHTML = config.icone ? icone(config.icone, 'bo-ico-lg') : '';
+    icoEl.innerHTML = config.icone ? icone(config.icone, 'ad-ico-lg') : '';
     icoEl.hidden = !config.icone;
 
     corpsEl.innerHTML = '';
@@ -106,7 +106,7 @@ const AdminPanel = (function adminPanel() {
     surFermeture = config.surFermeture || null;
 
     if (!dialogue.open) dialogue.showModal();
-    document.body.classList.add('bo-panel-ouvert');
+    document.body.classList.add('ad-panel-ouvert');
 
     // Le premier champ du formulaire prend la main ; à défaut, le corps.
     const premier = corpsEl.querySelector('input, textarea, select, button, a[href]');
@@ -118,7 +118,7 @@ const AdminPanel = (function adminPanel() {
     actionsCourantes.forEach((action) => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = `bo-btn ${action.style || 'bo-btn-line'}`;
+      btn.className = `ad-btn ${action.style || 'ad-btn-line'}`;
       btn.dataset.action = action.id;
       btn.innerHTML = `${action.icone ? icone(action.icone) : ''}<span>${action.label}</span>`;
       btn.addEventListener('click', () => action.onClick && action.onClick(btn));
@@ -136,8 +136,8 @@ const AdminPanel = (function adminPanel() {
       b.disabled = actif;
     });
     if (!btn) return;
-    const texte = btn.querySelector('span:not(.bo-spin)');
-    const marque = btn.querySelector('.bo-ico, .bo-spin');
+    const texte = btn.querySelector('span:not(.ad-spin)');
+    const marque = btn.querySelector('.ad-ico, .ad-spin');
     if (actif) {
       if (texte) {
         btn.dataset.restore = texte.textContent;
@@ -146,7 +146,7 @@ const AdminPanel = (function adminPanel() {
       if (marque && !btn.dataset.restoreIcon) {
         btn.dataset.restoreIcon = marque.outerHTML;
         const roue = document.createElement('span');
-        roue.className = 'bo-spin';
+        roue.className = 'ad-spin';
         marque.replaceWith(roue);
       }
       return;

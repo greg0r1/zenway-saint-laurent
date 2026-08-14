@@ -17,28 +17,32 @@
   <script src="../assets/js/admin-theme.js"></script>
 </head>
 
-<body class="bo">
+<body class="ad">
 
   <!--
-    THESIS: l'administration est un atelier de feuilles posées sur le bain du
-    site, jamais un tableau de bord à onglets ; elle refuse le routeur latéral et
-    la carte blanche arrondie du panneau d'admin générique.
-    OWN-WORLD: un bain vert (profond en sombre, clair en jour) ; des feuilles à
-    angles vifs posées dessus, toujours d'un cran plus claires que leur fond ;
-    l'or pour l'action principale et l'état « en ligne », le teal pour le focus.
-    Cormorant aux titres de feuille, DM Sans partout ailleurs, aucun Caveat.
-    Icônes tracées à 1,5 px, un seul ornement : les ondes du tableau de bord.
-    STORY: Béatrice voit d'un coup d'œil ce que le site publie, comprend quelle
-    feuille commande quelle partie du site, et agit dans un panneau latéral.
-    FIRST VIEWPORT: barre verte fine en haut ; à gauche une réglette-sommaire qui
-    dit l'état de chaque feuille ; au centre le tableau de bord et ses cartes.
-    FORM: feuilles empilées, candidat 4 de la liste ordonnée, clé 786ddaed.
+    THESIS: la console d'administration d'un site de contenu, dans sa forme
+    la plus reconnue — barre latérale à gauche, une page par section — tenue
+    au niveau de finition d'un Ghost ou d'un Squarespace. Elle refuse la
+    page-fleuve à ancres et la réglette-frise du build précédent.
+    OWN-WORLD: barre latérale vert profond, pleine hauteur, qui ne bouge
+    jamais ; zone de travail claire en papier ; tableaux à filets fins plutôt
+    que grilles de cartes ; l'or pour l'action principale et l'état « en
+    ligne » ; Cormorant aux titres de page, DM Sans partout ailleurs ;
+    icônes tracées à 1,5 px ; angles vifs, aucun arrondi décoratif.
+    STORY: Béatrice ouvre l'admin, voit ce que le site publie, choisit une
+    section à gauche, agit dans un panneau, revient à sa liste.
+    FIRST VIEWPORT: barre latérale à gauche avec les quatre sections ;
+    en-tête fin portant le titre de page et l'action principale à droite ;
+    dessous, l'état du site en toutes lettres.
+    FORM: le standard de la catégorie, joué droit — la sortie permanente,
+    prise par l'utilisateur en toutes lettres (« plus classique »), barre de
+    qualité fixée à Ghost / Squarespace. Aucun tirage.
     FINISH: unreviewed and undocumented is unfinished; this build ends with the
     finish review, the verdict, and DESIGN.md
   -->
 
   <!-- ============ JEU D'ICÔNES (tracé 1,5 px, bouts arrondis) ============ -->
-  <svg class="bo-sprite" aria-hidden="true" focusable="false" width="0" height="0">
+  <svg class="ad-sprite" aria-hidden="true" focusable="false" width="0" height="0">
     <symbol id="i-home" viewBox="0 0 24 24">
       <path d="M4 10.2 12 4l8 6.2V19a1.2 1.2 0 0 1-1.2 1.2h-3.4v-5.4H9.6v5.4H6.2A1.2 1.2 0 0 1 5 19v-8.8z" />
     </symbol>
@@ -53,6 +57,9 @@
     <symbol id="i-pin" viewBox="0 0 24 24">
       <path d="M12 21c3.6-4.2 6-7.3 6-10a6 6 0 1 0-12 0c0 2.7 2.4 5.8 6 10Z" />
       <circle cx="12" cy="10.6" r="2.3" />
+    </symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24">
+      <path d="M4 7h16M4 12h16M4 17h16" />
     </symbol>
     <symbol id="i-plus" viewBox="0 0 24 24">
       <path d="M12 5.5v13M5.5 12h13" />
@@ -83,6 +90,9 @@
     </symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24">
       <path d="M5 12h13M13 6.6 18.4 12 13 17.4" />
+    </symbol>
+    <symbol id="i-back" viewBox="0 0 24 24">
+      <path d="M19 12H6M11 17.4 5.6 12 11 6.6" />
     </symbol>
     <symbol id="i-external" viewBox="0 0 24 24">
       <path d="M13.5 5H19v5.5M18.6 5.4 11.5 12.5" />
@@ -141,55 +151,70 @@
   </svg>
 
   <!-- ============ CONNEXION ============ -->
-  <section id="loginView" class="bo-gate">
-    <div class="bo-gate-card">
-      <img class="bo-gate-logo" src="../assets/img/logo/logo-zenway.png" alt="Zenway" width="58" height="42">
-      <h1 class="bo-gate-title">Administration</h1>
-      <p class="bo-gate-text">Connectez-vous avec un compte Google autorisé pour tenir à jour le site de Saint-Laurent-du-Var.</p>
-      <div id="gsiButton" class="bo-gate-gsi"></div>
-      <p class="bo-alert" id="loginError" role="alert" hidden></p>
-      <p class="bo-gate-foot">
-        <svg class="bo-ico" aria-hidden="true"><use href="#i-lock" /></svg>
+  <section id="loginView" class="ad-gate">
+    <div class="ad-gate-card">
+      <img class="ad-gate-logo" src="../assets/img/logo/logo-zenway.png" alt="Zenway" width="58" height="42">
+      <h1 class="ad-gate-title">Administration</h1>
+      <p class="ad-gate-text">Connectez-vous avec un compte Google autorisé pour tenir à jour le site de Saint-Laurent-du-Var.</p>
+      <div id="gsiButton" class="ad-gate-gsi"></div>
+      <p class="ad-alert" id="loginError" role="alert" hidden></p>
+      <p class="ad-gate-foot">
+        <svg class="ad-ico" aria-hidden="true"><use href="#i-lock" /></svg>
         Accès réservé aux comptes inscrits sur la liste d'autorisation.
       </p>
     </div>
   </section>
 
-  <!-- ============ ATELIER ============ -->
-  <!-- Coquille commune à tous les modules (voir assets/js/admin.js) : chaque
-       module déclaré dans window.AdminModules reçoit sa propre feuille, toutes
-       montées ensemble sur une seule page. La réglette de gauche est un
-       sommaire de cette page, pas un routeur. -->
-  <div id="dashboardView" class="bo-app" hidden>
+  <!-- ============ CONSOLE ============ -->
+  <!-- Une page à la fois. La barre latérale est le menu ; l'adresse porte la
+       page courante (#/evenements). Voir assets/js/admin.js. -->
+  <div id="appView" class="ad-app" hidden>
 
-    <a class="bo-skip" href="#bo-sheets">Aller au contenu</a>
+    <a class="ad-skip" href="#ad-page">Aller au contenu</a>
 
-    <header class="bo-bar">
-      <div class="bo-bar-inner">
-        <div class="bo-bar-mark">
-          <img src="../assets/img/logo/logo-zenway.png" alt="" width="40" height="29">
-          <span class="bo-bar-name">Administration<em>Saint-Laurent-du-Var</em></span>
-        </div>
-        <div class="bo-bar-side">
-          <a class="bo-bar-link" href="../index.html" target="_blank" rel="noopener">
-            <svg class="bo-ico" aria-hidden="true"><use href="#i-external" /></svg>
-            <span>Voir le site</span>
-          </a>
-          <button type="button" id="themeBtn" class="bo-bar-icon" aria-live="polite">
-            <svg class="bo-ico" aria-hidden="true"><use href="#i-moon" /></svg>
-          </button>
-          <span class="bo-bar-who" id="who"></span>
-          <button type="button" id="logoutBtn" class="bo-btn bo-btn-quiet">
-            <svg class="bo-ico" aria-hidden="true"><use href="#i-out" /></svg>
-            <span>Se déconnecter</span>
-          </button>
+    <!-- Voile du menu mobile, hors du <aside> pour rester sous lui -->
+    <div class="ad-scrim" id="navScrim" hidden></div>
+
+    <aside class="ad-side" id="adSide">
+      <div class="ad-side-head">
+        <img src="../assets/img/logo/logo-zenway.png" alt="" width="38" height="28">
+        <span class="ad-side-brand">Administration<em>Saint-Laurent-du-Var</em></span>
+        <button type="button" class="ad-icon-btn ad-side-close" id="navClose" aria-label="Fermer le menu">
+          <svg class="ad-ico" aria-hidden="true"><use href="#i-close" /></svg>
+        </button>
+      </div>
+
+      <nav class="ad-nav" id="adNav" aria-label="Sections de l'administration"></nav>
+
+      <div class="ad-side-foot">
+        <a class="ad-side-link" href="../index.html" target="_blank" rel="noopener">
+          <svg class="ad-ico" aria-hidden="true"><use href="#i-external" /></svg>
+          <span>Voir le site public</span>
+        </a>
+        <div class="ad-side-user">
+          <span class="ad-side-who" id="who"></span>
+          <div class="ad-side-tools">
+            <button type="button" id="themeBtn" class="ad-icon-btn">
+              <svg class="ad-ico" aria-hidden="true"><use href="#i-moon" /></svg>
+            </button>
+            <button type="button" id="logoutBtn" class="ad-icon-btn" aria-label="Se déconnecter" title="Se déconnecter">
+              <svg class="ad-ico" aria-hidden="true"><use href="#i-out" /></svg>
+            </button>
+          </div>
         </div>
       </div>
-    </header>
+    </aside>
 
-    <div class="bo-shell">
-      <nav class="bo-rail" id="adminRail" aria-label="Sommaire de l'administration"></nav>
-      <main class="bo-sheets" id="bo-sheets" tabindex="-1"></main>
+    <div class="ad-main">
+      <header class="ad-top">
+        <button type="button" class="ad-burger" id="navOpen" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="adSide">
+          <svg class="ad-ico" aria-hidden="true"><use href="#i-menu" /></svg>
+        </button>
+        <h1 class="ad-top-title" id="pageTitle">Administration</h1>
+        <div class="ad-top-actions" id="pageActions"></div>
+      </header>
+
+      <main class="ad-page" id="ad-page" tabindex="-1"></main>
     </div>
   </div>
 
@@ -198,7 +223,7 @@
   <script src="../assets/js/admin-auth.js"></script>
   <script src="../assets/js/admin-store.js"></script>
   <script src="../assets/js/admin-panel.js"></script>
-  <!-- source de vérité des créneaux, lue par le tableau de bord et la feuille « Planning » -->
+  <!-- source de vérité des créneaux, lue par le tableau de bord et la page « Planning » -->
   <script src="../assets/js/config-planning.js"></script>
   <script src="../assets/js/admin-dashboard.js"></script>
   <script src="../assets/js/admin-events.js"></script>

@@ -1,80 +1,86 @@
 /* ============================================================
-   ADMIN-PLANNING — feuille « Planning des séances ». Lecture seule
-   pour l'instant : les créneaux sont lus dans leur source de vérité,
-   assets/js/config-planning.js, chargé juste avant ce fichier. Aucune
-   valeur n'est recopiée ici, la feuille ne peut donc pas dériver.
+   ADMIN-PLANNING — page « Planning ». Lecture seule pour l'instant.
+   Les créneaux ne sont pas recopiés ici : la page lit directement
+   assets/js/config-planning.js, la source que le site utilise, donc
+   ce qui est affiché est toujours ce qui est en ligne.
    S'enregistre dans window.AdminModules, monté par assets/js/admin.js.
    ============================================================ */
-(function registerPlanningModule() {
+(function registerPlanningPage() {
   let root = null;
 
-  function icon(id, classe) {
-    return `<svg class="bo-ico${classe ? ' ' + classe : ''}" aria-hidden="true"><use href="#${id}" /></svg>`;
+  function icone(id, classe) {
+    return `<svg class="ad-ico${classe ? ' ' + classe : ''}" aria-hidden="true"><use href="#${id}" /></svg>`;
   }
 
-  function escapeHtml(str) {
+  function echapper(str) {
     const div = document.createElement('div');
     div.textContent = str == null ? '' : String(str);
     return div.innerHTML;
   }
 
-  function mount(container, sheet) {
+  function mount(container, page) {
     root = container;
     // PLANNING est un `const` de portée script : il ne vit pas sur window.
     const slots = (typeof PLANNING !== 'undefined' && Array.isArray(PLANNING)) ? PLANNING : [];
 
-    const n = slots.length;
-    sheet.setState(n
-      ? { live: true, short: `${n} créneau${n > 1 ? 'x' : ''} en ligne`, text: `${n} créneau${n > 1 ? 'x' : ''} publié${n > 1 ? 's' : ''} sur le site` }
-      : { live: false, short: 'Aucun créneau', text: 'Aucun créneau publié — le site affiche un message d’attente' });
+    page.setActions([]);
+    page.setBadge(slots.length || null);
 
     root.innerHTML = `
-      <div class="bo-block">
-        <h3 class="bo-block-title">Créneaux affichés aujourd'hui</h3>
-        <p class="bo-block-note">Ce que voient les visiteurs dans la section « Planning » du site, à l'instant.</p>
-        ${slots.length ? renderSlots(slots) : renderEmpty()}
-      </div>
+      <p class="ad-lede">Les jours et horaires de séance affichés dans la section « Planning » du site,
+        tels qu'ils sont en ligne à l'instant.</p>
 
-      <div class="bo-pending">
-        ${icon('i-info')}
+      ${slots.length ? tableau(slots) : vide()}
+
+      <div class="ad-note ad-note-warn">
+        ${icone('i-info')}
         <div>
           <strong>Modification pas encore branchée sur cette page</strong>
           Pour changer un jour, un horaire ou un lieu, il faut aujourd'hui passer par le fichier
-          <code>assets/js/config-planning.js</code>. Cette feuille lit ce fichier directement : ce qui est
+          <code>assets/js/config-planning.js</code>. Cette page lit ce fichier directement : ce qui est
           affiché ci-dessus est donc toujours ce qui est en ligne.
         </div>
       </div>
     `;
   }
 
-  function renderSlots(slots) {
-    return `<div class="bo-grid">${slots.map((slot) => `
-      <article class="bo-card">
-        <p class="bo-card-label">${icon('i-clock')}${escapeHtml(slot.day)}</p>
-        <p class="bo-card-value">${escapeHtml(slot.time)}</p>
-        ${slot.label ? `<p class="bo-card-note">${escapeHtml(slot.label)}</p>` : ''}
-        <dl class="bo-values">
-          ${slot.place ? `
-            <div class="bo-value">
-              <dt>${icon('i-pin')}Lieu</dt>
-              <dd>${escapeHtml(slot.place)}</dd>
-            </div>` : ''}
-          ${slot.note ? `
-            <div class="bo-value">
-              <dt>${icon('i-calendar')}Mention</dt>
-              <dd>${escapeHtml(slot.note)}</dd>
-            </div>` : ''}
-        </dl>
-      </article>
-    `).join('')}</div>`;
+  function tableau(slots) {
+    return `
+      <div class="ad-tablewrap">
+        <table class="ad-table">
+          <thead>
+            <tr>
+              <th scope="col" class="ad-col-date">Jour</th>
+              <th scope="col">Horaire</th>
+              <th scope="col">Lieu</th>
+              <th scope="col">Mention</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${slots.map((slot) => `
+              <tr>
+                <td class="ad-col-date"><b>${echapper(slot.day)}</b></td>
+                <td>
+                  <b>${echapper(slot.time)}</b>
+                  ${slot.label ? `<small class="ad-sub">${echapper(slot.label)}</small>` : ''}
+                </td>
+                <td>${slot.place ? echapper(slot.place) : '<span class="ad-muet">—</span>'}</td>
+                <td>${slot.note ? echapper(slot.note) : '<span class="ad-muet">—</span>'}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
   }
 
-  function renderEmpty() {
+  function vide() {
     return `
-      <div class="bo-empty">
-        ${icon('i-clock', 'bo-ico-xl')}
-        <p class="bo-empty-title">Aucun créneau enregistré</p>
-        <p>La section « Planning » du site affiche à la place un message invitant les visiteurs à vous contacter pour connaître les prochains horaires.</p>
+      <div class="ad-empty">
+        ${icone('i-clock', 'ad-ico-xl')}
+        <p class="ad-empty-title">Aucun créneau enregistré</p>
+        <p>La section « Planning » du site affiche à la place un message invitant les visiteurs à vous
+          contacter pour connaître les prochains horaires.</p>
       </div>
     `;
   }
@@ -88,7 +94,7 @@
     id: 'planning',
     label: 'Planning',
     icon: 'i-clock',
-    summary: 'Les jours et horaires de séance affichés dans la section « Planning » du site.',
+    title: 'Planning',
     mount,
     unmount
   });

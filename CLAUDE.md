@@ -45,14 +45,12 @@ Le reste du site reste 100 % statique (HTML/CSS/JS vanilla, zéro build). Une se
 - **Authentification admin** : Google Sign-In (Google Identity Services, client-side), avec vérification du token côté serveur (`google-auth-library`) et **whitelist d'emails** (`ADMIN_EMAILS`) — seuls les emails listés peuvent accéder à l'admin, peu importe le compte Google utilisé.
 - **Session admin** : cookie `httpOnly`/`Secure` signé (HMAC, `crypto` natif Node — pas de dépendance JWT dédiée).
 - **`package.json` racine** : existe uniquement pour les dépendances de `api/` (`@supabase/supabase-js`, `google-auth-library`). N'affecte pas le déploiement du site statique (pas de build step, Vercel sert `index.html`/`assets/` tel quel et déploie `api/` comme fonctions).
-- **Page admin conçue comme un atelier de feuilles** : `admin/index.html` gère la connexion (partagée) puis monte **toutes** les feuilles sur une seule page, une par module déclaré dans `window.AdminModules`. Pas d'onglets, pas de routeur : la réglette de gauche est un sommaire qui suit la lecture. Trois modules aujourd'hui — « Événements » (CRUD complet), « Planning » et « Infos pratiques » (lecture seule, voir ci-dessous). L'admin est destinée à en accueillir d'autres (voir « Ajouter un module admin »). Cela ne change rien à la portée du backend/BDD, qui reste strictement limité aux événements tant qu'aucune autre décision n'est prise.
+- **Admin conçue comme une console classique** : barre latérale de navigation à gauche, une seule page montée à la fois dans la zone de travail. `admin/index.html` gère la connexion, puis `admin.js` fabrique une entrée de menu et une page par module déclaré dans `window.AdminModules`. La page courante vit dans l'adresse (`#/evenements`), donc le bouton Précédent du navigateur et les liens directs fonctionnent. Quatre pages aujourd'hui — « Tableau de bord », « Événements » (CRUD complet), « Planning » et « Infos pratiques » (lecture seule, voir ci-dessous). L'admin est destinée à en accueillir d'autres (voir « Ajouter un module admin »). Cela ne change rien à la portée du backend/BDD, qui reste strictement limité aux événements tant qu'aucune autre décision n'est prise.
 - **Les modules en lecture seule ne recopient aucune valeur** : « Planning » lit `assets/js/config-planning.js`, « Infos pratiques » lit la section `#infos` de `index.html` au moment de l'ouverture. Ils affichent donc toujours ce qui est réellement en ligne et ne peuvent pas dériver. Chacun porte un encart qui dit franchement où éditer en attendant que la modification soit branchée.
-
-### Fichiers
-
-- **Thème clair / sombre** : l'admin porte les deux, réglés par `data-theme` sur `<html>` (`assets/js/admin-theme.js`, chargé en synchrone dans le `<head>` pour éviter l'éclair au chargement). Sans choix explicite, on suit `prefers-color-scheme`. La règle qui tient les deux thèmes : **la feuille est toujours d'un cran plus claire que son bain**, et la barre du haut reste vert profond dans les deux cas — c'est l'ancre d'identité. Aucune couleur en dur dans les composants : tout passe par les jetons `--bo-*` définis en tête de `admin.css`.
-- **Panneau latéral** : tout ce qui agit (consulter une fiche, modifier, mettre en ligne, archiver, supprimer) se passe dans un panneau unique et partagé (`assets/js/admin-panel.js`), bâti sur `<dialog>` natif — piège à focus, Échap et voile de fond viennent du navigateur. Les feuilles ne contiennent que de la lecture et des cartes. Sur mobile le panneau prend tout l'écran.
-- **Magasin partagé** : les événements sont lus une seule fois et diffusés (`assets/js/admin-store.js`). Le tableau de bord et la feuille « Événements » s'y abonnent : publier depuis l'un met l'autre à jour sans rechargement.
+- **Menu burger en mobile** : sous 900 px la barre latérale sort du flux et devient un tiroir, ouvert par le bouton de l'en-tête, refermé par Échap, par le voile, ou par le choix d'une page.
+- **Thème clair / sombre** : l'admin porte les deux, réglés par `data-theme` sur `<html>` (`assets/js/admin-theme.js`, chargé en synchrone dans le `<head>` pour éviter l'éclair au chargement). Sans choix explicite, on suit `prefers-color-scheme`. La barre latérale reste vert profond dans les deux cas — c'est l'ancre d'identité. Aucune couleur en dur dans les composants : tout passe par les jetons `--ad-*` définis en tête de `admin.css`.
+- **Panneau latéral** : tout ce qui agit (consulter une fiche, modifier, mettre en ligne, archiver, supprimer) se passe dans un panneau unique et partagé (`assets/js/admin-panel.js`), bâti sur `<dialog>` natif — piège à focus, Échap et voile de fond viennent du navigateur. Les pages ne portent que de la lecture et des listes. Sur mobile le panneau prend tout l'écran.
+- **Magasin partagé** : les événements sont lus une seule fois et diffusés (`assets/js/admin-store.js`). Le tableau de bord et la page « Événements » s'y abonnent : publier depuis l'un met l'autre à jour sans rechargement.
 
 ### Fichiers
 
@@ -102,14 +100,18 @@ Le schéma vit dans `db/migrations/`, en fichiers SQL numérotés joués à la m
 
 Pour ajouter une nouvelle section à l'admin (autre chose que les événements) :
 
-1. Créer `assets/js/admin-<nom>.js` qui s'enregistre en poussant `{ id, label, icon, summary, mount(container, sheet), unmount() }` dans `window.AdminModules` (voir `admin-events.js` comme modèle). `icon` est l'identifiant d'un symbole du jeu d'icônes de `admin/index.html`, `summary` la phrase qui dit ce que la feuille commande sur le site public. L'objet `sheet` reçu par `mount` expose `sheet.setState({ text, short, live })` — l'état de publication, écrit en toutes lettres sur la feuille et en abrégé dans le sommaire — et `sheet.flash(message)` pour une confirmation discrète.
-2. L'inclure dans `admin/index.html`, après `admin-auth.js` et avant `admin.js`.
+1. Créer `assets/js/admin-<nom>.js` qui s'enregistre en poussant `{ id, label, icon, title, mount(container, page), unmount() }` dans `window.AdminModules` (voir `admin-events.js` comme modèle). `id` sert d'identifiant et de fragment d'URL (`#/<id>`), `icon` est l'identifiant d'un symbole du jeu d'icônes de `admin/index.html`, `title` le titre affiché en haut de la zone de travail (défaut : `label`). L'objet `page` reçu par `mount` expose :
+   - `page.setActions([{ label, icone, style, onClick }])` — les boutons d'action en haut à droite, l'action principale en `ad-btn-primary` ;
+   - `page.setBadge(texte)` — la pastille du menu, un compte seulement (`null` pour l'effacer) ;
+   - `page.flash(message)` — une confirmation discrète, qui s'efface ;
+   - `page.go(id)` — aller à une autre page.
+2. L'inclure dans `admin/index.html`, après `admin-auth.js` et avant `admin.js`. L'ordre des `<script>` fixe l'ordre du menu.
 3. Si le module a besoin de stockage, décider au cas par cas si `api/` et Supabase sont réutilisés (nouvelle table) ou si une autre solution convient — ce n'est plus couvert par la règle « strictement limité aux événements » ci-dessus une fois la décision prise explicitement avec l'utilisateur.
 4. Si une nouvelle table est décidée, ajouter un fichier `db/migrations/<NNN>_<module>.sql` en suivant le modèle de `db/README.md` (jamais de modification d'une migration déjà appliquée).
 
-La coquille (`admin.js`) n'a pas besoin d'être modifiée : elle lit `window.AdminModules`, fabrique une feuille et une entrée de sommaire par module, et suit la lecture au défilement.
+La coquille (`admin.js`) n'a pas besoin d'être modifiée : elle lit `window.AdminModules`, fabrique une entrée de menu par module, et monte une seule page à la fois selon l'adresse. `unmount()` doit libérer ce que `mount()` a pris (abonnements au magasin, écouteurs globaux) : contrairement à l'ancienne page unique, les modules sont réellement démontés à chaque changement de page.
 
-Toute feuille doit déclarer son état de publication via `sheet.setState` : c'est ce qui distingue cet atelier d'un simple formulaire. Les règles visuelles (feuille de papier à angles vifs, or rare, chapeau typographique interdit, pas de carte dans une carte) sont dans `DESIGN.md`.
+Chaque page dit en toutes lettres ce qu'elle commande sur le site public, et ce qui est en ligne à l'instant — c'est ce qui distingue cette console d'un simple formulaire. Les règles visuelles sont dans `DESIGN.md`.
 
 ### Variables d'environnement (à définir dans Vercel → Settings → Environment Variables)
 
