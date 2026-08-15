@@ -1,15 +1,18 @@
 /* ============================================================
-   ADMIN-EVENTS — page « Événements ». Commande le bandeau haut du
-   site et la section « Événements à venir ». Un seul événement peut
-   être en ligne à la fois : l'API retire le précédent.
+   ADMIN-EVENTS — page « Événements ». Tout événement publié ici
+   (non archivé, et non expiré si une date de fin est renseignée)
+   apparaît dans la section « Événements à venir » du site. Un seul
+   peut en plus être mis en avant dans le bandeau du haut : l'API
+   retire le précédent.
 
    La page ne montre qu'une liste ; tout ce qui agit (consulter,
-   modifier, mettre en ligne, archiver, supprimer) se passe dans le
+   modifier, mettre en avant, archiver, supprimer) se passe dans le
    panneau latéral partagé (assets/js/admin-panel.js). Les données
    viennent du magasin commun (assets/js/admin-store.js).
    ============================================================ */
 (function registerEventsPage() {
   const TAG_DEFAUT = 'Prochain événement';
+  const LIMITES = { title: 100, tag: 40, description: 500 };
 
   let root = null;
   let page = null;
@@ -41,12 +44,12 @@
     ]);
 
     root.innerHTML = `
-      <p class="ad-lede">Un seul événement est visible sur le site à la fois. Les autres restent enregistrés ici,
-        en réserve ou en archives, sans jamais apparaître aux visiteurs.</p>
+      <p class="ad-lede">Tout événement publié ici apparaît dans la section « Événements à venir » du site. Un seul
+        peut en plus être mis en avant dans le bandeau du haut.</p>
 
       <div class="ad-tabs" role="tablist" aria-label="Filtrer les événements">
         <button type="button" role="tab" class="ad-tab" data-vue="cours" aria-selected="true">
-          En cours <span class="ad-tab-n" data-n="cours">0</span>
+          Publiés <span class="ad-tab-n" data-n="cours">0</span>
         </button>
         <button type="button" role="tab" class="ad-tab" data-vue="archives" aria-selected="false">
           Archives <span class="ad-tab-n" data-n="archives">0</span>
@@ -132,13 +135,6 @@
     }
 
     cible.innerHTML = `
-      ${vue === 'cours' && !snap.enLigne ? `
-        <div class="ad-note">
-          ${icone('i-eye-off')}
-          <div><strong>Aucun événement à l'affiche</strong>
-            Le bandeau et la section « Événements à venir » sont masqués sur le site. Ouvrez une fiche pour la mettre en ligne.</div>
-        </div>` : ''}
-
       <div class="ad-tablewrap">
         <table class="ad-table">
           <thead>
@@ -173,8 +169,9 @@
 
   function ligne(ev) {
     const passe = ev.starts_at && AdminStore.estPasse(ev.starts_at);
+    const expire = ev.ends_at && AdminStore.estPasse(ev.ends_at);
     return `
-      <tr${ev.active ? ' class="is-live"' : ''}>
+      <tr${ev.featured ? ' class="is-live"' : ''}>
         <td class="ad-col-date">
           ${ev.starts_at
             ? `<span class="ad-date"><b>${echapper(AdminStore.dateLongue(ev.starts_at).replace(/^\w+ /, ''))}</b>
@@ -186,12 +183,13 @@
           ${ev.tag ? `<span class="ad-tag">${echapper(ev.tag)}</span>` : ''}
         </td>
         <td class="ad-col-etat">
-          ${ev.active
-            ? `<span class="ad-pill ad-pill-live">${icone('i-eye')}En ligne</span>`
-            : ev.archived
-              ? `<span class="ad-pill">${icone('i-archive')}Archivé</span>`
-              : `<span class="ad-pill">${icone('i-eye-off')}En réserve</span>`}
-          ${passe && ev.active ? `<span class="ad-warn">${icone('i-alert')}Événement passé</span>` : ''}
+          ${ev.archived
+            ? `<span class="ad-pill">${icone('i-archive')}Archivé</span>`
+            : ev.featured
+              ? `<span class="ad-pill ad-pill-live">${icone('i-eye')}Mis en avant</span>`
+              : `<span class="ad-pill">${icone('i-eye')}Publié</span>`}
+          ${passe && !ev.archived ? `<span class="ad-warn">${icone('i-alert')}Événement passé</span>` : ''}
+          ${expire && !ev.archived ? `<span class="ad-warn">${icone('i-alert')}Fin de parution dépassée</span>` : ''}
         </td>
         <td class="ad-col-go">${icone('i-arrow')}</td>
       </tr>
@@ -202,8 +200,8 @@
     return `
       <div class="ad-empty">
         ${icone('i-calendar', 'ad-ico-xl')}
-        <p class="ad-empty-title">Aucun événement en cours</p>
-        <p>Le bandeau en haut du site et la section « Événements à venir » restent masqués tant qu'aucun événement n'est affiché.</p>
+        <p class="ad-empty-title">Aucun événement publié</p>
+        <p>La section « Événements à venir » du site reste vide tant qu'aucun événement n'est publié ici.</p>
         <button type="button" class="ad-btn ad-btn-primary ad-empty-cta" data-action="nouveau">
           ${icone('i-plus')}<span>Ajouter un événement</span>
         </button>
@@ -216,7 +214,7 @@
       <div class="ad-empty">
         ${icone('i-archive', 'ad-ico-xl')}
         <p class="ad-empty-title">Aucune archive</p>
-        <p>Les événements passés que vous archivez viendront se ranger ici. Ils restent consultables et peuvent être remis en réserve à tout moment.</p>
+        <p>Les événements passés que vous archivez viendront se ranger ici. Ils restent consultables et peuvent être remis en ligne à tout moment.</p>
       </div>
     `;
   }
@@ -227,22 +225,28 @@
 
   function ouvrirFiche(ev) {
     const corps = document.createElement('div');
-    const enLigne = ev.active;
     const passe = ev.starts_at && AdminStore.estPasse(ev.starts_at);
+    const expire = ev.ends_at && AdminStore.estPasse(ev.ends_at);
 
     corps.innerHTML = `
       <p class="ad-panel-state">
-        ${enLigne
-          ? `<span class="ad-pill ad-pill-live">${icone('i-eye')}Affiché sur le site</span>`
-          : ev.archived
-            ? `<span class="ad-pill">${icone('i-archive')}Archivé</span>`
-            : `<span class="ad-pill">${icone('i-eye-off')}En réserve, non affiché</span>`}
+        ${ev.archived
+          ? `<span class="ad-pill">${icone('i-archive')}Archivé</span>`
+          : ev.featured
+            ? `<span class="ad-pill ad-pill-live">${icone('i-eye')}Mis en avant dans le bandeau</span>`
+            : `<span class="ad-pill">${icone('i-eye')}Publié sur le site</span>`}
       </p>
 
-      ${passe && enLigne ? `
+      ${passe && !ev.archived ? `
         <div class="ad-note ad-note-warn">
           ${icone('i-alert')}
-          <div><strong>Événement passé</strong>Il est toujours annoncé sur le site. Pensez à le retirer ou à l'archiver.</div>
+          <div><strong>Événement passé</strong>Il reste publié sur le site. Pensez à le retirer du bandeau ou à l'archiver.</div>
+        </div>` : ''}
+
+      ${expire && !ev.archived ? `
+        <div class="ad-note ad-note-warn">
+          ${icone('i-alert')}
+          <div><strong>Fin de parution dépassée</strong>Il n'apparaît plus sur le site, mais reste ici modifiable.</div>
         </div>` : ''}
 
       <dl class="ad-facts ad-facts-tight">
@@ -253,16 +257,18 @@
             : '<span class="ad-muet">Non précisée</span>'}</dd>
         </div>
         <div class="ad-fact">
+          <dt>${icone('i-calendar')}Fin de parution</dt>
+          <dd>${ev.ends_at
+            ? `<b>${echapper(AdminStore.dateLongue(ev.ends_at))}</b>`
+            : '<span class="ad-muet">Aucune : reste publié indéfiniment</span>'}</dd>
+        </div>
+        <div class="ad-fact">
           <dt>${icone('i-tag')}Étiquette</dt>
           <dd>${ev.tag ? echapper(ev.tag) : '<span class="ad-muet">Aucune</span>'}</dd>
         </div>
         <div class="ad-fact">
           <dt>${icone('i-text')}Description</dt>
           <dd>${ev.description ? echapper(ev.description) : '<span class="ad-muet">Aucune</span>'}</dd>
-        </div>
-        <div class="ad-fact">
-          <dt>${icone('i-external')}Lien</dt>
-          <dd><a class="ad-extlink" href="${echapper(ev.link_url)}" target="_blank" rel="noopener">${echapper(ev.link_url)}</a></dd>
         </div>
       </dl>
 
@@ -271,14 +277,14 @@
         ${ev.archived ? `
           <button type="button" class="ad-row" data-do="desarchiver">
             ${icone('i-layers', 'ad-ico-lg')}
-            <span><strong>Remettre en réserve</strong>La fiche revient dans la liste courante, sans être affichée.</span>
+            <span><strong>Désarchiver</strong>La fiche revient dans la section « Événements à venir » du site.</span>
             ${icone('i-arrow')}
           </button>` : `
-          <button type="button" class="ad-row" data-do="${enLigne ? 'retirer' : 'publier'}">
-            ${icone(enLigne ? 'i-eye-off' : 'i-eye', 'ad-ico-lg')}
-            <span><strong>${enLigne ? 'Retirer du site' : 'Mettre en ligne'}</strong>${enLigne
-              ? 'Le bandeau et la section « Événements à venir » disparaissent du site.'
-              : 'Cet événement remplacera celui actuellement affiché, s’il y en a un.'}</span>
+          <button type="button" class="ad-row" data-do="${ev.featured ? 'retirerBandeau' : 'mettreEnAvant'}">
+            ${icone(ev.featured ? 'i-eye-off' : 'i-eye', 'ad-ico-lg')}
+            <span><strong>${ev.featured ? 'Retirer du bandeau' : 'Mettre en avant dans le bandeau'}</strong>${ev.featured
+              ? 'L’événement reste publié sur le site ; seul le bandeau du haut disparaît.'
+              : 'Remplace l’événement actuellement en avant, s’il y en a un. Celui-ci reste de toute façon visible dans la section.'}</span>
             ${icone('i-arrow')}
           </button>
           <button type="button" class="ad-row" data-do="archiver">
@@ -317,18 +323,18 @@
     }
 
     const champs = {
-      publier: { active: true },
-      retirer: { active: false },
-      archiver: { archived: true, active: false },
+      mettreEnAvant: { featured: true },
+      retirerBandeau: { featured: false },
+      archiver: { archived: true, featured: false },
       desarchiver: { archived: false }
     }[quoi];
     if (!champs) return;
 
     const messages = {
-      publier: 'Événement mis en ligne. Il apparaît maintenant sur le site.',
-      retirer: 'Événement retiré du site.',
+      mettreEnAvant: 'Événement mis en avant dans le bandeau.',
+      retirerBandeau: 'Événement retiré du bandeau. Il reste publié sur le site.',
       archiver: 'Événement archivé.',
-      desarchiver: 'Événement remis en réserve.'
+      desarchiver: 'Événement remis en ligne.'
     };
 
     btn.disabled = true;
@@ -404,8 +410,9 @@
       <form novalidate>
         <div class="ad-field">
           <label for="ev-title">Titre</label>
-          <input type="text" id="ev-title" required value="${echapper(ev ? ev.title : '')}">
+          <input type="text" id="ev-title" required maxlength="${LIMITES.title}" value="${echapper(ev ? ev.title : '')}">
           <p class="ad-hint">S'affiche en gros dans le bandeau, par exemple « Portes ouvertes du 27 juin ».</p>
+          <p class="ad-hint" data-counter="ev-title"></p>
         </div>
 
         <div class="ad-field">
@@ -415,28 +422,31 @@
         </div>
 
         <div class="ad-field">
+          <label for="ev-end">Date de fin de parution</label>
+          <input type="date" id="ev-end" value="${ev && ev.ends_at ? echapper(String(ev.ends_at).slice(0, 10)) : ''}">
+          <p class="ad-hint">Facultative. Passé cette date, l'événement disparaît du site sans qu'il soit besoin de l'archiver.</p>
+        </div>
+
+        <div class="ad-field">
           <label for="ev-tag">Étiquette</label>
-          <input type="text" id="ev-tag" value="${echapper(ev ? ev.tag : TAG_DEFAUT)}">
+          <input type="text" id="ev-tag" maxlength="${LIMITES.tag}" value="${echapper(ev ? ev.tag : TAG_DEFAUT)}">
           <p class="ad-hint">La petite mention placée au-dessus du titre.</p>
+          <p class="ad-hint" data-counter="ev-tag"></p>
         </div>
 
         <div class="ad-field">
           <label for="ev-description">Description</label>
-          <textarea id="ev-description">${echapper(ev ? ev.description : '')}</textarea>
+          <textarea id="ev-description" maxlength="${LIMITES.description}">${echapper(ev ? ev.description : '')}</textarea>
           <p class="ad-hint">Deux ou trois phrases : ce qui se passe, quand, et où.</p>
-        </div>
-
-        <div class="ad-field">
-          <label for="ev-link">Lien d'inscription</label>
-          <input type="url" id="ev-link" required placeholder="https://www.helloasso.com/..." value="${echapper(ev ? ev.link_url : '')}">
-          <p class="ad-hint">La page HelloAsso, ou toute autre adresse vers laquelle envoyer les visiteurs.</p>
+          <p class="ad-hint" data-counter="ev-description"></p>
         </div>
 
         <div class="ad-switch">
-          <input type="checkbox" id="ev-active" ${ev && ev.active ? 'checked' : ''}>
+          <input type="checkbox" id="ev-featured" ${ev && ev.featured ? 'checked' : ''}>
           <div>
-            <label for="ev-active">Afficher cet événement sur le site</label>
-            <p class="ad-hint">Un seul événement peut être en ligne à la fois : afficher celui-ci retire automatiquement le précédent.</p>
+            <label for="ev-featured">Mettre en avant dans le bandeau</label>
+            <p class="ad-hint">Un seul événement à la fois : cocher celui-ci retire automatiquement le précédent.
+              Cet événement reste de toute façon visible dans la section « Événements à venir » du site, coché ou non.</p>
           </div>
         </div>
       </form>
@@ -446,36 +456,34 @@
     const champs = {
       title: corps.querySelector('#ev-title'),
       date: corps.querySelector('#ev-date'),
+      end: corps.querySelector('#ev-end'),
       tag: corps.querySelector('#ev-tag'),
       description: corps.querySelector('#ev-description'),
-      link: corps.querySelector('#ev-link'),
-      active: corps.querySelector('#ev-active')
+      featured: corps.querySelector('#ev-featured')
     };
+
+    // Compteurs de caractères, mis à jour à la frappe.
+    corps.querySelectorAll('[data-counter]').forEach((p) => {
+      const champ = corps.querySelector(`#${p.dataset.counter}`);
+      const maj = () => { p.textContent = `${champ.value.length}/${champ.maxLength}`; };
+      champ.addEventListener('input', maj);
+      maj();
+    });
 
     async function enregistrer() {
       const payload = {
         title: champs.title.value.trim(),
         tag: champs.tag.value.trim(),
         description: champs.description.value.trim(),
-        link_url: champs.link.value.trim(),
         starts_at: champs.date.value || null,
-        active: champs.active.checked
+        ends_at: champs.end.value || null,
+        featured: champs.featured.checked
       };
-      if (modif) payload.archived = !!ev.archived && !payload.active;
+      if (modif) payload.archived = !!ev.archived && !payload.featured;
 
       if (!payload.title) {
-        AdminPanel.alerte('Le titre est obligatoire : c’est lui qui s’affiche dans le bandeau.');
+        AdminPanel.alerte('Le titre est obligatoire : c’est lui qui identifie l’événement.');
         champs.title.focus();
-        return;
-      }
-      if (!payload.link_url) {
-        AdminPanel.alerte('Le lien d’inscription est obligatoire : le bandeau doit mener quelque part.');
-        champs.link.focus();
-        return;
-      }
-      if (!/^https?:\/\//i.test(payload.link_url)) {
-        AdminPanel.alerte('Le lien doit commencer par https:// pour être valide.');
-        champs.link.focus();
         return;
       }
 

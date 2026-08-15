@@ -1,7 +1,7 @@
 # Base de données (Supabase)
 
 Schéma de la base Postgres utilisée par le back-office (`admin/` + `api/`). Le site public
-reste statique : il ne lit la base que par `api/events/active.js`.
+reste statique : il ne lit la base que par `api/events/public.js`.
 
 ## Appliquer les migrations
 
@@ -18,6 +18,7 @@ est sans risque.
 | `001_socle.sql` | Extension `pgcrypto`, fonction partagée `set_updated_at()` |
 | `002_evenements.sql` | Table `events` (module admin « Événements ») |
 | `003_evenements_dates.sql` | Colonnes `starts_at` (date de l'événement) et `archived` sur `events` |
+| `004_evenements_bandeau.sql` | Retire `link_url`, renomme `active` en `featured` (mise en avant dans le bandeau, plus condition de publication), ajoute `ends_at` (fin de parution facultative) |
 
 ## Ajouter une table pour un nouveau module admin
 

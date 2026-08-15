@@ -23,7 +23,6 @@
   .planning-grid,
   .pourqui-grid,
   .videos-row,
-  .insc-grid,
   .infos-grid {
     grid-template-columns: 1fr;
     gap: 38px;
@@ -39,7 +38,8 @@
     gap: 34px 24px;
   }
 
-  .videos-gallery {
+  .videos-gallery,
+  .events-grid {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -271,7 +271,8 @@
     height: 230px;
   }
 
-  .videos-gallery {
+  .videos-gallery,
+  .events-grid {
     grid-template-columns: 1fr;
   }
 

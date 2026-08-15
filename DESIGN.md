@@ -198,7 +198,7 @@ Le public du site est majoritairement senior : la densité reste basse, les cibl
 Une palette de forêt et d'eau, réchauffée par un or unique et un papier crème ; aucune couleur froide, aucun gris neutre.
 
 ### Primary
-- **Or Sanctuaire** (`#c9a86a`) : la seule couleur de décision. Bouton d'action principale, état « en ligne sur le site », soulignement de l'onglet courant, icône de l'entrée de menu active. Jamais décorative.
+- **Or Sanctuaire** (`#c9a86a`) : la seule couleur de décision. Bouton d'action principale, état « mis en avant dans le bandeau », soulignement de l'onglet courant, icône de l'entrée de menu active. Jamais décorative.
 - **Or Sanctuaire Clair** (`#e7d6ad`) : le survol de l'or, et les sur-titres sur fond vert.
 
 ### Secondary
@@ -344,7 +344,7 @@ Les bordures sont des filets de 1 px, jamais plus. Un liseré coloré de plus de
 ### Tables
 - **En-tête :** fond `--ad-raise`, overline, filet bas de 1 px.
 - **Ligne :** `15px 20px`, filet haut à 8 %, curseur pointeur — toute la ligne ouvre la fiche, mais le titre reste un vrai `<button>` pour le clavier.
-- **Ligne en ligne :** champ Or Sanctuaire Clair sur toute la ligne, qui garde sa teinte au survol.
+- **Ligne mise en avant :** champ Or Sanctuaire Clair sur toute la ligne, qui garde sa teinte au survol.
 - **Sous 700 px :** chaque ligne devient une fiche bordée, l'en-tête disparaît, et la flèche d'ouverture se positionne à droite en absolu.
 
 ### Tabs
@@ -366,7 +366,7 @@ Une rangée par action possible : icône, titre en gras, **et une phrase qui dit
 
 ### Signature Component — la page qui déclare ce qu'elle commande
 
-Chaque page de l'admin dit en toutes lettres ce que le site publie à cause d'elle, avant tout autre contenu : le tableau de bord en fait sa matière (« Événement à l'affiche », « Prochaine séance », chacun avec son renvoi), les pages en lecture seule portent un encart qui avoue où éditer en attendant que la modification soit branchée. Aucune page ne peut exister sans cette déclaration : c'est ce qui distingue cette console d'un simple formulaire.
+Chaque page de l'admin dit en toutes lettres ce que le site publie à cause d'elle, avant tout autre contenu : le tableau de bord en fait sa matière (« Mis en avant dans le bandeau », « Prochaine séance », chacun avec son renvoi), les pages en lecture seule portent un encart qui avoue où éditer en attendant que la modification soit branchée. Aucune page ne peut exister sans cette déclaration : c'est ce qui distingue cette console d'un simple formulaire.
 
 ## Do's and Don'ts
 
