@@ -54,8 +54,12 @@ create index if not exists events_publics
 
 -- Garde-fou : un événement archivé n'est jamais l'événement mis en
 -- avant (reprend events_archive_jamais_active, sur la colonne renommée).
+-- Les deux noms sont retirés avant recréation : le premier passage ne
+-- trouve que l'ancien nom, un rejeu ne trouve que le nouveau.
 alter table public.events
   drop constraint if exists events_archive_jamais_active;
+alter table public.events
+  drop constraint if exists events_archive_jamais_vedette;
 alter table public.events
   add constraint events_archive_jamais_vedette
   check (not (archived and featured));
