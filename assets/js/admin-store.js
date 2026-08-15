@@ -77,7 +77,8 @@ const AdminStore = (function adminStore() {
       archived: !!ev.archived,
       featured: !!ev.featured,
       starts_at: ev.starts_at || null,
-      ends_at: ev.ends_at || null
+      ends_at: ev.ends_at || null,
+      image_url: ev.image_url || null
     }));
     etat.statut = 'pret';
     diffuser();

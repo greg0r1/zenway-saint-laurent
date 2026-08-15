@@ -14,6 +14,12 @@
   const TAG_DEFAUT = 'Prochain événement';
   const LIMITES = { title: 100, tag: 40, description: 500 };
 
+  // Redimensionnement/compression client, avant l'envoi à /api/events/image :
+  // l'image n'alourdit jamais le chargement des cartes sur le site.
+  const IMAGE_MAX_SOURCE_BYTES = 15 * 1024 * 1024;
+  const IMAGE_MAX_DIMENSION = 1600;
+  const IMAGE_JPEG_QUALITY = 0.85;
+
   let root = null;
   let page = null;
   let desabonner = null;
@@ -28,6 +34,43 @@
     const div = document.createElement('div');
     div.textContent = str == null ? '' : String(str);
     return div.innerHTML;
+  }
+
+  /* ---------------------------------------------------------------
+     Image — redimensionnement client, puis envoi à /api/events/image
+     --------------------------------------------------------------- */
+
+  function redimensionnerImage(file) {
+    return new Promise((resolve, reject) => {
+      const lecteur = new FileReader();
+      lecteur.onerror = () => reject(new Error('lecture_echouee'));
+      lecteur.onload = () => {
+        const img = new Image();
+        img.onerror = () => reject(new Error('image_invalide'));
+        img.onload = () => {
+          const ratio = Math.min(1, IMAGE_MAX_DIMENSION / Math.max(img.width, img.height));
+          const largeur = Math.round(img.width * ratio);
+          const hauteur = Math.round(img.height * ratio);
+          const toile = document.createElement('canvas');
+          toile.width = largeur;
+          toile.height = hauteur;
+          toile.getContext('2d').drawImage(img, 0, 0, largeur, hauteur);
+          resolve(toile.toDataURL('image/jpeg', IMAGE_JPEG_QUALITY));
+        };
+        img.src = lecteur.result;
+      };
+      lecteur.readAsDataURL(file);
+    });
+  }
+
+  async function televerserImage(dataUrl) {
+    const res = await fetch('/api/events/image', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image: dataUrl })
+    });
+    if (!res.ok) throw new Error('upload_failed');
+    return res.json();
   }
 
   /* ---------------------------------------------------------------
@@ -179,8 +222,13 @@
             : '<span class="ad-date ad-muet">Sans date</span>'}
         </td>
         <td>
-          <button type="button" class="ad-cellbtn" data-open="${echapper(ev.id)}">${echapper(ev.title)}</button>
-          ${ev.tag ? `<span class="ad-tag">${echapper(ev.tag)}</span>` : ''}
+          <div class="ad-table-row">
+            ${ev.image_url ? `<img class="ad-table-thumb" src="${echapper(ev.image_url)}" alt="">` : ''}
+            <div>
+              <button type="button" class="ad-cellbtn" data-open="${echapper(ev.id)}">${echapper(ev.title)}</button>
+              ${ev.tag ? `<span class="ad-tag">${echapper(ev.tag)}</span>` : ''}
+            </div>
+          </div>
         </td>
         <td class="ad-col-etat">
           ${ev.archived
@@ -229,6 +277,7 @@
     const expire = ev.ends_at && AdminStore.estPasse(ev.ends_at);
 
     corps.innerHTML = `
+      ${ev.image_url ? `<img class="ad-panel-image" src="${echapper(ev.image_url)}" alt="">` : ''}
       <p class="ad-panel-state">
         ${ev.archived
           ? `<span class="ad-pill">${icone('i-archive')}Archivé</span>`
@@ -405,6 +454,10 @@
 
   function ouvrirFormulaire(ev) {
     const modif = !!ev;
+    let imageUrl = ev && ev.image_url ? ev.image_url : null;
+    let imagePendingDataUrl = null;
+    let imageRetiree = false;
+
     const corps = document.createElement('div');
     corps.innerHTML = `
       <form novalidate>
@@ -413,6 +466,13 @@
           <input type="text" id="ev-title" required maxlength="${LIMITES.title}" value="${echapper(ev ? ev.title : '')}">
           <p class="ad-hint">S'affiche en gros dans le bandeau, par exemple « Portes ouvertes du 27 juin ».</p>
           <p class="ad-hint" data-counter="ev-title"></p>
+        </div>
+
+        <div class="ad-field">
+          <label>Image</label>
+          <input type="file" id="ev-image-input" accept="image/jpeg,image/png,image/webp" hidden>
+          <div data-slot="image"></div>
+          <p class="ad-hint">Facultative. Redimensionnée et compressée automatiquement au chargement (1600 px maximum, JPEG).</p>
         </div>
 
         <div class="ad-field">
@@ -470,6 +530,62 @@
       maj();
     });
 
+    // Champ image : aperçu (existant, ou fichier tout juste redimensionné)
+    // et changer/retirer, ou dépôt si aucune image n'est encore choisie.
+    const fichierInput = corps.querySelector('#ev-image-input');
+
+    function rendreImage() {
+      const slot = corps.querySelector('[data-slot="image"]');
+      const affichee = imagePendingDataUrl || (imageRetiree ? null : imageUrl);
+      slot.innerHTML = affichee ? `
+        <div class="ad-image-preview-wrap">
+          <img class="ad-image-preview" src="${echapper(affichee)}" alt="">
+          <div class="ad-image-actions">
+            <button type="button" class="ad-btn ad-btn-line ad-btn-sm" data-img="changer">Changer l’image</button>
+            <button type="button" class="ad-btn ad-btn-line ad-btn-sm" data-img="retirer">Retirer l’image</button>
+          </div>
+        </div>
+      ` : `
+        <label class="ad-image-drop" for="ev-image-input">
+          ${icone('i-image', 'ad-ico-xl')}
+          <span>Ajouter une image</span>
+        </label>
+      `;
+      const changer = slot.querySelector('[data-img="changer"]');
+      if (changer) changer.addEventListener('click', () => fichierInput.click());
+      const retirer = slot.querySelector('[data-img="retirer"]');
+      if (retirer) retirer.addEventListener('click', () => {
+        imagePendingDataUrl = null;
+        imageRetiree = true;
+        fichierInput.value = '';
+        rendreImage();
+      });
+    }
+    rendreImage();
+
+    fichierInput.addEventListener('change', async () => {
+      const fichier = fichierInput.files && fichierInput.files[0];
+      if (!fichier) return;
+      if (!['image/jpeg', 'image/png', 'image/webp'].includes(fichier.type)) {
+        AdminPanel.alerte('Format d’image non pris en charge : utilisez un JPEG, un PNG ou un WebP.');
+        fichierInput.value = '';
+        return;
+      }
+      if (fichier.size > IMAGE_MAX_SOURCE_BYTES) {
+        AdminPanel.alerte('Cette image est trop lourde (15 Mo maximum avant redimensionnement).');
+        fichierInput.value = '';
+        return;
+      }
+      try {
+        imagePendingDataUrl = await redimensionnerImage(fichier);
+        imageRetiree = false;
+        rendreImage();
+      } catch {
+        AdminPanel.alerte('Cette image n’a pas pu être lue. Essayez un autre fichier.');
+        fichierInput.value = '';
+      }
+    });
+
     async function enregistrer() {
       const payload = {
         title: champs.title.value.trim(),
@@ -488,7 +604,20 @@
       }
 
       AdminPanel.cacherAlerte();
-      AdminPanel.occuper('enregistrer', true, 'Enregistrement…');
+      AdminPanel.occuper('enregistrer', true, imagePendingDataUrl ? 'Envoi de l’image…' : 'Enregistrement…');
+
+      payload.image_url = imageRetiree ? null : imageUrl;
+      if (imagePendingDataUrl) {
+        try {
+          const televersee = await televerserImage(imagePendingDataUrl);
+          payload.image_url = televersee.url;
+        } catch {
+          AdminPanel.occuper('enregistrer', false);
+          AdminPanel.alerte('L’image n’a pas pu être envoyée. Réessayez, ou enregistrez sans image.');
+          return;
+        }
+      }
+
       try {
         await AdminStore.enregistrer(payload, modif ? ev.id : null);
       } catch {

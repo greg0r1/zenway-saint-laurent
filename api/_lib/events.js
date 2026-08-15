@@ -5,6 +5,12 @@
    ============================================================ */
 const LIMITS = { title: 100, tag: 40, description: 500 };
 
+// L'image est redimensionnée côté client avant l'envoi (voir
+// admin-events.js) ; cette limite ne protège que contre un appel direct
+// à l'API qui contournerait ce redimensionnement.
+const IMAGE_MAX_BYTES = 4 * 1024 * 1024;
+const IMAGE_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
 function champTropLong(payload) {
   if (typeof payload.title === 'string' && payload.title.length > LIMITS.title) return 'title';
   if (typeof payload.tag === 'string' && payload.tag.length > LIMITS.tag) return 'tag';
@@ -12,4 +18,4 @@ function champTropLong(payload) {
   return null;
 }
 
-module.exports = { LIMITS, champTropLong };
+module.exports = { LIMITS, IMAGE_MAX_BYTES, IMAGE_MIME_TYPES, champTropLong };

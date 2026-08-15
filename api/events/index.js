@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
   }
 
   if (req.method === 'POST') {
-    const { title, description, tag, featured, starts_at, ends_at, archived } = req.body || {};
+    const { title, description, tag, featured, starts_at, ends_at, archived, image_url } = req.body || {};
     if (!title) {
       res.status(400).json({ error: 'missing_fields' });
       return;
@@ -62,7 +62,8 @@ module.exports = async (req, res) => {
         starts_at: starts_at || null,
         ends_at: ends_at || null,
         archived: !!archived,
-        featured: enAvant
+        featured: enAvant,
+        image_url: image_url || null
       })
       .select()
       .single();

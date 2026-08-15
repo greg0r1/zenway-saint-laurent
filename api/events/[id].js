@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
   const supabase = getSupabase();
 
   if (req.method === 'PUT') {
-    const { title, description, tag, featured, starts_at, ends_at, archived } = req.body || {};
+    const { title, description, tag, featured, starts_at, ends_at, archived, image_url } = req.body || {};
 
     const tropLong = champTropLong({ title, tag, description });
     if (tropLong) {
@@ -42,6 +42,7 @@ module.exports = async (req, res) => {
     if (ends_at !== undefined) updates.ends_at = ends_at || null;
     if (archived !== undefined) updates.archived = !!archived;
     if (enAvant !== undefined) updates.featured = !!enAvant;
+    if (image_url !== undefined) updates.image_url = image_url || null;
 
     const { data, error } = await supabase
       .from('events')
