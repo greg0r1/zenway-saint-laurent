@@ -67,9 +67,8 @@ zenway-saint-laurent/
 │   │   ├── footer.css      ← pied de page
 │   │   └── responsive.css  ← media queries (chargé en dernier)
 │   ├── fonts/              ← polices auto-hébergées (woff2, sous-ensembles latin)
-│   │   ├── cormorant-garamond-*.woff2
-│   │   ├── dm-sans-*.woff2
-│   │   └── caveat-*.woff2
+│   │   ├── cormorant-*.woff2
+│   │   └── dmsans-*.woff2
 │   ├── js/
 │   │   ├── config-helloasso.js     ← configuration HelloAsso (slugs, widget)
 │   │   ├── config-videos.js        ← vidéo teaser hero + galerie YouTube
@@ -229,17 +228,16 @@ Toutes les couleurs sont définies dans `assets/css/base.css` :
 
 ### Typographies (Google Fonts auto-hébergées)
 
-| Usage              | Police             | CSS variable |
-| ------------------ | ------------------ | ------------ |
-| Titres (H1–H3)     | Cormorant Garamond | `--serif`    |
-| Texte courant      | DM Sans            | `--sans`     |
-| Accents manuscrits | Caveat             | `--script`   |
+| Usage          | Police             | CSS variable |
+| -------------- | ------------------ | ------------ |
+| Titres (H1–H3) | Cormorant Garamond | `--serif`    |
+| Texte courant  | DM Sans            | `--sans`     |
 
-**Règle** : Caveat uniquement pour les accroches courtes (max une ligne).
+**Règle** : deux polices, pas une de plus. Une troisième, Caveat, était déclarée sans habiller le moindre texte ; elle a été retirée. Ne pas la réintroduire sans un usage réel.
 
 ### Logo
 
-Trois feuilles SVG en dégradé vert/teal. Texte : « zen » en DM Sans gras blanc, « way » en Caveat teal. Ne jamais modifier les proportions ou les couleurs.
+Trois feuilles SVG en dégradé vert/teal. Texte : « zen » en DM Sans gras blanc, « way » en lettrage manuscrit teal. Le logo est une image : son lettrage est dessiné, pas composé par une police du site. Ne jamais modifier les proportions ou les couleurs.
 
 ---
 

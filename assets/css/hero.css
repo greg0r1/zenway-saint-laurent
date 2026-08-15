@@ -73,7 +73,7 @@
 }
 
 /* Le logo Zenway complet ouvre la colonne, au-dessus de la ligne de
-   section — plus large que haut, contrairement au sceau minimaliste. */
+   section : plus large que haut, il pose la marque avant le titre. */
 .hero-mark {
   display: block;
   width: 148px;

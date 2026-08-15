@@ -16,9 +16,12 @@ module.exports = async (req, res) => {
   const supabase = getSupabase();
 
   if (req.method === 'GET') {
+    // Les événements datés d'abord, du plus proche au plus lointain ;
+    // ceux sans date ensuite, par ordre de saisie.
     const { data, error } = await supabase
       .from('events')
       .select('*')
+      .order('starts_at', { ascending: false, nullsFirst: false })
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -30,13 +33,17 @@ module.exports = async (req, res) => {
   }
 
   if (req.method === 'POST') {
-    const { title, description, tag, link_url, active } = req.body || {};
+    const { title, description, tag, link_url, active, starts_at, archived } = req.body || {};
     if (!title || !link_url) {
       res.status(400).json({ error: 'missing_fields' });
       return;
     }
 
-    if (active) {
+    // Un événement archivé n'est jamais l'événement affiché (contrainte
+    // reprise en base, voir db/migrations/003_evenements_dates.sql).
+    const enLigne = !!active && !archived;
+
+    if (enLigne) {
       await supabase.from('events').update({ active: false }).eq('active', true);
     }
 
@@ -47,7 +54,9 @@ module.exports = async (req, res) => {
         description: description || '',
         tag: tag || 'Prochain événement',
         link_url,
-        active: !!active
+        starts_at: starts_at || null,
+        archived: !!archived,
+        active: enLigne
       })
       .select()
       .single();

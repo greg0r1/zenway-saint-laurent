@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
   const supabase = getSupabase();
   const { data, error } = await supabase
     .from('events')
-    .select('title, description, tag, link_url')
+    .select('title, description, tag, link_url, starts_at')
     .eq('active', true)
     .order('created_at', { ascending: false })
     .limit(1)

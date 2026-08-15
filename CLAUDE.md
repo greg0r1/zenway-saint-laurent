@@ -45,7 +45,12 @@ Le reste du site reste 100 % statique (HTML/CSS/JS vanilla, zéro build). Une se
 - **Authentification admin** : Google Sign-In (Google Identity Services, client-side), avec vérification du token côté serveur (`google-auth-library`) et **whitelist d'emails** (`ADMIN_EMAILS`) — seuls les emails listés peuvent accéder à l'admin, peu importe le compte Google utilisé.
 - **Session admin** : cookie `httpOnly`/`Secure` signé (HMAC, `crypto` natif Node — pas de dépendance JWT dédiée).
 - **`package.json` racine** : existe uniquement pour les dépendances de `api/` (`@supabase/supabase-js`, `google-auth-library`). N'affecte pas le déploiement du site statique (pas de build step, Vercel sert `index.html`/`assets/` tel quel et déploie `api/` comme fonctions).
-- **Page admin conçue comme une coquille extensible** : `admin/index.html` gère la connexion (partagée) et un système d'onglets qui monte des modules déclarés dans `window.AdminModules`. Aujourd'hui un seul module (« Événements ») ; l'admin est destinée à accueillir d'autres sections à l'avenir (voir « Ajouter un module admin » ci-dessous). Cela ne change rien à la portée du backend/BDD lui-même, qui reste strictement limité aux événements tant qu'aucune autre décision n'est prise.
+- **Admin conçue comme une console classique** : barre latérale de navigation à gauche, une seule page montée à la fois dans la zone de travail. `admin/index.html` gère la connexion, puis `admin.js` fabrique une entrée de menu et une page par module déclaré dans `window.AdminModules`. La page courante vit dans l'adresse (`#/evenements`), donc le bouton Précédent du navigateur et les liens directs fonctionnent. Quatre pages aujourd'hui — « Tableau de bord », « Événements » (CRUD complet), « Planning » et « Infos pratiques » (lecture seule, voir ci-dessous). L'admin est destinée à en accueillir d'autres (voir « Ajouter un module admin »). Cela ne change rien à la portée du backend/BDD, qui reste strictement limité aux événements tant qu'aucune autre décision n'est prise.
+- **Les modules en lecture seule ne recopient aucune valeur** : « Planning » lit `assets/js/config-planning.js`, « Infos pratiques » lit la section `#infos` de `index.html` au moment de l'ouverture. Ils affichent donc toujours ce qui est réellement en ligne et ne peuvent pas dériver. Chacun porte un encart qui dit franchement où éditer en attendant que la modification soit branchée.
+- **Menu burger en mobile** : sous 900 px la barre latérale sort du flux et devient un tiroir, ouvert par le bouton de l'en-tête, refermé par Échap, par le voile, ou par le choix d'une page.
+- **Thème clair / sombre** : l'admin porte les deux, réglés par `data-theme` sur `<html>` (`assets/js/admin-theme.js`, chargé en synchrone dans le `<head>` pour éviter l'éclair au chargement). Sans choix explicite, on suit `prefers-color-scheme`. La barre latérale reste vert profond dans les deux cas — c'est l'ancre d'identité. Aucune couleur en dur dans les composants : tout passe par les jetons `--ad-*` définis en tête de `admin.css`.
+- **Panneau latéral** : tout ce qui agit (consulter une fiche, modifier, mettre en ligne, archiver, supprimer) se passe dans un panneau unique et partagé (`assets/js/admin-panel.js`), bâti sur `<dialog>` natif — piège à focus, Échap et voile de fond viennent du navigateur. Les pages ne portent que de la lecture et des listes. Sur mobile le panneau prend tout l'écran.
+- **Magasin partagé** : les événements sont lus une seule fois et diffusés (`assets/js/admin-store.js`). Le tableau de bord et la page « Événements » s'y abonnent : publier depuis l'un met l'autre à jour sans rechargement.
 
 ### Fichiers
 
@@ -65,19 +70,26 @@ api/
     └── [id].js            ← PUT (modifier, admin) / DELETE (admin)
 
 admin/
-└── index.html            ← coquille admin : connexion + onglets + zone de contenu
+└── index.html            ← coquille admin : connexion + jeu d'icônes + charpente de la console
 
 assets/js/
-├── config-admin.js        ← identifiant client Google (page /admin uniquement)
+├── config-admin.js         ← identifiant client Google (page /admin uniquement)
+├── admin-theme.js          ← thème clair/sombre, chargé en synchrone dans le <head>
 ├── admin-auth.js           ← connexion Google + session, partagé par tous les modules admin
-├── admin-events.js         ← module « Événements » (CRUD), s'enregistre dans window.AdminModules
-└── admin.js                ← coquille : onglets, montage/démontage des modules
+├── admin-store.js          ← magasin des événements + mise en forme des dates
+├── admin-panel.js          ← panneau latéral partagé (<dialog>), utilisé par tous les modules
+├── admin-dashboard.js      ← module « Tableau de bord » (lecture du magasin + planning)
+├── admin-events.js         ← module « Événements » (CRUD via le panneau)
+├── admin-planning.js       ← module « Planning » (lecture seule de config-planning.js)
+├── admin-infos.js          ← module « Infos pratiques » (lecture seule de index.html)
+└── admin.js                ← coquille : menu latéral, montage des pages, interrupteur de thème
 
 db/
 ├── README.md               ← conventions de schéma + procédure d'application
 └── migrations/             ← scripts SQL numérotés, append-only, à jouer dans l'ordre
-    ├── 001_socle.sql        ← pgcrypto + fonction partagée set_updated_at()
-    └── 002_evenements.sql   ← table events (module « Événements »)
+    ├── 001_socle.sql             ← pgcrypto + fonction partagée set_updated_at()
+    ├── 002_evenements.sql        ← table events (module « Événements »)
+    └── 003_evenements_dates.sql  ← colonnes starts_at (date) et archived sur events
 ```
 
 ### Schéma de base de données
@@ -88,12 +100,18 @@ Le schéma vit dans `db/migrations/`, en fichiers SQL numérotés joués à la m
 
 Pour ajouter une nouvelle section à l'admin (autre chose que les événements) :
 
-1. Créer `assets/js/admin-<nom>.js` qui s'enregistre en poussant `{ id, label, mount(container), unmount() }` dans `window.AdminModules` (voir `admin-events.js` comme modèle).
-2. L'inclure dans `admin/index.html`, après `admin-auth.js` et avant `admin.js`.
+1. Créer `assets/js/admin-<nom>.js` qui s'enregistre en poussant `{ id, label, icon, title, mount(container, page), unmount() }` dans `window.AdminModules` (voir `admin-events.js` comme modèle). `id` sert d'identifiant et de fragment d'URL (`#/<id>`), `icon` est l'identifiant d'un symbole du jeu d'icônes de `admin/index.html`, `title` le titre affiché en haut de la zone de travail (défaut : `label`). L'objet `page` reçu par `mount` expose :
+   - `page.setActions([{ label, icone, style, onClick }])` — les boutons d'action en haut à droite, l'action principale en `ad-btn-primary` ;
+   - `page.setBadge(texte)` — la pastille du menu, un compte seulement (`null` pour l'effacer) ;
+   - `page.flash(message)` — une confirmation discrète, qui s'efface ;
+   - `page.go(id)` — aller à une autre page.
+2. L'inclure dans `admin/index.html`, après `admin-auth.js` et avant `admin.js`. L'ordre des `<script>` fixe l'ordre du menu.
 3. Si le module a besoin de stockage, décider au cas par cas si `api/` et Supabase sont réutilisés (nouvelle table) ou si une autre solution convient — ce n'est plus couvert par la règle « strictement limité aux événements » ci-dessus une fois la décision prise explicitement avec l'utilisateur.
 4. Si une nouvelle table est décidée, ajouter un fichier `db/migrations/<NNN>_<module>.sql` en suivant le modèle de `db/README.md` (jamais de modification d'une migration déjà appliquée).
 
-La coquille (`admin.js`) n'a pas besoin d'être modifiée : elle lit `window.AdminModules` et affiche les onglets automatiquement dès qu'il y en a plus d'un.
+La coquille (`admin.js`) n'a pas besoin d'être modifiée : elle lit `window.AdminModules`, fabrique une entrée de menu par module, et monte une seule page à la fois selon l'adresse. `unmount()` doit libérer ce que `mount()` a pris (abonnements au magasin, écouteurs globaux) : contrairement à l'ancienne page unique, les modules sont réellement démontés à chaque changement de page.
+
+Chaque page dit en toutes lettres ce qu'elle commande sur le site public, et ce qui est en ligne à l'instant — c'est ce qui distingue cette console d'un simple formulaire. Les règles visuelles sont dans `DESIGN.md`.
 
 ### Variables d'environnement (à définir dans Vercel → Settings → Environment Variables)
 
@@ -135,19 +153,18 @@ Voir `README.md` pour la procédure complète (SQL Supabase, config Google Cloud
 
 Ne jamais introduire de nouvelle couleur sans l'ajouter en variable CSS et justifier son usage.
 
-### Typographies (Google Fonts, déjà chargées)
+### Typographies (auto-hébergées, woff2 dans `assets/fonts/`)
 
-| Variable CSS | Police             | Usage                               |
-| ------------ | ------------------ | ----------------------------------- |
-| `--serif`    | Cormorant Garamond | H1, H2, H3, citations grandes       |
-| `--sans`     | DM Sans            | Texte courant, nav, boutons         |
-| `--script`   | Caveat             | Accents manuscrits courts, taglines |
+| Variable CSS | Police             | Usage                         |
+| ------------ | ------------------ | ----------------------------- |
+| `--serif`    | Cormorant Garamond | H1, H2, H3, citations grandes |
+| `--sans`     | DM Sans            | Texte courant, nav, boutons   |
 
-Ne jamais utiliser d'autre police. Caveat est réservé aux phrases courtes (max une ligne) — jamais pour des paragraphes.
+Deux polices, pas une de plus. Une troisième, Caveat, a longtemps été déclarée sans jamais habiller le moindre texte : elle a été retirée. Ne pas la réintroduire sans un usage réel et décidé.
 
 ### Logo
 
-Trois feuilles SVG en dégradé vert/teal. Le mot « zen » en DM Sans gras blanc, « way » en Caveat teal. Ne jamais déformer, recolorer ou modifier les proportions.
+Trois feuilles SVG en dégradé vert/teal. Le mot « zen » en DM Sans gras blanc, « way » en lettrage manuscrit teal. Le logo est une image (`assets/img/logo/logo-zenway.png` et sa variante webp) : son lettrage est dessiné, pas composé par une police du site. Ne jamais déformer, recolorer ou modifier les proportions.
 
 ---
 
@@ -176,36 +193,59 @@ zenway-saint-laurent/
 │   │   ├── sections.css     ← concept & pratiques, planning, pour qui,
 │   │   │                      vidéos, événements, inscriptions, infos, cta
 │   │   ├── video.css        ← composant vidéo (teaser + galerie)
-│   │   ├── admin.css        ← page /admin (coquille + tous les modules)
+│   │   ├── discipline-modal.css ← fiches des quatre disciplines (modale)
+│   │   ├── admin.css        ← page /admin (console : coquille + tous les modules)
 │   │   ├── footer.css       ← pied de page
 │   │   └── responsive.css   ← media queries (chargé en dernier)
-│   ├── fonts/               ← woff2 Cormorant Garamond / DM Sans / Caveat
+│   ├── fonts/               ← woff2 Cormorant Garamond / DM Sans
 │   │                          (sous-ensembles latin + latin-ext, auto-hébergés
 │   │                          pour éviter l'appel à fonts.googleapis.com)
 │   ├── js/
 │   │   ├── config-helloasso.js  ← slugs HelloAsso, injection des liens/widget
-│   │   ├── events-banner.js     ← fetch /api/events/active, alimente bandeau + section événements
-│   │   ├── config-admin.js      ← identifiant client Google (page /admin uniquement)
-│   │   ├── admin-auth.js        ← connexion Google + session, partagé par les modules admin
-│   │   ├── admin-events.js      ← module admin « Événements » (CRUD)
-│   │   ├── admin.js             ← coquille admin : onglets, montage des modules
 │   │   ├── config-videos.js     ← vidéo teaser hero + galerie YouTube
 │   │   ├── config-planning.js   ← créneaux de séance affichés
-│   │   └── nav-reveal.js        ← scroll nav, burger menu, animations reveal
-│   └── img/
-│       ├── logo-zenway.png             ← logo complet (nav, footer)
-│       ├── logo-zenway-minimaliste.png ← variante du logo (visuel concept)
-│       ├── bea-posture-005.png         ← photo de Béatrice en posture Zenway
-│       ├── activite-taichi.jpg         ← photo pratique Tai-chi chuan
-│       ├── activite-yoga.jpg           ← photo pratique Yoga
-│       ├── activite-pilates.jpg        ← photo pratique Pilates
-│       └── activite-qigong.jpg         ← photo pratique Qi gong
+│   │   ├── events-banner.js     ← fetch /api/events/active, alimente bandeau + section événements
+│   │   ├── nav-reveal.js        ← scroll nav, burger menu, animations reveal
+│   │   ├── hero-bath.js         ← animation du bain du hero
+│   │   ├── parallax.js          ← défilement parallaxe des visuels
+│   │   ├── practice-modals.js   ← ouverture des fiches disciplines
+│   │   ├── config-admin.js      ← identifiant client Google (page /admin uniquement)
+│   │   ├── admin-theme.js       ← thème clair/sombre de l'admin (chargé dans le <head>)
+│   │   ├── admin-auth.js        ← connexion Google + session, partagé par les modules admin
+│   │   ├── admin-store.js       ← magasin des événements + mise en forme des dates
+│   │   ├── admin-panel.js       ← panneau latéral partagé de l'admin (<dialog>)
+│   │   ├── admin-dashboard.js   ← module admin « Tableau de bord »
+│   │   ├── admin-events.js      ← module admin « Événements » (CRUD)
+│   │   ├── admin-planning.js    ← module admin « Planning » (lecture seule)
+│   │   ├── admin-infos.js       ← module admin « Infos pratiques » (lecture seule)
+│   │   └── admin.js             ← coquille admin : menu, montage des pages, thème
+│   └── img/                 ← chaque photo existe en .jpg (ou .png) + .webp,
+│       │                      servies via <picture> ; les favicons et l'og-image
+│       │                      n'ont pas de variante webp
+│       ├── logo/            ← logo-zenway (nav, footer)
+│       ├── bea/             ← photos de Béatrice
+│       ├── activites/       ← les quatre pratiques (cartes de la page d'accueil)
+│       ├── disciplines/     ← fiches disciplines : *-origines et *-aujourdhui
+│       ├── hero/            ← visuel de la section d'accueil
+│       ├── video/           ← affiche de la vidéo teaser
+│       ├── favicons/        ← déclinaisons d'icône (16 → 512 px)
+│       └── meta/            ← og-image du partage social
 ├── admin/
 │   └── index.html       ← page d'administration des événements (voir « Exception backend »)
 ├── api/                 ← fonctions serverless Vercel (voir « Exception backend »)
 ├── db/                  ← migrations SQL Supabase (voir « Exception backend »)
 ├── package.json         ← dépendances de api/ uniquement (aucun build step pour le site)
-├── .gitignore          ← exclut .DS_Store et autres fichiers système
+├── vercel.json          ← en-têtes HTTP : cache, sécurité, CSP
+├── .github/workflows/   ← indexnow.yml : signale les mises à jour aux moteurs
+├── robots.txt           ← règles d'exploration
+├── sitemap.xml          ← plan du site
+├── llms.txt             ← résumé du site pour les agents conversationnels
+├── site.webmanifest     ← manifeste (nom, icônes, couleurs)
+├── favicon.ico          ← icône de repli
+├── 4fdd1f90…​.txt         ← clé de vérification IndexNow (ne pas renommer)
+├── .gitignore          ← exclut .DS_Store, .vercel, .impeccable, .env.local
+├── PRODUCT.md          ← vérité produit durable (public, usage, contraintes)
+├── DESIGN.md           ← système visuel : palette, typo, formes, composants, règles
 ├── CLAUDE.md           ← ce fichier
 └── README.md           ← instructions déploiement et mise à jour
 ```

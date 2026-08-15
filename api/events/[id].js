@@ -17,9 +17,13 @@ module.exports = async (req, res) => {
   const supabase = getSupabase();
 
   if (req.method === 'PUT') {
-    const { title, description, tag, link_url, active } = req.body || {};
+    const { title, description, tag, link_url, active, starts_at, archived } = req.body || {};
 
-    if (active) {
+    // Archiver retire de l'affichage : les deux états ne coexistent pas
+    // (contrainte reprise en base, voir 003_evenements_dates.sql).
+    const enLigne = archived ? false : active;
+
+    if (enLigne) {
       await supabase.from('events').update({ active: false }).eq('active', true).neq('id', id);
     }
 
@@ -28,7 +32,9 @@ module.exports = async (req, res) => {
     if (description !== undefined) updates.description = description;
     if (tag !== undefined) updates.tag = tag;
     if (link_url !== undefined) updates.link_url = link_url;
-    if (active !== undefined) updates.active = !!active;
+    if (starts_at !== undefined) updates.starts_at = starts_at || null;
+    if (archived !== undefined) updates.archived = !!archived;
+    if (enLigne !== undefined) updates.active = !!enLigne;
 
     const { data, error } = await supabase
       .from('events')
