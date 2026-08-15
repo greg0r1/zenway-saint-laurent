@@ -44,7 +44,8 @@ Le reste du site reste 100 % statique (HTML/CSS/JS vanilla, zéro build). Une se
 - **Fonctions serverless** : Vercel Functions (Node.js) dans `api/`, routage par fichiers.
 - **Authentification admin** : Google Sign-In (Google Identity Services, client-side), avec vérification du token côté serveur (`google-auth-library`) et **whitelist d'emails** (`ADMIN_EMAILS`) — seuls les emails listés peuvent accéder à l'admin, peu importe le compte Google utilisé.
 - **Session admin** : cookie `httpOnly`/`Secure` signé (HMAC, `crypto` natif Node — pas de dépendance JWT dédiée).
-- **`package.json` racine** : existe uniquement pour les dépendances de `api/` (`@supabase/supabase-js`, `google-auth-library`). N'affecte pas le déploiement du site statique (pas de build step, Vercel sert `index.html`/`assets/` tel quel et déploie `api/` comme fonctions).
+- **Images des événements** : facultatives, déposées sur **Vercel Blob** (`@vercel/blob`). L'admin les redimensionne et les compresse côté client (canvas, 1600 px max, JPEG) avant l'envoi à `api/events/image.js` ; seule l'URL publique du fichier est stockée (`events.image_url`), jamais l'image elle-même — la base reste légère et la règle « pas d'image en base64 » plus bas ne concerne que le HTML public, pas ce passage transitoire côté admin.
+- **`package.json` racine** : existe uniquement pour les dépendances de `api/` (`@supabase/supabase-js`, `@vercel/blob`, `google-auth-library`). N'affecte pas le déploiement du site statique (pas de build step, Vercel sert `index.html`/`assets/` tel quel et déploie `api/` comme fonctions).
 - **Admin conçue comme une console classique** : barre latérale de navigation à gauche, une seule page montée à la fois dans la zone de travail. `admin/index.html` gère la connexion, puis `admin.js` fabrique une entrée de menu et une page par module déclaré dans `window.AdminModules`. La page courante vit dans l'adresse (`#/evenements`), donc le bouton Précédent du navigateur et les liens directs fonctionnent. Quatre pages aujourd'hui — « Tableau de bord », « Événements » (CRUD complet), « Planning » et « Infos pratiques » (lecture seule, voir ci-dessous). L'admin est destinée à en accueillir d'autres (voir « Ajouter un module admin »). Cela ne change rien à la portée du backend/BDD, qui reste strictement limité aux événements tant qu'aucune autre décision n'est prise.
 - **Les modules en lecture seule ne recopient aucune valeur** : « Planning » lit `assets/js/config-planning.js`, « Infos pratiques » lit la section `#infos` de `index.html` au moment de l'ouverture. Ils affichent donc toujours ce qui est réellement en ligne et ne peuvent pas dériver. Chacun porte un encart qui dit franchement où éditer en attendant que la modification soit branchée.
 - **Menu burger en mobile** : sous 900 px la barre latérale sort du flux et devient un tiroir, ouvert par le bouton de l'en-tête, refermé par Échap, par le voile, ou par le choix d'une page.
@@ -68,7 +69,8 @@ api/
 └── events/
     ├── public.js         ← GET public : événements publiés (non archivés, non expirés) pour le site
     ├── index.js          ← GET (liste, admin) / POST (créer, admin)
-    └── [id].js            ← PUT (modifier, admin) / DELETE (admin)
+    ├── [id].js            ← PUT (modifier, admin) / DELETE (admin)
+    └── image.js           ← POST (admin) : dépose une image sur Vercel Blob, renvoie son URL
 
 admin/
 └── index.html            ← coquille admin : connexion + jeu d'icônes + charpente de la console
@@ -91,7 +93,8 @@ db/
     ├── 001_socle.sql             ← pgcrypto + fonction partagée set_updated_at()
     ├── 002_evenements.sql        ← table events (module « Événements »)
     ├── 003_evenements_dates.sql  ← colonnes starts_at (date) et archived sur events
-    └── 004_evenements_bandeau.sql ← retire link_url, renomme active en featured, ajoute ends_at
+    ├── 004_evenements_bandeau.sql ← retire link_url, renomme active en featured, ajoute ends_at
+    └── 005_evenements_image.sql   ← ajoute image_url (image facultative, Vercel Blob)
 ```
 
 ### Schéma de base de données
@@ -124,6 +127,7 @@ Chaque page dit en toutes lettres ce qu'elle commande sur le site public, et ce 
 | `GOOGLE_CLIENT_ID` | Client ID OAuth 2.0 créé dans Google Cloud Console |
 | `ADMIN_EMAILS` | Emails autorisés à administrer, séparés par des virgules |
 | `SESSION_SECRET` | Secret aléatoire long, sert à signer le cookie de session admin |
+| `BLOB_READ_WRITE_TOKEN` | Jeton d'accès au store Vercel Blob — injecté automatiquement quand le store est connecté au projet (Vercel → Storage), rien à saisir à la main |
 
 Voir `README.md` pour la procédure complète (SQL Supabase, config Google Cloud Console).
 
@@ -133,6 +137,7 @@ Voir `README.md` pour la procédure complète (SQL Supabase, config Google Cloud
 - Le site public ne doit jamais appeler Supabase directement : tout passe par `api/events/public.js`, seule route publique, qui ne renvoie que les champs nécessaires à l'affichage.
 - La clé `SUPABASE_SERVICE_ROLE_KEY` ne doit jamais apparaître dans un fichier de `assets/` ou dans `index.html`.
 - `admin/index.html` n'est pas listé dans la nav publique ni le footer — accès par URL directe uniquement, protégé par la connexion Google + whitelist.
+- Le dépôt d'image (`api/events/image.js`) est admin uniquement ; le site public ne fait jamais que lire l'URL déjà stockée (`image_url`), jamais de dépôt côté public.
 
 ---
 

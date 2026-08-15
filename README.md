@@ -282,6 +282,11 @@ Le site public reste statique, mais une exception existe pour la gestion des év
 2. Dans l'éditeur SQL du projet, exécuter tous les fichiers de `db/migrations/` **dans l'ordre des numéros**. Les scripts sont idempotents : les rejouer ne casse rien. Voir `db/README.md` pour la liste à jour, le détail des conventions et l'ajout de nouvelles tables.
 3. Dans Project Settings → API, récupérer l'URL du projet et la clé **`service_role`** (jamais la clé `anon`, jamais exposée au navigateur).
 
+### 1bis. Créer le store Vercel Blob (images des événements)
+
+1. Dans le projet Vercel → **Storage** → **Browse Storage** → **Blob**, créer un store et le connecter au projet.
+2. La variable `BLOB_READ_WRITE_TOKEN` est injectée automatiquement dans les environnements du projet — rien à copier à la main.
+
 ### 2. Créer les identifiants Google OAuth
 
 1. Sur [Google Cloud Console](https://console.cloud.google.com), créer (ou réutiliser) un projet.
@@ -301,6 +306,7 @@ Dans le projet Vercel → Settings → Environment Variables, ajouter :
 | `GOOGLE_CLIENT_ID` | Même Client ID que dans `config-admin.js` |
 | `ADMIN_EMAILS` | Emails autorisés à administrer, séparés par des virgules (ex: `contact@zenwaysaintlaurentduvar.fr,graphigreg@gmail.com`) |
 | `SESSION_SECRET` | Chaîne aléatoire longue (ex : générée avec `openssl rand -hex 32`) |
+| `BLOB_READ_WRITE_TOKEN` | Injectée automatiquement par la connexion du store Vercel Blob (étape 1bis) — ne pas la saisir à la main |
 
 Redéployer après avoir ajouté ces variables.
 

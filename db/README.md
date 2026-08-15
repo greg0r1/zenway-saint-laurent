@@ -19,6 +19,7 @@ est sans risque.
 | `002_evenements.sql` | Table `events` (module admin « Événements ») |
 | `003_evenements_dates.sql` | Colonnes `starts_at` (date de l'événement) et `archived` sur `events` |
 | `004_evenements_bandeau.sql` | Retire `link_url`, renomme `active` en `featured` (mise en avant dans le bandeau, plus condition de publication), ajoute `ends_at` (fin de parution facultative) |
+| `005_evenements_image.sql` | Ajoute `image_url` (image facultative, déposée sur Vercel Blob par l'admin) |
 
 ## Ajouter une table pour un nouveau module admin
 
