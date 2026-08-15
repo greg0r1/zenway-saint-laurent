@@ -684,6 +684,15 @@
       </div>
     </section>
 
+    <!-- L'image d'un événement s'agrandit dans cette fenêtre modale, partagée
+         par toutes les cartes (une seule ouverte à la fois). -->
+    <dialog class="detail-modal event-image-modal" id="eventImageModal" aria-label="Image de l'événement">
+      <div class="modal-scroll">
+        <button type="button" class="modal-close" aria-label="Fermer">×</button>
+        <img class="event-image-modal-img" id="eventImageModalImg" src="" alt="">
+      </div>
+    </dialog>
+
     <!-- ============ INSCRIPTION ============ -->
     <section class="lifted" id="inscription">
       <div class="wrap insc-single">

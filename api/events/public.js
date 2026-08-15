@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
 
   const { data, error } = await supabase
     .from('events')
-    .select('id, title, description, tag, starts_at, featured')
+    .select('id, title, description, tag, starts_at, featured, image_url')
     .eq('archived', false)
     .or(`ends_at.is.null,ends_at.gte.${aujourdhui}`)
     .order('starts_at', { ascending: true, nullsFirst: false })
