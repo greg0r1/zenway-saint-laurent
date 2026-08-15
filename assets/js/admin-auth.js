@@ -6,7 +6,31 @@ const AdminAuth = (function adminAuth() {
   let currentEmail = null;
 
   function initGoogleButton(onSuccess) {
-    if (!window.google || !window.google.accounts) return;
+    // Le script Google est chargé en `async` : sur ce premier appel, il n'a
+    // souvent pas fini de charger. Sans cette attente, le bouton ne
+    // s'affiche jamais et rien ne le signale.
+    if (!window.google || !window.google.accounts) {
+      attendreGoogle(onSuccess);
+      return;
+    }
+    rendreBouton(onSuccess);
+  }
+
+  function attendreGoogle(onSuccess, tentative = 0) {
+    if (window.google && window.google.accounts) {
+      rendreBouton(onSuccess);
+      return;
+    }
+    if (tentative >= 100) { // ~10 s
+      const loginError = document.getElementById('loginError');
+      loginError.textContent = 'La connexion Google n’a pas pu se charger. Rechargez la page.';
+      loginError.hidden = false;
+      return;
+    }
+    setTimeout(() => attendreGoogle(onSuccess, tentative + 1), 100);
+  }
+
+  function rendreBouton(onSuccess) {
     google.accounts.id.initialize({
       client_id: CONFIG_ADMIN.googleClientId,
       callback: (response) => handleCredentialResponse(response, onSuccess)
