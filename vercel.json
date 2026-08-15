@@ -41,6 +41,15 @@
           "value": "default-src 'self'; script-src 'self' https://accounts.google.com; style-src 'self' 'unsafe-inline' https://accounts.google.com; img-src 'self' data: https://img.youtube.com; font-src 'self'; connect-src 'self' https://www.googleapis.com https://vitals.vercel-insights.com https://accounts.google.com; frame-src https://www.google.com https://www.facebook.com https://www.youtube.com https://www.helloasso.com https://accounts.google.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
         }
       ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
     }
   ]
 }
