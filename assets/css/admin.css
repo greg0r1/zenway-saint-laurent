@@ -1307,6 +1307,7 @@
   object-fit: cover;
   background: var(--ad-raise);
   border: 1px solid var(--ad-line);
+  border-radius: 3px;
 }
 
 .ad-panel-foot {

@@ -606,17 +606,20 @@
       AdminPanel.cacherAlerte();
       AdminPanel.occuper('enregistrer', true, imagePendingDataUrl ? 'Envoi de l’image…' : 'Enregistrement…');
 
-      payload.image_url = imageRetiree ? null : imageUrl;
       if (imagePendingDataUrl) {
         try {
           const televersee = await televerserImage(imagePendingDataUrl);
-          payload.image_url = televersee.url;
+          // Une fois envoyée, l'image devient l'état validé : un nouvel essai
+          // après un échec de sauvegarde ne doit pas la retéléverser.
+          imageUrl = televersee.url;
+          imagePendingDataUrl = null;
         } catch {
           AdminPanel.occuper('enregistrer', false);
           AdminPanel.alerte('L’image n’a pas pu être envoyée. Réessayez, ou enregistrez sans image.');
           return;
         }
       }
+      payload.image_url = imageRetiree ? null : imageUrl;
 
       try {
         await AdminStore.enregistrer(payload, modif ? ev.id : null);

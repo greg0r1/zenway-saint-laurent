@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
   }
 
   const { image } = req.body || {};
-  const correspondance = typeof image === 'string' && image.match(/^data:(image\/(?:jpeg|png|webp));base64,(.+)$/);
+  const correspondance = typeof image === 'string' && image.match(/^data:([\w/+.-]+);base64,(.+)$/);
   if (!correspondance || !IMAGE_MIME_TYPES.includes(correspondance[1])) {
     res.status(400).json({ error: 'invalid_image' });
     return;
