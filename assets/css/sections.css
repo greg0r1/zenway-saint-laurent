@@ -373,17 +373,22 @@ h2 {
   width: min(720px, 92vw);
 }
 
+/* Flex plutôt qu'un simple `width: 100%` sur l'image : une image
+   portrait, plus haute que large, doit rester centrée dans les deux
+   sens une fois limitée par `max-height`, pas seulement calée à
+   gauche par la largeur du cadre. */
 .event-image-modal .modal-scroll {
-  padding: 0;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .event-image-modal-img {
   display: block;
-  width: 100%;
+  max-width: 100%;
   max-height: 80vh;
-  object-fit: contain;
-  background: var(--green-900);
-  border-radius: 22px;
+  border-radius: 16px;
 }
 
 .event-card-badge {
