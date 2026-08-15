@@ -114,9 +114,9 @@
       return;
     }
 
-    const ev = snap.enLigne;
+    const vedette = snap.vedette;
     const seance = creneaux()[0] || null;
-    const reserve = snap.courants.filter((e) => !e.active).length;
+    const publies = snap.courants.length;
 
     cible.innerHTML = `
       <section class="ad-box">
@@ -124,17 +124,17 @@
         <dl class="ad-facts">
 
           <div class="ad-fact">
-            <dt>Événement à l'affiche</dt>
+            <dt>Mis en avant dans le bandeau</dt>
             <dd>
-              ${ev ? `
-                <span class="ad-pill ad-pill-live">${icone('i-eye')}En ligne</span>
-                <b>${echapper(ev.title)}</b>
-                <small>${ev.starts_at
-                  ? `${echapper(AdminStore.dateLongue(ev.starts_at))} · ${echapper(AdminStore.quand(ev.starts_at))}`
+              ${vedette ? `
+                <span class="ad-pill ad-pill-live">${icone('i-eye')}En avant</span>
+                <b>${echapper(vedette.title)}</b>
+                <small>${vedette.starts_at
+                  ? `${echapper(AdminStore.dateLongue(vedette.starts_at))} · ${echapper(AdminStore.quand(vedette.starts_at))}`
                   : 'Aucune date renseignée'}</small>
               ` : `
-                <span class="ad-pill">${icone('i-eye-off')}Rien à l'affiche</span>
-                <small>Le bandeau et la section « Événements à venir » sont masqués sur le site.</small>
+                <span class="ad-pill">${icone('i-eye-off')}Rien en avant</span>
+                <small>Le bandeau en haut du site est masqué. Les événements publiés restent visibles dans leur section.</small>
               `}
             </dd>
             <a class="ad-fact-go" href="#/events">Gérer${icone('i-arrow')}</a>
@@ -155,11 +155,11 @@
           </div>
 
           <div class="ad-fact">
-            <dt>Événements en réserve</dt>
+            <dt>Événements publiés</dt>
             <dd>
-              <b>${reserve} ${reserve > 1 ? 'événements enregistrés' : 'événement enregistré'}</b>
+              <b>${publies} ${publies > 1 ? 'événements visibles sur le site' : 'événement visible sur le site'}</b>
               <small>${snap.archives.length
-                ? `${snap.archives.length} ${snap.archives.length > 1 ? 'autres sont archivés' : 'autre est archivé'} et ${snap.archives.length > 1 ? 'n\'apparaissent' : 'n\'apparaît'} plus dans la liste courante.`
+                ? `${snap.archives.length} ${snap.archives.length > 1 ? 'autres sont archivés' : 'autre est archivé'} et ${snap.archives.length > 1 ? 'n\'apparaissent' : 'n\'apparaît'} plus sur le site.`
                 : 'Aucun événement archivé.'}</small>
             </dd>
             <a class="ad-fact-go" href="#/events">Gérer${icone('i-arrow')}</a>

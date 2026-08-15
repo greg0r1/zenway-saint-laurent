@@ -5,6 +5,7 @@
    ============================================================ */
 const { getSupabase } = require('../_lib/supabase');
 const { getSessionEmail } = require('../_lib/session');
+const { champTropLong } = require('../_lib/events');
 
 module.exports = async (req, res) => {
   const email = getSessionEmail(req);
@@ -33,18 +34,23 @@ module.exports = async (req, res) => {
   }
 
   if (req.method === 'POST') {
-    const { title, description, tag, link_url, active, starts_at, archived } = req.body || {};
-    if (!title || !link_url) {
+    const { title, description, tag, featured, starts_at, ends_at, archived } = req.body || {};
+    if (!title) {
       res.status(400).json({ error: 'missing_fields' });
       return;
     }
+    const tropLong = champTropLong({ title, tag, description });
+    if (tropLong) {
+      res.status(400).json({ error: 'field_too_long', field: tropLong });
+      return;
+    }
 
-    // Un événement archivé n'est jamais l'événement affiché (contrainte
-    // reprise en base, voir db/migrations/003_evenements_dates.sql).
-    const enLigne = !!active && !archived;
+    // Un événement archivé n'est jamais l'événement mis en avant
+    // (contrainte reprise en base, voir 004_evenements_bandeau.sql).
+    const enAvant = !!featured && !archived;
 
-    if (enLigne) {
-      await supabase.from('events').update({ active: false }).eq('active', true);
+    if (enAvant) {
+      await supabase.from('events').update({ featured: false }).eq('featured', true);
     }
 
     const { data, error } = await supabase
@@ -53,10 +59,10 @@ module.exports = async (req, res) => {
         title,
         description: description || '',
         tag: tag || 'Prochain événement',
-        link_url,
         starts_at: starts_at || null,
+        ends_at: ends_at || null,
         archived: !!archived,
-        active: enLigne
+        featured: enAvant
       })
       .select()
       .single();

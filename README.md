@@ -279,7 +279,7 @@ Le site public reste statique, mais une exception existe pour la gestion des év
 ### 1. Créer le projet Supabase
 
 1. Créer un projet sur [supabase.com](https://supabase.com) (le plan gratuit suffit largement).
-2. Dans l'éditeur SQL du projet, exécuter les fichiers de `db/migrations/` **dans l'ordre des numéros** (`001_socle.sql`, puis `002_evenements.sql`). Les scripts sont idempotents : les rejouer ne casse rien. Voir `db/README.md` pour le détail des conventions et l'ajout de nouvelles tables.
+2. Dans l'éditeur SQL du projet, exécuter tous les fichiers de `db/migrations/` **dans l'ordre des numéros**. Les scripts sont idempotents : les rejouer ne casse rien. Voir `db/README.md` pour la liste à jour, le détail des conventions et l'ajout de nouvelles tables.
 3. Dans Project Settings → API, récupérer l'URL du projet et la clé **`service_role`** (jamais la clé `anon`, jamais exposée au navigateur).
 
 ### 2. Créer les identifiants Google OAuth
@@ -306,7 +306,7 @@ Redéployer après avoir ajouté ces variables.
 
 ### 4. Utiliser l'admin
 
-Se rendre sur `https://<domaine>/admin/`, se connecter avec un compte Google listé dans `ADMIN_EMAILS`, puis créer/modifier/supprimer les événements. Seul l'événement marqué « Afficher sur le site » apparaît dans le bandeau et la section événements du site public (un seul à la fois).
+Se rendre sur `https://<domaine>/admin/`, se connecter avec un compte Google listé dans `ADMIN_EMAILS`, puis créer/modifier/supprimer les événements. Tout événement non archivé (et dont la date de fin de parution, si renseignée, n'est pas dépassée) apparaît automatiquement dans la section « Événements à venir » du site. Un seul peut en plus être marqué « Mettre en avant dans le bandeau », qui l'affiche aussi tout en haut du site.
 
 ---
 

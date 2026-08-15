@@ -24,12 +24,12 @@ const AdminStore = (function adminStore() {
 
   function instantane() {
     const events = etat.events;
-    const enLigne = events.find((ev) => ev.active) || null;
+    const vedette = events.find((ev) => ev.featured) || null;
     return {
       statut: etat.statut,
       erreur: etat.erreur,
       events,
-      enLigne,
+      vedette,
       courants: events.filter((ev) => !ev.archived),
       archives: events.filter((ev) => ev.archived)
     };
@@ -63,13 +63,15 @@ const AdminStore = (function adminStore() {
     }
 
     const data = await res.json();
-    // `archived` peut manquer tant que la migration 003 n'est pas jouée :
-    // on normalise pour que l'interface ne dépende jamais d'un undefined.
+    // `archived`/`ends_at` peuvent manquer tant que les migrations 003/004
+    // ne sont pas jouées : on normalise pour que l'interface ne dépende
+    // jamais d'un undefined.
     etat.events = (data.events || []).map((ev) => ({
       ...ev,
       archived: !!ev.archived,
-      active: !!ev.active,
-      starts_at: ev.starts_at || null
+      featured: !!ev.featured,
+      starts_at: ev.starts_at || null,
+      ends_at: ev.ends_at || null
     }));
     etat.statut = 'pret';
     diffuser();

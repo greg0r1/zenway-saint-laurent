@@ -34,8 +34,8 @@ Zenway est **une seule discipline** qui fusionne Tai-chi chuan, Yoga, Pilates et
 - Site public : HTML/CSS/JS vanilla, aucun framework, aucun bundler, aucun build step, aucune dépendance npm. Un `index.html` à la racine, CSS et JS découpés en fichiers statiques dans `assets/`.
 - Exception assumée : un petit backend serverless pour l'administration seule — fonctions Vercel dans `api/`, base Postgres Supabase, migrations SQL numérotées et append-only dans `db/migrations/`.
 - Authentification admin : Google Identity Services côté client, vérification du jeton côté serveur, whitelist d'emails (`ADMIN_EMAILS`), session par cookie httpOnly signé.
-- Le site public n'appelle jamais Supabase directement : une seule route publique (`api/events/active.js`).
-- L'admin est conçue comme une coquille modulaire à onglets : chaque module s'enregistre dans `window.AdminModules` et expose `{ id, label, mount, unmount }`.
+- Le site public n'appelle jamais Supabase directement : une seule route publique (`api/events/public.js`).
+- L'admin est conçue comme une console classique : barre latérale de navigation, une page à la fois. Chaque module s'enregistre dans `window.AdminModules` et expose `{ id, label, mount, unmount }`.
 - Périmètre confirmé du backoffice : **Événements** (existant, fonctionnel), **Planning des séances**, **Infos pratiques & contact**. Les textes éditoriaux des sections et les vidéos restent hors périmètre pour l'instant — décision explicite, à ne pas élargir sans accord.
 - Hors périmètre définitif : espace membre, gestion des adhésions, paiements. HelloAsso couvre ces besoins.
 

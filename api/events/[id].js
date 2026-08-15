@@ -5,6 +5,7 @@
    ============================================================ */
 const { getSupabase } = require('../_lib/supabase');
 const { getSessionEmail } = require('../_lib/session');
+const { champTropLong } = require('../_lib/events');
 
 module.exports = async (req, res) => {
   const email = getSessionEmail(req);
@@ -17,24 +18,30 @@ module.exports = async (req, res) => {
   const supabase = getSupabase();
 
   if (req.method === 'PUT') {
-    const { title, description, tag, link_url, active, starts_at, archived } = req.body || {};
+    const { title, description, tag, featured, starts_at, ends_at, archived } = req.body || {};
 
-    // Archiver retire de l'affichage : les deux états ne coexistent pas
-    // (contrainte reprise en base, voir 003_evenements_dates.sql).
-    const enLigne = archived ? false : active;
+    const tropLong = champTropLong({ title, tag, description });
+    if (tropLong) {
+      res.status(400).json({ error: 'field_too_long', field: tropLong });
+      return;
+    }
 
-    if (enLigne) {
-      await supabase.from('events').update({ active: false }).eq('active', true).neq('id', id);
+    // Archiver retire de la mise en avant : les deux états ne coexistent
+    // pas (contrainte reprise en base, voir 004_evenements_bandeau.sql).
+    const enAvant = archived ? false : featured;
+
+    if (enAvant) {
+      await supabase.from('events').update({ featured: false }).eq('featured', true).neq('id', id);
     }
 
     const updates = { updated_at: new Date().toISOString() };
     if (title !== undefined) updates.title = title;
     if (description !== undefined) updates.description = description;
     if (tag !== undefined) updates.tag = tag;
-    if (link_url !== undefined) updates.link_url = link_url;
     if (starts_at !== undefined) updates.starts_at = starts_at || null;
+    if (ends_at !== undefined) updates.ends_at = ends_at || null;
     if (archived !== undefined) updates.archived = !!archived;
-    if (enLigne !== undefined) updates.active = !!enLigne;
+    if (enAvant !== undefined) updates.featured = !!enAvant;
 
     const { data, error } = await supabase
       .from('events')

@@ -59,13 +59,14 @@ api/
 ├── _lib/
 │   ├── supabase.js     ← client Supabase (clé service_role, jamais exposée au front)
 │   ├── session.js       ← création/vérification du cookie de session admin
-│   └── google.js        ← vérification du token Google (audience = GOOGLE_CLIENT_ID)
+│   ├── google.js        ← vérification du token Google (audience = GOOGLE_CLIENT_ID)
+│   └── events.js        ← limites de longueur des champs, partagées par index.js et [id].js
 ├── auth/
 │   ├── google.js        ← POST : vérifie le token Google, whitelist, pose le cookie
 │   ├── me.js             ← GET : session admin active ?
 │   └── logout.js         ← POST : efface le cookie
 └── events/
-    ├── active.js         ← GET public : l'événement actif (ou null) pour le site
+    ├── public.js         ← GET public : événements publiés (non archivés, non expirés) pour le site
     ├── index.js          ← GET (liste, admin) / POST (créer, admin)
     └── [id].js            ← PUT (modifier, admin) / DELETE (admin)
 
@@ -89,7 +90,8 @@ db/
 └── migrations/             ← scripts SQL numérotés, append-only, à jouer dans l'ordre
     ├── 001_socle.sql             ← pgcrypto + fonction partagée set_updated_at()
     ├── 002_evenements.sql        ← table events (module « Événements »)
-    └── 003_evenements_dates.sql  ← colonnes starts_at (date) et archived sur events
+    ├── 003_evenements_dates.sql  ← colonnes starts_at (date) et archived sur events
+    └── 004_evenements_bandeau.sql ← retire link_url, renomme active en featured, ajoute ends_at
 ```
 
 ### Schéma de base de données
@@ -128,7 +130,7 @@ Voir `README.md` pour la procédure complète (SQL Supabase, config Google Cloud
 ### Règles propres à cette exception
 
 - Ne jamais élargir ce backend à autre chose que les événements (pas d'espace membre, pas de gestion des adhésions — HelloAsso reste seul responsable de ça).
-- Le site public ne doit jamais appeler Supabase directement : tout passe par `api/events/active.js`, seule route publique, qui ne renvoie que les champs nécessaires à l'affichage.
+- Le site public ne doit jamais appeler Supabase directement : tout passe par `api/events/public.js`, seule route publique, qui ne renvoie que les champs nécessaires à l'affichage.
 - La clé `SUPABASE_SERVICE_ROLE_KEY` ne doit jamais apparaître dans un fichier de `assets/` ou dans `index.html`.
 - `admin/index.html` n'est pas listé dans la nav publique ni le footer — accès par URL directe uniquement, protégé par la connexion Google + whitelist.
 
@@ -204,7 +206,7 @@ zenway-saint-laurent/
 │   │   ├── config-helloasso.js  ← slugs HelloAsso, injection des liens/widget
 │   │   ├── config-videos.js     ← vidéo teaser hero + galerie YouTube
 │   │   ├── config-planning.js   ← créneaux de séance affichés
-│   │   ├── events-banner.js     ← fetch /api/events/active, alimente bandeau + section événements
+│   │   ├── events-banner.js     ← fetch /api/events/public, alimente la section événements + le bandeau
 │   │   ├── nav-reveal.js        ← scroll nav, burger menu, animations reveal
 │   │   ├── hero-bath.js         ← animation du bain du hero
 │   │   ├── parallax.js          ← défilement parallaxe des visuels
@@ -262,7 +264,7 @@ Les sections dans l'ordre, chacune avec son commentaire `<!-- === NOM === -->` :
 6. POUR QUI
 7. VIDÉOS
 8. ÉVÉNEMENTS À VENIR (remplace les anciennes « portes ouvertes » ponctuelles)
-9. INSCRIPTION (`#inscription`) — section unique : message clé, 3 étapes condensées, points clés, CTA HelloAsso, et widget/iframe en regard
+9. INSCRIPTION (`#inscription`) — section unique, une seule colonne centrée : message clé, 3 étapes condensées, points clés, CTA HelloAsso et widget/iframe
 10. INFOS PRATIQUES
 11. CTA BAND
 12. FOOTER

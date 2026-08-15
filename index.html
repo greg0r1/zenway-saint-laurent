@@ -201,8 +201,9 @@
 
   <!-- ============ BANDEAU ÉVÉNEMENT ============ -->
   <!-- Masqué par défaut ; affiché par assets/js/events-banner.js quand un
-       événement actif existe (voir /api/events/active). -->
-  <a href="#" class="event-banner" id="eventBanner" target="_blank" rel="noopener" hidden>
+       événement est mis en avant (voir /api/events/public). Mène à sa
+       fiche dans la section « Événements à venir », plus bas sur la page. -->
+  <a href="#" class="event-banner" id="eventBanner" hidden>
     <span class="wrap event-banner-inner">
       <span class="event-banner-tag" id="eventBannerTag">Prochain événement</span>
       <span class="event-banner-title" id="eventBannerTitle"></span>
@@ -664,9 +665,28 @@
       </div>
     </section>
 
+    <!-- ============ ÉVÉNEMENTS À VENIR ============ -->
+    <!-- Alimentée par assets/js/events-banner.js (voir /api/events/public).
+         Le contenu statique ci-dessous reste affiché tel quel si l'API est
+         indisponible ou si aucun événement n'est publié. -->
+    <section class="events-section" id="evenements">
+      <div class="wrap">
+        <h2>Événements à venir</h2>
+        <p class="events-lede">Portes ouvertes, rencontres et séances exceptionnelles, publiées ici dès qu'elles sont
+          annoncées.</p>
+
+        <div class="events-grid" id="eventsGrid"><!-- généré par assets/js/events-banner.js --></div>
+
+        <div class="events-empty" id="eventsEmpty">
+          <p>Aucun événement prévu pour le moment. Revenez bientôt pour découvrir nos prochaines portes ouvertes et
+            rencontres — en attendant, profitez de votre premier cours d'essai offert.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ INSCRIPTION ============ -->
     <section class="lifted" id="inscription">
-      <div class="wrap insc-grid">
+      <div class="wrap insc-single">
         <div class="sheet">
         <!-- Une pierre seule à cheval sur l'arête de la carte d'adhésion. -->
         <svg class="galet galet-inscription" viewBox="0 0 100 78" aria-hidden="true">
@@ -697,13 +717,6 @@
           <p class="insc-recap">En ligne en 3 étapes : formule, coordonnées, règlement sécurisé — reçu immédiat par
             e-mail. Premier cours d'essai offert avant toute inscription, 0 € de frais pour l'association.</p>
         </div>
-        <aside class="event" id="eventAside">
-          <p class="event-tag" id="eventAsideTag">Événements</p>
-          <h3 id="eventAsideTitle">Aucun événement prévu pour le moment</h3>
-          <p id="eventAsideDesc">Revenez bientôt pour découvrir nos prochaines portes ouvertes et rencontres. En
-            attendant, profitez de votre premier cours d'essai offert.</p>
-          <a href="#infos" class="btn btn-line" id="eventAsideLink">Comment venir</a>
-        </aside>
       </div>
     </section>
 
