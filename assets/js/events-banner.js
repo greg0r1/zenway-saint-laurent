@@ -44,26 +44,41 @@
   }
 
   // Fenêtre modale partagée, sur le même principe que assets/js/practice-modals.js.
+  // Les écouteurs de fermeture sont posés une seule fois (le dialog est un
+  // nœud statique et persistant) : les reposer à chaque ouverture les
+  // accumulerait, un seul se déclenchant selon la méthode de fermeture
+  // utilisée, les autres restant accrochés indéfiniment.
+  let declencheurImage = null;
+
+  function initModaleImage() {
+    const modal = document.getElementById('eventImageModal');
+    const img = document.getElementById('eventImageModalImg');
+    if (!modal || !img) return;
+
+    modal.querySelector('.modal-close')?.addEventListener('click', () => modal.close());
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.close();
+    });
+    modal.addEventListener('close', () => {
+      document.body.style.overflow = '';
+      img.src = '';
+      if (declencheurImage) declencheurImage.focus();
+      declencheurImage = null;
+    });
+  }
+  initModaleImage();
+
   function ouvrirImage(url, titre, declencheur) {
     const modal = document.getElementById('eventImageModal');
     const img = document.getElementById('eventImageModalImg');
     if (!modal || !img) return;
 
+    declencheurImage = declencheur || null;
     img.src = url;
     img.alt = titre || '';
     modal.setAttribute('aria-label', titre ? `Image de l'événement « ${titre} »` : "Image de l'événement");
     document.body.style.overflow = 'hidden';
-    modal.showModal();
-
-    modal.querySelector('.modal-close')?.addEventListener('click', () => modal.close(), { once: true });
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.close();
-    }, { once: true });
-    modal.addEventListener('close', () => {
-      document.body.style.overflow = '';
-      img.src = '';
-      if (declencheur) declencheur.focus();
-    }, { once: true });
+    if (!modal.open) modal.showModal();
   }
 
   fetch('/api/events/public')
