@@ -116,7 +116,7 @@
 
     const vedette = snap.vedette;
     const seance = creneaux()[0] || null;
-    const publies = snap.courants.length;
+    const publies = snap.enLigne.length;
 
     cible.innerHTML = `
       <section class="ad-box">

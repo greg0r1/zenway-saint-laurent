@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
     .select('id, title, description, tag, starts_at, featured')
     .eq('archived', false)
     .or(`ends_at.is.null,ends_at.gte.${aujourdhui}`)
-    .order('starts_at', { ascending: false, nullsFirst: false })
+    .order('starts_at', { ascending: true, nullsFirst: false })
     .order('created_at', { ascending: false });
 
   if (error) {

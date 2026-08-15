@@ -24,12 +24,18 @@ const AdminStore = (function adminStore() {
 
   function instantane() {
     const events = etat.events;
-    const vedette = events.find((ev) => ev.featured) || null;
+    // Non archivé ne suffit pas : un événement dont la fin de parution
+    // est dépassée n'apparaît plus sur le site non plus (voir
+    // api/events/public.js), sans pour autant sortir de la liste
+    // courante de l'admin — il reste modifiable, juste plus publié.
+    const enLigne = events.filter((ev) => !ev.archived && !(ev.ends_at && estPasse(ev.ends_at)));
+    const vedette = enLigne.find((ev) => ev.featured) || null;
     return {
       statut: etat.statut,
       erreur: etat.erreur,
       events,
       vedette,
+      enLigne,
       courants: events.filter((ev) => !ev.archived),
       archives: events.filter((ev) => ev.archived)
     };
