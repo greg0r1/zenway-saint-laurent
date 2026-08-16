@@ -51,6 +51,19 @@ const AdminStore = (function adminStore() {
     abonnes.forEach((fn) => fn(snap));
   }
 
+  /* Une réponse 200 n'est pas forcément du JSON : une redirection vers un
+     écran de connexion (protection de déploiement Vercel, portail Wi-Fi)
+     renvoie du HTML avec ce même statut. Sans ce filet, res.json() rejette
+     hors de tout catch et la page reste indéfiniment sur son squelette,
+     sans message ni bouton « Réessayer ». Partagé par les trois magasins. */
+  async function lireJson(res) {
+    try {
+      return await res.json();
+    } catch {
+      return null;
+    }
+  }
+
   async function charger() {
     if (etat.statut === 'chargement') return;
     etat.statut = 'chargement';
@@ -73,7 +86,11 @@ const AdminStore = (function adminStore() {
       return;
     }
 
-    const data = await res.json();
+    const data = await lireJson(res);
+    if (!data) {
+      echouer('serveur');
+      return;
+    }
     // `archived`/`ends_at` peuvent manquer tant que les migrations 003/004
     // ne sont pas jouées : on normalise pour que l'interface ne dépende
     // jamais d'un undefined.
@@ -100,6 +117,7 @@ const AdminStore = (function adminStore() {
     etat.events = [];
     etat.erreur = null;
     reinitialiserPlanning();
+    reinitialiserInfos();
   }
 
   /* --------- Écritures : l'API répond, puis on relit la liste --------- */
@@ -233,7 +251,11 @@ const AdminStore = (function adminStore() {
       return;
     }
 
-    const data = await res.json();
+    const data = await lireJson(res);
+    if (!data) {
+      echouerPlanning('serveur');
+      return;
+    }
     etatPlanning.slots = data.slots || [];
     etatPlanning.statut = 'pret';
     diffuserPlanning();
@@ -290,10 +312,96 @@ const AdminStore = (function adminStore() {
     await chargerPlanning();
   }
 
+  /* ============================================================
+     INFOS PRATIQUES — même principe que ci-dessus, magasin distinct :
+     une fiche unique (pas une liste), abonnement et rechargement
+     partagés par le tableau de bord et la page « Infos pratiques ».
+     ============================================================ */
+
+  const abonnesInfos = [];
+
+  const etatInfos = {
+    statut: 'attente',   // attente | chargement | pret | erreur
+    infos: null,
+    erreur: null
+  };
+
+  function abonnerInfos(fn) {
+    abonnesInfos.push(fn);
+    fn(instantaneInfos());
+    return () => {
+      const i = abonnesInfos.indexOf(fn);
+      if (i >= 0) abonnesInfos.splice(i, 1);
+    };
+  }
+
+  function instantaneInfos() {
+    return { statut: etatInfos.statut, erreur: etatInfos.erreur, infos: etatInfos.infos };
+  }
+
+  function diffuserInfos() {
+    const snap = instantaneInfos();
+    abonnesInfos.forEach((fn) => fn(snap));
+  }
+
+  async function chargerInfos() {
+    if (etatInfos.statut === 'chargement') return;
+    etatInfos.statut = 'chargement';
+    etatInfos.erreur = null;
+    diffuserInfos();
+
+    // Lecture publique (voir api/infos/index.js) : pas de session à
+    // vérifier ici, contrairement au chargement des événements et du
+    // planning.
+    let res;
+    try {
+      res = await fetch('/api/infos');
+    } catch {
+      echouerInfos('reseau');
+      return;
+    }
+    if (!res.ok) {
+      echouerInfos('serveur');
+      return;
+    }
+
+    const data = await lireJson(res);
+    if (!data) {
+      echouerInfos('serveur');
+      return;
+    }
+    etatInfos.infos = data.infos || null;
+    etatInfos.statut = 'pret';
+    diffuserInfos();
+  }
+
+  function echouerInfos(cause) {
+    etatInfos.statut = 'erreur';
+    etatInfos.erreur = cause;
+    diffuserInfos();
+  }
+
+  function reinitialiserInfos() {
+    etatInfos.statut = 'attente';
+    etatInfos.infos = null;
+    etatInfos.erreur = null;
+  }
+
+  async function enregistrerInfos(payload) {
+    const res = await fetch('/api/infos', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('save_failed');
+    await chargerInfos();
+  }
+
   return {
     abonner, charger, enregistrer, modifier, supprimer, reinitialiser, instantane,
     dateLongue, dateCourte, joursRestants, quand, estPasse, estArchive,
     abonnerPlanning, chargerPlanning, instantanePlanning,
-    enregistrerPlanning, supprimerPlanning, deplacerPlanning
+    enregistrerPlanning, supprimerPlanning, deplacerPlanning,
+    abonnerInfos, chargerInfos, instantaneInfos, enregistrerInfos
   };
 })();

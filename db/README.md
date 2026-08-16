@@ -1,7 +1,9 @@
 # Base de données (Supabase)
 
 Schéma de la base Postgres utilisée par le back-office (`admin/` + `api/`). Le site public
-reste statique : il ne lit la base que par `api/events/public.js` et `api/planning/public.js`.
+reste statique : il ne lit la base que par `api/events/public.js`, `api/planning/public.js`
+et `GET /api/infos` (ce dernier n'a pas de fichier `public.js` séparé — voir CLAUDE.md,
+« Exception backend »).
 
 ## Appliquer les migrations
 
@@ -26,6 +28,23 @@ insert into public.planning_slots (day, time, label, place, note, position) valu
 );
 ```
 
+**Après `008_infos_pratiques.sql`** : la table `infos_pratiques` est vide, donc
+`GET /api/infos` renvoie `infos: null` et la section « Infos pratiques » du site public
+garde le contenu statique écrit dans `index.html` (aucun script ne le remplace tant qu'aucune
+ligne n'existe). Pour que l'admin devienne la source de vérité dès la migration jouée, insérer
+une ligne reprenant les valeurs actuellement en dur dans `index.html` :
+
+```sql
+insert into public.infos_pratiques (address, map_url, parking, phone, email, next_session) values (
+  E'KMCS, 357 chemin des Iscles\n06700 Saint-Laurent-du-Var',
+  'https://maps.app.goo.gl/YJDeT1Dd7B6R1KkK9',
+  'Stationnement gratuit sur place',
+  '06 66 05 66 49',
+  'contact@zenwaysaintlaurentduvar.fr',
+  'Mardi 8 septembre, 17 h 45 – 18 h 45'
+);
+```
+
 | Fichier | Contenu |
 | --- | --- |
 | `001_socle.sql` | Extension `pgcrypto`, fonction partagée `set_updated_at()` |
@@ -35,6 +54,7 @@ insert into public.planning_slots (day, time, label, place, note, position) valu
 | `005_evenements_image.sql` | Ajoute `image_url` (image facultative, déposée sur Vercel Blob par l'admin) |
 | `006_planning.sql` | Table `planning_slots` (module admin « Planning ») |
 | `007_planning_ordre.sql` | Fonction `planning_set_order(uuid[])` : réécrit tout l'ordre des créneaux en une seule instruction (atomique) |
+| `008_infos_pratiques.sql` | Table `infos_pratiques` (module admin « Infos pratiques »), ligne unique |
 
 ## Ajouter une table pour un nouveau module admin
 
