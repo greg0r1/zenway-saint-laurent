@@ -10,7 +10,12 @@
    S'enregistre dans window.AdminModules, monté par assets/js/admin.js.
    ============================================================ */
 (function registerPlanningPage() {
-  const LIMITES = { day: 40, time: 60, label: 120, place: 160, note: 160 };
+  // day et time restent limités à 40/60 caractères côté serveur
+  // (api/_lib/planning.js) : la marge est large, le jour vient d'une
+  // liste fixe et l'horaire est composé, jamais tapé.
+  const LIMITES = { label: 120, place: 160, note: 160 };
+
+  const JOURS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 
   let root = null;
   let page = null;
@@ -33,6 +38,46 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
+  }
+
+  // Liste d'options <option> pour le <select> du jour. La valeur en
+  // cours d'édition est toujours proposée même absente de JOURS : une
+  // valeur saisie avant l'introduction du <select> ne doit pas être
+  // silencieusement remplacée à la prochaine ouverture du formulaire.
+  function optionsJours(valeurActuelle) {
+    const connue = JOURS.includes(valeurActuelle);
+    const liste = valeurActuelle && !connue ? [valeurActuelle, ...JOURS] : JOURS;
+    const vide = valeurActuelle ? '' : '<option value="" disabled selected>Choisir un jour</option>';
+    return vide + liste
+      .map((j) => `<option value="${echapper(j)}"${j === valeurActuelle ? ' selected' : ''}>${echapper(j)}</option>`)
+      .join('');
+  }
+
+  // Relit un horaire déjà composé ("17 h 45 — 18 h 45") pour préremplir
+  // les deux <input type="time"> à l'édition. Renvoie null si le texte
+  // ne correspond pas au format attendu (créneau saisi en texte libre
+  // avant l'introduction de ces champs) : le formulaire repart alors
+  // vide plutôt que d'afficher une valeur fausse.
+  function analyserHoraire(txt) {
+    const m = String(txt || '').trim().match(/^(\d{1,2})\s*h\s*(\d{1,2})?\s*(?:[-–—]\s*(\d{1,2})\s*h\s*(\d{1,2})?)?$/i);
+    if (!m) return null;
+    const deux = (n) => String(n || 0).padStart(2, '0');
+    return {
+      debut: `${deux(m[1])}:${deux(m[2])}`,
+      fin: m[3] ? `${deux(m[3])}:${deux(m[4])}` : ''
+    };
+  }
+
+  // Formate une valeur d'<input type="time"> ("HH:MM") à la française :
+  // les minutes disparaissent quand elles sont nulles ("18 h", pas "18 h 00").
+  function formaterHeure(hhmm) {
+    const [h, m] = hhmm.split(':').map(Number);
+    return m ? `${h} h ${String(m).padStart(2, '0')}` : `${h} h`;
+  }
+
+  function composerHoraire(debut, fin) {
+    if (!debut) return '';
+    return fin ? `${formaterHeure(debut)} — ${formaterHeure(fin)}` : formaterHeure(debut);
   }
 
   /* ---------------------------------------------------------------
@@ -323,20 +368,25 @@
 
   function ouvrirFormulaire(slot) {
     const modif = !!slot;
+    const horaire = (slot && analyserHoraire(slot.time)) || { debut: '', fin: '' };
 
     const corps = document.createElement('div');
     corps.innerHTML = `
       <form novalidate>
         <div class="ad-field">
           <label for="pl-day">Jour</label>
-          <input type="text" id="pl-day" required maxlength="${LIMITES.day}" value="${echapper(slot ? slot.day : '')}" placeholder="Mardi">
-          <p class="ad-hint" data-counter="pl-day"></p>
+          <select id="pl-day" required>${optionsJours(slot ? slot.day : '')}</select>
         </div>
 
         <div class="ad-field">
-          <label for="pl-time">Horaire</label>
-          <input type="text" id="pl-time" required maxlength="${LIMITES.time}" value="${echapper(slot ? slot.time : '')}" placeholder="17 h 45 — 18 h 45">
-          <p class="ad-hint" data-counter="pl-time"></p>
+          <label for="pl-time-debut">Heure de début</label>
+          <input type="time" id="pl-time-debut" required value="${echapper(horaire.debut)}">
+        </div>
+
+        <div class="ad-field">
+          <label for="pl-time-fin">Heure de fin</label>
+          <input type="time" id="pl-time-fin" value="${echapper(horaire.fin)}">
+          <p class="ad-hint">Facultative : laissez vide pour un horaire sans heure de fin affichée.</p>
         </div>
 
         <div class="ad-field">
@@ -363,7 +413,8 @@
     const form = corps.querySelector('form');
     const champs = {
       day: corps.querySelector('#pl-day'),
-      time: corps.querySelector('#pl-time'),
+      timeDebut: corps.querySelector('#pl-time-debut'),
+      timeFin: corps.querySelector('#pl-time-fin'),
       label: corps.querySelector('#pl-label'),
       place: corps.querySelector('#pl-place'),
       note: corps.querySelector('#pl-note')
@@ -378,8 +429,8 @@
 
     async function enregistrer() {
       const payload = {
-        day: champs.day.value.trim(),
-        time: champs.time.value.trim(),
+        day: champs.day.value,
+        time: composerHoraire(champs.timeDebut.value, champs.timeFin.value),
         label: champs.label.value.trim(),
         place: champs.place.value.trim(),
         note: champs.note.value.trim()
@@ -390,9 +441,9 @@
         champs.day.focus();
         return;
       }
-      if (!payload.time) {
-        AdminPanel.alerte('L’horaire est obligatoire.');
-        champs.time.focus();
+      if (!champs.timeDebut.value) {
+        AdminPanel.alerte('L’heure de début est obligatoire.');
+        champs.timeDebut.focus();
         return;
       }
 

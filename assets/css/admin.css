@@ -961,6 +961,7 @@
 }
 
 .ad-field input,
+.ad-field select,
 .ad-field textarea {
   width: 100%;
   min-height: 46px;
@@ -975,13 +976,17 @@
   transition: border-color 0.16s ease, box-shadow 0.16s ease;
 }
 
+.ad-field select { cursor: pointer; }
+
 .ad-field input::placeholder,
 .ad-field textarea::placeholder { color: var(--ad-muted); }
 
 .ad-field input:hover,
+.ad-field select:hover,
 .ad-field textarea:hover { border-color: var(--ad-soft); }
 
 .ad-field input:focus,
+.ad-field select:focus,
 .ad-field textarea:focus {
   outline: none;
   border-color: var(--ad-focus);
