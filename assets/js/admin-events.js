@@ -276,13 +276,13 @@
 
   function ouvrirFiche(ev) {
     const corps = document.createElement('div');
-    // `expire` et `archiveManuel` couvrent chacune des deux causes possibles
-    // d'archivage (voir AdminStore.estArchive) : les distinguer ici évite de
-    // rappeler estPasse() une seconde fois et de mélanger, plus bas, un
-    // `!archive` (toujours faux dès que `expire` est vrai) avec un `!ev.archived`.
+    // `expire` et `archiveManuel` distinguent laquelle des deux causes
+    // d'archivage (voir AdminStore.estArchive) est en jeu : la note et les
+    // actions plus bas doivent le savoir, pas seulement si la fiche est
+    // archivée — d'où `archive` calculé séparément via le magasin.
     const expire = ev.ends_at && AdminStore.estPasse(ev.ends_at);
     const archiveManuel = !!ev.archived;
-    const archive = archiveManuel || !!expire;
+    const archive = AdminStore.estArchive(ev);
     const archiveParDateSeule = !archiveManuel && !!expire;
     const passe = ev.starts_at && AdminStore.estPasse(ev.starts_at);
 
@@ -340,17 +340,20 @@
               ? 'La fin de parution est aussi dépassée : modifiez-la pour remettre la fiche en ligne.'
               : 'La fiche revient dans la section « Événements à venir » du site.'}</span>
             ${icone('i-arrow')}
-          </button>` : archiveParDateSeule ? '' : `
+          </button>` : `
+          ${archiveParDateSeule ? '' : `
           <button type="button" class="ad-row" data-do="${ev.featured ? 'retirerBandeau' : 'mettreEnAvant'}">
             ${icone(ev.featured ? 'i-eye-off' : 'i-eye', 'ad-ico-lg')}
             <span><strong>${ev.featured ? 'Retirer du bandeau' : 'Mettre en avant dans le bandeau'}</strong>${ev.featured
               ? 'L’événement reste publié sur le site ; seul le bandeau du haut disparaît.'
               : 'Remplace l’événement actuellement en avant, s’il y en a un. Celui-ci reste de toute façon visible dans la section.'}</span>
             ${icone('i-arrow')}
-          </button>
+          </button>`}
           <button type="button" class="ad-row" data-do="archiver">
             ${icone('i-archive', 'ad-ico-lg')}
-            <span><strong>Archiver</strong>La fiche est rangée dans les archives et retirée du site.</span>
+            <span><strong>Archiver</strong>${archiveParDateSeule
+              ? 'Verrouille son retrait du site : elle ne reviendra pas en ligne même si vous repoussez la date de fin plus tard.'
+              : 'La fiche est rangée dans les archives et retirée du site.'}</span>
             ${icone('i-arrow')}
           </button>`}
         <button type="button" class="ad-row ad-row-danger" data-do="supprimer">
@@ -391,11 +394,17 @@
     }[quoi];
     if (!champs) return;
 
+    // Désarchiver ne lève que le drapeau manuel : si la date de fin de
+    // parution est elle aussi dépassée, la fiche reste hors ligne — le
+    // message ne doit pas prétendre le contraire (voir AdminStore.estArchive).
+    const encoreExpire = quoi === 'desarchiver' && ev.ends_at && AdminStore.estPasse(ev.ends_at);
     const messages = {
       mettreEnAvant: 'Événement mis en avant dans le bandeau.',
       retirerBandeau: 'Événement retiré du bandeau. Il reste publié sur le site.',
       archiver: 'Événement archivé.',
-      desarchiver: 'Événement remis en ligne.'
+      desarchiver: encoreExpire
+        ? 'Archivage manuel retiré. La fin de parution reste dépassée : modifiez-la pour remettre la fiche en ligne.'
+        : 'Événement remis en ligne.'
     };
 
     btn.disabled = true;
