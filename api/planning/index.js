@@ -5,7 +5,7 @@
    ============================================================ */
 const { getSupabase } = require('../_lib/supabase');
 const { getSessionEmail } = require('../_lib/session');
-const { champTropLong } = require('../_lib/planning');
+const { champTropLong, champObligatoireInvalide } = require('../_lib/planning');
 
 module.exports = async (req, res) => {
   const email = getSessionEmail(req);
@@ -33,8 +33,9 @@ module.exports = async (req, res) => {
 
   if (req.method === 'POST') {
     const { day, time, label, place, note } = req.body || {};
-    if (!day || !time) {
-      res.status(400).json({ error: 'missing_fields' });
+    const manquant = champObligatoireInvalide({ day, time }, true);
+    if (manquant) {
+      res.status(400).json({ error: 'missing_fields', field: manquant });
       return;
     }
     const tropLong = champTropLong({ day, time, label, place, note });
@@ -60,8 +61,8 @@ module.exports = async (req, res) => {
     const { data, error } = await supabase
       .from('planning_slots')
       .insert({
-        day,
-        time,
+        day: day.trim(),
+        time: time.trim(),
         label: label || '',
         place: place || '',
         note: note || '',

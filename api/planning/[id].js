@@ -7,7 +7,7 @@
    ============================================================ */
 const { getSupabase } = require('../_lib/supabase');
 const { getSessionEmail } = require('../_lib/session');
-const { champTropLong } = require('../_lib/planning');
+const { champTropLong, champObligatoireInvalide } = require('../_lib/planning');
 
 module.exports = async (req, res) => {
   const email = getSessionEmail(req);
@@ -22,15 +22,23 @@ module.exports = async (req, res) => {
   if (req.method === 'PUT') {
     const { day, time, label, place, note } = req.body || {};
 
+    const vide = champObligatoireInvalide({ day, time }, false);
+    if (vide) {
+      res.status(400).json({ error: 'missing_fields', field: vide });
+      return;
+    }
+
     const tropLong = champTropLong({ day, time, label, place, note });
     if (tropLong) {
       res.status(400).json({ error: 'field_too_long', field: tropLong });
       return;
     }
 
+    // Après validation, un champ obligatoire encore présent est
+    // forcément une chaîne non vide ; null ou absent vaut « inchangé ».
     const updates = { updated_at: new Date().toISOString() };
-    if (day !== undefined) updates.day = day;
-    if (time !== undefined) updates.time = time;
+    if (typeof day === 'string') updates.day = day.trim();
+    if (typeof time === 'string') updates.time = time.trim();
     if (label !== undefined) updates.label = label || '';
     if (place !== undefined) updates.place = place || '';
     if (note !== undefined) updates.note = note || '';

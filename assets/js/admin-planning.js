@@ -214,13 +214,15 @@
       <div class="ad-rows">
         ${!premier ? `
         <button type="button" class="ad-row" data-do="monter">
-          ${icone('i-arrow', 'ad-ico-lg')}
+          ${icone('i-arrow-up', 'ad-ico-lg')}
           <span><strong>Monter</strong>Fait apparaître ce créneau avant le précédent dans la section « Planning ».</span>
+          ${icone('i-arrow')}
         </button>` : ''}
         ${!dernier ? `
         <button type="button" class="ad-row" data-do="descendre">
-          ${icone('i-arrow', 'ad-ico-lg')}
+          ${icone('i-arrow-down', 'ad-ico-lg')}
           <span><strong>Descendre</strong>Fait apparaître ce créneau après le suivant dans la section « Planning ».</span>
+          ${icone('i-arrow')}
         </button>` : ''}
         <button type="button" class="ad-row ad-row-danger" data-do="supprimer">
           ${icone('i-trash', 'ad-ico-lg')}

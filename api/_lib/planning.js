@@ -1,9 +1,13 @@
 /* ============================================================
-   PLANNING — limites de longueur des champs, partagées par
-   api/planning/index.js et api/planning/[id].js. Un champ trop long
-   casserait la mise en page de la carte « Planning » du site public.
+   PLANNING — règles de validation des champs, partagées par
+   api/planning/index.js et api/planning/[id].js, pour que créer et
+   modifier un créneau obéissent exactement aux mêmes contraintes.
    ============================================================ */
 const LIMITS = { day: 40, time: 60, label: 120, place: 160, note: 160 };
+
+// Le jour et l'horaire portent l'identité du créneau : la carte du site
+// public n'a plus de sens sans eux.
+const OBLIGATOIRES = ['day', 'time'];
 
 function champTropLong(payload) {
   if (typeof payload.day === 'string' && payload.day.length > LIMITS.day) return 'day';
@@ -14,4 +18,22 @@ function champTropLong(payload) {
   return null;
 }
 
-module.exports = { LIMITS, champTropLong };
+/* Renvoie le premier champ obligatoire fautif, ou null.
+   `creation` distingue les deux routes : à la création le champ doit
+   être présent, alors qu'à la modification un champ absent signifie
+   « inchangé ». Fourni, en revanche, il ne peut être ni vide ni
+   réduit à des espaces — sinon un PUT viderait le créneau, ce que la
+   contrainte `not null` de Postgres ne rattrape pas. */
+function champObligatoireInvalide(payload, creation) {
+  for (const champ of OBLIGATOIRES) {
+    const valeur = payload[champ];
+    if (valeur === undefined || valeur === null) {
+      if (creation) return champ;
+      continue;
+    }
+    if (typeof valeur !== 'string' || !valeur.trim()) return champ;
+  }
+  return null;
+}
+
+module.exports = { LIMITS, champTropLong, champObligatoireInvalide };
