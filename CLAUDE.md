@@ -75,7 +75,8 @@ api/
 └── planning/
     ├── public.js         ← GET public : créneaux triés par position, pour le site
     ├── index.js          ← GET (liste, admin) / POST (créer en fin de liste, admin)
-    └── [id].js            ← PUT (modifier champs et/ou position, admin) / DELETE (admin)
+    ├── [id].js            ← PUT (modifier les champs, admin) / DELETE (admin)
+    └── order.js           ← POST (admin) : réécrit tout l'ordre en une écriture atomique
 
 admin/
 └── index.html            ← coquille admin : connexion + jeu d'icônes + charpente de la console
@@ -100,7 +101,8 @@ db/
     ├── 003_evenements_dates.sql  ← colonnes starts_at (date) et archived sur events
     ├── 004_evenements_bandeau.sql ← retire link_url, renomme active en featured, ajoute ends_at
     ├── 005_evenements_image.sql   ← ajoute image_url (image facultative, Vercel Blob)
-    └── 006_planning.sql           ← table planning_slots (module « Planning »)
+    ├── 006_planning.sql           ← table planning_slots (module « Planning »)
+    └── 007_planning_ordre.sql     ← fonction planning_set_order() : réordonnancement atomique
 ```
 
 ### Schéma de base de données

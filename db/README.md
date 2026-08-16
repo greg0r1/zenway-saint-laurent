@@ -34,6 +34,7 @@ insert into public.planning_slots (day, time, label, place, note, position) valu
 | `004_evenements_bandeau.sql` | Retire `link_url`, renomme `active` en `featured` (mise en avant dans le bandeau, plus condition de publication), ajoute `ends_at` (fin de parution facultative) |
 | `005_evenements_image.sql` | Ajoute `image_url` (image facultative, déposée sur Vercel Blob par l'admin) |
 | `006_planning.sql` | Table `planning_slots` (module admin « Planning ») |
+| `007_planning_ordre.sql` | Fonction `planning_set_order(uuid[])` : réécrit tout l'ordre des créneaux en une seule instruction (atomique) |
 
 ## Ajouter une table pour un nouveau module admin
 

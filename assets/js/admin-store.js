@@ -267,9 +267,10 @@ const AdminStore = (function adminStore() {
     await chargerPlanning();
   }
 
-  // Échange la position du créneau avec son voisin immédiat. Les deux
-  // écritures se font l'une après l'autre : un simple échange de deux
-  // valeurs n'a pas besoin d'une route dédiée côté API.
+  // Échange le créneau avec son voisin immédiat. L'ordre complet part
+  // en une seule requête (voir api/planning/order.js) : deux écritures
+  // séparées pouvaient, si la seconde échouait, laisser deux créneaux
+  // à la même position et donc un ordre arbitraire.
   async function deplacerPlanning(id, direction) {
     const slots = etatPlanning.slots;
     const index = slots.findIndex((s) => String(s.id) === String(id));
@@ -277,19 +278,15 @@ const AdminStore = (function adminStore() {
     const voisin = direction === 'haut' ? index - 1 : index + 1;
     if (voisin < 0 || voisin >= slots.length) return;
 
-    const courant = slots[index];
-    const autre = slots[voisin];
-    const res1 = await fetch(`/api/planning/${courant.id}`, {
-      method: 'PUT',
+    const ids = slots.map((s) => s.id);
+    [ids[index], ids[voisin]] = [ids[voisin], ids[index]];
+
+    const res = await fetch('/api/planning/order', {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ position: autre.position })
+      body: JSON.stringify({ ids })
     });
-    const res2 = await fetch(`/api/planning/${autre.id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ position: courant.position })
-    });
-    if (!res1.ok || !res2.ok) throw new Error('reorder_failed');
+    if (!res.ok) throw new Error('reorder_failed');
     await chargerPlanning();
   }
 

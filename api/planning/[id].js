@@ -1,7 +1,9 @@
 /* ============================================================
    /api/planning/[id] — admin uniquement
-   PUT    : modifie un créneau (champs métier et/ou position)
+   PUT    : modifie les champs d'un créneau
    DELETE : supprime un créneau
+   L'ordre ne se règle pas ici : il passe par api/planning/order.js,
+   qui réécrit toutes les positions en une seule écriture atomique.
    ============================================================ */
 const { getSupabase } = require('../_lib/supabase');
 const { getSessionEmail } = require('../_lib/session');
@@ -18,7 +20,7 @@ module.exports = async (req, res) => {
   const supabase = getSupabase();
 
   if (req.method === 'PUT') {
-    const { day, time, label, place, note, position } = req.body || {};
+    const { day, time, label, place, note } = req.body || {};
 
     const tropLong = champTropLong({ day, time, label, place, note });
     if (tropLong) {
@@ -32,7 +34,6 @@ module.exports = async (req, res) => {
     if (label !== undefined) updates.label = label || '';
     if (place !== undefined) updates.place = place || '';
     if (note !== undefined) updates.note = note || '';
-    if (position !== undefined) updates.position = position;
 
     const { data, error } = await supabase
       .from('planning_slots')
