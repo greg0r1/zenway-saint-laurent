@@ -2,27 +2,33 @@
    ADMIN-DASHBOARD — page « Tableau de bord » : ce que le site
    publie en ce moment, ligne par ligne, avec le renvoi vers la
    page qui commande chaque chose. Aucune donnée propre : elle lit
-   le magasin des événements et la config du planning.
+   les magasins des événements et du planning.
    S'enregistre dans window.AdminModules, monté par assets/js/admin.js.
    ============================================================ */
 (function registerDashboardPage() {
   let root = null;
   let page = null;
   let desabonner = null;
+  let desabonnerPlanning = null;
+  let dernierSnap = null;
+  let dernierSnapPlanning = null;
 
   function icone(id, classe) {
     return `<svg class="ad-ico${classe ? ' ' + classe : ''}" aria-hidden="true"><use href="#${id}" /></svg>`;
   }
 
+  // Échappe les guillemets et l'apostrophe en plus des chevrons, pour
+  // rester sûr en position d'attribut (value="…", src="…") : sans cela,
+  // un guillemet dans la donnée referme l'attribut et permet d'en
+  // injecter un autre, un gestionnaire d'événement par exemple. Sans
+  // effet en contenu textuel, où le parseur rend les entités telles quelles.
   function echapper(str) {
-    const div = document.createElement('div');
-    div.textContent = str == null ? '' : String(str);
-    return div.innerHTML;
-  }
-
-  function creneaux() {
-    // PLANNING est un `const` de portée script : il ne vit pas sur window.
-    return (typeof PLANNING !== 'undefined' && Array.isArray(PLANNING)) ? PLANNING : [];
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   function mount(container, api) {
@@ -69,17 +75,27 @@
 
     desabonner = AdminStore.abonner(rendre);
     AdminStore.charger();
+    desabonnerPlanning = AdminStore.abonnerPlanning((snap) => {
+      dernierSnapPlanning = snap;
+      rendre(dernierSnap);
+    });
+    AdminStore.chargerPlanning();
   }
 
   function unmount() {
     if (desabonner) desabonner();
     desabonner = null;
+    if (desabonnerPlanning) desabonnerPlanning();
+    desabonnerPlanning = null;
     root = null;
     page = null;
+    dernierSnap = null;
+    dernierSnapPlanning = null;
   }
 
   function rendre(snap) {
-    if (!root) return;
+    dernierSnap = snap;
+    if (!root || !snap) return;
     const cible = root.querySelector('[data-slot="etat"]');
 
     if (snap.statut === 'chargement' || snap.statut === 'attente') {
@@ -115,7 +131,7 @@
     }
 
     const vedette = snap.vedette;
-    const seance = creneaux()[0] || null;
+    const seance = (dernierSnapPlanning && dernierSnapPlanning.slots[0]) || null;
     const publies = snap.enLigne.length;
 
     cible.innerHTML = `

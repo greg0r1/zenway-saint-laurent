@@ -72,7 +72,7 @@ zenway-saint-laurent/
 │   ├── js/
 │   │   ├── config-helloasso.js     ← configuration HelloAsso (slugs, widget)
 │   │   ├── config-videos.js        ← vidéo teaser hero + galerie YouTube
-│   │   ├── config-planning.js      ← créneaux de séance affichés
+│   │   ├── planning-schedule.js    ← créneaux de séance, lus depuis /api/planning/public
 │   │   ├── config-evenements.js    ← événements HelloAsso (préparation future)
 │   │   └── nav-reveal.js           ← navigation, burger menu, animations reveal
 │   └── img/
@@ -170,14 +170,10 @@ const CONFIG_VIDEOS = {
 
 ### Planning (créneaux de séance)
 
-Fichier : `assets/js/config-planning.js`
-
-```js
-const CONFIG_PLANNING = [
-  { day: "Mardi", time: "17:45 – 18:45", location: "KMCS, Saint-Laurent-du-Var" },
-  // ...
-];
-```
+Se gère depuis l'admin (`/admin` → page « Planning »), pas dans un fichier : les créneaux sont stockés dans
+Supabase (table `planning_slots`) et servis au site public par `api/planning/public.js`. Voir « Exception
+backend — gestion des événements » dans `CLAUDE.md` pour l'architecture complète (elle couvre aussi le
+planning).
 
 ### HelloAsso (adhésions + événements)
 

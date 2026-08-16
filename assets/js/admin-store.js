@@ -1,8 +1,9 @@
 /* ============================================================
-   ADMIN-STORE — la source unique des événements pour la console.
-   Le tableau de bord et la feuille « Événements » lisent la même
-   liste : publier depuis l'une met l'autre à jour sans rechargement,
-   et l'API n'est interrogée qu'une fois.
+   ADMIN-STORE — la source unique des événements et du planning pour
+   la console. Le tableau de bord et les feuilles « Événements » /
+   « Planning » lisent les mêmes listes : publier depuis l'une met
+   l'autre à jour sans rechargement, et chaque API n'est interrogée
+   qu'une fois.
    ============================================================ */
 const AdminStore = (function adminStore() {
   const abonnes = [];
@@ -98,6 +99,7 @@ const AdminStore = (function adminStore() {
     etat.statut = 'attente';
     etat.events = [];
     etat.erreur = null;
+    reinitialiserPlanning();
   }
 
   /* --------- Écritures : l'API répond, puis on relit la liste --------- */
@@ -176,8 +178,122 @@ const AdminStore = (function adminStore() {
     return n !== null && n < 0;
   }
 
+  /* ============================================================
+     PLANNING — même principe que ci-dessus, magasin distinct : les
+     créneaux de séance n'ont rien à voir avec les événements, mais
+     partagent le même besoin (une liste lue une fois, diffusée à
+     plusieurs pages).
+     ============================================================ */
+
+  const abonnesPlanning = [];
+
+  const etatPlanning = {
+    statut: 'attente',   // attente | chargement | pret | erreur
+    slots: [],
+    erreur: null
+  };
+
+  function abonnerPlanning(fn) {
+    abonnesPlanning.push(fn);
+    fn(instantanePlanning());
+    return () => {
+      const i = abonnesPlanning.indexOf(fn);
+      if (i >= 0) abonnesPlanning.splice(i, 1);
+    };
+  }
+
+  function instantanePlanning() {
+    return { statut: etatPlanning.statut, erreur: etatPlanning.erreur, slots: etatPlanning.slots };
+  }
+
+  function diffuserPlanning() {
+    const snap = instantanePlanning();
+    abonnesPlanning.forEach((fn) => fn(snap));
+  }
+
+  async function chargerPlanning() {
+    if (etatPlanning.statut === 'chargement') return;
+    etatPlanning.statut = 'chargement';
+    etatPlanning.erreur = null;
+    diffuserPlanning();
+
+    let res;
+    try {
+      res = await fetch('/api/planning');
+    } catch {
+      echouerPlanning('reseau');
+      return;
+    }
+    if (res.status === 401) {
+      echouerPlanning('session');
+      return;
+    }
+    if (!res.ok) {
+      echouerPlanning('serveur');
+      return;
+    }
+
+    const data = await res.json();
+    etatPlanning.slots = data.slots || [];
+    etatPlanning.statut = 'pret';
+    diffuserPlanning();
+  }
+
+  function echouerPlanning(cause) {
+    etatPlanning.statut = 'erreur';
+    etatPlanning.erreur = cause;
+    diffuserPlanning();
+  }
+
+  function reinitialiserPlanning() {
+    etatPlanning.statut = 'attente';
+    etatPlanning.slots = [];
+    etatPlanning.erreur = null;
+  }
+
+  async function enregistrerPlanning(payload, id) {
+    const res = await fetch(id ? `/api/planning/${id}` : '/api/planning', {
+      method: id ? 'PUT' : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('save_failed');
+    await chargerPlanning();
+  }
+
+  async function supprimerPlanning(id) {
+    const res = await fetch(`/api/planning/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('delete_failed');
+    await chargerPlanning();
+  }
+
+  // Échange le créneau avec son voisin immédiat. L'ordre complet part
+  // en une seule requête (voir api/planning/order.js) : deux écritures
+  // séparées pouvaient, si la seconde échouait, laisser deux créneaux
+  // à la même position et donc un ordre arbitraire.
+  async function deplacerPlanning(id, direction) {
+    const slots = etatPlanning.slots;
+    const index = slots.findIndex((s) => String(s.id) === String(id));
+    if (index === -1) return;
+    const voisin = direction === 'haut' ? index - 1 : index + 1;
+    if (voisin < 0 || voisin >= slots.length) return;
+
+    const ids = slots.map((s) => s.id);
+    [ids[index], ids[voisin]] = [ids[voisin], ids[index]];
+
+    const res = await fetch('/api/planning/order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ids })
+    });
+    if (!res.ok) throw new Error('reorder_failed');
+    await chargerPlanning();
+  }
+
   return {
     abonner, charger, enregistrer, modifier, supprimer, reinitialiser, instantane,
-    dateLongue, dateCourte, joursRestants, quand, estPasse, estArchive
+    dateLongue, dateCourte, joursRestants, quand, estPasse, estArchive,
+    abonnerPlanning, chargerPlanning, instantanePlanning,
+    enregistrerPlanning, supprimerPlanning, deplacerPlanning
   };
 })();
