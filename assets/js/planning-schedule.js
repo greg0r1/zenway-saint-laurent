@@ -10,10 +10,18 @@
   const list = document.getElementById('scheduleList');
   if (!list) return;
 
+  // Échappe les guillemets et l'apostrophe en plus des chevrons, pour
+  // rester sûr en position d'attribut (value="…", src="…") : sans cela,
+  // un guillemet dans la donnée referme l'attribut et permet d'en
+  // injecter un autre, un gestionnaire d'événement par exemple. Sans
+  // effet en contenu textuel, où le parseur rend les entités telles quelles.
   function echapper(str) {
-    const div = document.createElement('div');
-    div.textContent = str == null ? '' : String(str);
-    return div.innerHTML;
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   function rendre(slots) {
