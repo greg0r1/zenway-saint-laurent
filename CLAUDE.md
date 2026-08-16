@@ -27,16 +27,16 @@ Zenway n'est **pas** un enchaînement de quatre cours séparés. C'est **une seu
 - **HTML / CSS / JS vanilla uniquement** — pas de framework, pas de bundler, pas de npm.
 - Un seul fichier `index.html` à la racine (déployable tel quel), le CSS est découpé en fichiers statiques dans `assets/css/`, le JS en fichiers statiques dans `assets/js/`.
 - Les assets externes (images, fonts) sont référencés par URL ou placés dans `assets/`.
-- Les données configurables (vidéos, HelloAsso) sont dans des fichiers dédiés de `assets/js/`, clairement séparés du code de rendu. Le planning et les événements sont gérés depuis l'admin, pas dans un fichier (voir « Exception backend » ci-dessous).
+- Les données configurables (vidéos, HelloAsso) sont dans des fichiers dédiés de `assets/js/`, clairement séparés du code de rendu. Le planning, les événements et les infos pratiques sont gérés depuis l'admin, pas dans un fichier (voir « Exception backend » ci-dessous).
 - Aucune dépendance npm côté site public. Aucun build step, aucun bundler pour `index.html` / `assets/`.
 - **Pas de fichier `.nojekyll`** — inutile sur Vercel, réservé à GitHub Pages.
-- **Exception backend (voir section dédiée ci-dessous)** : un petit backend serverless existe uniquement pour la gestion des événements et du planning (stockage + admin). Il vit dans `api/` (+ `package.json` racine pour ses seules dépendances) et ne change rien à la nature statique du reste du site.
+- **Exception backend (voir section dédiée ci-dessous)** : un petit backend serverless existe uniquement pour la gestion des événements, du planning et des infos pratiques (stockage + admin). Il vit dans `api/` (+ `package.json` racine pour ses seules dépendances) et ne change rien à la nature statique du reste du site.
 
 ---
 
-## Exception backend — gestion des événements et du planning
+## Exception backend — gestion des événements, du planning et des infos pratiques
 
-Le reste du site reste 100 % statique (HTML/CSS/JS vanilla, zéro build). Deux fonctionnalités dérogent à la règle « pas de backend / pas de base de données » : la gestion des événements (portes ouvertes, rencontres...) et celle du planning (jours et horaires de séance), pour permettre à Béatrice de les mettre à jour sans toucher au code.
+Le reste du site reste 100 % statique (HTML/CSS/JS vanilla, zéro build). Trois fonctionnalités dérogent à la règle « pas de backend / pas de base de données » : la gestion des événements (portes ouvertes, rencontres...), celle du planning (jours et horaires de séance) et celle des infos pratiques (adresse, parking, téléphone, e-mail, prochain rendez-vous), pour permettre à Béatrice de les mettre à jour sans toucher au code.
 
 ### Stack de cette exception
 
@@ -46,8 +46,8 @@ Le reste du site reste 100 % statique (HTML/CSS/JS vanilla, zéro build). Deux f
 - **Session admin** : cookie `httpOnly`/`Secure` signé (HMAC, `crypto` natif Node — pas de dépendance JWT dédiée).
 - **Images des événements** : facultatives, déposées sur **Vercel Blob** (`@vercel/blob`). L'admin les redimensionne et les compresse côté client (canvas, 1600 px max, JPEG) avant l'envoi à `api/events/image.js` ; seule l'URL publique du fichier est stockée (`events.image_url`), jamais l'image elle-même — la base reste légère et la règle « pas d'image en base64 » plus bas ne concerne que le HTML public, pas ce passage transitoire côté admin.
 - **`package.json` racine** : existe uniquement pour les dépendances de `api/` (`@supabase/supabase-js`, `@vercel/blob`, `google-auth-library`). N'affecte pas le déploiement du site statique (pas de build step, Vercel sert `index.html`/`assets/` tel quel et déploie `api/` comme fonctions).
-- **Admin conçue comme une console classique** : barre latérale de navigation à gauche, une seule page montée à la fois dans la zone de travail. `admin/index.html` gère la connexion, puis `admin.js` fabrique une entrée de menu et une page par module déclaré dans `window.AdminModules`. La page courante vit dans l'adresse (`#/evenements`), donc le bouton Précédent du navigateur et les liens directs fonctionnent. Quatre pages aujourd'hui — « Tableau de bord », « Événements » et « Planning » (CRUD complet chacune, via le panneau latéral) et « Infos pratiques » (lecture seule, voir ci-dessous). L'admin est destinée à en accueillir d'autres (voir « Ajouter un module admin »). Cela ne change rien à la portée du backend/BDD, qui reste strictement limité aux événements et au planning tant qu'aucune autre décision n'est prise.
-- **Le module en lecture seule ne recopie aucune valeur** : « Infos pratiques » lit la section `#infos` de `index.html` au moment de l'ouverture. Elle affiche donc toujours ce qui est réellement en ligne et ne peut pas dériver. Elle porte un encart qui dit franchement où éditer en attendant que la modification soit branchée.
+- **Admin conçue comme une console classique** : barre latérale de navigation à gauche, une seule page montée à la fois dans la zone de travail. `admin/index.html` gère la connexion, puis `admin.js` fabrique une entrée de menu et une page par module déclaré dans `window.AdminModules`. La page courante vit dans l'adresse (`#/evenements`), donc le bouton Précédent du navigateur et les liens directs fonctionnent. Quatre pages aujourd'hui — « Tableau de bord », « Événements », « Planning » et « Infos pratiques » — chacune avec un CRUD complet via le panneau latéral (« Infos pratiques » porte une fiche unique : pas de création ni de suppression, un seul formulaire d'édition). L'admin est destinée à en accueillir d'autres (voir « Ajouter un module admin »). Cela ne change rien à la portée du backend/BDD, qui reste strictement limité aux événements, au planning et aux infos pratiques tant qu'aucune autre décision n'est prise.
+- **« Infos pratiques » est la source de vérité** : le site public lit ces valeurs via `api/infos/public.js` (voir « Fichiers » ci-dessous) ; `index.html` ne conserve le contenu écrit en dur que comme repli tant qu'aucune fiche n'existe en base (voir le seed dans `db/README.md`).
 - **Menu burger en mobile** : sous 900 px la barre latérale sort du flux et devient un tiroir, ouvert par le bouton de l'en-tête, refermé par Échap, par le voile, ou par le choix d'une page.
 - **Thème clair / sombre** : l'admin porte les deux, réglés par `data-theme` sur `<html>` (`assets/js/admin-theme.js`, chargé en synchrone dans le `<head>` pour éviter l'éclair au chargement). Sans choix explicite, on suit `prefers-color-scheme`. La barre latérale reste vert profond dans les deux cas — c'est l'ancre d'identité. Aucune couleur en dur dans les composants : tout passe par les jetons `--ad-*` définis en tête de `admin.css`.
 - **Panneau latéral** : tout ce qui agit (consulter une fiche, modifier, réordonner, mettre en ligne, archiver, supprimer) se passe dans un panneau unique et partagé (`assets/js/admin-panel.js`), bâti sur `<dialog>` natif — piège à focus, Échap et voile de fond viennent du navigateur. Les pages ne portent que de la lecture et des listes. Sur mobile le panneau prend tout l'écran.
@@ -62,7 +62,8 @@ api/
 │   ├── session.js       ← création/vérification du cookie de session admin
 │   ├── google.js        ← vérification du token Google (audience = GOOGLE_CLIENT_ID)
 │   ├── events.js        ← limites de longueur des champs, partagées par events/index.js et [id].js
-│   └── planning.js      ← limites de longueur des champs, partagées par planning/index.js et [id].js
+│   ├── planning.js      ← limites de longueur des champs, partagées par planning/index.js et [id].js
+│   └── infos.js          ← limites de longueur des champs, utilisées par infos/index.js
 ├── auth/
 │   ├── google.js        ← POST : vérifie le token Google, whitelist, pose le cookie
 │   ├── me.js             ← GET : session admin active ?
@@ -72,11 +73,14 @@ api/
 │   ├── index.js          ← GET (liste, admin) / POST (créer, admin)
 │   ├── [id].js            ← PUT (modifier, admin) / DELETE (admin)
 │   └── image.js           ← POST (admin) : dépose une image sur Vercel Blob, renvoie son URL
-└── planning/
-    ├── public.js         ← GET public : créneaux triés par position, pour le site
-    ├── index.js          ← GET (liste, admin) / POST (créer en fin de liste, admin)
-    ├── [id].js            ← PUT (modifier les champs, admin) / DELETE (admin)
-    └── order.js           ← POST (admin) : réécrit tout l'ordre en une écriture atomique
+├── planning/
+│   ├── public.js         ← GET public : créneaux triés par position, pour le site
+│   ├── index.js          ← GET (liste, admin) / POST (créer en fin de liste, admin)
+│   ├── [id].js            ← PUT (modifier les champs, admin) / DELETE (admin)
+│   └── order.js           ← POST (admin) : réécrit tout l'ordre en une écriture atomique
+└── infos/
+    ├── public.js         ← GET public : fiche « Infos pratiques » (ou null), pour le site
+    └── index.js          ← GET (fiche, admin) / PUT (modifier, admin) — pas de POST/DELETE, fiche unique
 
 admin/
 └── index.html            ← coquille admin : connexion + jeu d'icônes + charpente de la console
@@ -85,12 +89,12 @@ assets/js/
 ├── config-admin.js         ← identifiant client Google (page /admin uniquement)
 ├── admin-theme.js          ← thème clair/sombre, chargé en synchrone dans le <head>
 ├── admin-auth.js           ← connexion Google + session, partagé par tous les modules admin
-├── admin-store.js          ← magasins des événements et du planning + mise en forme des dates
+├── admin-store.js          ← magasins des événements, du planning et des infos pratiques + mise en forme des dates
 ├── admin-panel.js          ← panneau latéral partagé (<dialog>), utilisé par tous les modules
-├── admin-dashboard.js      ← module « Tableau de bord » (lecture des deux magasins)
+├── admin-dashboard.js      ← module « Tableau de bord » (lecture des trois magasins)
 ├── admin-events.js         ← module « Événements » (CRUD via le panneau)
 ├── admin-planning.js       ← module « Planning » (CRUD via le panneau : ajouter, modifier, réordonner, supprimer)
-├── admin-infos.js          ← module « Infos pratiques » (lecture seule de index.html)
+├── admin-infos.js          ← module « Infos pratiques » (CRUD via le panneau, fiche unique)
 └── admin.js                ← coquille : menu latéral, montage des pages, interrupteur de thème
 
 db/
@@ -102,7 +106,8 @@ db/
     ├── 004_evenements_bandeau.sql ← retire link_url, renomme active en featured, ajoute ends_at
     ├── 005_evenements_image.sql   ← ajoute image_url (image facultative, Vercel Blob)
     ├── 006_planning.sql           ← table planning_slots (module « Planning »)
-    └── 007_planning_ordre.sql     ← fonction planning_set_order() : réordonnancement atomique
+    ├── 007_planning_ordre.sql     ← fonction planning_set_order() : réordonnancement atomique
+    └── 008_infos_pratiques.sql    ← table infos_pratiques (module « Infos pratiques »), fiche unique
 ```
 
 ### Schéma de base de données
@@ -141,8 +146,8 @@ Voir `README.md` pour la procédure complète (SQL Supabase, config Google Cloud
 
 ### Règles propres à cette exception
 
-- Ne jamais élargir ce backend à autre chose que les événements et le planning (pas d'espace membre, pas de gestion des adhésions — HelloAsso reste seul responsable de ça).
-- Le site public ne doit jamais appeler Supabase directement : tout passe par `api/events/public.js` et `api/planning/public.js`, seules routes publiques, qui ne renvoient que les champs nécessaires à l'affichage.
+- Ne jamais élargir ce backend à autre chose que les événements, le planning et les infos pratiques (pas d'espace membre, pas de gestion des adhésions — HelloAsso reste seul responsable de ça).
+- Le site public ne doit jamais appeler Supabase directement : tout passe par `api/events/public.js`, `api/planning/public.js` et `api/infos/public.js`, seules routes publiques, qui ne renvoient que les champs nécessaires à l'affichage.
 - La clé `SUPABASE_SERVICE_ROLE_KEY` ne doit jamais apparaître dans un fichier de `assets/` ou dans `index.html`.
 - `admin/index.html` n'est pas listé dans la nav publique ni le footer — accès par URL directe uniquement, protégé par la connexion Google + whitelist.
 - Le dépôt d'image (`api/events/image.js`) est admin uniquement ; le site public ne fait jamais que lire l'URL déjà stockée (`image_url`), jamais de dépôt côté public.
@@ -227,12 +232,12 @@ zenway-saint-laurent/
 │   │   ├── config-admin.js      ← identifiant client Google (page /admin uniquement)
 │   │   ├── admin-theme.js       ← thème clair/sombre de l'admin (chargé dans le <head>)
 │   │   ├── admin-auth.js        ← connexion Google + session, partagé par les modules admin
-│   │   ├── admin-store.js       ← magasins des événements et du planning + mise en forme des dates
+│   │   ├── admin-store.js       ← magasins des événements, du planning et des infos pratiques + mise en forme des dates
 │   │   ├── admin-panel.js       ← panneau latéral partagé de l'admin (<dialog>)
 │   │   ├── admin-dashboard.js   ← module admin « Tableau de bord »
 │   │   ├── admin-events.js      ← module admin « Événements » (CRUD)
 │   │   ├── admin-planning.js    ← module admin « Planning » (CRUD)
-│   │   ├── admin-infos.js       ← module admin « Infos pratiques » (lecture seule)
+│   │   ├── admin-infos.js       ← module admin « Infos pratiques » (CRUD, fiche unique)
 │   │   └── admin.js             ← coquille admin : menu, montage des pages, thème
 │   └── img/                 ← chaque photo existe en .jpg (ou .png) + .webp,
 │       │                      servies via <picture> ; les favicons et l'og-image
@@ -391,7 +396,7 @@ chore(vercel): suppression du fichier .nojekyll inutile sur Vercel
 
 - ❌ Angular, React, Vue ou tout autre framework
 - ❌ npm / node_modules / package.json
-- ❌ Backend, API maison, base de données — **sauf l'exception documentée dans « Exception backend — gestion des événements »**, strictement limitée à cet usage
+- ❌ Backend, API maison, base de données — **sauf l'exception documentée dans « Exception backend — gestion des événements, du planning et des infos pratiques »**, strictement limitée à cet usage
 - ❌ Espace membre (décision prise — HelloAsso couvre les besoins de gestion)
 - ❌ Écriture inclusive
 - ❌ Nouvelle couleur hors palette définie

@@ -1,32 +1,23 @@
 /* ============================================================
-   ADMIN-INFOS — page « Infos pratiques ». Lecture seule pour
-   l'instant. Les valeurs ne sont pas recopiées ici : la page va les
-   lire dans le site publié lui-même (section « Infos pratiques » de
-   index.html), elle affiche donc toujours la vérité du moment.
+   ADMIN-INFOS — page « Infos pratiques ». Fiche unique (pas une
+   liste) : adresse, parking, téléphone, e-mail et prochain
+   rendez-vous, affichés dans la section « Infos pratiques » du site
+   public. Modifiable depuis un seul panneau d'édition.
+
+   Les données viennent du magasin commun (assets/js/admin-store.js),
+   modifiées via le panneau latéral partagé (assets/js/admin-panel.js).
    S'enregistre dans window.AdminModules, monté par assets/js/admin.js.
    ============================================================ */
 (function registerInfosPage() {
-  const SOURCE = '../index.html';
-
-  // Une icône par libellé reconnu ; les autres retombent sur l'icône neutre.
-  const ICONES = [
-    [/lieu|adresse|salle/i, 'i-pin'],
-    [/parking|stationnement/i, 'i-pin'],
-    [/t[ée]l[ée]phone/i, 'i-phone'],
-    [/mail|courriel/i, 'i-mail'],
-    [/rendez-vous|s[ée]ance|horaire|date/i, 'i-calendar']
-  ];
+  const LIMITES = { address: 200, map_url: 300, parking: 120, phone: 30, email: 120, next_session: 120 };
 
   let root = null;
   let page = null;
+  let desabonner = null;
+  let dernierSnap = null;
 
   function icone(id, classe) {
     return `<svg class="ad-ico${classe ? ' ' + classe : ''}" aria-hidden="true"><use href="#${id}" /></svg>`;
-  }
-
-  function iconePour(label) {
-    const hit = ICONES.find(([re]) => re.test(label));
-    return hit ? hit[1] : 'i-info';
   }
 
   // Échappe les guillemets et l'apostrophe en plus des chevrons, pour
@@ -43,122 +34,265 @@
       .replace(/'/g, '&#39;');
   }
 
+  function echapperMultiligne(str) {
+    return echapper(str).replace(/\n/g, '<br>');
+  }
+
+  /* ---------------------------------------------------------------
+     Montage
+     --------------------------------------------------------------- */
+
   function mount(container, api) {
     root = container;
     page = api;
-    page.setActions([]);
-    charger();
+
+    page.setActions([
+      { label: 'Modifier les infos', icone: 'i-pencil', style: 'ad-btn-primary', onClick: ouvrirFormulaire }
+    ]);
+
+    root.innerHTML = `
+      <p class="ad-lede">Adresse, parking, téléphone, e-mail et prochain rendez-vous, affichés dans la
+        section « Infos pratiques » du site.</p>
+      <div data-slot="fiche"></div>
+    `;
+
+    desabonner = AdminStore.abonnerInfos((snap) => {
+      dernierSnap = snap;
+      rendre(snap);
+    });
+    AdminStore.chargerInfos();
   }
 
   function unmount() {
+    if (desabonner) desabonner();
+    desabonner = null;
     root = null;
     page = null;
+    dernierSnap = null;
   }
 
-  async function charger() {
-    squelette();
-    let html;
-    try {
-      const res = await fetch(SOURCE, { cache: 'no-store' });
-      if (!res.ok) throw new Error('fetch_failed');
-      html = await res.text();
-    } catch {
-      erreur();
+  /* ---------------------------------------------------------------
+     Rendu de la fiche
+     --------------------------------------------------------------- */
+
+  function rendre(snap) {
+    if (!root || !snap) return;
+    const cible = root.querySelector('[data-slot="fiche"]');
+
+    if (snap.statut === 'chargement' || snap.statut === 'attente') {
+      cible.innerHTML = `
+        <div class="ad-skeleton" aria-hidden="true">
+          ${[54, 42, 60, 48, 36].map((w) => `<div class="ad-skeleton-bar" style="width:${w}%"></div>`).join('')}
+        </div>
+        <p class="ad-sr" role="status">Chargement des infos pratiques.</p>
+      `;
       return;
     }
-    if (!root) return;
 
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    const lignes = Array.from(doc.querySelectorAll('#infos .info-list > div'))
-      .map((bloc) => {
-        const dt = bloc.querySelector('dt');
-        const dd = bloc.querySelector('dd');
-        if (!dt || !dd) return null;
-        const lien = dd.querySelector('a');
-        // Un <br> ne laisse aucune trace dans textContent : sans ce
-        // remplacement, « …des Iscles » et « 06700 » se collent.
-        const plat = document.createElement('div');
-        plat.innerHTML = dd.innerHTML.replace(/<br\s*\/?>/gi, ' ');
-        return {
-          label: dt.textContent.trim(),
-          value: plat.textContent.replace(/\s+/g, ' ').trim(),
-          href: lien ? lien.getAttribute('href') : null
-        };
-      })
-      .filter(Boolean);
-
-    rendre(lignes);
-  }
-
-  function squelette() {
-    root.innerHTML = `
-      <div class="ad-skeleton" aria-hidden="true">
-        ${[54, 42, 60, 48].map((w) => `<div class="ad-skeleton-bar" style="width:${w}%"></div>`).join('')}
-      </div>
-      <p class="ad-sr" role="status">Lecture des infos pratiques du site.</p>
-    `;
-  }
-
-  function erreur() {
-    if (!root) return;
-    root.innerHTML = `
-      <div class="ad-alert" role="alert">
-        ${icone('i-alert')}
-        <div>
-          Les infos pratiques n’ont pas pu être lues sur le site.
-          <div class="ad-alert-actions">
-            <button type="button" class="ad-btn ad-btn-line ad-btn-sm" data-action="retry">Réessayer</button>
+    if (snap.statut === 'erreur') {
+      cible.innerHTML = `
+        <div class="ad-alert" role="alert">
+          ${icone('i-alert')}
+          <div>
+            ${snap.erreur === 'session'
+              ? 'Votre session a expiré. Rechargez la page pour vous reconnecter.'
+              : 'Les infos pratiques n’ont pas pu être chargées.'}
+            <div class="ad-alert-actions">
+              <button type="button" class="ad-btn ad-btn-line ad-btn-sm" data-action="retry">Réessayer</button>
+            </div>
           </div>
         </div>
-      </div>
-    `;
-    root.querySelector('[data-action="retry"]').addEventListener('click', charger);
-  }
+      `;
+      cible.querySelector('[data-action="retry"]').addEventListener('click', () => AdminStore.chargerInfos());
+      return;
+    }
 
-  function rendre(lignes) {
-    if (page) page.setBadge(lignes.length || null);
-
-    if (!lignes.length) {
-      root.innerHTML = `
+    if (!snap.infos) {
+      cible.innerHTML = `
         <div class="ad-empty">
-          ${icone('i-info', 'ad-ico-xl')}
-          <p class="ad-empty-title">Rien à afficher</p>
-          <p>La section « Infos pratiques » du site ne contient aucune ligne lisible.
-            Vérifiez le fichier <code>index.html</code>.</p>
+          ${icone('i-pin', 'ad-ico-xl')}
+          <p class="ad-empty-title">Aucune fiche en base</p>
+          <p>La migration <code>008_infos_pratiques.sql</code> et son seed n'ont pas encore été joués sur
+            Supabase. Le site public affiche en attendant le contenu écrit dans <code>index.html</code>.</p>
         </div>
       `;
       return;
     }
 
-    root.innerHTML = `
-      <p class="ad-lede">Adresse, téléphone, e-mail et prochain rendez-vous, lus à l'instant dans la section
-        « Infos pratiques » du site publié.</p>
-
+    const i = snap.infos;
+    cible.innerHTML = `
       <section class="ad-box">
-        <h2 class="ad-box-title">Ce que le site affiche en ce moment</h2>
+        <h2 class="ad-box-title">Ce que le site affiche</h2>
         <dl class="ad-facts">
-          ${lignes.map((ligne) => `
-            <div class="ad-fact">
-              <dt>${icone(iconePour(ligne.label))}${echapper(ligne.label)}</dt>
-              <dd>
-                <b>${echapper(ligne.value)}</b>
-                ${ligne.href ? `<small>${echapper(ligne.href)}</small>` : ''}
-              </dd>
-            </div>
-          `).join('')}
+          <div class="ad-fact">
+            <dt>${icone('i-pin')}Lieu</dt>
+            <dd>
+              <b>${echapperMultiligne(i.address)}</b>
+              ${i.map_url ? `<small>${echapper(i.map_url)}</small>` : ''}
+            </dd>
+          </div>
+          <div class="ad-fact">
+            <dt>${icone('i-pin')}Parking</dt>
+            <dd><b>${echapper(i.parking)}</b></dd>
+          </div>
+          <div class="ad-fact">
+            <dt>${icone('i-phone')}Téléphone</dt>
+            <dd><b>${echapper(i.phone)}</b></dd>
+          </div>
+          <div class="ad-fact">
+            <dt>${icone('i-mail')}E-mail</dt>
+            <dd><b>${echapper(i.email)}</b></dd>
+          </div>
+          <div class="ad-fact">
+            <dt>${icone('i-calendar')}Prochain rendez-vous</dt>
+            <dd>${i.next_session ? `<b>${echapper(i.next_session)}</b>` : '<span class="ad-muet">Aucun — la ligne est masquée sur le site</span>'}</dd>
+          </div>
         </dl>
       </section>
 
-      <div class="ad-note ad-note-warn">
+      <div class="ad-note">
         ${icone('i-info')}
         <div>
-          <strong>Modification pas encore branchée sur cette page</strong>
-          Adresse, téléphone, e-mail et prochain rendez-vous sont aujourd'hui écrits dans
-          <code>index.html</code>, section « Infos pratiques ». Cette page les relit à chaque
-          ouverture : ce qui est affiché ci-dessus est donc toujours ce qui est en ligne.
+          Ces valeurs sont lues par le site public via <code>/api/infos/public</code> : toute
+          modification enregistrée ici y apparaît dès le prochain chargement de la page.
         </div>
       </div>
     `;
+  }
+
+  /* ---------------------------------------------------------------
+     Panneau — modifier
+     --------------------------------------------------------------- */
+
+  function ouvrirFormulaire() {
+    const i = (dernierSnap && dernierSnap.infos) || {
+      address: '', map_url: '', parking: '', phone: '', email: '', next_session: ''
+    };
+
+    const corps = document.createElement('div');
+    corps.innerHTML = `
+      <form novalidate>
+        <div class="ad-field">
+          <label for="in-address">Adresse</label>
+          <textarea id="in-address" rows="2" maxlength="${LIMITES.address}" placeholder="KMCS, 357 chemin des Iscles
+06700 Saint-Laurent-du-Var">${echapper(i.address)}</textarea>
+          <p class="ad-hint">Un retour à la ligne sépare la rue de la ville, comme sur le site.</p>
+          <p class="ad-hint" data-counter="in-address"></p>
+        </div>
+
+        <div class="ad-field">
+          <label for="in-map">Lien vers la carte</label>
+          <input type="url" id="in-map" maxlength="${LIMITES.map_url}" value="${echapper(i.map_url)}" placeholder="https://maps.app.goo.gl/...">
+          <p class="ad-hint">Le lien cliquable derrière l'adresse, pas la carte affichée à côté (fixe).</p>
+        </div>
+
+        <div class="ad-field">
+          <label for="in-parking">Parking</label>
+          <input type="text" id="in-parking" maxlength="${LIMITES.parking}" value="${echapper(i.parking)}" placeholder="Stationnement gratuit sur place">
+          <p class="ad-hint" data-counter="in-parking"></p>
+        </div>
+
+        <div class="ad-field">
+          <label for="in-phone">Téléphone</label>
+          <input type="tel" id="in-phone" maxlength="${LIMITES.phone}" value="${echapper(i.phone)}" placeholder="06 66 05 66 49">
+        </div>
+
+        <div class="ad-field">
+          <label for="in-email">E-mail</label>
+          <input type="email" id="in-email" maxlength="${LIMITES.email}" value="${echapper(i.email)}" placeholder="contact@zenwaysaintlaurentduvar.fr">
+        </div>
+
+        <div class="ad-field">
+          <label for="in-next">Prochain rendez-vous</label>
+          <input type="text" id="in-next" maxlength="${LIMITES.next_session}" value="${echapper(i.next_session)}" placeholder="Mardi 8 septembre, 17 h 45 – 18 h 45">
+          <p class="ad-hint">Facultatif : laissez vide pour masquer cette ligne sur le site.</p>
+          <p class="ad-hint" data-counter="in-next"></p>
+        </div>
+      </form>
+    `;
+
+    const form = corps.querySelector('form');
+    const champs = {
+      address: corps.querySelector('#in-address'),
+      mapUrl: corps.querySelector('#in-map'),
+      parking: corps.querySelector('#in-parking'),
+      phone: corps.querySelector('#in-phone'),
+      email: corps.querySelector('#in-email'),
+      nextSession: corps.querySelector('#in-next')
+    };
+
+    corps.querySelectorAll('[data-counter]').forEach((p) => {
+      const champ = corps.querySelector(`#${p.dataset.counter}`);
+      const maj = () => { p.textContent = `${champ.value.length}/${champ.maxLength}`; };
+      champ.addEventListener('input', maj);
+      maj();
+    });
+
+    async function enregistrer() {
+      const payload = {
+        address: champs.address.value.trim(),
+        map_url: champs.mapUrl.value.trim(),
+        parking: champs.parking.value.trim(),
+        phone: champs.phone.value.trim(),
+        email: champs.email.value.trim(),
+        next_session: champs.nextSession.value.trim()
+      };
+
+      if (!payload.address) {
+        AdminPanel.alerte('L’adresse est obligatoire.');
+        champs.address.focus();
+        return;
+      }
+      if (!payload.map_url) {
+        AdminPanel.alerte('Le lien vers la carte est obligatoire.');
+        champs.mapUrl.focus();
+        return;
+      }
+      if (!payload.parking) {
+        AdminPanel.alerte('Le parking est obligatoire.');
+        champs.parking.focus();
+        return;
+      }
+      if (!payload.phone) {
+        AdminPanel.alerte('Le téléphone est obligatoire.');
+        champs.phone.focus();
+        return;
+      }
+      if (!payload.email) {
+        AdminPanel.alerte('L’e-mail est obligatoire.');
+        champs.email.focus();
+        return;
+      }
+
+      AdminPanel.cacherAlerte();
+      AdminPanel.occuper('enregistrer', true, 'Enregistrement…');
+
+      try {
+        await AdminStore.enregistrerInfos(payload);
+      } catch {
+        AdminPanel.occuper('enregistrer', false);
+        AdminPanel.alerte('L’enregistrement a échoué. Vos informations sont toujours là : réessayez.');
+        return;
+      }
+      AdminPanel.fermer();
+      if (page) page.flash('Infos pratiques mises à jour.');
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      enregistrer();
+    });
+
+    AdminPanel.ouvrir({
+      icone: 'i-pencil',
+      chapeau: 'Infos pratiques',
+      titre: 'Modifier les infos',
+      corps,
+      actions: [
+        { id: 'enregistrer', label: 'Enregistrer', icone: 'i-check', style: 'ad-btn-primary', onClick: enregistrer },
+        { id: 'annuler', label: 'Annuler', onClick: () => AdminPanel.fermer() }
+      ]
+    });
   }
 
   window.AdminModules = window.AdminModules || [];
