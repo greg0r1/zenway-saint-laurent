@@ -25,6 +25,17 @@
       .replace(/'/g, '&#39;');
   }
 
+  // Les colonnes de infos_pratiques valent '' par défaut : une fiche
+  // créée sans son seed, ou dont une colonne est restée vide, arriverait
+  // ici avec des champs vides. Les recopier effacerait le contenu du
+  // repli au lieu de le remplacer — on préfère alors ne rien toucher.
+  // next_session est exclu : vide, il masque sa ligne, c'est voulu.
+  const OBLIGATOIRES = ['address', 'map_url', 'parking', 'phone', 'email'];
+
+  function ficheComplete(infos) {
+    return OBLIGATOIRES.every((champ) => typeof infos[champ] === 'string' && infos[champ].trim());
+  }
+
   function rendre(infos) {
     document.querySelectorAll('[data-info-link="address"]').forEach((a) => {
       a.href = infos.map_url;
@@ -59,7 +70,7 @@
   fetch('/api/infos')
     .then((res) => (res.ok ? res.json() : null))
     .then((data) => {
-      if (!data || !data.infos) return;
+      if (!data || !data.infos || !ficheComplete(data.infos)) return;
       rendre(data.infos);
     })
     .catch(() => { /* API indisponible : contenu statique par défaut conservé */ });

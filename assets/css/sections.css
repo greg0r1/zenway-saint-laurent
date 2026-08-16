@@ -538,6 +538,14 @@ h2 {
   border-bottom: 1px solid rgba(216, 243, 220, 0.2);
 }
 
+/* Le display ci-dessus l'emporte sur la règle [hidden] du navigateur :
+   sans cette ligne, masquer une ligne depuis l'admin (« Prochain
+   rendez-vous » laissé vide, voir assets/js/infos-pratiques.js) ne
+   ferait rien et laisserait un libellé sans valeur. */
+.info-list > div[hidden] {
+  display: none;
+}
+
 .info-list dt {
   font-size: 0.7rem;
   letter-spacing: 0.19em;
