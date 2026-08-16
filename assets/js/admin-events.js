@@ -136,13 +136,13 @@
     if (!root || !snap) return;
     const cible = root.querySelector('[data-slot="liste"]');
 
-    root.querySelector('[data-n="cours"]').textContent = snap.courants.length;
+    root.querySelector('[data-n="cours"]').textContent = snap.enLigne.length;
     root.querySelector('[data-n="archives"]').textContent = snap.archives.length;
     root.querySelectorAll('[data-vue]').forEach((btn) => {
       btn.setAttribute('aria-selected', String(btn.dataset.vue === vue));
     });
 
-    if (page) page.setBadge(snap.statut === 'pret' ? snap.courants.length : null);
+    if (page) page.setBadge(snap.statut === 'pret' ? snap.enLigne.length : null);
 
     if (snap.statut === 'chargement' || snap.statut === 'attente') {
       cible.innerHTML = `
@@ -172,7 +172,7 @@
       return;
     }
 
-    const liste = vue === 'archives' ? snap.archives : snap.courants;
+    const liste = vue === 'archives' ? snap.archives : snap.enLigne;
 
     if (!liste.length) {
       cible.innerHTML = vue === 'archives' ? videArchives() : videCours();
@@ -276,8 +276,14 @@
 
   function ouvrirFiche(ev) {
     const corps = document.createElement('div');
-    const archive = AdminStore.estArchive(ev);
+    // `expire` et `archiveManuel` couvrent chacune des deux causes possibles
+    // d'archivage (voir AdminStore.estArchive) : les distinguer ici évite de
+    // rappeler estPasse() une seconde fois et de mélanger, plus bas, un
+    // `!archive` (toujours faux dès que `expire` est vrai) avec un `!ev.archived`.
     const expire = ev.ends_at && AdminStore.estPasse(ev.ends_at);
+    const archiveManuel = !!ev.archived;
+    const archive = archiveManuel || !!expire;
+    const archiveParDateSeule = !archiveManuel && !!expire;
     const passe = ev.starts_at && AdminStore.estPasse(ev.starts_at);
 
     corps.innerHTML = `
@@ -296,7 +302,7 @@
           <div><strong>Événement passé</strong>Il reste publié sur le site. Pensez à le retirer du bandeau ou à l'archiver.</div>
         </div>` : ''}
 
-      ${expire && !ev.archived ? `
+      ${archiveParDateSeule ? `
         <div class="ad-note ad-note-warn">
           ${icone('i-alert')}
           <div><strong>Fin de parution dépassée</strong>Il n'apparaît plus sur le site et a basculé dans les archives. Repoussez ou effacez la date de fin pour le remettre en ligne.</div>
@@ -327,14 +333,14 @@
 
       <h3 class="ad-box-title ad-box-title-sep">Actions</h3>
       <div class="ad-rows">
-        ${ev.archived ? `
+        ${archiveManuel ? `
           <button type="button" class="ad-row" data-do="desarchiver">
             ${icone('i-layers', 'ad-ico-lg')}
             <span><strong>Désarchiver</strong>${expire
               ? 'La fin de parution est aussi dépassée : modifiez-la pour remettre la fiche en ligne.'
               : 'La fiche revient dans la section « Événements à venir » du site.'}</span>
             ${icone('i-arrow')}
-          </button>` : expire ? '' : `
+          </button>` : archiveParDateSeule ? '' : `
           <button type="button" class="ad-row" data-do="${ev.featured ? 'retirerBandeau' : 'mettreEnAvant'}">
             ${icone(ev.featured ? 'i-eye-off' : 'i-eye', 'ad-ico-lg')}
             <span><strong>${ev.featured ? 'Retirer du bandeau' : 'Mettre en avant dans le bandeau'}</strong>${ev.featured

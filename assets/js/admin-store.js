@@ -41,7 +41,6 @@ const AdminStore = (function adminStore() {
       events,
       vedette,
       enLigne,
-      courants: enLigne,
       archives: events.filter(estArchive)
     };
   }
