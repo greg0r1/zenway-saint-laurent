@@ -1,7 +1,7 @@
 # Base de données (Supabase)
 
 Schéma de la base Postgres utilisée par le back-office (`admin/` + `api/`). Le site public
-reste statique : il ne lit la base que par `api/events/public.js`.
+reste statique : il ne lit la base que par `api/events/public.js` et `api/planning/public.js`.
 
 ## Appliquer les migrations
 
@@ -13,6 +13,19 @@ Tous les scripts sont idempotents (`if not exists`, `create or replace`, `drop t
 les rejouer ne casse rien. En cas de doute sur ce qui a déjà été appliqué, tout rejouer dans l'ordre
 est sans risque.
 
+**Après `006_planning.sql`** : la table `planning_slots` est vide, donc `api/planning/public.js`
+renvoie une liste vide et la section « Planning » du site affiche le message d'attente
+(« Le planning détaillé sera bientôt publié ici ») tant qu'aucun créneau n'est ajouté depuis
+l'admin. Pour éviter que le créneau actuellement en ligne disparaisse le temps que Béatrice le
+ressaisisse, insérer le créneau existant juste après avoir joué la migration :
+
+```sql
+insert into public.planning_slots (day, time, label, place, note, position) values (
+  'Mardi', '17 h 45 — 18 h 45', 'Séance Zenway · tous niveaux',
+  'KMCS, 357 chemin des Iscles, Saint-Laurent-du-Var', 'Début des cours le mardi 8 septembre', 1
+);
+```
+
 | Fichier | Contenu |
 | --- | --- |
 | `001_socle.sql` | Extension `pgcrypto`, fonction partagée `set_updated_at()` |
@@ -20,6 +33,7 @@ est sans risque.
 | `003_evenements_dates.sql` | Colonnes `starts_at` (date de l'événement) et `archived` sur `events` |
 | `004_evenements_bandeau.sql` | Retire `link_url`, renomme `active` en `featured` (mise en avant dans le bandeau, plus condition de publication), ajoute `ends_at` (fin de parution facultative) |
 | `005_evenements_image.sql` | Ajoute `image_url` (image facultative, déposée sur Vercel Blob par l'admin) |
+| `006_planning.sql` | Table `planning_slots` (module admin « Planning ») |
 
 ## Ajouter une table pour un nouveau module admin
 
