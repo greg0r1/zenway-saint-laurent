@@ -5,6 +5,10 @@
    peut en plus être mis en avant dans le bandeau du haut : l'API
    retire le précédent.
 
+   « Archivé » est un état calculé (AdminStore.estArchive), pas une
+   simple lecture du drapeau `archived` : un événement dont la fin de
+   parution est dépassée y bascule tout seul, sans action de l'admin.
+
    La page ne montre qu'une liste ; tout ce qui agit (consulter,
    modifier, mettre en avant, archiver, supprimer) se passe dans le
    panneau latéral partagé (assets/js/admin-panel.js). Les données
@@ -132,13 +136,13 @@
     if (!root || !snap) return;
     const cible = root.querySelector('[data-slot="liste"]');
 
-    root.querySelector('[data-n="cours"]').textContent = snap.courants.length;
+    root.querySelector('[data-n="cours"]').textContent = snap.enLigne.length;
     root.querySelector('[data-n="archives"]').textContent = snap.archives.length;
     root.querySelectorAll('[data-vue]').forEach((btn) => {
       btn.setAttribute('aria-selected', String(btn.dataset.vue === vue));
     });
 
-    if (page) page.setBadge(snap.statut === 'pret' ? snap.courants.length : null);
+    if (page) page.setBadge(snap.statut === 'pret' ? snap.enLigne.length : null);
 
     if (snap.statut === 'chargement' || snap.statut === 'attente') {
       cible.innerHTML = `
@@ -168,7 +172,7 @@
       return;
     }
 
-    const liste = vue === 'archives' ? snap.archives : snap.courants;
+    const liste = vue === 'archives' ? snap.archives : snap.enLigne;
 
     if (!liste.length) {
       cible.innerHTML = vue === 'archives' ? videArchives() : videCours();
@@ -211,8 +215,8 @@
   }
 
   function ligne(ev) {
+    const archive = AdminStore.estArchive(ev);
     const passe = ev.starts_at && AdminStore.estPasse(ev.starts_at);
-    const expire = ev.ends_at && AdminStore.estPasse(ev.ends_at);
     return `
       <tr${ev.featured ? ' class="is-live"' : ''}>
         <td class="ad-col-date">
@@ -231,13 +235,12 @@
           </div>
         </td>
         <td class="ad-col-etat">
-          ${ev.archived
+          ${archive
             ? `<span class="ad-pill">${icone('i-archive')}Archivé</span>`
             : ev.featured
               ? `<span class="ad-pill ad-pill-live">${icone('i-eye')}Mis en avant</span>`
               : `<span class="ad-pill">${icone('i-eye')}Publié</span>`}
-          ${passe && !ev.archived ? `<span class="ad-warn">${icone('i-alert')}Événement passé</span>` : ''}
-          ${expire && !ev.archived ? `<span class="ad-warn">${icone('i-alert')}Fin de parution dépassée</span>` : ''}
+          ${passe && !archive ? `<span class="ad-warn">${icone('i-alert')}Événement passé</span>` : ''}
         </td>
         <td class="ad-col-go">${icone('i-arrow')}</td>
       </tr>
@@ -262,7 +265,7 @@
       <div class="ad-empty">
         ${icone('i-archive', 'ad-ico-xl')}
         <p class="ad-empty-title">Aucune archive</p>
-        <p>Les événements passés que vous archivez viendront se ranger ici. Ils restent consultables et peuvent être remis en ligne à tout moment.</p>
+        <p>Les événements que vous archivez, ou dont la fin de parution est dépassée, viendront se ranger ici. Ils restent consultables et peuvent être remis en ligne à tout moment.</p>
       </div>
     `;
   }
@@ -273,29 +276,36 @@
 
   function ouvrirFiche(ev) {
     const corps = document.createElement('div');
-    const passe = ev.starts_at && AdminStore.estPasse(ev.starts_at);
+    // `expire` et `archiveManuel` distinguent laquelle des deux causes
+    // d'archivage (voir AdminStore.estArchive) est en jeu : la note et les
+    // actions plus bas doivent le savoir, pas seulement si la fiche est
+    // archivée — d'où `archive` calculé séparément via le magasin.
     const expire = ev.ends_at && AdminStore.estPasse(ev.ends_at);
+    const archiveManuel = !!ev.archived;
+    const archive = AdminStore.estArchive(ev);
+    const archiveParDateSeule = !archiveManuel && !!expire;
+    const passe = ev.starts_at && AdminStore.estPasse(ev.starts_at);
 
     corps.innerHTML = `
       ${ev.image_url ? `<img class="ad-panel-image" src="${echapper(ev.image_url)}" alt="">` : ''}
       <p class="ad-panel-state">
-        ${ev.archived
+        ${archive
           ? `<span class="ad-pill">${icone('i-archive')}Archivé</span>`
           : ev.featured
             ? `<span class="ad-pill ad-pill-live">${icone('i-eye')}Mis en avant dans le bandeau</span>`
             : `<span class="ad-pill">${icone('i-eye')}Publié sur le site</span>`}
       </p>
 
-      ${passe && !ev.archived ? `
+      ${passe && !archive ? `
         <div class="ad-note ad-note-warn">
           ${icone('i-alert')}
           <div><strong>Événement passé</strong>Il reste publié sur le site. Pensez à le retirer du bandeau ou à l'archiver.</div>
         </div>` : ''}
 
-      ${expire && !ev.archived ? `
+      ${archiveParDateSeule ? `
         <div class="ad-note ad-note-warn">
           ${icone('i-alert')}
-          <div><strong>Fin de parution dépassée</strong>Il n'apparaît plus sur le site, mais reste ici modifiable.</div>
+          <div><strong>Fin de parution dépassée</strong>Il n'apparaît plus sur le site et a basculé dans les archives. Repoussez ou effacez la date de fin pour le remettre en ligne.</div>
         </div>` : ''}
 
       <dl class="ad-facts ad-facts-tight">
@@ -323,22 +333,27 @@
 
       <h3 class="ad-box-title ad-box-title-sep">Actions</h3>
       <div class="ad-rows">
-        ${ev.archived ? `
+        ${archiveManuel ? `
           <button type="button" class="ad-row" data-do="desarchiver">
             ${icone('i-layers', 'ad-ico-lg')}
-            <span><strong>Désarchiver</strong>La fiche revient dans la section « Événements à venir » du site.</span>
+            <span><strong>Désarchiver</strong>${expire
+              ? 'La fin de parution est aussi dépassée : modifiez-la pour remettre la fiche en ligne.'
+              : 'La fiche revient dans la section « Événements à venir » du site.'}</span>
             ${icone('i-arrow')}
           </button>` : `
+          ${archiveParDateSeule ? '' : `
           <button type="button" class="ad-row" data-do="${ev.featured ? 'retirerBandeau' : 'mettreEnAvant'}">
             ${icone(ev.featured ? 'i-eye-off' : 'i-eye', 'ad-ico-lg')}
             <span><strong>${ev.featured ? 'Retirer du bandeau' : 'Mettre en avant dans le bandeau'}</strong>${ev.featured
               ? 'L’événement reste publié sur le site ; seul le bandeau du haut disparaît.'
               : 'Remplace l’événement actuellement en avant, s’il y en a un. Celui-ci reste de toute façon visible dans la section.'}</span>
             ${icone('i-arrow')}
-          </button>
+          </button>`}
           <button type="button" class="ad-row" data-do="archiver">
             ${icone('i-archive', 'ad-ico-lg')}
-            <span><strong>Archiver</strong>La fiche est rangée dans les archives et retirée du site.</span>
+            <span><strong>Archiver</strong>${archiveParDateSeule
+              ? 'Verrouille son retrait du site : elle ne reviendra pas en ligne même si vous repoussez la date de fin plus tard.'
+              : 'La fiche est rangée dans les archives et retirée du site.'}</span>
             ${icone('i-arrow')}
           </button>`}
         <button type="button" class="ad-row ad-row-danger" data-do="supprimer">
@@ -379,11 +394,17 @@
     }[quoi];
     if (!champs) return;
 
+    // Désarchiver ne lève que le drapeau manuel : si la date de fin de
+    // parution est elle aussi dépassée, la fiche reste hors ligne — le
+    // message ne doit pas prétendre le contraire (voir AdminStore.estArchive).
+    const encoreExpire = quoi === 'desarchiver' && ev.ends_at && AdminStore.estPasse(ev.ends_at);
     const messages = {
       mettreEnAvant: 'Événement mis en avant dans le bandeau.',
       retirerBandeau: 'Événement retiré du bandeau. Il reste publié sur le site.',
       archiver: 'Événement archivé.',
-      desarchiver: 'Événement remis en ligne.'
+      desarchiver: encoreExpire
+        ? 'Archivage manuel retiré. La fin de parution reste dépassée : modifiez-la pour remettre la fiche en ligne.'
+        : 'Événement remis en ligne.'
     };
 
     btn.disabled = true;
@@ -484,7 +505,7 @@
         <div class="ad-field">
           <label for="ev-end">Date de fin de parution</label>
           <input type="date" id="ev-end" value="${ev && ev.ends_at ? echapper(String(ev.ends_at).slice(0, 10)) : ''}">
-          <p class="ad-hint">Facultative. Passé cette date, l'événement disparaît du site sans qu'il soit besoin de l'archiver.</p>
+          <p class="ad-hint">Facultative. Passé cette date, l'événement disparaît du site et bascule automatiquement dans les archives.</p>
         </div>
 
         <div class="ad-field">
