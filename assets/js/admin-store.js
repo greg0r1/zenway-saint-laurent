@@ -22,13 +22,18 @@ const AdminStore = (function adminStore() {
     };
   }
 
+  // Un événement est archivé soit par choix (archived), soit parce que sa
+  // fin de parution est dépassée (voir api/events/public.js, qui applique
+  // la même règle côté site public) : les deux causes rangent la fiche au
+  // même endroit dans l'admin, sans état intermédiaire « plus en ligne
+  // mais pas encore archivé ».
+  function estArchive(ev) {
+    return !!ev.archived || !!(ev.ends_at && estPasse(ev.ends_at));
+  }
+
   function instantane() {
     const events = etat.events;
-    // Non archivé ne suffit pas : un événement dont la fin de parution
-    // est dépassée n'apparaît plus sur le site non plus (voir
-    // api/events/public.js), sans pour autant sortir de la liste
-    // courante de l'admin — il reste modifiable, juste plus publié.
-    const enLigne = events.filter((ev) => !ev.archived && !(ev.ends_at && estPasse(ev.ends_at)));
+    const enLigne = events.filter((ev) => !estArchive(ev));
     const vedette = enLigne.find((ev) => ev.featured) || null;
     return {
       statut: etat.statut,
@@ -36,8 +41,8 @@ const AdminStore = (function adminStore() {
       events,
       vedette,
       enLigne,
-      courants: events.filter((ev) => !ev.archived),
-      archives: events.filter((ev) => ev.archived)
+      courants: enLigne,
+      archives: events.filter(estArchive)
     };
   }
 
@@ -174,6 +179,6 @@ const AdminStore = (function adminStore() {
 
   return {
     abonner, charger, enregistrer, modifier, supprimer, reinitialiser, instantane,
-    dateLongue, dateCourte, joursRestants, quand, estPasse
+    dateLongue, dateCourte, joursRestants, quand, estPasse, estArchive
   };
 })();
