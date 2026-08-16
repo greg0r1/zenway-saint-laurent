@@ -126,6 +126,11 @@
     }
 
     const i = snap.infos;
+    // Ces quatre champs sont obligatoires côté API (voir api/_lib/infos.js) :
+    // ils ne devraient jamais être vides. Le tiret muet ne couvre donc qu'un
+    // cas limite — une ligne posée hors API, en SQL direct — plutôt que de
+    // laisser un espace blanc à côté du libellé si ça arrivait.
+    const ouVide = (valeur) => (valeur ? echapper(valeur) : '<span class="ad-muet">—</span>');
     cible.innerHTML = `
       <section class="ad-box">
         <h2 class="ad-box-title">Ce que le site affiche</h2>
@@ -133,21 +138,21 @@
           <div class="ad-fact">
             <dt>${icone('i-pin')}Lieu</dt>
             <dd>
-              <b>${echapperMultiligne(i.address)}</b>
+              <b>${i.address ? echapperMultiligne(i.address) : '<span class="ad-muet">—</span>'}</b>
               ${i.map_url ? `<small>${echapper(i.map_url)}</small>` : ''}
             </dd>
           </div>
           <div class="ad-fact">
             <dt>${icone('i-pin')}Parking</dt>
-            <dd><b>${echapper(i.parking)}</b></dd>
+            <dd><b>${ouVide(i.parking)}</b></dd>
           </div>
           <div class="ad-fact">
             <dt>${icone('i-phone')}Téléphone</dt>
-            <dd><b>${echapper(i.phone)}</b></dd>
+            <dd><b>${ouVide(i.phone)}</b></dd>
           </div>
           <div class="ad-fact">
             <dt>${icone('i-mail')}E-mail</dt>
-            <dd><b>${echapper(i.email)}</b></dd>
+            <dd><b>${ouVide(i.email)}</b></dd>
           </div>
           <div class="ad-fact">
             <dt>${icone('i-calendar')}Prochain rendez-vous</dt>
