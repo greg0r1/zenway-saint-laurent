@@ -164,8 +164,7 @@
       <div class="ad-note">
         ${icone('i-info')}
         <div>
-          Ces valeurs sont lues par le site public via <code>/api/infos</code> : toute
-          modification enregistrée ici y apparaît dès le prochain chargement de la page.
+          Toute modification enregistrée ici apparaît aussitôt sur le site public.
         </div>
       </div>
     `;
