@@ -33,4 +33,17 @@ function champObligatoireInvalide(payload) {
   return null;
 }
 
-module.exports = { LIMITS, champTropLong, champObligatoireInvalide };
+/* map_url est le seul champ dont la valeur devient une URL sur le site
+   public (l'attribut href du lien « Lieu »). Sans contrôle du schéma,
+   un compte admin compromis pourrait y placer un `javascript:` servi à
+   tous les visiteurs. La CSP le neutraliserait sans doute, mais on ne
+   fait pas dépendre la sûreté du site d'un seul rempart : on n'accepte
+   ici que https. */
+function urlInvalide(payload) {
+  const valeur = payload.map_url;
+  if (valeur === undefined || valeur === null) return null;
+  if (typeof valeur !== 'string') return 'map_url';
+  return /^https:\/\/\S+$/i.test(valeur.trim()) ? null : 'map_url';
+}
+
+module.exports = { LIMITS, champTropLong, champObligatoireInvalide, urlInvalide };

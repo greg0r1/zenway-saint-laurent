@@ -46,9 +46,10 @@
     root = container;
     page = api;
 
-    page.setActions([
-      { label: 'Modifier les infos', icone: 'i-pencil', style: 'ad-btn-primary', onClick: ouvrirFormulaire }
-    ]);
+    // Le bouton n'est posé qu'une fois la fiche connue (voir rendre) :
+    // proposer « Modifier » alors qu'aucune ligne n'existe en base mène à
+    // un formulaire dont l'enregistrement ne peut qu'échouer.
+    page.setActions([]);
 
     root.innerHTML = `
       <p class="ad-lede">Adresse, parking, téléphone, e-mail et prochain rendez-vous, affichés dans la
@@ -78,6 +79,13 @@
   function rendre(snap) {
     if (!root || !snap) return;
     const cible = root.querySelector('[data-slot="fiche"]');
+
+    // Il n'y a quelque chose à modifier que si une fiche existe vraiment.
+    if (page) {
+      page.setActions(snap.statut === 'pret' && snap.infos
+        ? [{ label: 'Modifier les infos', icone: 'i-pencil', style: 'ad-btn-primary', onClick: ouvrirFormulaire }]
+        : []);
+    }
 
     if (snap.statut === 'chargement' || snap.statut === 'attente') {
       cible.innerHTML = `
@@ -243,6 +251,13 @@
       }
       if (!payload.map_url) {
         AdminPanel.alerte('Le lien vers la carte est obligatoire.');
+        champs.mapUrl.focus();
+        return;
+      }
+      // Même règle que le serveur (api/_lib/infos.js), dite ici en clair
+      // plutôt que renvoyée comme un refus générique après l'envoi.
+      if (!/^https:\/\/\S+$/i.test(payload.map_url)) {
+        AdminPanel.alerte('Le lien vers la carte doit commencer par https:// — copiez-le depuis Google Maps.');
         champs.mapUrl.focus();
         return;
       }

@@ -36,9 +36,17 @@
     return OBLIGATOIRES.every((champ) => typeof infos[champ] === 'string' && infos[champ].trim());
   }
 
+  // L'API n'accepte que des https (voir api/_lib/infos.js), mais la ligne
+  // en base a pu être posée en SQL direct (le seed de db/README.md) sans
+  // passer par cette validation : on revérifie avant d'en faire un href,
+  // seul endroit où une valeur saisie devient une URL pour les visiteurs.
+  function urlSure(valeur) {
+    return typeof valeur === 'string' && /^https:\/\/\S+$/i.test(valeur.trim());
+  }
+
   function rendre(infos) {
     document.querySelectorAll('[data-info-link="address"]').forEach((a) => {
-      a.href = infos.map_url;
+      if (urlSure(infos.map_url)) a.href = infos.map_url.trim();
       a.innerHTML = echapper(infos.address).replace(/\n/g, '<br>');
     });
 

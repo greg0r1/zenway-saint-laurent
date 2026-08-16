@@ -14,7 +14,7 @@
    ============================================================ */
 const { getSupabase } = require('../_lib/supabase');
 const { getSessionEmail } = require('../_lib/session');
-const { champTropLong, champObligatoireInvalide } = require('../_lib/infos');
+const { champTropLong, champObligatoireInvalide, urlInvalide } = require('../_lib/infos');
 
 module.exports = async (req, res) => {
   const supabase = getSupabase();
@@ -54,6 +54,12 @@ module.exports = async (req, res) => {
     const tropLong = champTropLong(payload);
     if (tropLong) {
       res.status(400).json({ error: 'field_too_long', field: tropLong });
+      return;
+    }
+
+    const urlFautive = urlInvalide(payload);
+    if (urlFautive) {
+      res.status(400).json({ error: 'invalid_url', field: urlFautive });
       return;
     }
 

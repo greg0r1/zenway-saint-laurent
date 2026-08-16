@@ -51,6 +51,19 @@ const AdminStore = (function adminStore() {
     abonnes.forEach((fn) => fn(snap));
   }
 
+  /* Une réponse 200 n'est pas forcément du JSON : une redirection vers un
+     écran de connexion (protection de déploiement Vercel, portail Wi-Fi)
+     renvoie du HTML avec ce même statut. Sans ce filet, res.json() rejette
+     hors de tout catch et la page reste indéfiniment sur son squelette,
+     sans message ni bouton « Réessayer ». Partagé par les trois magasins. */
+  async function lireJson(res) {
+    try {
+      return await res.json();
+    } catch {
+      return null;
+    }
+  }
+
   async function charger() {
     if (etat.statut === 'chargement') return;
     etat.statut = 'chargement';
@@ -73,7 +86,11 @@ const AdminStore = (function adminStore() {
       return;
     }
 
-    const data = await res.json();
+    const data = await lireJson(res);
+    if (!data) {
+      echouer('serveur');
+      return;
+    }
     // `archived`/`ends_at` peuvent manquer tant que les migrations 003/004
     // ne sont pas jouées : on normalise pour que l'interface ne dépende
     // jamais d'un undefined.
@@ -234,7 +251,11 @@ const AdminStore = (function adminStore() {
       return;
     }
 
-    const data = await res.json();
+    const data = await lireJson(res);
+    if (!data) {
+      echouerPlanning('serveur');
+      return;
+    }
     etatPlanning.slots = data.slots || [];
     etatPlanning.statut = 'pret';
     diffuserPlanning();
@@ -344,7 +365,11 @@ const AdminStore = (function adminStore() {
       return;
     }
 
-    const data = await res.json();
+    const data = await lireJson(res);
+    if (!data) {
+      echouerInfos('serveur');
+      return;
+    }
     etatInfos.infos = data.infos || null;
     etatInfos.statut = 'pret';
     diffuserInfos();
