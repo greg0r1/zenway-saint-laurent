@@ -2,7 +2,8 @@
 
 Schéma de la base Postgres utilisée par le back-office (`admin/` + `api/`). Le site public
 reste statique : il ne lit la base que par `api/events/public.js`, `api/planning/public.js`
-et `api/infos/public.js`.
+et `GET /api/infos` (ce dernier n'a pas de fichier `public.js` séparé — voir CLAUDE.md,
+« Exception backend »).
 
 ## Appliquer les migrations
 
@@ -28,7 +29,7 @@ insert into public.planning_slots (day, time, label, place, note, position) valu
 ```
 
 **Après `008_infos_pratiques.sql`** : la table `infos_pratiques` est vide, donc
-`api/infos/public.js` renvoie `infos: null` et la section « Infos pratiques » du site public
+`GET /api/infos` renvoie `infos: null` et la section « Infos pratiques » du site public
 garde le contenu statique écrit dans `index.html` (aucun script ne le remplace tant qu'aucune
 ligne n'existe). Pour que l'admin devienne la source de vérité dès la migration jouée, insérer
 une ligne reprenant les valeurs actuellement en dur dans `index.html` :

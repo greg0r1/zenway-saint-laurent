@@ -1,10 +1,10 @@
 /* ============================================================
    INFOS-PRATIQUES — section « Infos pratiques », alimentée par
-   /api/infos/public (voir api/infos/public.js). Si la requête échoue
-   ou si aucune fiche n'existe encore en base, le contenu statique
-   déjà présent dans index.html reste affiché tel quel — aucun
-   changement visuel. La carte Google Maps (iframe) n'est jamais
-   touchée : elle reste fixe.
+   /api/infos (GET, public — voir api/infos/index.js). Si la requête
+   échoue ou si aucune fiche n'existe encore en base, le contenu
+   statique déjà présent dans index.html reste affiché tel quel —
+   aucun changement visuel. La carte Google Maps (iframe) n'est
+   jamais touchée : elle reste fixe.
    ============================================================ */
 (function setupInfosPratiques() {
   const liens = document.querySelectorAll('[data-info-link]');
@@ -56,7 +56,7 @@
     }
   }
 
-  fetch('/api/infos/public')
+  fetch('/api/infos')
     .then((res) => (res.ok ? res.json() : null))
     .then((data) => {
       if (!data || !data.infos) return;

@@ -94,9 +94,7 @@
         <div class="ad-alert" role="alert">
           ${icone('i-alert')}
           <div>
-            ${snap.erreur === 'session'
-              ? 'Votre session a expiré. Rechargez la page pour vous reconnecter.'
-              : 'Les infos pratiques n’ont pas pu être chargées.'}
+            Les infos pratiques n’ont pas pu être chargées.
             <div class="ad-alert-actions">
               <button type="button" class="ad-btn ad-btn-line ad-btn-sm" data-action="retry">Réessayer</button>
             </div>
@@ -153,7 +151,7 @@
       <div class="ad-note">
         ${icone('i-info')}
         <div>
-          Ces valeurs sont lues par le site public via <code>/api/infos/public</code> : toute
+          Ces valeurs sont lues par le site public via <code>/api/infos</code> : toute
           modification enregistrée ici y apparaît dès le prochain chargement de la page.
         </div>
       </div>

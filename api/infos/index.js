@@ -1,7 +1,13 @@
 /* ============================================================
-   /api/infos — admin uniquement
-   GET : lit la fiche « Infos pratiques » (une seule ligne)
-   PUT : modifie les champs de la fiche existante
+   /api/infos
+   GET : lit la fiche « Infos pratiques » (une seule ligne) — public,
+         aucune session requise. Contrairement aux événements et au
+         planning, cette table ne contient aucune donnée « pas encore
+         publiée » : ce que l'admin voit est déjà ce que le site
+         public affiche, donc pas de route /public séparée.
+         (Aussi une contrainte pratique : le plan Hobby de Vercel
+         limite à 12 fonctions serverless par déploiement.)
+   PUT : modifie les champs de la fiche existante — admin uniquement.
    Aucun POST/DELETE : la seule ligne possible vient de la migration
    (voir db/migrations/008_infos_pratiques.sql et le seed associé
    dans db/README.md).
@@ -11,18 +17,12 @@ const { getSessionEmail } = require('../_lib/session');
 const { champTropLong, champObligatoireInvalide } = require('../_lib/infos');
 
 module.exports = async (req, res) => {
-  const email = getSessionEmail(req);
-  if (!email) {
-    res.status(401).json({ error: 'unauthenticated' });
-    return;
-  }
-
   const supabase = getSupabase();
 
   if (req.method === 'GET') {
     const { data, error } = await supabase
       .from('infos_pratiques')
-      .select('*')
+      .select('address, map_url, parking, phone, email, next_session')
       .order('created_at', { ascending: true })
       .limit(1)
       .maybeSingle();
@@ -31,11 +31,17 @@ module.exports = async (req, res) => {
       res.status(500).json({ error: 'server_error' });
       return;
     }
-    res.status(200).json({ infos: data });
+    res.status(200).json({ infos: data || null });
     return;
   }
 
   if (req.method === 'PUT') {
+    const email = getSessionEmail(req);
+    if (!email) {
+      res.status(401).json({ error: 'unauthenticated' });
+      return;
+    }
+
     const { address, map_url, parking, phone, email: contactEmail, next_session } = req.body || {};
     const payload = { address, map_url, parking, phone, email: contactEmail, next_session };
 

@@ -329,15 +329,14 @@ const AdminStore = (function adminStore() {
     etatInfos.erreur = null;
     diffuserInfos();
 
+    // Lecture publique (voir api/infos/index.js) : pas de session à
+    // vérifier ici, contrairement au chargement des événements et du
+    // planning.
     let res;
     try {
       res = await fetch('/api/infos');
     } catch {
       echouerInfos('reseau');
-      return;
-    }
-    if (res.status === 401) {
-      echouerInfos('session');
       return;
     }
     if (!res.ok) {
