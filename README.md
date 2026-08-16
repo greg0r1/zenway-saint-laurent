@@ -8,7 +8,8 @@ Site statique minimaliste (HTML/CSS/JS vanilla, sans dépendances) pour la secti
 
 ## 📋 Stack technique
 
-- **HTML / CSS / JS vanilla uniquement** — aucun framework, aucun bundler, aucune dépendance npm
+- **HTML / CSS / JS vanilla uniquement** — aucun framework, aucun bundler, aucune dépendance npm côté site public
+- **Exception** : gestion des événements via Supabase + fonctions Vercel (`api/`) + admin protégée par Google (voir « Gestion des événements » plus bas)
 - **Un seul fichier `index.html`** auto-suffisant à la racine
 - **CSS modulaire** : découpé par domaine fonctionnel dans `assets/css/`
 - **JS modulaire** : découpé par domaine fonctionnel dans `assets/js/`
@@ -66,13 +67,12 @@ zenway-saint-laurent/
 │   │   ├── footer.css      ← pied de page
 │   │   └── responsive.css  ← media queries (chargé en dernier)
 │   ├── fonts/              ← polices auto-hébergées (woff2, sous-ensembles latin)
-│   │   ├── cormorant-garamond-*.woff2
-│   │   ├── dm-sans-*.woff2
-│   │   └── caveat-*.woff2
+│   │   ├── cormorant-*.woff2
+│   │   └── dmsans-*.woff2
 │   ├── js/
 │   │   ├── config-helloasso.js     ← configuration HelloAsso (slugs, widget)
 │   │   ├── config-videos.js        ← vidéo teaser hero + galerie YouTube
-│   │   ├── config-planning.js      ← créneaux de séance affichés
+│   │   ├── planning-schedule.js    ← créneaux de séance, lus depuis /api/planning/public
 │   │   ├── config-evenements.js    ← événements HelloAsso (préparation future)
 │   │   └── nav-reveal.js           ← navigation, burger menu, animations reveal
 │   └── img/
@@ -170,14 +170,10 @@ const CONFIG_VIDEOS = {
 
 ### Planning (créneaux de séance)
 
-Fichier : `assets/js/config-planning.js`
-
-```js
-const CONFIG_PLANNING = [
-  { day: "Mardi", time: "17:45 – 18:45", location: "KMCS, Saint-Laurent-du-Var" },
-  // ...
-];
-```
+Se gère depuis l'admin (`/admin` → page « Planning »), pas dans un fichier : les créneaux sont stockés dans
+Supabase (table `planning_slots`) et servis au site public par `api/planning/public.js`. Voir « Exception
+backend — gestion des événements » dans `CLAUDE.md` pour l'architecture complète (elle couvre aussi le
+planning).
 
 ### HelloAsso (adhésions + événements)
 
@@ -228,17 +224,16 @@ Toutes les couleurs sont définies dans `assets/css/base.css` :
 
 ### Typographies (Google Fonts auto-hébergées)
 
-| Usage              | Police             | CSS variable |
-| ------------------ | ------------------ | ------------ |
-| Titres (H1–H3)     | Cormorant Garamond | `--serif`    |
-| Texte courant      | DM Sans            | `--sans`     |
-| Accents manuscrits | Caveat             | `--script`   |
+| Usage          | Police             | CSS variable |
+| -------------- | ------------------ | ------------ |
+| Titres (H1–H3) | Cormorant Garamond | `--serif`    |
+| Texte courant  | DM Sans            | `--sans`     |
 
-**Règle** : Caveat uniquement pour les accroches courtes (max une ligne).
+**Règle** : deux polices, pas une de plus. Une troisième, Caveat, était déclarée sans habiller le moindre texte ; elle a été retirée. Ne pas la réintroduire sans un usage réel.
 
 ### Logo
 
-Trois feuilles SVG en dégradé vert/teal. Texte : « zen » en DM Sans gras blanc, « way » en Caveat teal. Ne jamais modifier les proportions ou les couleurs.
+Trois feuilles SVG en dégradé vert/teal. Texte : « zen » en DM Sans gras blanc, « way » en lettrage manuscrit teal. Le logo est une image : son lettrage est dessiné, pas composé par une police du site. Ne jamais modifier les proportions ou les couleurs.
 
 ---
 
@@ -270,6 +265,50 @@ vercel --prod  # Voir le statut en ligne de commande (si Vercel CLI est install�
 - **Build Command** : (aucun — site statique)
 - **Output Directory** : `.` (racine)
 - **Environment** : production
+
+---
+
+## 🗓️ Gestion des événements (admin)
+
+Le site public reste statique, mais une exception existe pour la gestion des événements (portes ouvertes, rencontres...) : elle repose sur Supabase (base de données), des fonctions serverless Vercel (`api/`) et une connexion Google restreinte à une liste d'emails (`admin/`). Voir `CLAUDE.md` → « Exception backend — gestion des événements » pour le détail de l'architecture et des règles.
+
+### 1. Créer le projet Supabase
+
+1. Créer un projet sur [supabase.com](https://supabase.com) (le plan gratuit suffit largement).
+2. Dans l'éditeur SQL du projet, exécuter tous les fichiers de `db/migrations/` **dans l'ordre des numéros**. Les scripts sont idempotents : les rejouer ne casse rien. Voir `db/README.md` pour la liste à jour, le détail des conventions et l'ajout de nouvelles tables.
+3. Dans Project Settings → API, récupérer l'URL du projet et la clé **`service_role`** (jamais la clé `anon`, jamais exposée au navigateur).
+
+### 1bis. Créer le store Vercel Blob (images des événements)
+
+1. Dans le projet Vercel → **Storage** → **Browse Storage** → **Blob**, créer un store et le connecter au projet.
+2. La variable `BLOB_READ_WRITE_TOKEN` est injectée automatiquement dans les environnements du projet — rien à copier à la main.
+
+### 2. Créer les identifiants Google OAuth
+
+1. Sur [Google Cloud Console](https://console.cloud.google.com), créer (ou réutiliser) un projet.
+2. APIs & Services → Écran de consentement OAuth : configurer un écran de type « externe » (ou « interne » si Google Workspace), pas besoin de validation Google pour un usage interne à quelques comptes.
+3. APIs & Services → Identifiants → Créer des identifiants → ID client OAuth → type **Application Web**.
+4. Dans « Origines JavaScript autorisées », ajouter l'URL de production (`https://www.zenwaysaintlaurentduvar.fr`) et les URLs de preview Vercel utilisées.
+5. Copier le **Client ID** obtenu dans `assets/js/config-admin.js` (`googleClientId`) — ce n'est pas une donnée secrète.
+
+### 3. Variables d'environnement Vercel
+
+Dans le projet Vercel → Settings → Environment Variables, ajouter :
+
+| Variable | Valeur |
+| --- | --- |
+| `SUPABASE_URL` | URL du projet Supabase |
+| `SUPABASE_SERVICE_ROLE_KEY` | Clé `service_role` Supabase |
+| `GOOGLE_CLIENT_ID` | Même Client ID que dans `config-admin.js` |
+| `ADMIN_EMAILS` | Emails autorisés à administrer, séparés par des virgules (ex: `contact@zenwaysaintlaurentduvar.fr,graphigreg@gmail.com`) |
+| `SESSION_SECRET` | Chaîne aléatoire longue (ex : générée avec `openssl rand -hex 32`) |
+| `BLOB_READ_WRITE_TOKEN` | Injectée automatiquement par la connexion du store Vercel Blob (étape 1bis) — ne pas la saisir à la main |
+
+Redéployer après avoir ajouté ces variables.
+
+### 4. Utiliser l'admin
+
+Se rendre sur `https://<domaine>/admin/`, se connecter avec un compte Google listé dans `ADMIN_EMAILS`, puis créer/modifier/supprimer les événements. Tout événement non archivé (et dont la date de fin de parution, si renseignée, n'est pas dépassée) apparaît automatiquement dans la section « Événements à venir » du site. Un seul peut en plus être marqué « Mettre en avant dans le bandeau », qui l'affiche aussi tout en haut du site.
 
 ---
 

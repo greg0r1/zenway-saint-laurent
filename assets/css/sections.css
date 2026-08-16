@@ -88,6 +88,7 @@ h2 {
 /* Sur le bain (hors feuille), les titres passent en clair */
 .planning h2,
 .videos h2,
+.events-section h2,
 .infos h2 {
   color: var(--paper);
 }
@@ -320,12 +321,130 @@ h2 {
   font-size: 0.98rem;
 }
 
-/* ---------- INSCRIPTION ---------- */
-.insc-grid {
+/* ---------- ÉVÉNEMENTS À VENIR ---------- */
+.events-lede {
+  max-width: 56ch;
+  color: rgba(238, 247, 240, 0.85);
+  margin-bottom: 38px;
+}
+
+.events-grid {
   display: grid;
-  grid-template-columns: 1.5fr 0.6fr;
-  gap: 44px;
-  align-items: start;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.event-card {
+  position: relative;
+}
+
+/* Neutralise le padding de `.sheet` (y compris sa version responsive,
+   voir responsive.css) : la carte gère elle-même sa mise en page pour
+   laisser l'image, quand il y en a une, s'étendre bord à bord. */
+.event-card.sheet {
+  padding: 0;
+}
+
+.event-card-image {
+  display: block;
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  background: var(--mint-soft);
+}
+
+.event-card-body {
+  padding: 34px 32px;
+}
+
+.event-card-image-btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/* La fenêtre d'agrandissement reprend le chrome de .detail-modal
+   (discipline-modal.css) : même fond assombri, même animation, même
+   croix de fermeture — une seule image, sans colonne de texte. */
+.detail-modal.event-image-modal {
+  width: min(720px, 92vw);
+}
+
+/* Flex plutôt qu'un simple `width: 100%` sur l'image : une image
+   portrait, plus haute que large, doit rester centrée dans les deux
+   sens une fois limitée par `max-height`, pas seulement calée à
+   gauche par la largeur du cadre. */
+.event-image-modal .modal-scroll {
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.event-image-modal-img {
+  display: block;
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 16px;
+}
+
+.event-card-badge {
+  position: absolute;
+  top: 0;
+  right: 32px;
+  z-index: 1;
+  transform: translateY(-50%);
+  background: var(--gold);
+  color: var(--green-900);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+}
+
+.event-card-tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.event-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.event-card-date {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--green-700);
+  margin-bottom: 12px;
+}
+
+.event-card-desc {
+  font-size: 0.94rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.events-empty {
+  color: rgba(238, 247, 240, 0.75);
+}
+
+.events-empty p {
+  max-width: 56ch;
+  margin: 0;
+}
+
+/* ---------- INSCRIPTION ---------- */
+.insc-single {
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 .ha-action-card {
@@ -399,31 +518,6 @@ h2 {
   background: var(--paper);
 }
 
-.event {
-  padding: 38px 36px;
-  border: 1px solid rgba(216, 243, 220, 0.26);
-  background: rgba(216, 243, 220, 0.06);
-}
-
-.event-tag {
-  font-size: 0.65rem;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 14px;
-}
-
-.event h3 {
-  font-size: 1.6rem;
-  color: var(--paper);
-  margin-bottom: 14px;
-}
-
-.event p {
-  font-size: 0.96rem;
-  color: rgba(238, 247, 240, 0.82);
-}
-
 /* ---------- INFOS ---------- */
 .infos-grid {
   display: grid;
@@ -442,6 +536,14 @@ h2 {
   gap: 18px;
   padding: 17px 0;
   border-bottom: 1px solid rgba(216, 243, 220, 0.2);
+}
+
+/* Le display ci-dessus l'emporte sur la règle [hidden] du navigateur :
+   sans cette ligne, masquer une ligne depuis l'admin (« Prochain
+   rendez-vous » laissé vide, voir assets/js/infos-pratiques.js) ne
+   ferait rien et laisserait un libellé sans valeur. */
+.info-list > div[hidden] {
+  display: none;
 }
 
 .info-list dt {

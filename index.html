@@ -199,6 +199,18 @@
 
 <body>
 
+  <!-- ============ BANDEAU ÉVÉNEMENT ============ -->
+  <!-- Masqué par défaut ; affiché par assets/js/events-banner.js quand un
+       événement est mis en avant (voir /api/events/public). Mène à sa
+       fiche dans la section « Événements à venir », plus bas sur la page. -->
+  <a href="#" class="event-banner" id="eventBanner" hidden>
+    <span class="wrap event-banner-inner">
+      <span class="event-banner-tag" id="eventBannerTag">Prochain événement</span>
+      <span class="event-banner-title" id="eventBannerTitle"></span>
+      <span class="event-banner-arrow" aria-hidden="true">→</span>
+    </span>
+  </a>
+
   <!-- ============ NAV ============ -->
   <header class="nav">
     <div class="wrap bar">
@@ -578,7 +590,7 @@
           <a href="https://maps.app.goo.gl/YJDeT1Dd7B6R1KkK9" target="_blank" rel="noopener" class="btn btn-line">Voir
             le lieu</a>
         </div>
-        <div id="scheduleList"><!-- généré par assets/js/config-planning.js -->
+        <div id="scheduleList"><!-- généré par assets/js/planning-schedule.js -->
           <div class="sheet slot">
             <p class="slot-day">Mardi</p>
             <p class="slot-time">17 h 45 — 18 h 45</p>
@@ -601,8 +613,11 @@
             <p>Une démarche tournée vers la <b>prévention</b> et l'<b>autonomie</b>, en complément naturel d'un suivi
               de santé, jamais en remplacement.</p>
             <figure class="bea">
-              <img src="assets/img/bea/bea-posture-005.png" width="701" height="1036" loading="lazy"
-                alt="Béatrice Viallon en posture Zenway, bras levés, en extérieur">
+              <picture>
+                <source srcset="assets/img/bea/bea-posture-005.webp" type="image/webp">
+                <img src="assets/img/bea/bea-posture-005.png" width="701" height="1036" loading="lazy"
+                  alt="Béatrice Viallon en posture Zenway, bras levés, en extérieur">
+              </picture>
               <figcaption>Béatrice Viallon, animatrice de la section</figcaption>
             </figure>
           </div>
@@ -650,9 +665,37 @@
       </div>
     </section>
 
+    <!-- ============ ÉVÉNEMENTS À VENIR ============ -->
+    <!-- Alimentée par assets/js/events-banner.js (voir /api/events/public).
+         Le contenu statique ci-dessous reste affiché tel quel si l'API est
+         indisponible ou si aucun événement n'est publié. -->
+    <section class="events-section" id="evenements">
+      <div class="wrap">
+        <h2>Événements à venir</h2>
+        <p class="events-lede">Portes ouvertes, rencontres et séances exceptionnelles, publiées ici dès qu'elles sont
+          annoncées.</p>
+
+        <div class="events-grid" id="eventsGrid"><!-- généré par assets/js/events-banner.js --></div>
+
+        <div class="events-empty" id="eventsEmpty">
+          <p>Aucun événement prévu pour le moment. Revenez bientôt pour découvrir nos prochaines portes ouvertes et
+            rencontres — en attendant, profitez de votre premier cours d'essai offert.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- L'image d'un événement s'agrandit dans cette fenêtre modale, partagée
+         par toutes les cartes (une seule ouverte à la fois). -->
+    <dialog class="detail-modal event-image-modal" id="eventImageModal" aria-label="Image de l'événement">
+      <div class="modal-scroll">
+        <button type="button" class="modal-close" aria-label="Fermer">×</button>
+        <img class="event-image-modal-img" id="eventImageModalImg" src="" alt="">
+      </div>
+    </dialog>
+
     <!-- ============ INSCRIPTION ============ -->
     <section class="lifted" id="inscription">
-      <div class="wrap insc-grid">
+      <div class="wrap insc-single">
         <div class="sheet">
         <!-- Une pierre seule à cheval sur l'arête de la carte d'adhésion. -->
         <svg class="galet galet-inscription" viewBox="0 0 100 78" aria-hidden="true">
@@ -683,13 +726,6 @@
           <p class="insc-recap">En ligne en 3 étapes : formule, coordonnées, règlement sécurisé — reçu immédiat par
             e-mail. Premier cours d'essai offert avant toute inscription, 0 € de frais pour l'association.</p>
         </div>
-        <aside class="event">
-          <p class="event-tag">Événements</p>
-          <h3>Aucun événement prévu pour le moment</h3>
-          <p>Revenez bientôt pour découvrir nos prochaines portes ouvertes et rencontres. En attendant, profitez de
-            votre premier cours d'essai offert.</p>
-          <a href="#infos" class="btn btn-line">Comment venir</a>
-        </aside>
       </div>
     </section>
 
@@ -701,24 +737,24 @@
           <dl class="info-list">
             <div>
               <dt>Lieu</dt>
-              <dd><a href="https://maps.app.goo.gl/YJDeT1Dd7B6R1KkK9" target="_blank" rel="noopener">KMCS, 357 chemin
-                  des Iscles<br>06700 Saint-Laurent-du-Var</a></dd>
+              <dd><a data-info-link="address" href="https://maps.app.goo.gl/YJDeT1Dd7B6R1KkK9" target="_blank"
+                  rel="noopener">KMCS, 357 chemin des Iscles<br>06700 Saint-Laurent-du-Var</a></dd>
             </div>
             <div>
               <dt>Parking</dt>
-              <dd>Stationnement gratuit sur place</dd>
+              <dd data-info="parking">Stationnement gratuit sur place</dd>
             </div>
             <div>
               <dt>Téléphone</dt>
-              <dd><a href="tel:+33666056649">06 66 05 66 49</a></dd>
+              <dd><a data-info-link="phone" href="tel:+33666056649">06 66 05 66 49</a></dd>
             </div>
             <div>
               <dt>E-mail</dt>
-              <dd><a href="mailto:contact@zenwaysaintlaurentduvar.fr">contact@zenwaysaintlaurentduvar.fr</a></dd>
+              <dd><a data-info-link="email" href="mailto:contact@zenwaysaintlaurentduvar.fr">contact@zenwaysaintlaurentduvar.fr</a></dd>
             </div>
-            <div>
+            <div data-info-row="next_session">
               <dt>Prochain rendez-vous</dt>
-              <dd>Mardi 8 septembre, 17 h 45 – 18 h 45</dd>
+              <dd data-info="next_session">Mardi 8 septembre, 17 h 45 – 18 h 45</dd>
             </div>
           </dl>
           <div class="map-card">
@@ -786,9 +822,10 @@
   </footer>
 
   <script src="assets/js/config-helloasso.js"></script>
-  <script src="assets/js/config-evenements.js"></script>
+  <script src="assets/js/events-banner.js"></script>
   <script src="assets/js/config-videos.js"></script>
-  <script src="assets/js/config-planning.js"></script>
+  <script src="assets/js/planning-schedule.js"></script>
+  <script src="assets/js/infos-pratiques.js"></script>
   <script src="assets/js/hero-bath.js"></script>
   <script src="assets/js/parallax.js"></script>
   <script src="assets/js/practice-modals.js"></script>
