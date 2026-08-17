@@ -18,9 +18,8 @@ const { champTropLong, champObligatoireInvalide, urlInvalide } = require('../_li
 const { logAudit, logErreur } = require('../_lib/log');
 
 module.exports = async (req, res) => {
-  const supabase = getSupabase();
-
   if (req.method === 'GET') {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('infos_pratiques')
       .select('address, map_url, parking, phone, email, next_session')
@@ -38,9 +37,12 @@ module.exports = async (req, res) => {
   }
 
   if (req.method === 'PUT') {
+    // Le garde passe avant tout le reste, client de base de données
+    // compris : une requête non authentifiée ne doit rien déclencher.
     const email = exigerAdmin(req, res);
     if (!email) return;
 
+    const supabase = getSupabase();
     const { address, map_url, parking, phone, email: contactEmail, next_session } = req.body || {};
     const payload = { address, map_url, parking, phone, email: contactEmail, next_session };
 
