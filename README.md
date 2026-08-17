@@ -301,7 +301,7 @@ Dans le projet Vercel → Settings → Environment Variables, ajouter :
 | `SUPABASE_SERVICE_ROLE_KEY` | Clé `service_role` Supabase |
 | `GOOGLE_CLIENT_ID` | Même Client ID que dans `config-admin.js` |
 | `ADMIN_EMAILS` | Emails autorisés à administrer, séparés par des virgules (ex: `contact@zenwaysaintlaurentduvar.fr,graphigreg@gmail.com`) |
-| `SESSION_SECRET` | Chaîne aléatoire longue (ex : générée avec `openssl rand -hex 32`) |
+| `SESSION_SECRET` | Chaîne aléatoire de 32 caractères minimum, refusée en dessous (`openssl rand -base64 48`) |
 | `BLOB_READ_WRITE_TOKEN` | Injectée automatiquement par la connexion du store Vercel Blob (étape 1bis) — ne pas la saisir à la main |
 
 Redéployer après avoir ajouté ces variables.

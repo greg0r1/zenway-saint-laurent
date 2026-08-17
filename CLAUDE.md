@@ -59,7 +59,8 @@ Le reste du site reste 100 % statique (HTML/CSS/JS vanilla, zéro build). Trois 
 api/
 ├── _lib/
 │   ├── supabase.js     ← client Supabase (clé service_role, jamais exposée au front)
-│   ├── session.js       ← création/vérification du cookie de session admin
+│   ├── session.js       ← cookie de session admin + `exigerAdmin`, le garde de toutes les routes admin
+│   ├── log.js           ← journal des actions admin, des erreurs serveur et des accès refusés
 │   ├── google.js        ← vérification du token Google (audience = GOOGLE_CLIENT_ID)
 │   ├── events.js        ← limites de longueur des champs, partagées par events/index.js et [id].js
 │   ├── planning.js      ← limites de longueur des champs, partagées par planning/index.js et [id].js
@@ -138,7 +139,7 @@ Chaque page dit en toutes lettres ce qu'elle commande sur le site public, et ce 
 | `SUPABASE_SERVICE_ROLE_KEY` | Clé service_role Supabase (accès serveur uniquement, jamais exposée au front) |
 | `GOOGLE_CLIENT_ID` | Client ID OAuth 2.0 créé dans Google Cloud Console |
 | `ADMIN_EMAILS` | Emails autorisés à administrer, séparés par des virgules |
-| `SESSION_SECRET` | Secret aléatoire long, sert à signer le cookie de session admin |
+| `SESSION_SECRET` | Secret aléatoire, sert à signer le cookie de session admin. **32 caractères minimum**, refusé en dessous (`openssl rand -base64 48`) |
 | `BLOB_READ_WRITE_TOKEN` | Jeton d'accès au store Vercel Blob — injecté automatiquement quand le store est connecté au projet (Vercel → Storage), rien à saisir à la main |
 
 Voir `README.md` pour la procédure complète (SQL Supabase, config Google Cloud Console).
@@ -150,6 +151,9 @@ Voir `README.md` pour la procédure complète (SQL Supabase, config Google Cloud
 - La clé `SUPABASE_SERVICE_ROLE_KEY` ne doit jamais apparaître dans un fichier de `assets/` ou dans `index.html`.
 - `admin/index.html` n'est pas listé dans la nav publique ni le footer — accès par URL directe uniquement, protégé par la connexion Google + whitelist.
 - Le dépôt d'image (`api/events/image.js`) est admin uniquement ; le site public ne fait jamais que lire l'URL déjà stockée (`image_url`), jamais de dépôt côté public.
+- Toute route admin commence par `const email = exigerAdmin(req, res); if (!email) return;` — jamais un simple `getSessionEmail`, qui ne dit que « le cookie est signé », pas « cet e-mail est toujours dans `ADMIN_EMAILS` ».
+- Toute écriture réussie appelle `logAudit`, toute erreur serveur `logErreur` (`api/_lib/log.js`). Une fonction serverless n'a pas d'autre mémoire que sa sortie standard : un `catch` muet côté API efface la seule trace disponible. Ce qui est journalisé ne revient jamais au client, dont les erreurs restent génériques (`server_error`).
+- Tout champ saisi qui devient une URL sur le site public (`map_url`, `image_url`) est validé côté serveur **et** côté client — schéma https, et hôte attendu quand il y en a un.
 
 ---
 
