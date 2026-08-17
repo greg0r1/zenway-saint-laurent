@@ -36,11 +36,34 @@ function signatureInvalide(type, buffer) {
   return !controle || buffer.length < 12 || !controle(buffer);
 }
 
-// L'URL d'image est enregistrée telle quelle puis servie en src aux
-// visiteurs. La CSP img-src la bloquerait si elle pointait ailleurs,
-// mais on la valide ici comme map_url l'est déjà dans _lib/infos.js :
-// une seule origine possible, celle de notre store Blob.
-const BLOB_HOTE = /(^|\.)public\.blob\.vercel-storage\.com$/;
+/* L'URL d'image est enregistrée telle quelle puis servie en src aux
+   visiteurs. La CSP img-src la bloquerait si elle pointait ailleurs,
+   mais on la valide ici comme map_url l'est déjà dans _lib/infos.js :
+   une seule origine possible, celle du store Blob du projet.
+
+   L'hôte attendu vient de BLOB_PUBLIC_HOST. Le motif précédent,
+   `*.public.blob.vercel-storage.com`, acceptait le store de n'importe
+   quel client Vercel : une session admin compromise pouvait y faire
+   pointer image_url et servir à tous les visiteurs une image arbitraire,
+   ou un pixel qui relève leur adresse IP.
+
+   L'hôte n'est pas déduit de BLOB_READ_WRITE_TOKEN, dont l'identifiant
+   de store correspond pourtant au sous-domaine public : cette
+   correspondance n'est documentée nulle part par Vercel. Si elle
+   changeait, toutes les images seraient refusées d'un coup, sans que
+   rien dans le code ne dise pourquoi. */
+function blobHote() {
+  return (process.env.BLOB_PUBLIC_HOST || '').trim().toLowerCase();
+}
+
+/* Vrai quand la variable manque. L'appelant doit alors répondre 500,
+   pas 400 : sans elle aucune URL ne peut passer, mais la faute est dans
+   la configuration du projet et non dans ce que l'admin a envoyé — un
+   `invalid_url` l'enverrait chercher un défaut inexistant dans son
+   image. Voir README.md pour la valeur à poser. */
+function blobHoteManquant() {
+  return !blobHote();
+}
 
 function imageUrlInvalide(valeur) {
   // Vide vaut « pas d'image » : une chaîne d'espaces dit la même chose
@@ -54,8 +77,10 @@ function imageUrlInvalide(valeur) {
     return 'image_url';
   }
   // Rien ne justifie un port sur un store Blob : le laisser passer
-  // ouvrirait l'URL sur autre chose que le service attendu.
-  return url.protocol === 'https:' && url.port === '' && BLOB_HOTE.test(url.hostname)
+  // ouvrirait l'URL sur autre chose que le service attendu. `hostname`
+  // est déjà normalisé en minuscules par URL, contrairement à la
+  // variable d'environnement, saisie à la main.
+  return url.protocol === 'https:' && url.port === '' && url.hostname === blobHote()
     ? null
     : 'image_url';
 }
@@ -75,5 +100,6 @@ module.exports = {
   IMAGE_MIME_TYPES,
   champTropLong,
   signatureInvalide,
-  imageUrlInvalide
+  imageUrlInvalide,
+  blobHoteManquant
 };

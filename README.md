@@ -420,6 +420,14 @@ modèle de nouvelle table dans [`db/README.md`](./db/README.md).
 1. Projet Vercel → **Storage** → **Blob** → créer un store et le connecter au projet.
 2. `BLOB_READ_WRITE_TOKEN` est alors injectée automatiquement dans les environnements — rien à
    saisir à la main.
+3. Relever l'**hôte public** du store : c'est le domaine des URL qu'il sert, de la forme
+   `<identifiant>.public.blob.vercel-storage.com`. Il se lit dans le store (onglet **Browser**, sur
+   l'URL de n'importe quel fichier) ou sur l'adresse d'une image d'événement déjà en ligne.
+4. Poser cet hôte, sans `https://` ni barre oblique finale, dans la variable `BLOB_PUBLIC_HOST`, et
+   le reprendre **à l'identique** dans la directive `img-src` de `vercel.json`. C'est la seule
+   origine d'où le site accepte et affiche une image d'événement : sans elle, le dépôt d'image
+   répond `server_error`, et une valeur qui ne correspond pas au store bloque l'affichage des
+   images côté visiteur.
 
 </details>
 
@@ -451,6 +459,7 @@ modèle de nouvelle table dans [`db/README.md`](./db/README.md).
 | `ADMIN_EMAILS`              | Adresses autorisées à administrer, séparées par des virgules                       | **Oui**  |
 | `SESSION_SECRET`            | Secret de signature du cookie admin, **32 caractères minimum** — refusé en dessous | **Oui**  |
 | `BLOB_READ_WRITE_TOKEN`     | Injectée automatiquement par la connexion du store Blob — ne pas la saisir         | **Oui**  |
+| `BLOB_PUBLIC_HOST`          | Hôte public exact du store Blob, seule origine acceptée pour les images            | Non      |
 
 Générer un secret de session :
 
