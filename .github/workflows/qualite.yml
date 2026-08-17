@@ -1,0 +1,39 @@
+name: Qualité
+
+# Vérifie la mise en forme et l'analyse statique. Le site n'a pas d'étape
+# de build : ce workflow ne construit rien, il relit seulement ce qui est
+# poussé, pour qu'aucune PR n'arrive en revue avec du code mal formé ou
+# une variable oubliée.
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  verifier:
+    name: Prettier + ESLint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Vérifier la mise en forme
+        run: npm run format:check
+
+      - name: Analyser le JavaScript
+        run: npm run lint
+
+      - name: Vérifier les dépendances de production
+        run: npm audit --omit=dev --audit-level=high

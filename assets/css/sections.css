@@ -63,13 +63,23 @@
    se réduisent pour que leur moitié basse y tienne, sans jamais venir
    se poser sur une ligne de texte. */
 @media (max-width: 980px) {
-  .galet-concept { width: 72px; }
-  .galet-inscription { width: 96px; }
+  .galet-concept {
+    width: 72px;
+  }
+  .galet-inscription {
+    width: 96px;
+  }
 }
 
 @media (max-width: 680px) {
-  .galet-concept { left: 6%; width: 62px; }
-  .galet-inscription { right: 7%; width: 82px; }
+  .galet-concept {
+    left: 6%;
+    width: 62px;
+  }
+  .galet-inscription {
+    right: 7%;
+    width: 82px;
+  }
 }
 
 .lifted {
@@ -139,10 +149,18 @@ h2 {
   height: 4px;
 }
 
-.p1::before { background: var(--teal); }
-.p2::before { background: var(--green-700); }
-.p3::before { background: var(--teal-bright); }
-.p4::before { background: var(--gold); }
+.p1::before {
+  background: var(--teal);
+}
+.p2::before {
+  background: var(--green-700);
+}
+.p3::before {
+  background: var(--teal-bright);
+}
+.p4::before {
+  background: var(--gold);
+}
 
 /* Le rang dans l'enchaînement : la séance suit toujours cet ordre */
 .practice-no {
@@ -192,7 +210,9 @@ h2 {
   color: var(--green-800);
   cursor: pointer;
   border-bottom: 2px solid var(--gold);
-  transition: color 0.2s ease, border-color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .more:hover,
@@ -507,7 +527,9 @@ h2 {
 }
 
 @keyframes ha-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .ha-widget-frame {
@@ -598,4 +620,3 @@ h2 {
   justify-content: center;
   flex-wrap: wrap;
 }
-

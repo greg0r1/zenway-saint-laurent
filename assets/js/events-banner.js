@@ -8,8 +8,20 @@
    quel — aucun changement visuel.
    ============================================================ */
 (function setupEvents() {
-  const MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
-    'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  const MOIS = [
+    'janvier',
+    'février',
+    'mars',
+    'avril',
+    'mai',
+    'juin',
+    'juillet',
+    'août',
+    'septembre',
+    'octobre',
+    'novembre',
+    'décembre'
+  ];
 
   // Échappe les guillemets et l'apostrophe en plus des chevrons, pour
   // rester sûr en position d'attribut (value="…", src="…") : sans cela,
@@ -37,10 +49,14 @@
     return `
       <article class="event-card sheet" id="evenement-${echapper(event.id)}">
         ${event.featured ? '<span class="event-card-badge">À la une</span>' : ''}
-        ${event.image_url ? `
+        ${
+          event.image_url
+            ? `
           <button type="button" class="event-card-image-btn" data-image="${echapper(event.image_url)}" data-titre="${echapper(event.title)}" aria-label="Agrandir l'image de « ${echapper(event.title)} »">
             <img class="event-card-image" src="${echapper(event.image_url)}" alt="" loading="lazy" decoding="async">
-          </button>` : ''}
+          </button>`
+            : ''
+        }
         <div class="event-card-body">
           <p class="event-card-tag">${echapper(event.tag || 'Événement')}</p>
           <h3>${echapper(event.title)}</h3>
@@ -84,7 +100,10 @@
     declencheurImage = declencheur || null;
     img.src = url;
     img.alt = titre || '';
-    modal.setAttribute('aria-label', titre ? `Image de l'événement « ${titre} »` : "Image de l'événement");
+    modal.setAttribute(
+      'aria-label',
+      titre ? `Image de l'événement « ${titre} »` : "Image de l'événement"
+    );
     document.body.style.overflow = 'hidden';
     if (!modal.open) modal.showModal();
   }
@@ -101,7 +120,9 @@
         grid.innerHTML = events.map(carte).join('');
         if (vide) vide.hidden = true;
         grid.querySelectorAll('.event-card-image-btn').forEach((btn) => {
-          btn.addEventListener('click', () => ouvrirImage(btn.dataset.image, btn.dataset.titre, btn));
+          btn.addEventListener('click', () =>
+            ouvrirImage(btn.dataset.image, btn.dataset.titre, btn)
+          );
         });
       }
 
@@ -118,5 +139,7 @@
         banner.hidden = false;
       }
     })
-    .catch(() => { /* API indisponible : contenu statique par défaut conservé */ });
+    .catch(() => {
+      /* API indisponible : contenu statique par défaut conservé */
+    });
 })();

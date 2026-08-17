@@ -45,16 +45,16 @@ insert into public.infos_pratiques (address, map_url, parking, phone, email, nex
 );
 ```
 
-| Fichier | Contenu |
-| --- | --- |
-| `001_socle.sql` | Extension `pgcrypto`, fonction partagée `set_updated_at()` |
-| `002_evenements.sql` | Table `events` (module admin « Événements ») |
-| `003_evenements_dates.sql` | Colonnes `starts_at` (date de l'événement) et `archived` sur `events` |
+| Fichier                      | Contenu                                                                                                                                                          |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `001_socle.sql`              | Extension `pgcrypto`, fonction partagée `set_updated_at()`                                                                                                       |
+| `002_evenements.sql`         | Table `events` (module admin « Événements »)                                                                                                                     |
+| `003_evenements_dates.sql`   | Colonnes `starts_at` (date de l'événement) et `archived` sur `events`                                                                                            |
 | `004_evenements_bandeau.sql` | Retire `link_url`, renomme `active` en `featured` (mise en avant dans le bandeau, plus condition de publication), ajoute `ends_at` (fin de parution facultative) |
-| `005_evenements_image.sql` | Ajoute `image_url` (image facultative, déposée sur Vercel Blob par l'admin) |
-| `006_planning.sql` | Table `planning_slots` (module admin « Planning ») |
-| `007_planning_ordre.sql` | Fonction `planning_set_order(uuid[])` : réécrit tout l'ordre des créneaux en une seule instruction (atomique) |
-| `008_infos_pratiques.sql` | Table `infos_pratiques` (module admin « Infos pratiques »), ligne unique |
+| `005_evenements_image.sql`   | Ajoute `image_url` (image facultative, déposée sur Vercel Blob par l'admin)                                                                                      |
+| `006_planning.sql`           | Table `planning_slots` (module admin « Planning »)                                                                                                               |
+| `007_planning_ordre.sql`     | Fonction `planning_set_order(uuid[])` : réécrit tout l'ordre des créneaux en une seule instruction (atomique)                                                    |
+| `008_infos_pratiques.sql`    | Table `infos_pratiques` (module admin « Infos pratiques »), ligne unique                                                                                         |
 
 ## Ajouter une table pour un nouveau module admin
 

@@ -178,11 +178,15 @@ const AdminPanel = (function adminPanel() {
       return;
     }
     dialogue.classList.add('is-closing');
-    dialogue.addEventListener('animationend', function fin() {
-      dialogue.removeEventListener('animationend', fin);
-      dialogue.classList.remove('is-closing');
-      dialogue.close();
-    }, { once: true });
+    dialogue.addEventListener(
+      'animationend',
+      function fin() {
+        dialogue.removeEventListener('animationend', fin);
+        dialogue.classList.remove('is-closing');
+        dialogue.close();
+      },
+      { once: true }
+    );
   }
 
   function estOuvert() {

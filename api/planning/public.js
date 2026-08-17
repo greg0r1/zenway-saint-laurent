@@ -6,6 +6,7 @@
    dans l'admin), comme dans l'admin.
    ============================================================ */
 const { getSupabase } = require('../_lib/supabase');
+const { logErreur } = require('../_lib/log');
 
 module.exports = async (req, res) => {
   if (req.method !== 'GET') {
@@ -22,6 +23,7 @@ module.exports = async (req, res) => {
     .order('created_at', { ascending: true });
 
   if (error) {
+    logErreur('planning.public', error);
     res.status(500).json({ error: 'server_error' });
     return;
   }

@@ -81,5 +81,7 @@
       if (!data || !data.infos || !ficheComplete(data.infos)) return;
       rendre(data.infos);
     })
-    .catch(() => { /* API indisponible : contenu statique par défaut conservé */ });
+    .catch(() => {
+      /* API indisponible : contenu statique par défaut conservé */
+    });
 })();

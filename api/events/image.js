@@ -7,15 +7,20 @@
    cette route ne touche jamais la base.
    ============================================================ */
 const { put } = require('@vercel/blob');
-const { getSessionEmail } = require('../_lib/session');
-const { IMAGE_MAX_BYTES, IMAGE_MIME_TYPES } = require('../_lib/events');
+const { exigerAdmin } = require('../_lib/session');
+const {
+  IMAGE_MAX_BYTES,
+  IMAGE_MAX_BASE64,
+  IMAGE_MIME_TYPES,
+  signatureInvalide,
+  imageUrlInvalide,
+  blobHoteManquant
+} = require('../_lib/events');
+const { logAudit, logErreur } = require('../_lib/log');
 
 module.exports = async (req, res) => {
-  const email = getSessionEmail(req);
-  if (!email) {
-    res.status(401).json({ error: 'unauthenticated' });
-    return;
-  }
+  const email = exigerAdmin(req, res);
+  if (!email) return;
 
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'method_not_allowed' });
@@ -30,9 +35,22 @@ module.exports = async (req, res) => {
   }
 
   const [, type, base64] = correspondance;
+
+  // Refuser sur la longueur de la chaîne, avant toute allocation.
+  if (base64.length > IMAGE_MAX_BASE64) {
+    res.status(400).json({ error: 'image_too_large' });
+    return;
+  }
+
   const buffer = Buffer.from(base64, 'base64');
   if (buffer.length > IMAGE_MAX_BYTES) {
     res.status(400).json({ error: 'image_too_large' });
+    return;
+  }
+
+  // Le type MIME annoncé doit correspondre au contenu réel.
+  if (signatureInvalide(type, buffer)) {
+    res.status(400).json({ error: 'invalid_image' });
     return;
   }
 
@@ -44,10 +62,23 @@ module.exports = async (req, res) => {
       contentType: type,
       addRandomSuffix: true
     });
-  } catch {
+  } catch (erreur) {
+    logErreur('events.image', erreur, email);
     res.status(500).json({ error: 'upload_failed' });
     return;
   }
 
+  // L'URL déposée doit passer le même contrôle que celle enregistrée
+  // ensuite dans image_url. Sans cette vérification, un BLOB_PUBLIC_HOST
+  // absent ou mal recopié laisserait le dépôt réussir, puis
+  // l'enregistrement échouer : l'admin verrait son image apparaître dans
+  // le formulaire, et l'erreur seulement en cliquant sur Enregistrer.
+  if (blobHoteManquant() || imageUrlInvalide(blob.url)) {
+    logErreur('events.image', new Error('BLOB_PUBLIC_HOST absent ou étranger au store'), email);
+    res.status(500).json({ error: 'server_error' });
+    return;
+  }
+
+  logAudit('events.image', email, { url: blob.url, octets: buffer.length });
   res.status(200).json({ url: blob.url });
 };
