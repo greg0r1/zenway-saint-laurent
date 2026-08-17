@@ -6,6 +6,7 @@
 const { getSupabase } = require('../_lib/supabase');
 const { getSessionEmail } = require('../_lib/session');
 const { champTropLong } = require('../_lib/events');
+const { logAudit, logErreur } = require('../_lib/log');
 
 module.exports = async (req, res) => {
   const email = getSessionEmail(req);
@@ -26,6 +27,7 @@ module.exports = async (req, res) => {
       .order('created_at', { ascending: false });
 
     if (error) {
+      logErreur('events.list', error, email);
       res.status(500).json({ error: 'server_error' });
       return;
     }
@@ -69,9 +71,11 @@ module.exports = async (req, res) => {
       .single();
 
     if (error) {
+      logErreur('events.create', error, email);
       res.status(500).json({ error: 'server_error' });
       return;
     }
+    logAudit('events.create', email, { id: data.id, titre: data.title, featured: data.featured });
     res.status(201).json({ event: data });
     return;
   }

@@ -1,7 +1,8 @@
 /* ============================================================
    POST /api/auth/logout — efface le cookie de session admin
    ============================================================ */
-const { clearSessionCookie } = require('../_lib/session');
+const { clearSessionCookie, getSessionEmail } = require('../_lib/session');
+const { logAudit } = require('../_lib/log');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
@@ -9,6 +10,8 @@ module.exports = async (req, res) => {
     return;
   }
 
+  const email = getSessionEmail(req);
   res.setHeader('Set-Cookie', clearSessionCookie());
+  if (email) logAudit('auth.logout', email);
   res.status(200).json({ ok: true });
 };

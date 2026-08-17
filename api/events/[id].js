@@ -6,6 +6,7 @@
 const { getSupabase } = require('../_lib/supabase');
 const { getSessionEmail } = require('../_lib/session');
 const { champTropLong } = require('../_lib/events');
+const { logAudit, logErreur } = require('../_lib/log');
 
 module.exports = async (req, res) => {
   const email = getSessionEmail(req);
@@ -52,9 +53,11 @@ module.exports = async (req, res) => {
       .single();
 
     if (error) {
+      logErreur('events.update', error, email);
       res.status(500).json({ error: 'server_error' });
       return;
     }
+    logAudit('events.update', email, { id, champs: Object.keys(updates) });
     res.status(200).json({ event: data });
     return;
   }
@@ -62,9 +65,13 @@ module.exports = async (req, res) => {
   if (req.method === 'DELETE') {
     const { error } = await supabase.from('events').delete().eq('id', id);
     if (error) {
+      logErreur('events.delete', error, email);
       res.status(500).json({ error: 'server_error' });
       return;
     }
+    // Suppression définitive et sans corbeille : c'est l'action dont la
+    // trace compte le plus.
+    logAudit('events.delete', email, { id });
     res.status(204).end();
     return;
   }

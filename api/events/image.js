@@ -9,6 +9,7 @@
 const { put } = require('@vercel/blob');
 const { getSessionEmail } = require('../_lib/session');
 const { IMAGE_MAX_BYTES, IMAGE_MIME_TYPES } = require('../_lib/events');
+const { logAudit, logErreur } = require('../_lib/log');
 
 module.exports = async (req, res) => {
   const email = getSessionEmail(req);
@@ -44,10 +45,12 @@ module.exports = async (req, res) => {
       contentType: type,
       addRandomSuffix: true
     });
-  } catch {
+  } catch (erreur) {
+    logErreur('events.image', erreur, email);
     res.status(500).json({ error: 'upload_failed' });
     return;
   }
 
+  logAudit('events.image', email, { url: blob.url, octets: buffer.length });
   res.status(200).json({ url: blob.url });
 };

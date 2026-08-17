@@ -8,6 +8,7 @@
 const { getSupabase } = require('../_lib/supabase');
 const { getSessionEmail } = require('../_lib/session');
 const { champTropLong, champObligatoireInvalide } = require('../_lib/planning');
+const { logAudit, logErreur } = require('../_lib/log');
 
 module.exports = async (req, res) => {
   const email = getSessionEmail(req);
@@ -51,9 +52,11 @@ module.exports = async (req, res) => {
       .single();
 
     if (error) {
+      logErreur('planning.update', error, email);
       res.status(500).json({ error: 'server_error' });
       return;
     }
+    logAudit('planning.update', email, { id, champs: Object.keys(updates) });
     res.status(200).json({ slot: data });
     return;
   }
@@ -61,9 +64,11 @@ module.exports = async (req, res) => {
   if (req.method === 'DELETE') {
     const { error } = await supabase.from('planning_slots').delete().eq('id', id);
     if (error) {
+      logErreur('planning.delete', error, email);
       res.status(500).json({ error: 'server_error' });
       return;
     }
+    logAudit('planning.delete', email, { id });
     res.status(204).end();
     return;
   }

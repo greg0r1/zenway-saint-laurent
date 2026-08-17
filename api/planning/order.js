@@ -8,6 +8,7 @@
    ============================================================ */
 const { getSupabase } = require('../_lib/supabase');
 const { getSessionEmail } = require('../_lib/session');
+const { logAudit, logErreur } = require('../_lib/log');
 
 // Garde-fou sur un appel manifestement aberrant : le planning tient en
 // quelques créneaux, jamais en plusieurs centaines.
@@ -43,9 +44,11 @@ module.exports = async (req, res) => {
   const { error } = await supabase.rpc('planning_set_order', { ids });
 
   if (error) {
+    logErreur('planning.order', error, email);
     res.status(500).json({ error: 'server_error' });
     return;
   }
 
+  logAudit('planning.order', email, { nombre: ids.length });
   res.status(204).end();
 };
