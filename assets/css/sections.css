@@ -98,9 +98,42 @@ h2 {
 /* Sur le bain (hors feuille), les titres passent en clair */
 .planning h2,
 .videos h2,
-.events-section h2,
-.infos h2 {
+.events-section h2 {
   color: var(--paper);
+}
+
+/* ---------- PROFONDEURS DU BAIN ----------
+   Le corps de page porte toujours son propre dégradé fixe (base.css) :
+   c'est le bain qui persiste derrière chaque feuille levée (concept,
+   pratiques, pour qui, inscription), inchangé. Les quatre sections qui
+   n'ont pas de feuille par-dessus — planning, vidéos, événements,
+   levée finale — peignent en revanche leur propre profondeur d'eau,
+   pour qu'on sente le défilement traverser des eaux différentes plutôt
+   que de rester devant la même fenêtre. Même recette que le bain du
+   corps (deux halos radiaux + un fond), seules les teintes bougent —
+   aucune couleur hors palette. */
+.planning {
+  background:
+    radial-gradient(120% 80% at 20% 0%, var(--green-800), transparent 60%),
+    radial-gradient(100% 70% at 85% 100%, var(--green-950), transparent 65%), var(--green-900);
+}
+
+.videos {
+  background:
+    radial-gradient(110% 75% at 80% 0%, var(--teal), transparent 55%),
+    radial-gradient(100% 70% at 10% 100%, var(--green-950), transparent 65%), var(--green-900);
+}
+
+.events-section {
+  background:
+    radial-gradient(120% 80% at 12% 100%, var(--green-800), transparent 60%),
+    radial-gradient(90% 60% at 92% 0%, var(--gold-soft), transparent 45%), var(--green-900);
+}
+
+.close {
+  background:
+    radial-gradient(120% 80% at 50% 0%, var(--green-800), transparent 55%),
+    radial-gradient(140% 90% at 50% 100%, var(--green-950), transparent 70%), var(--green-950);
 }
 
 /* ---------- CONCEPT ---------- */
@@ -540,7 +573,19 @@ h2 {
   background: var(--paper);
 }
 
-/* ---------- INFOS ---------- */
+/* ---------- INFOS ----------
+   Seule section à quitter le bain pour de bon : le rivage. --beige est
+   déjà réservé à cet usage dans base.css depuis l'origine ; c'est ici
+   qu'il sert enfin. Fond clair → même bascule de couleurs que .sheet
+   (base.css) : titres et texte repassent en encre foncée. */
+.infos {
+  background: var(--beige);
+}
+
+.infos h2 {
+  color: var(--green-900);
+}
+
 .infos-grid {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
@@ -557,7 +602,7 @@ h2 {
   grid-template-columns: 11em 1fr;
   gap: 18px;
   padding: 17px 0;
-  border-bottom: 1px solid rgba(216, 243, 220, 0.2);
+  border-bottom: 1px solid rgba(27, 67, 50, 0.14);
 }
 
 /* Le display ci-dessus l'emporte sur la règle [hidden] du navigateur :
@@ -572,23 +617,23 @@ h2 {
   font-size: 0.7rem;
   letter-spacing: 0.19em;
   text-transform: uppercase;
-  color: var(--gold-soft);
+  color: var(--green-700);
   padding-top: 4px;
 }
 
 .info-list dd {
   margin: 0;
-  color: var(--paper);
+  color: var(--ink);
 }
 
 .info-list a {
-  color: var(--paper);
+  color: var(--green-700);
   text-decoration-color: rgba(201, 168, 106, 0.7);
   text-underline-offset: 4px;
 }
 
 .info-list a:hover {
-  color: var(--gold);
+  color: var(--green-900);
 }
 
 .map-card iframe {
