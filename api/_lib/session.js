@@ -4,8 +4,22 @@
 const crypto = require('crypto');
 const { logRefus } = require('./log');
 
-const COOKIE_NAME = 'zw_admin_session';
 const MAX_AGE_SECONDS = 60 * 60 * 8; // 8h
+
+// `vercel dev` sert en http : le drapeau Secure y rendrait le cookie
+// inutilisable. Partout ailleurs (preview et production, toujours en
+// https), il est posé.
+const EN_LOCAL = process.env.VERCEL_ENV === 'development';
+
+/* Le préfixe __Host- fait imposer par le navigateur lui-même ce que les
+   attributs promettent déjà : Secure, Path=/, et surtout aucun Domain —
+   donc aucun sous-domaine ne peut poser un cookie du même nom sur le
+   domaine parent (fixation de session depuis un *.vercel.app, par
+   exemple). Le préfixe exige Secure : en local, où il n'y a pas de
+   https, on retombe sur le nom simple. Les deux environnements ont des
+   bases et des sessions distinctes, aucun cookie ne circule de l'un à
+   l'autre. */
+const COOKIE_NAME = EN_LOCAL ? 'zw_admin_session' : '__Host-zw_admin_session';
 
 // Plancher d'entropie du secret de signature. Sans ce contrôle, un
 // SESSION_SECRET vide ou trop court passerait sans bruit : createHmac
@@ -34,12 +48,14 @@ function createSessionCookie(email) {
   const payload = `${email}|${expires}`;
   const encodedPayload = Buffer.from(payload, 'utf8').toString('base64url');
   const signature = sign(payload);
-  const secure = process.env.VERCEL_ENV === 'development' ? '' : ' Secure;';
-  return `${COOKIE_NAME}=${encodedPayload}.${signature}; HttpOnly;${secure} SameSite=Strict; Path=/; Max-Age=${MAX_AGE_SECONDS}`;
+  return `${COOKIE_NAME}=${encodedPayload}.${signature}; HttpOnly;${EN_LOCAL ? '' : ' Secure;'} SameSite=Strict; Path=/; Max-Age=${MAX_AGE_SECONDS}`;
 }
 
+// Mêmes attributs qu'à la pose, sans quoi le navigateur refuserait
+// d'effacer le cookie : en local, Secure rendait la déconnexion sans
+// effet en http.
 function clearSessionCookie() {
-  return `${COOKIE_NAME}=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0`;
+  return `${COOKIE_NAME}=; HttpOnly;${EN_LOCAL ? '' : ' Secure;'} SameSite=Strict; Path=/; Max-Age=0`;
 }
 
 function parseCookies(header) {
