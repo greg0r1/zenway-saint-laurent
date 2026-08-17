@@ -13,27 +13,31 @@
 /* Trace une action qui modifie l'état du site : qui, quoi, sur quoi.
    À appeler après le succès de l'écriture, jamais avant. */
 function logAudit(action, email, details = {}) {
-  console.log(JSON.stringify({
-    niveau: 'audit',
-    action,
-    email,
-    ...details,
-    at: new Date().toISOString()
-  }));
+  console.log(
+    JSON.stringify({
+      niveau: 'audit',
+      action,
+      email,
+      ...details,
+      at: new Date().toISOString()
+    })
+  );
 }
 
 /* Trace une erreur serveur. `erreur` est l'objet renvoyé par Supabase
    ou l'exception attrapée ; on n'en garde que le message et le code,
    jamais l'objet entier (il peut porter la requête et ses valeurs). */
 function logErreur(contexte, erreur, email = null) {
-  console.error(JSON.stringify({
-    niveau: 'erreur',
-    contexte,
-    email,
-    message: erreur && erreur.message ? erreur.message : String(erreur),
-    code: erreur && erreur.code ? erreur.code : null,
-    at: new Date().toISOString()
-  }));
+  console.error(
+    JSON.stringify({
+      niveau: 'erreur',
+      contexte,
+      email,
+      message: erreur && erreur.message ? erreur.message : String(erreur),
+      code: erreur && erreur.code ? erreur.code : null,
+      at: new Date().toISOString()
+    })
+  );
 }
 
 /* Trace une tentative d'accès refusée. Séparé de logErreur : ce n'est
@@ -41,12 +45,14 @@ function logErreur(contexte, erreur, email = null) {
    compter à part (une rafale de `not_authorized` n'a pas la même
    signification qu'une rafale de 500). */
 function logRefus(motif, details = {}) {
-  console.warn(JSON.stringify({
-    niveau: 'refus',
-    motif,
-    ...details,
-    at: new Date().toISOString()
-  }));
+  console.warn(
+    JSON.stringify({
+      niveau: 'refus',
+      motif,
+      ...details,
+      at: new Date().toISOString()
+    })
+  );
 }
 
 module.exports = { logAudit, logErreur, logRefus };

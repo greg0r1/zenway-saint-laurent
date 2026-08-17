@@ -12,9 +12,11 @@ const IMAGE_MAX_BYTES = 4 * 1024 * 1024;
 const IMAGE_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 
 // Longueur maximale de la chaîne base64 correspondante. Le contrôle de
-// taille doit tomber AVANT le décodage : Vercel accepte 100 Mo de corps
-// de requête, et Buffer.from() allouerait tout avant qu'on ait pu
-// refuser. Le base64 pèse 4/3 des octets, plus le remplissage.
+// taille doit tomber AVANT le décodage : la limite de corps de requête
+// de la plateforme est bien plus haute que la nôtre (et a déjà changé
+// d'une version à l'autre), or Buffer.from() allouerait tout ce qui
+// arrive avant qu'on ait pu le refuser. Le base64 pèse 4/3 des octets,
+// plus le remplissage.
 const IMAGE_MAX_BASE64 = Math.ceil((IMAGE_MAX_BYTES * 4) / 3) + 4;
 
 // Signatures de fichier des trois formats acceptés. Le type MIME du
@@ -25,7 +27,8 @@ const IMAGE_MAX_BASE64 = Math.ceil((IMAGE_MAX_BYTES * 4) / 3) + 4;
 const SIGNATURES = {
   'image/jpeg': (b) => b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff,
   'image/png': (b) => b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47,
-  'image/webp': (b) => b.slice(0, 4).toString('ascii') === 'RIFF' && b.slice(8, 12).toString('ascii') === 'WEBP'
+  'image/webp': (b) =>
+    b.slice(0, 4).toString('ascii') === 'RIFF' && b.slice(8, 12).toString('ascii') === 'WEBP'
 };
 
 function signatureInvalide(type, buffer) {
@@ -40,7 +43,9 @@ function signatureInvalide(type, buffer) {
 const BLOB_HOTE = /(^|\.)public\.blob\.vercel-storage\.com$/;
 
 function imageUrlInvalide(valeur) {
-  if (valeur === undefined || valeur === null || valeur === '') return null;
+  // Vide vaut « pas d'image » : une chaîne d'espaces dit la même chose
+  // qu'une chaîne vide, les deux se traitent donc pareil.
+  if (valeur === undefined || valeur === null || !String(valeur).trim()) return null;
   if (typeof valeur !== 'string') return 'image_url';
   let url;
   try {
@@ -48,13 +53,18 @@ function imageUrlInvalide(valeur) {
   } catch {
     return 'image_url';
   }
-  return url.protocol === 'https:' && BLOB_HOTE.test(url.hostname) ? null : 'image_url';
+  // Rien ne justifie un port sur un store Blob : le laisser passer
+  // ouvrirait l'URL sur autre chose que le service attendu.
+  return url.protocol === 'https:' && url.port === '' && BLOB_HOTE.test(url.hostname)
+    ? null
+    : 'image_url';
 }
 
 function champTropLong(payload) {
   if (typeof payload.title === 'string' && payload.title.length > LIMITS.title) return 'title';
   if (typeof payload.tag === 'string' && payload.tag.length > LIMITS.tag) return 'tag';
-  if (typeof payload.description === 'string' && payload.description.length > LIMITS.description) return 'description';
+  if (typeof payload.description === 'string' && payload.description.length > LIMITS.description)
+    return 'description';
   return null;
 }
 

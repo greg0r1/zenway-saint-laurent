@@ -2,7 +2,7 @@
    SESSION — cookie admin signé (HMAC), sans dépendance JWT dédiée
    ============================================================ */
 const crypto = require('crypto');
-const { logRefus } = require('./log');
+const { logErreur, logRefus } = require('./log');
 
 const MAX_AGE_SECONDS = 60 * 60 * 8; // 8h
 
@@ -33,7 +33,7 @@ function secretSession() {
   if (typeof secret !== 'string' || secret.length < SECRET_MIN_LENGTH) {
     throw new Error(
       `SESSION_SECRET absent ou trop court (${SECRET_MIN_LENGTH} caractères minimum). ` +
-      'Générez-en un avec : openssl rand -base64 48'
+        'Générez-en un avec : openssl rand -base64 48'
     );
   }
   return secret;
@@ -118,7 +118,21 @@ function emailsAutorises() {
    coupait l'accès qu'à l'expiration. Le coût est nul, la variable
    d'environnement est déjà en mémoire. */
 function exigerAdmin(req, res) {
-  const email = getSessionEmail(req);
+  /* getSessionEmail signe pour comparer, donc lit SESSION_SECRET : une
+     variable absente ou trop courte (posée en Production seulement, par
+     exemple) faisait remonter l'exception jusqu'à Vercel, qui répondait
+     FUNCTION_INVOCATION_FAILED — une 500 au corps HTML, hors du contrat
+     { error: 'server_error' } du projet, et sans la moindre ligne de
+     journal pour dire pourquoi. */
+  let email;
+  try {
+    email = getSessionEmail(req);
+  } catch (erreur) {
+    logErreur('session.secret', erreur);
+    res.status(500).json({ error: 'server_error' });
+    return null;
+  }
+
   if (!email) {
     res.status(401).json({ error: 'unauthenticated' });
     return null;
@@ -139,6 +153,5 @@ module.exports = {
   clearSessionCookie,
   getSessionEmail,
   exigerAdmin,
-  emailsAutorises,
-  COOKIE_NAME
+  emailsAutorises
 };

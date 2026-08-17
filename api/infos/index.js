@@ -80,7 +80,10 @@ module.exports = async (req, res) => {
     }
     if (!existante) {
       logErreur('infos.update', new Error('aucune fiche infos_pratiques en base'), email);
-      res.status(500).json({ error: 'no_row', message: 'Aucune fiche « Infos pratiques » en base. Jouez la migration 008 et son seed.' });
+      res.status(500).json({
+        error: 'no_row',
+        message: 'Aucune fiche « Infos pratiques » en base. Jouez la migration 008 et son seed.'
+      });
       return;
     }
 

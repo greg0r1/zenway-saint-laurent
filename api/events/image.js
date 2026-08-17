@@ -8,7 +8,12 @@
    ============================================================ */
 const { put } = require('@vercel/blob');
 const { exigerAdmin } = require('../_lib/session');
-const { IMAGE_MAX_BYTES, IMAGE_MAX_BASE64, IMAGE_MIME_TYPES, signatureInvalide } = require('../_lib/events');
+const {
+  IMAGE_MAX_BYTES,
+  IMAGE_MAX_BASE64,
+  IMAGE_MIME_TYPES,
+  signatureInvalide
+} = require('../_lib/events');
 const { logAudit, logErreur } = require('../_lib/log');
 
 module.exports = async (req, res) => {

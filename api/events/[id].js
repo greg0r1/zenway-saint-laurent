@@ -16,7 +16,8 @@ module.exports = async (req, res) => {
   const supabase = getSupabase();
 
   if (req.method === 'PUT') {
-    const { title, description, tag, featured, starts_at, ends_at, archived, image_url } = req.body || {};
+    const { title, description, tag, featured, starts_at, ends_at, archived, image_url } =
+      req.body || {};
 
     const tropLong = champTropLong({ title, tag, description });
     if (tropLong) {
@@ -34,7 +35,22 @@ module.exports = async (req, res) => {
     const enAvant = archived ? false : featured;
 
     if (enAvant) {
-      await supabase.from('events').update({ featured: false }).eq('featured', true).neq('id', id);
+      // L'index unique partiel events_un_seul_vedette (voir
+      // 004_evenements_bandeau.sql) refuserait la modification qui suit
+      // si cette dépublication échouait. Sans lire l'erreur ici, le
+      // journal ne garderait que le symptôme (une violation 23505) et
+      // jamais sa cause.
+      const { error: erreurVedette } = await supabase
+        .from('events')
+        .update({ featured: false })
+        .eq('featured', true)
+        .neq('id', id);
+
+      if (erreurVedette) {
+        logErreur('events.demote', erreurVedette, email);
+        res.status(500).json({ error: 'server_error' });
+        return;
+      }
     }
 
     const updates = { updated_at: new Date().toISOString() };
@@ -45,7 +61,10 @@ module.exports = async (req, res) => {
     if (ends_at !== undefined) updates.ends_at = ends_at || null;
     if (archived !== undefined) updates.archived = !!archived;
     if (enAvant !== undefined) updates.featured = !!enAvant;
-    if (image_url !== undefined) updates.image_url = image_url || null;
+    // La version validée, pas la brute : imageUrlInvalide contrôle
+    // valeur.trim(), c'est donc elle qu'on enregistre.
+    if (image_url !== undefined)
+      updates.image_url = (image_url && String(image_url).trim()) || null;
 
     const { data, error } = await supabase
       .from('events')

@@ -33,7 +33,8 @@ module.exports = async (req, res) => {
   }
 
   if (req.method === 'POST') {
-    const { title, description, tag, featured, starts_at, ends_at, archived, image_url } = req.body || {};
+    const { title, description, tag, featured, starts_at, ends_at, archived, image_url } =
+      req.body || {};
     if (!title) {
       res.status(400).json({ error: 'missing_fields' });
       return;
@@ -54,7 +55,21 @@ module.exports = async (req, res) => {
     const enAvant = !!featured && !archived;
 
     if (enAvant) {
-      await supabase.from('events').update({ featured: false }).eq('featured', true);
+      // L'index unique partiel events_un_seul_vedette (voir
+      // 004_evenements_bandeau.sql) refuserait l'insertion qui suit si
+      // cette dépublication échouait. Sans lire l'erreur ici, le journal
+      // ne garderait que le symptôme (une violation 23505) et jamais sa
+      // cause.
+      const { error: erreurVedette } = await supabase
+        .from('events')
+        .update({ featured: false })
+        .eq('featured', true);
+
+      if (erreurVedette) {
+        logErreur('events.demote', erreurVedette, email);
+        res.status(500).json({ error: 'server_error' });
+        return;
+      }
     }
 
     const { data, error } = await supabase
@@ -67,7 +82,9 @@ module.exports = async (req, res) => {
         ends_at: ends_at || null,
         archived: !!archived,
         featured: enAvant,
-        image_url: image_url || null
+        // La version validée, pas la brute : imageUrlInvalide contrôle
+        // valeur.trim(), c'est donc elle qu'on enregistre.
+        image_url: (image_url && String(image_url).trim()) || null
       })
       .select()
       .single();
