@@ -21,7 +21,8 @@ const AdminAuth = (function adminAuth() {
       rendreBouton(onSuccess);
       return;
     }
-    if (tentative >= 100) { // ~10 s
+    if (tentative >= 100) {
+      // ~10 s
       const loginError = document.getElementById('loginError');
       loginError.textContent = 'La connexion Google n’a pas pu se charger. Rechargez la page.';
       loginError.hidden = false;
@@ -53,9 +54,10 @@ const AdminAuth = (function adminAuth() {
         body: JSON.stringify({ credential: response.credential })
       });
       if (!res.ok) {
-        loginError.textContent = res.status === 403
-          ? "Ce compte Google n'est pas autorisé à administrer le site."
-          : 'Connexion impossible, réessayez.';
+        loginError.textContent =
+          res.status === 403
+            ? "Ce compte Google n'est pas autorisé à administrer le site."
+            : 'Connexion impossible, réessayez.';
         loginError.hidden = false;
         return;
       }
@@ -76,7 +78,9 @@ const AdminAuth = (function adminAuth() {
         currentEmail = data.email;
         return data.email;
       }
-    } catch { /* API indisponible : on retombe sur l'écran de connexion */ }
+    } catch {
+      /* API indisponible : on retombe sur l'écran de connexion */
+    }
     return null;
   }
 

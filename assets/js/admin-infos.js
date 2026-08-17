@@ -9,7 +9,14 @@
    S'enregistre dans window.AdminModules, monté par assets/js/admin.js.
    ============================================================ */
 (function registerInfosPage() {
-  const LIMITES = { address: 200, map_url: 300, parking: 120, phone: 30, email: 120, next_session: 120 };
+  const LIMITES = {
+    address: 200,
+    map_url: 300,
+    parking: 120,
+    phone: 30,
+    email: 120,
+    next_session: 120
+  };
 
   let root = null;
   let page = null;
@@ -82,9 +89,18 @@
 
     // Il n'y a quelque chose à modifier que si une fiche existe vraiment.
     if (page) {
-      page.setActions(snap.statut === 'pret' && snap.infos
-        ? [{ label: 'Modifier les infos', icone: 'i-pencil', style: 'ad-btn-primary', onClick: ouvrirFormulaire }]
-        : []);
+      page.setActions(
+        snap.statut === 'pret' && snap.infos
+          ? [
+              {
+                label: 'Modifier les infos',
+                icone: 'i-pencil',
+                style: 'ad-btn-primary',
+                onClick: ouvrirFormulaire
+              }
+            ]
+          : []
+      );
     }
 
     if (snap.statut === 'chargement' || snap.statut === 'attente') {
@@ -109,7 +125,9 @@
           </div>
         </div>
       `;
-      cible.querySelector('[data-action="retry"]').addEventListener('click', () => AdminStore.chargerInfos());
+      cible
+        .querySelector('[data-action="retry"]')
+        .addEventListener('click', () => AdminStore.chargerInfos());
       return;
     }
 
@@ -176,7 +194,12 @@
 
   function ouvrirFormulaire() {
     const i = (dernierSnap && dernierSnap.infos) || {
-      address: '', map_url: '', parking: '', phone: '', email: '', next_session: ''
+      address: '',
+      map_url: '',
+      parking: '',
+      phone: '',
+      email: '',
+      next_session: ''
     };
 
     const corps = document.createElement('div');
@@ -233,7 +256,9 @@
 
     corps.querySelectorAll('[data-counter]').forEach((p) => {
       const champ = corps.querySelector(`#${p.dataset.counter}`);
-      const maj = () => { p.textContent = `${champ.value.length}/${champ.maxLength}`; };
+      const maj = () => {
+        p.textContent = `${champ.value.length}/${champ.maxLength}`;
+      };
       champ.addEventListener('input', maj);
       maj();
     });
@@ -261,7 +286,9 @@
       // Même règle que le serveur (api/_lib/infos.js), dite ici en clair
       // plutôt que renvoyée comme un refus générique après l'envoi.
       if (!/^https:\/\/\S+$/i.test(payload.map_url)) {
-        AdminPanel.alerte('Le lien vers la carte doit commencer par https:// — copiez-le depuis Google Maps.');
+        AdminPanel.alerte(
+          'Le lien vers la carte doit commencer par https:// — copiez-le depuis Google Maps.'
+        );
         champs.mapUrl.focus();
         return;
       }
@@ -288,7 +315,9 @@
         await AdminStore.enregistrerInfos(payload);
       } catch {
         AdminPanel.occuper('enregistrer', false);
-        AdminPanel.alerte('L’enregistrement a échoué. Vos informations sont toujours là : réessayez.');
+        AdminPanel.alerte(
+          'L’enregistrement a échoué. Vos informations sont toujours là : réessayez.'
+        );
         return;
       }
       AdminPanel.fermer();
@@ -306,7 +335,13 @@
       titre: 'Modifier les infos',
       corps,
       actions: [
-        { id: 'enregistrer', label: 'Enregistrer', icone: 'i-check', style: 'ad-btn-primary', onClick: enregistrer },
+        {
+          id: 'enregistrer',
+          label: 'Enregistrer',
+          icone: 'i-check',
+          style: 'ad-btn-primary',
+          onClick: enregistrer
+        },
         { id: 'annuler', label: 'Annuler', onClick: () => AdminPanel.fermer() }
       ]
     });

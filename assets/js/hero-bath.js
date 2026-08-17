@@ -22,7 +22,7 @@
   // couleurs sont lues depuis les variables CSS (mêmes tons que les
   // pastilles .c1-.c4 de la légende) pour rester la seule source de vérité.
   const rootStyle = getComputedStyle(document.documentElement);
-  const cssColor = (name, fallback) => (rootStyle.getPropertyValue(name).trim() || fallback);
+  const cssColor = (name, fallback) => rootStyle.getPropertyValue(name).trim() || fallback;
   const PIGMENTS = [
     { name: 'Tai-chi chuan', color: cssColor('--teal', '#2f8f7f') },
     { name: 'Yoga', color: cssColor('--mint', '#d8f3dc') },
@@ -31,8 +31,10 @@
   ];
 
   const POINTS = 160;
-  let W = 0, H = 0, dpr = 1;
-  let drops = [];          // chaque galet : { color, pts: [[x,y], ...] }
+  let W = 0,
+    H = 0,
+    dpr = 1;
+  let drops = []; // chaque galet : { color, pts: [[x,y], ...] }
   let raf = null;
 
   /* Retourne false tant que le bain n'a pas de dimensions mesurables
@@ -56,14 +58,14 @@
   function pebble(cx, cy, r, seed) {
     const rot = (seed % 1) * Math.PI;
     const flat = 0.74 + Math.abs(Math.sin(seed * 3.1)) * 0.18;
-    const rx = r, ry = r * flat;
-    const cosR = Math.cos(rot), sinR = Math.sin(rot);
+    const rx = r,
+      ry = r * flat;
+    const cosR = Math.cos(rot),
+      sinR = Math.sin(rot);
     const pts = [];
     for (let i = 0; i < POINTS; i++) {
       const a = (i / POINTS) * Math.PI * 2;
-      const wobble = 1
-        + 0.05 * Math.sin(a * 2 + seed)
-        + 0.035 * Math.sin(a * 3 - seed * 1.7);
+      const wobble = 1 + 0.05 * Math.sin(a * 2 + seed) + 0.035 * Math.sin(a * 3 - seed * 1.7);
       const ex = Math.cos(a) * rx * wobble;
       const ey = Math.sin(a) * ry * wobble;
       pts.push([cx + ex * cosR - ey * sinR, cy + ex * sinR + ey * cosR]);
@@ -76,10 +78,11 @@
      court que le galet lui-même, pour qu'il nudge ses voisins au lieu
      de les emporter en volutes. */
   function addDrop(cx, cy, r, color, seed) {
-    const pushR2 = (r * 0.55) * (r * 0.55);
+    const pushR2 = r * 0.55 * (r * 0.55);
     for (const d of drops) {
       for (const p of d.pts) {
-        const dx = p[0] - cx, dy = p[1] - cy;
+        const dx = p[0] - cx,
+          dy = p[1] - cy;
         const d2 = dx * dx + dy * dy || 0.0001;
         const k = Math.sqrt(1 + pushR2 / d2);
         p[0] = cx + dx * k;
@@ -93,7 +96,9 @@
      pour le dégradé et le liseré qui donnent leur volume aux galets. */
   function shade(hex, pct) {
     const n = parseInt(hex.slice(1), 16);
-    const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+    const r = (n >> 16) & 255,
+      g = (n >> 8) & 255,
+      b = n & 255;
     const t = pct < 0 ? 0 : 255;
     const p = Math.abs(pct);
     return `rgb(${Math.round(r + (t - r) * p)}, ${Math.round(g + (t - g) * p)}, ${Math.round(b + (t - b) * p)})`;
@@ -123,10 +128,26 @@
     // Les centres débordent volontairement du cadre : la cuve est plus
     // large que ce qu'on en voit, le pigment ne s'arrête jamais net.
     const seq = [
-      [[W * 0.1, cy - H * 0.42 * vScale], [W * 0.3, cy + H * 0.44 * vScale], [W * -0.04, cy + H * 0.06 * vScale]],
-      [[W * 0.44, cy - H * 0.1 * vScale], [W * 0.6, cy + H * 0.46 * vScale], [W * 0.24, cy - H * 0.5 * vScale]],
-      [[W * 0.76, cy - H * 0.44 * vScale], [W * 0.54, cy + H * 0.16 * vScale], [W * 0.94, cy + H * 0.42 * vScale]],
-      [[W * 0.88, cy - H * 0.04 * vScale], [W * 0.7, cy - H * 0.52 * vScale], [W * 1.04, cy + H * 0.5 * vScale]]
+      [
+        [W * 0.1, cy - H * 0.42 * vScale],
+        [W * 0.3, cy + H * 0.44 * vScale],
+        [W * -0.04, cy + H * 0.06 * vScale]
+      ],
+      [
+        [W * 0.44, cy - H * 0.1 * vScale],
+        [W * 0.6, cy + H * 0.46 * vScale],
+        [W * 0.24, cy - H * 0.5 * vScale]
+      ],
+      [
+        [W * 0.76, cy - H * 0.44 * vScale],
+        [W * 0.54, cy + H * 0.16 * vScale],
+        [W * 0.94, cy + H * 0.42 * vScale]
+      ],
+      [
+        [W * 0.88, cy - H * 0.04 * vScale],
+        [W * 0.7, cy - H * 0.52 * vScale],
+        [W * 1.04, cy + H * 0.5 * vScale]
+      ]
     ];
 
     const laid = Math.min(4, Math.floor(progress * 5.1));
@@ -147,14 +168,18 @@
   function paint() {
     ctx.clearRect(0, 0, W, H);
     for (const d of drops) {
-      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      let minX = Infinity,
+        maxX = -Infinity,
+        minY = Infinity,
+        maxY = -Infinity;
       for (const p of d.pts) {
         if (p[0] < minX) minX = p[0];
         if (p[0] > maxX) maxX = p[0];
         if (p[1] < minY) minY = p[1];
         if (p[1] > maxY) maxY = p[1];
       }
-      const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
+      const cx = (minX + maxX) / 2,
+        cy = (minY + maxY) / 2;
       const rad = Math.max(maxX - minX, maxY - minY) / 2;
 
       ctx.beginPath();
@@ -165,8 +190,12 @@
       // Lumière en haut à gauche, ombre en bas à droite : le dégradé
       // qui fait lire une pierre lisse plutôt qu'un aplat de pigment.
       const grad = ctx.createRadialGradient(
-        cx - rad * 0.35, cy - rad * 0.4, rad * 0.1,
-        cx, cy, rad * 1.15
+        cx - rad * 0.35,
+        cy - rad * 0.4,
+        rad * 0.1,
+        cx,
+        cy,
+        rad * 1.15
       );
       grad.addColorStop(0, shade(d.color, 0.22));
       grad.addColorStop(0.55, d.color);
@@ -192,7 +221,10 @@
   let started = false;
 
   function finish() {
-    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    if (raf) {
+      cancelAnimationFrame(raf);
+      raf = null;
+    }
     clearTimeout(settle);
     done = true;
     build(1);
@@ -205,7 +237,10 @@
     build(1 - Math.pow(1 - t, 3));
     paint();
     if (t < 1) raf = requestAnimationFrame(frame);
-    else { raf = null; done = true; }
+    else {
+      raf = null;
+      done = true;
+    }
   }
 
   function play() {
@@ -213,12 +248,17 @@
     clearTimeout(settle);
     started = true;
     done = false;
-    if (reduced) { finish(); return; }
+    if (reduced) {
+      finish();
+      return;
+    }
     start = performance.now();
     raf = requestAnimationFrame(frame);
     // filet de sécurité : si les frames sont suspendues (onglet en
     // arrière-plan), la composition finale est posée quand même
-    settle = setTimeout(() => { if (!done) finish(); }, DUR + 500);
+    settle = setTimeout(() => {
+      if (!done) finish();
+    }, DUR + 500);
   }
 
   // Une séquence interrompue par un passage en arrière-plan se termine
@@ -234,8 +274,12 @@
   // qui se verrait comme un bain qui se reforme en plein scroll.
   function reset() {
     if (!size()) return false;
-    if (done) { build(1); paint(); }
-    else if (!started) { play(); }
+    if (done) {
+      build(1);
+      paint();
+    } else if (!started) {
+      play();
+    }
     // sinon : la séquence est déjà en cours — le redimensionnement est
     // pris en compte par size(), la frame en vol continue sans relancer.
     return true;
@@ -255,5 +299,4 @@
     clearTimeout(rt);
     rt = setTimeout(reset, 180);
   });
-
 })();

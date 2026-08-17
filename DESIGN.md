@@ -186,6 +186,7 @@ Le projet porte **deux surfaces au registre volontairement différent**, tenues 
 Le public du site est majoritairement senior : la densité reste basse, les cibles tactiles larges, et aucune information n'est portée par la couleur seule. L'administration a une seule utilisatrice non technique : chaque page y dit en toutes lettres ce qu'elle commande sur le site public et ce qui est en ligne à l'instant.
 
 **Key Characteristics :**
+
 - Côté site : un fond en profondeur d'eau, du papier à angles vifs, une ombre longue comme seule source de relief
 - Côté admin : une charpente de console classique, des filets de 1 px, deux thèmes complets
 - L'or rare et décisif dans les deux mondes ; le teal réservé à l'attention et au focus
@@ -198,14 +199,17 @@ Le public du site est majoritairement senior : la densité reste basse, les cibl
 Une palette de forêt et d'eau, réchauffée par un or unique et un papier crème ; aucune couleur froide, aucun gris neutre.
 
 ### Primary
+
 - **Or Sanctuaire** (`#c9a86a`) : la seule couleur de décision. Bouton d'action principale, état « mis en avant dans le bandeau », soulignement de l'onglet courant, icône de l'entrée de menu active. Jamais décorative.
 - **Or Sanctuaire Clair** (`#e7d6ad`) : le survol de l'or, et les sur-titres sur fond vert.
 
 ### Secondary
+
 - **Teal Sanctuaire** (`#2f8f7f`) : l'attention sans l'alarme — icônes de libellé, liens internes, anneau de focus des champs. L'admin en clair l'assombrit à `#26786a` pour tenir le contraste sur blanc, et l'éclaircit à `#4bbba3` en thème sombre.
 - **Teal Lumineux** (`#36a18c`) : le survol du teal sur le site public.
 
 ### Neutral
+
 - **Vert Forêt Profonde** (`#1b4332`) : le corps du bain, la barre latérale de l'admin en thème clair, et la couleur des titres sur surface claire. C'est la couleur de base du produit.
 - **Vert Abyssal** (`#17392b`) : le second point du dégradé de fond, qui creuse le bain.
 - **Vert Mousse** (`#22543e`) et **Vert Forêt** (`#2d6a4f`) : dégradés et accents du site public.
@@ -215,6 +219,7 @@ Une palette de forêt et d'eau, réchauffée par un or unique et un papier crèm
 - **Encre** (`#243029`) et **Encre Douce** (`#4b5a51`) : texte principal et secondaire sur clair.
 
 ### Tertiary
+
 - **Terre Brûlée** (`#a3341f`), sur **fond** `#fbeae6` et **filet** `#eec3b8` : erreur et suppression, exclusivement. Jamais un avertissement, jamais un accent. En thème sombre le texte remonte à `#f2a894` pour rester lisible.
 
 ### La couche de rôles de l'admin
@@ -243,6 +248,7 @@ Les deux sont auto-hébergées en woff2 dans `assets/fonts/` (sous-ensembles lat
 **Character :** un serif de la Renaissance, léger et haut d'axe, posé sur une grotesque géométrique tiède. Le contraste est fort en dessin mais faible en taille : les titres ne hurlent pas, ils changent de voix.
 
 ### Hierarchy
+
 - **Display** (400, `clamp(2.2rem, 3.4vw, 3.2rem)`, 1.08) : le H1 du hero, une seule fois par page.
 - **Headline** (400, `clamp(2.1rem, 4.2vw, 3.2rem)`, 1.08) : les H2 de section du site public.
 - **Page title** (400, `1.85rem`, 1.1) : le titre de page dans l'en-tête de l'admin. Taille fixe, jamais fluide ; ramenée à `1.5rem` sous 900 px et `1.4rem` sous 700 px.
@@ -270,12 +276,15 @@ Les deux sont auto-hébergées en woff2 dans `assets/fonts/` (sous-ensembles lat
 ## Layout
 
 ### Le site public
+
 Un conteneur de 1180 px (`--maxw`) avec une gouttière de 30 px, ramenée à 20 px sous 980 px. Les sections respirent à 74–110 px de padding vertical et passent en colonne unique à 980 px. Ruptures : **1080 px**, **980 px** (colonne unique), **680 px** (menu burger).
 
 ### L'administration
+
 Une charpente en deux colonnes, en flex : une barre latérale de **264 px** collée en haut et haute de tout l'écran, puis la zone de travail. Celle-ci porte un en-tête collant de **68 px** minimum (titre de page à gauche, actions à droite) et une page de contenu limitée à **1120 px**, avec `34px 40px 90px` de padding.
 
 Trois ruptures :
+
 - **1100 px** — les paddings se resserrent, la colonne de libellés des listes de faits passe de 210 à 172 px.
 - **900 px** — la barre latérale sort du flux : elle devient un tiroir de `min(300px, 86vw)` en `translateX(-100%)`, ouvert par le bouton burger de l'en-tête, posé au-dessus d'un voile. Les listes de faits passent en colonne unique.
 - **700 px** — l'en-tête passe sur deux lignes et l'action principale prend toute la largeur ; les tableaux se replient en fiches empilées ; le panneau latéral prend tout l'écran.
@@ -293,6 +302,7 @@ Les deux surfaces n'ont pas le même relief, et c'est délibéré.
 **L'administration est plate, tenue par des filets.** Une surface se distingue par sa bordure de 1 px, pas par son élévation. L'ombre y est une confirmation discrète à deux couches, jamais un effet.
 
 ### Shadow Vocabulary
+
 - **La feuille levée** (`0 30px 70px -34px rgba(0, 0, 0, 0.85)`) — site public : toute surface papier posée sur le bain.
 - **Le posé de console** (`--ad-shadow`, `0 1px 2px rgba(27,67,50,.05), 0 8px 24px -18px rgba(27,67,50,.4)`) — admin : blocs, tableaux, rangées. La première couche assoit, la seconde suggère.
 - **Le flottant** (`--ad-shadow-lg`, `0 18px 48px -24px rgba(19,48,35,.45)`) — admin : le panneau latéral, le tiroir de menu, la carte de connexion, la bannière de confirmation.
@@ -322,6 +332,7 @@ Les bordures sont des filets de 1 px, jamais plus. Un liseré coloré de plus de
 ## Components
 
 ### Buttons
+
 - **Shape :** 3 px de rayon dans l'admin, 2 px sur le site public ; hauteur minimale 44 px pour la cible tactile.
 - **Primary :** fond Or Sanctuaire, texte Vert Forêt Profonde, graisse 700, `11px 18px`. Au survol, l'or passe à `#d8bb85`. Pas de déplacement : dans une console, un bouton qui bouge au survol est du bruit.
 - **Line :** fond de surface, filet `--ad-line`, texte d'encre. Au survol, le filet passe au teal.
@@ -330,36 +341,44 @@ Les bordures sont des filets de 1 px, jamais plus. Un liseré coloré de plus de
 - **Working :** le bouton garde sa place et sa largeur, son icône est remplacée par une roue de 16 px et son libellé dit ce qui se passe (« Enregistrement… »). Il retrouve son icône exacte au retour, et tout le pied du panneau se verrouille pendant l'opération.
 
 ### Inputs / Fields
+
 - **Style :** fond de surface, filet `--ad-line`, 3 px de rayon, `12px 14px`, hauteur minimale 46 px.
 - **Focus :** le filet passe au teal et un halo de 3 px l'entoure ; aucun déplacement.
 - **Hint :** chaque champ porte sous lui une phrase qui dit où la valeur apparaîtra sur le site public.
 - **Error :** le message se pose dans le pied du panneau, dans le bloc d'alerte Terre Brûlée, nomme le problème et la sortie, et le focus retourne au champ fautif.
 
 ### Navigation — la barre latérale
+
 - **Entrée :** icône, libellé, pastille de compte facultative. 3 px de rayon, `11px 13px`.
 - **Repos :** texte menthe à 68 %, fond transparent. **Survol :** fond menthe à 9 %, texte plein.
 - **Active :** `aria-current="page"`, fond menthe à 14 %, texte plein, graisse 600, icône en or, pastille en or plein. Aucun liseré latéral.
 - **Tiroir mobile :** sous 900 px, `translateX(-100%)` → `0`, voile de fond, fermeture par Échap, par le voile, par le bouton de fermeture, ou par le choix d'une page.
 
 ### Tables
+
 - **En-tête :** fond `--ad-raise`, overline, filet bas de 1 px.
 - **Ligne :** `15px 20px`, filet haut à 8 %, curseur pointeur — toute la ligne ouvre la fiche, mais le titre reste un vrai `<button>` pour le clavier.
 - **Ligne mise en avant :** champ Or Sanctuaire Clair sur toute la ligne, qui garde sa teinte au survol.
 - **Sous 700 px :** chaque ligne devient une fiche bordée, l'en-tête disparaît, et la flèche d'ouverture se positionne à droite en absolu.
 
 ### Tabs
+
 Onglets soulignés, pas de segment ni de pilule : filet de 1 px sous la rangée, soulignement de 2 px en or sous l'onglet courant, compteur en pastille à droite du libellé.
 
 ### Chips / Pills
+
 Fond `--ad-hover` et filet interne au repos ; fond Or Sanctuaire Clair et texte `#75591f` quand le contenu est visible par le public. Toujours accompagnée d'une icône (œil ouvert, œil barré, carton d'archive) et du texte en clair.
 
 ### Panel — le panneau latéral
+
 Bâti sur `<dialog>` natif : le piège à focus, la fermeture par Échap et le voile viennent du navigateur. Tiroir de 520 px à droite, plein écran sous 700 px, en trois bandes — en-tête (icône, chapeau, titre, fermeture), corps défilant, pied fixe portant l'alerte et les actions. Le premier champ prend le focus à l'ouverture. Tout ce qui agit dans l'admin passe par lui ; les pages ne portent que de la lecture et des listes.
 
 ### Rows — les rangées d'action
+
 Une rangée par action possible : icône, titre en gras, **et une phrase qui dit la conséquence sur le site public**. C'est la forme que prend une décision dans cette console, jamais un bouton nu.
 
 ### Feedback
+
 - **Flash :** bannière posée en bas de l'écran, hors du flux, fond menthe, qui s'efface après cinq secondes.
 - **Empty :** icône à 32 px, titre, une phrase qui explique ce que le visiteur voit à la place sur le site, et l'action de sortie quand elle existe.
 - **Skeleton :** barres balayées par un dégradé, doublées d'un `role="status"` invisible.
@@ -371,6 +390,7 @@ Chaque page de l'admin dit en toutes lettres ce que le site publie à cause d'el
 ## Do's and Don'ts
 
 ### Do:
+
 - **Do** passer par les jetons `--ad-*` pour toute couleur de l'admin, et déclarer les deux thèmes ensemble.
 - **Do** écrire tout état en toutes lettres, avec son icône, avant de lui donner une couleur.
 - **Do** réserver l'or à l'action principale, à l'état publié et au repère de position.
@@ -382,6 +402,7 @@ Chaque page de l'admin dit en toutes lettres ce que le site publie à cause d'el
 - **Do** libérer dans `unmount()` tout ce que `mount()` a pris — abonnements au magasin, écouteurs globaux.
 
 ### Don't:
+
 - **Don't** imbriquer une surface dans une surface de même nature : une liste séparée par des filets répond au même besoin.
 - **Don't** poser un sur-titre en petites capitales espacées au-dessus d'un titre.
 - **Don't** utiliser un liseré coloré de plus de 1 px sur le flanc d'un bloc pour marquer un état.

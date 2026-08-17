@@ -8,20 +8,22 @@
    téléphone/e-mail au lieu d'un lien HelloAsso non confirmé (voir #inscription).
    ============================================================ */
 const HELLOASSO = {
-  org: "zenway-st-laurent-du-var", // slug de l'association
-  type: "adhesions",               // "adhesions" | "evenements" | "boutiques"
-  campaign: "zenway-st-laurent-du-var", // slug de la campagne
-  ready: true                      // → true quand les slugs sont corrects
+  org: 'zenway-st-laurent-du-var', // slug de l'association
+  type: 'adhesions', // "adhesions" | "evenements" | "boutiques"
+  campaign: 'zenway-st-laurent-du-var', // slug de la campagne
+  ready: true // → true quand les slugs sont corrects
 };
 
-(function setupHelloAsso(){
+(function setupHelloAsso() {
   const base = `https://www.helloasso.com/associations/${HELLOASSO.org}/${HELLOASSO.type}/${HELLOASSO.campaign}`;
 
   // Par défaut (ready: false) : on garde le repli téléphone/e-mail déjà
   // affiché dans le HTML plutôt que de pointer le CTA vers un lien
   // HelloAsso non confirmé.
-  if (HELLOASSO.ready){
-    document.querySelectorAll('[data-helloasso-link]').forEach(a => { a.href = base; });
+  if (HELLOASSO.ready) {
+    document.querySelectorAll('[data-helloasso-link]').forEach((a) => {
+      a.href = base;
+    });
 
     const onlineBtn = document.getElementById('haOnlineBtn');
     const fallbackBtn = document.getElementById('haFallbackBtn');
@@ -39,14 +41,16 @@ const HELLOASSO = {
     const wrap = document.getElementById('haWidgetWrap');
     const f = document.getElementById('haWidget');
     const ph = document.getElementById('haPlaceholder');
-    if (f && wrap){
-      if (ph){
+    if (f && wrap) {
+      if (ph) {
         ph.textContent = 'Chargement du formulaire d’adhésion...';
         ph.classList.add('ha-widget-loading');
       }
 
       let loaded = false;
-      const giveUp = () => { if (!loaded) wrap.style.display = 'none'; };
+      const giveUp = () => {
+        if (!loaded) wrap.style.display = 'none';
+      };
       const timeout = setTimeout(giveUp, 8000);
       const requestedAt = Date.now();
 
@@ -55,7 +59,7 @@ const HELLOASSO = {
         // bloqué) se charge quasi instantanément, contrairement au vrai
         // formulaire : on l'assimile à un échec plutôt que d'afficher une
         // iframe cassée à la place du repli.
-        if (Date.now() - requestedAt < 350){
+        if (Date.now() - requestedAt < 350) {
           clearTimeout(timeout);
           giveUp();
           return;

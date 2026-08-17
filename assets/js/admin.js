@@ -39,7 +39,7 @@
   const links = new Map();
 
   let built = false;
-  let courante = null;      // la page montée
+  let courante = null; // la page montée
   let flashTimer = null;
 
   function icone(id, classe) {
@@ -107,7 +107,7 @@
 
   function idDemande() {
     const brut = (location.hash || '').replace(/^#\/?/, '').trim();
-    return pages.some((m) => m.id === brut) ? brut : (pages[0] && pages[0].id);
+    return pages.some((m) => m.id === brut) ? brut : pages[0] && pages[0].id;
   }
 
   function router() {
@@ -245,7 +245,10 @@
     if (!themeBtn) return;
     const versSombre = actif !== 'sombre';
     themeBtn.innerHTML = icone(versSombre ? 'i-moon' : 'i-sun');
-    themeBtn.setAttribute('aria-label', versSombre ? 'Passer en thème sombre' : 'Passer en thème clair');
+    themeBtn.setAttribute(
+      'aria-label',
+      versSombre ? 'Passer en thème sombre' : 'Passer en thème clair'
+    );
     themeBtn.title = themeBtn.getAttribute('aria-label');
   }
 
