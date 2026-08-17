@@ -1,0 +1,14 @@
+# Généré ou binaire — jamais reformaté
+node_modules/
+package-lock.json
+.vercel/
+.impeccable/
+assets/fonts/
+assets/img/
+favicon.ico
+
+# Fichiers dont la mise en forme n'appartient pas au projet
+4fdd1f90a7194e9f11e9a05a38f85465.txt
+sitemap.xml
+robots.txt
+llms.txt
