@@ -8,7 +8,7 @@
    ============================================================ */
 const { put } = require('@vercel/blob');
 const { exigerAdmin } = require('../_lib/session');
-const { IMAGE_MAX_BYTES, IMAGE_MIME_TYPES } = require('../_lib/events');
+const { IMAGE_MAX_BYTES, IMAGE_MAX_BASE64, IMAGE_MIME_TYPES, signatureInvalide } = require('../_lib/events');
 const { logAudit, logErreur } = require('../_lib/log');
 
 module.exports = async (req, res) => {
@@ -28,9 +28,22 @@ module.exports = async (req, res) => {
   }
 
   const [, type, base64] = correspondance;
+
+  // Refuser sur la longueur de la chaîne, avant toute allocation.
+  if (base64.length > IMAGE_MAX_BASE64) {
+    res.status(400).json({ error: 'image_too_large' });
+    return;
+  }
+
   const buffer = Buffer.from(base64, 'base64');
   if (buffer.length > IMAGE_MAX_BYTES) {
     res.status(400).json({ error: 'image_too_large' });
+    return;
+  }
+
+  // Le type MIME annoncé doit correspondre au contenu réel.
+  if (signatureInvalide(type, buffer)) {
+    res.status(400).json({ error: 'invalid_image' });
     return;
   }
 
