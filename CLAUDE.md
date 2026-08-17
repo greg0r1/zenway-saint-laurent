@@ -133,14 +133,14 @@ Chaque page dit en toutes lettres ce qu'elle commande sur le site public, et ce 
 
 ### Variables d'environnement (à définir dans Vercel → Settings → Environment Variables)
 
-| Variable | Rôle |
-| --- | --- |
-| `SUPABASE_URL` | URL du projet Supabase |
-| `SUPABASE_SERVICE_ROLE_KEY` | Clé service_role Supabase (accès serveur uniquement, jamais exposée au front) |
-| `GOOGLE_CLIENT_ID` | Client ID OAuth 2.0 créé dans Google Cloud Console |
-| `ADMIN_EMAILS` | Emails autorisés à administrer, séparés par des virgules |
-| `SESSION_SECRET` | Secret aléatoire, sert à signer le cookie de session admin. **32 caractères minimum**, refusé en dessous (`openssl rand -base64 48`) |
-| `BLOB_READ_WRITE_TOKEN` | Jeton d'accès au store Vercel Blob — injecté automatiquement quand le store est connecté au projet (Vercel → Storage), rien à saisir à la main |
+| Variable                    | Rôle                                                                                                                                           |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SUPABASE_URL`              | URL du projet Supabase                                                                                                                         |
+| `SUPABASE_SERVICE_ROLE_KEY` | Clé service_role Supabase (accès serveur uniquement, jamais exposée au front)                                                                  |
+| `GOOGLE_CLIENT_ID`          | Client ID OAuth 2.0 créé dans Google Cloud Console                                                                                             |
+| `ADMIN_EMAILS`              | Emails autorisés à administrer, séparés par des virgules                                                                                       |
+| `SESSION_SECRET`            | Secret aléatoire, sert à signer le cookie de session admin. **32 caractères minimum**, refusé en dessous (`openssl rand -base64 48`)           |
+| `BLOB_READ_WRITE_TOKEN`     | Jeton d'accès au store Vercel Blob — injecté automatiquement quand le store est connecté au projet (Vercel → Storage), rien à saisir à la main |
 
 Voir `README.md` pour la procédure complète (SQL Supabase, config Google Cloud Console).
 
@@ -151,9 +151,12 @@ Voir `README.md` pour la procédure complète (SQL Supabase, config Google Cloud
 - La clé `SUPABASE_SERVICE_ROLE_KEY` ne doit jamais apparaître dans un fichier de `assets/` ou dans `index.html`.
 - `admin/index.html` n'est pas listé dans la nav publique ni le footer — accès par URL directe uniquement, protégé par la connexion Google + whitelist.
 - Le dépôt d'image (`api/events/image.js`) est admin uniquement ; le site public ne fait jamais que lire l'URL déjà stockée (`image_url`), jamais de dépôt côté public.
-- Toute route admin commence par `const email = exigerAdmin(req, res); if (!email) return;` — jamais un simple `getSessionEmail`, qui ne dit que « le cookie est signé », pas « cet e-mail est toujours dans `ADMIN_EMAILS` ».
-- Toute écriture réussie appelle `logAudit`, toute erreur serveur `logErreur` (`api/_lib/log.js`). Une fonction serverless n'a pas d'autre mémoire que sa sortie standard : un `catch` muet côté API efface la seule trace disponible. Ce qui est journalisé ne revient jamais au client, dont les erreurs restent génériques (`server_error`).
-- Tout champ saisi qui devient une URL sur le site public (`map_url`, `image_url`) est validé côté serveur **et** côté client — schéma https, et hôte attendu quand il y en a un.
+- Toute route admin commence par `const email = exigerAdmin(req, res); if (!email) return;` — jamais un simple `getSessionEmail`, qui ne dit que « le cookie est signé », pas « cet e-mail est toujours dans `ADMIN_EMAILS` ». Une seule réserve, délibérée : `api/auth/logout.js`, qui garde `getSessionEmail`. La déconnexion ne lit ni n'écrit aucune donnée, et doit aboutir même pour un e-mail retiré de la whitelist entre-temps — `exigerAdmin` le refuserait par un 401 sans effacer le cookie, laissant l'utilisateur avec une session qu'il ne peut plus fermer.
+- Toute écriture réussie appelle `logAudit`, toute erreur serveur `logErreur` (`api/_lib/log.js`). Une fonction serverless n'a pas d'autre mémoire que sa sortie standard : un `catch` muet côté API efface la seule trace disponible. Ce qui est journalisé ne revient jamais au client, dont les erreurs restent génériques (`server_error`). Le journal ne reprend jamais une valeur reçue d'une route publique, ni le message d'une exception de bibliothèque tierce (celles de `google-auth-library` recopient le jeton entier ou la charge utile décodée) : seulement son type.
+- Tout champ saisi à la main qui devient une URL sur le site public — aujourd'hui le seul `map_url` des infos pratiques — est validé côté serveur **et** côté client (schéma https, et hôte attendu quand il y en a un). `image_url` n'est jamais saisi : l'admin reprend telle quelle l'URL renvoyée par `/api/events/image`, la validation serveur y suffit donc seule.
+- Deux limites assumées du dépôt d'image, sues et acceptées plutôt que découvertes :
+  - le contrôle par signature de fichier (`signatureInvalide`, `api/_lib/events.js`) rejette un contenu étranger — un SVG étiqueté `image/jpeg` est refusé — mais laisse passer un fichier polyglotte dont les premiers octets forment une vraie signature JPEG. Le risque reste borné : le fichier est servi depuis une origine distincte du site, avec le `contentType` que nous imposons ;
+  - `imageUrlInvalide` contraint l'hôte à `*.public.blob.vercel-storage.com`, ce qui autorise le store Blob de n'importe quel client Vercel, pas seulement le nôtre. L'exploiter suppose une session admin déjà compromise. Le resserrement sur l'hôte exact du store demanderait une variable d'environnement supplémentaire et reste à faire.
 
 ---
 
@@ -162,16 +165,13 @@ Voir `README.md` pour la procédure complète (SQL Supabase, config Google Cloud
 ### Couleurs (variables CSS déjà définies dans `assets/css/base.css`)
 
 ```css
---green-900: #1b4332 /* Fonds foncés : footer, header scrollé */
-  --green-800: #22543e /* Dégradés foncés */ --green-700: #2d6a4f
-  /* Titres, boutons, accent principal */ --teal: #2f8f7f
-  /* Dégradés, accents */ --teal-bright: #36a18c /* Survols, mises en valeur */
-  --mint: #d8f3dc /* Fonds clairs, badges */ --mint-soft: #eef7f0
-  /* Fonds de section clairs */ --beige: #f5f1e8 /* Fond Infos pratiques */
-  --paper: #faf8f2 /* Fond général */ --gold: #c9a86a
-  /* Boutons CTA, accents premium */ --gold-soft: #e7d6ad
-  /* Accents secondaires sur fonds foncés */ --ink: #243029
-  /* Texte principal */ --ink-soft: #4b5a51 /* Texte secondaire, légendes */;
+--green-900: #1b4332 /* Fonds foncés : footer, header scrollé */ --green-800: #22543e
+  /* Dégradés foncés */ --green-700: #2d6a4f /* Titres, boutons, accent principal */ --teal: #2f8f7f
+  /* Dégradés, accents */ --teal-bright: #36a18c /* Survols, mises en valeur */ --mint: #d8f3dc
+  /* Fonds clairs, badges */ --mint-soft: #eef7f0 /* Fonds de section clairs */ --beige: #f5f1e8
+  /* Fond Infos pratiques */ --paper: #faf8f2 /* Fond général */ --gold: #c9a86a
+  /* Boutons CTA, accents premium */ --gold-soft: #e7d6ad /* Accents secondaires sur fonds foncés */
+  --ink: #243029 /* Texte principal */ --ink-soft: #4b5a51 /* Texte secondaire, légendes */;
 ```
 
 Ne jamais introduire de nouvelle couleur sans l'ajouter en variable CSS et justifier son usage.
@@ -258,6 +258,7 @@ zenway-saint-laurent/
 ├── api/                 ← fonctions serverless Vercel (voir « Exception backend »)
 ├── db/                  ← migrations SQL Supabase (voir « Exception backend »)
 ├── package.json         ← dépendances de api/ uniquement (aucun build step pour le site)
+├── package-lock.json    ← versions figées de ces dépendances, commitées : c'est lui qui gouverne l'installation
 ├── vercel.json          ← en-têtes HTTP : cache, sécurité, CSP
 ├── .github/workflows/   ← indexnow.yml : signale les mises à jour aux moteurs
 ├── robots.txt           ← règles d'exploration
@@ -410,4 +411,3 @@ chore(vercel): suppression du fichier .nojekyll inutile sur Vercel
 ### Le message clé — à ne jamais trahir
 
 Zenway n'est **pas** un enchaînement de quatre cours séparés. C'est **une seule discipline** qui fusionne Tai-chi chuan, Yoga, Pilates et Qi gong dans un seul enchaînement continu, sur une musique relaxante. Ne jamais présenter les quatre pratiques comme des options ou des cours indépendants.
-
