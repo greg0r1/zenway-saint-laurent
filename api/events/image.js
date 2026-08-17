@@ -12,7 +12,9 @@ const {
   IMAGE_MAX_BYTES,
   IMAGE_MAX_BASE64,
   IMAGE_MIME_TYPES,
-  signatureInvalide
+  signatureInvalide,
+  imageUrlInvalide,
+  blobHoteManquant
 } = require('../_lib/events');
 const { logAudit, logErreur } = require('../_lib/log');
 
@@ -63,6 +65,17 @@ module.exports = async (req, res) => {
   } catch (erreur) {
     logErreur('events.image', erreur, email);
     res.status(500).json({ error: 'upload_failed' });
+    return;
+  }
+
+  // L'URL déposée doit passer le même contrôle que celle enregistrée
+  // ensuite dans image_url. Sans cette vérification, un BLOB_PUBLIC_HOST
+  // absent ou mal recopié laisserait le dépôt réussir, puis
+  // l'enregistrement échouer : l'admin verrait son image apparaître dans
+  // le formulaire, et l'erreur seulement en cliquant sur Enregistrer.
+  if (blobHoteManquant() || imageUrlInvalide(blob.url)) {
+    logErreur('events.image', new Error('BLOB_PUBLIC_HOST absent ou étranger au store'), email);
+    res.status(500).json({ error: 'server_error' });
     return;
   }
 

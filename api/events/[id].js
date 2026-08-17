@@ -5,7 +5,7 @@
    ============================================================ */
 const { getSupabase } = require('../_lib/supabase');
 const { exigerAdmin } = require('../_lib/session');
-const { champTropLong, imageUrlInvalide } = require('../_lib/events');
+const { champTropLong, imageUrlInvalide, blobHoteManquant } = require('../_lib/events');
 const { logAudit, logErreur } = require('../_lib/log');
 
 module.exports = async (req, res) => {
@@ -22,6 +22,12 @@ module.exports = async (req, res) => {
     const tropLong = champTropLong({ title, tag, description });
     if (tropLong) {
       res.status(400).json({ error: 'field_too_long', field: tropLong });
+      return;
+    }
+
+    if (image_url && blobHoteManquant()) {
+      logErreur('events.update', new Error('BLOB_PUBLIC_HOST absent'), email);
+      res.status(500).json({ error: 'server_error' });
       return;
     }
 
