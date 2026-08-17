@@ -2,13 +2,45 @@
    SESSION — cookie admin signé (HMAC), sans dépendance JWT dédiée
    ============================================================ */
 const crypto = require('crypto');
+const { logErreur, logRefus } = require('./log');
 
-const COOKIE_NAME = 'zw_admin_session';
 const MAX_AGE_SECONDS = 60 * 60 * 8; // 8h
 
-function sign(payload) {
+// `vercel dev` sert en http : le drapeau Secure y rendrait le cookie
+// inutilisable. Partout ailleurs (preview et production, toujours en
+// https), il est posé.
+const EN_LOCAL = process.env.VERCEL_ENV === 'development';
+
+/* Le préfixe __Host- fait imposer par le navigateur lui-même ce que les
+   attributs promettent déjà : Secure, Path=/, et surtout aucun Domain —
+   donc aucun sous-domaine ne peut poser un cookie du même nom sur le
+   domaine parent (fixation de session depuis un *.vercel.app, par
+   exemple). Le préfixe exige Secure : en local, où il n'y a pas de
+   https, on retombe sur le nom simple. Les deux environnements ont des
+   bases et des sessions distinctes, aucun cookie ne circule de l'un à
+   l'autre. */
+const COOKIE_NAME = EN_LOCAL ? 'zw_admin_session' : '__Host-zw_admin_session';
+
+// Plancher d'entropie du secret de signature. Sans ce contrôle, un
+// SESSION_SECRET vide ou trop court passerait sans bruit : createHmac
+// l'accepte, et la signature devient devinable. Le format du payload
+// (`email|expiration`) étant connu, un secret faible suffirait à forger
+// une session admin complète sans jamais passer par Google.
+const SECRET_MIN_LENGTH = 32;
+
+function secretSession() {
   const secret = process.env.SESSION_SECRET;
-  return crypto.createHmac('sha256', secret).update(payload).digest('base64url');
+  if (typeof secret !== 'string' || secret.length < SECRET_MIN_LENGTH) {
+    throw new Error(
+      `SESSION_SECRET absent ou trop court (${SECRET_MIN_LENGTH} caractères minimum). ` +
+        'Générez-en un avec : openssl rand -base64 48'
+    );
+  }
+  return secret;
+}
+
+function sign(payload) {
+  return crypto.createHmac('sha256', secretSession()).update(payload).digest('base64url');
 }
 
 function createSessionCookie(email) {
@@ -16,12 +48,14 @@ function createSessionCookie(email) {
   const payload = `${email}|${expires}`;
   const encodedPayload = Buffer.from(payload, 'utf8').toString('base64url');
   const signature = sign(payload);
-  const secure = process.env.VERCEL_ENV === 'development' ? '' : ' Secure;';
-  return `${COOKIE_NAME}=${encodedPayload}.${signature}; HttpOnly;${secure} SameSite=Strict; Path=/; Max-Age=${MAX_AGE_SECONDS}`;
+  return `${COOKIE_NAME}=${encodedPayload}.${signature}; HttpOnly;${EN_LOCAL ? '' : ' Secure;'} SameSite=Strict; Path=/; Max-Age=${MAX_AGE_SECONDS}`;
 }
 
+// Mêmes attributs qu'à la pose, sans quoi le navigateur refuserait
+// d'effacer le cookie : en local, Secure rendait la déconnexion sans
+// effet en http.
 function clearSessionCookie() {
-  return `${COOKIE_NAME}=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0`;
+  return `${COOKIE_NAME}=; HttpOnly;${EN_LOCAL ? '' : ' Secure;'} SameSite=Strict; Path=/; Max-Age=0`;
 }
 
 function parseCookies(header) {
@@ -68,4 +102,56 @@ function getSessionEmail(req) {
   return email;
 }
 
-module.exports = { createSessionCookie, clearSessionCookie, getSessionEmail, COOKIE_NAME };
+function emailsAutorises() {
+  return (process.env.ADMIN_EMAILS || '')
+    .split(',')
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+/* Garde d'entrée des routes admin. Renvoie l'e-mail, ou null après
+   avoir répondu 401 — l'appelant n'a plus qu'à sortir.
+
+   La whitelist est relue à chaque requête, et pas seulement à la
+   connexion : sans cela, un cookie signé reste valable 8 h, et retirer
+   un e-mail de ADMIN_EMAILS (départ, compte Google compromis) ne
+   coupait l'accès qu'à l'expiration. Le coût est nul, la variable
+   d'environnement est déjà en mémoire. */
+function exigerAdmin(req, res) {
+  /* getSessionEmail signe pour comparer, donc lit SESSION_SECRET : une
+     variable absente ou trop courte (posée en Production seulement, par
+     exemple) faisait remonter l'exception jusqu'à Vercel, qui répondait
+     FUNCTION_INVOCATION_FAILED — une 500 au corps HTML, hors du contrat
+     { error: 'server_error' } du projet, et sans la moindre ligne de
+     journal pour dire pourquoi. */
+  let email;
+  try {
+    email = getSessionEmail(req);
+  } catch (erreur) {
+    logErreur('session.secret', erreur);
+    res.status(500).json({ error: 'server_error' });
+    return null;
+  }
+
+  if (!email) {
+    res.status(401).json({ error: 'unauthenticated' });
+    return null;
+  }
+  if (!emailsAutorises().includes(email.toLowerCase())) {
+    // Cookie valide mais e-mail retiré de la whitelist entre-temps :
+    // c'est une révocation qui s'applique, pas une panne.
+    logRefus('revoked_admin', { email });
+    res.setHeader('Set-Cookie', clearSessionCookie());
+    res.status(401).json({ error: 'unauthenticated' });
+    return null;
+  }
+  return email;
+}
+
+module.exports = {
+  createSessionCookie,
+  clearSessionCookie,
+  getSessionEmail,
+  exigerAdmin,
+  emailsAutorises
+};

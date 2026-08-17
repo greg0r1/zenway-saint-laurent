@@ -7,18 +7,16 @@
    est refusé par la fonction elle-même.
    ============================================================ */
 const { getSupabase } = require('../_lib/supabase');
-const { getSessionEmail } = require('../_lib/session');
+const { exigerAdmin } = require('../_lib/session');
+const { logAudit, logErreur } = require('../_lib/log');
 
 // Garde-fou sur un appel manifestement aberrant : le planning tient en
 // quelques créneaux, jamais en plusieurs centaines.
 const MAX_CRENEAUX = 200;
 
 module.exports = async (req, res) => {
-  const email = getSessionEmail(req);
-  if (!email) {
-    res.status(401).json({ error: 'unauthenticated' });
-    return;
-  }
+  const email = exigerAdmin(req, res);
+  if (!email) return;
 
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'method_not_allowed' });
@@ -43,9 +41,11 @@ module.exports = async (req, res) => {
   const { error } = await supabase.rpc('planning_set_order', { ids });
 
   if (error) {
+    logErreur('planning.order', error, email);
     res.status(500).json({ error: 'server_error' });
     return;
   }
 
+  logAudit('planning.order', email, { nombre: ids.length });
   res.status(204).end();
 };

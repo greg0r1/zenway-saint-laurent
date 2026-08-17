@@ -128,7 +128,9 @@
   height: 2px;
   background: var(--mint);
   display: block;
-  transition: transform 0.25s ease, opacity 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
 }
 
 /* Les deux traits se croisent en X : le bouton montre lui-même son

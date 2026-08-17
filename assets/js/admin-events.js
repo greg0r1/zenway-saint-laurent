@@ -27,7 +27,7 @@
   let root = null;
   let page = null;
   let desabonner = null;
-  let vue = 'cours';        // cours | archives
+  let vue = 'cours'; // cours | archives
   let dernierSnap = null;
 
   function icone(id, classe) {
@@ -95,7 +95,12 @@
     vue = 'cours';
 
     page.setActions([
-      { label: 'Ajouter un événement', icone: 'i-plus', style: 'ad-btn-primary', onClick: ouvrirNouveau }
+      {
+        label: 'Ajouter un événement',
+        icone: 'i-plus',
+        style: 'ad-btn-primary',
+        onClick: ouvrirNouveau
+      }
     ]);
 
     root.innerHTML = `
@@ -167,16 +172,20 @@
         <div class="ad-alert" role="alert">
           ${icone('i-alert')}
           <div>
-            ${snap.erreur === 'session'
-              ? 'Votre session a expiré. Rechargez la page pour vous reconnecter.'
-              : 'Les événements n’ont pas pu être chargés.'}
+            ${
+              snap.erreur === 'session'
+                ? 'Votre session a expiré. Rechargez la page pour vous reconnecter.'
+                : 'Les événements n’ont pas pu être chargés.'
+            }
             <div class="ad-alert-actions">
               <button type="button" class="ad-btn ad-btn-line ad-btn-sm" data-action="retry">Réessayer</button>
             </div>
           </div>
         </div>
       `;
-      cible.querySelector('[data-action="retry"]').addEventListener('click', () => AdminStore.charger());
+      cible
+        .querySelector('[data-action="retry"]')
+        .addEventListener('click', () => AdminStore.charger());
       return;
     }
 
@@ -228,10 +237,12 @@
     return `
       <tr${ev.featured ? ' class="is-live"' : ''}>
         <td class="ad-col-date">
-          ${ev.starts_at
-            ? `<span class="ad-date"><b>${echapper(AdminStore.dateLongue(ev.starts_at).replace(/^\w+ /, ''))}</b>
+          ${
+            ev.starts_at
+              ? `<span class="ad-date"><b>${echapper(AdminStore.dateLongue(ev.starts_at).replace(/^\w+ /, ''))}</b>
                <small>${echapper(AdminStore.quand(ev.starts_at))}</small></span>`
-            : '<span class="ad-date ad-muet">Sans date</span>'}
+              : '<span class="ad-date ad-muet">Sans date</span>'
+          }
         </td>
         <td>
           <div class="ad-table-row">
@@ -243,11 +254,13 @@
           </div>
         </td>
         <td class="ad-col-etat">
-          ${archive
-            ? `<span class="ad-pill">${icone('i-archive')}Archivé</span>`
-            : ev.featured
-              ? `<span class="ad-pill ad-pill-live">${icone('i-eye')}Mis en avant</span>`
-              : `<span class="ad-pill">${icone('i-eye')}Publié</span>`}
+          ${
+            archive
+              ? `<span class="ad-pill">${icone('i-archive')}Archivé</span>`
+              : ev.featured
+                ? `<span class="ad-pill ad-pill-live">${icone('i-eye')}Mis en avant</span>`
+                : `<span class="ad-pill">${icone('i-eye')}Publié</span>`
+          }
           ${passe && !archive ? `<span class="ad-warn">${icone('i-alert')}Événement passé</span>` : ''}
         </td>
         <td class="ad-col-go">${icone('i-arrow')}</td>
@@ -297,37 +310,51 @@
     corps.innerHTML = `
       ${ev.image_url ? `<img class="ad-panel-image" src="${echapper(ev.image_url)}" alt="">` : ''}
       <p class="ad-panel-state">
-        ${archive
-          ? `<span class="ad-pill">${icone('i-archive')}Archivé</span>`
-          : ev.featured
-            ? `<span class="ad-pill ad-pill-live">${icone('i-eye')}Mis en avant dans le bandeau</span>`
-            : `<span class="ad-pill">${icone('i-eye')}Publié sur le site</span>`}
+        ${
+          archive
+            ? `<span class="ad-pill">${icone('i-archive')}Archivé</span>`
+            : ev.featured
+              ? `<span class="ad-pill ad-pill-live">${icone('i-eye')}Mis en avant dans le bandeau</span>`
+              : `<span class="ad-pill">${icone('i-eye')}Publié sur le site</span>`
+        }
       </p>
 
-      ${passe && !archive ? `
+      ${
+        passe && !archive
+          ? `
         <div class="ad-note ad-note-warn">
           ${icone('i-alert')}
           <div><strong>Événement passé</strong>Il reste publié sur le site. Pensez à le retirer du bandeau ou à l'archiver.</div>
-        </div>` : ''}
+        </div>`
+          : ''
+      }
 
-      ${archiveParDateSeule ? `
+      ${
+        archiveParDateSeule
+          ? `
         <div class="ad-note ad-note-warn">
           ${icone('i-alert')}
           <div><strong>Fin de parution dépassée</strong>Il n'apparaît plus sur le site et a basculé dans les archives. Repoussez ou effacez la date de fin pour le remettre en ligne.</div>
-        </div>` : ''}
+        </div>`
+          : ''
+      }
 
       <dl class="ad-facts ad-facts-tight">
         <div class="ad-fact">
           <dt>${icone('i-calendar')}Date</dt>
-          <dd>${ev.starts_at
-            ? `<b>${echapper(AdminStore.dateLongue(ev.starts_at))}</b><small>${echapper(AdminStore.quand(ev.starts_at))}</small>`
-            : '<span class="ad-muet">Non précisée</span>'}</dd>
+          <dd>${
+            ev.starts_at
+              ? `<b>${echapper(AdminStore.dateLongue(ev.starts_at))}</b><small>${echapper(AdminStore.quand(ev.starts_at))}</small>`
+              : '<span class="ad-muet">Non précisée</span>'
+          }</dd>
         </div>
         <div class="ad-fact">
           <dt>${icone('i-calendar')}Fin de parution</dt>
-          <dd>${ev.ends_at
-            ? `<b>${echapper(AdminStore.dateLongue(ev.ends_at))}</b>`
-            : '<span class="ad-muet">Aucune : reste publié indéfiniment</span>'}</dd>
+          <dd>${
+            ev.ends_at
+              ? `<b>${echapper(AdminStore.dateLongue(ev.ends_at))}</b>`
+              : '<span class="ad-muet">Aucune : reste publié indéfiniment</span>'
+          }</dd>
         </div>
         <div class="ad-fact">
           <dt>${icone('i-tag')}Étiquette</dt>
@@ -341,29 +368,43 @@
 
       <h3 class="ad-box-title ad-box-title-sep">Actions</h3>
       <div class="ad-rows">
-        ${archiveManuel ? `
+        ${
+          archiveManuel
+            ? `
           <button type="button" class="ad-row" data-do="desarchiver">
             ${icone('i-layers', 'ad-ico-lg')}
-            <span><strong>Désarchiver</strong>${expire
-              ? 'La fin de parution est aussi dépassée : modifiez-la pour remettre la fiche en ligne.'
-              : 'La fiche revient dans la section « Événements à venir » du site.'}</span>
+            <span><strong>Désarchiver</strong>${
+              expire
+                ? 'La fin de parution est aussi dépassée : modifiez-la pour remettre la fiche en ligne.'
+                : 'La fiche revient dans la section « Événements à venir » du site.'
+            }</span>
             ${icone('i-arrow')}
-          </button>` : `
-          ${archiveParDateSeule ? '' : `
+          </button>`
+            : `
+          ${
+            archiveParDateSeule
+              ? ''
+              : `
           <button type="button" class="ad-row" data-do="${ev.featured ? 'retirerBandeau' : 'mettreEnAvant'}">
             ${icone(ev.featured ? 'i-eye-off' : 'i-eye', 'ad-ico-lg')}
-            <span><strong>${ev.featured ? 'Retirer du bandeau' : 'Mettre en avant dans le bandeau'}</strong>${ev.featured
-              ? 'L’événement reste publié sur le site ; seul le bandeau du haut disparaît.'
-              : 'Remplace l’événement actuellement en avant, s’il y en a un. Celui-ci reste de toute façon visible dans la section.'}</span>
+            <span><strong>${ev.featured ? 'Retirer du bandeau' : 'Mettre en avant dans le bandeau'}</strong>${
+              ev.featured
+                ? 'L’événement reste publié sur le site ; seul le bandeau du haut disparaît.'
+                : 'Remplace l’événement actuellement en avant, s’il y en a un. Celui-ci reste de toute façon visible dans la section.'
+            }</span>
             ${icone('i-arrow')}
-          </button>`}
+          </button>`
+          }
           <button type="button" class="ad-row" data-do="archiver">
             ${icone('i-archive', 'ad-ico-lg')}
-            <span><strong>Archiver</strong>${archiveParDateSeule
-              ? 'Verrouille son retrait du site : elle ne reviendra pas en ligne même si vous repoussez la date de fin plus tard.'
-              : 'La fiche est rangée dans les archives et retirée du site.'}</span>
+            <span><strong>Archiver</strong>${
+              archiveParDateSeule
+                ? 'Verrouille son retrait du site : elle ne reviendra pas en ligne même si vous repoussez la date de fin plus tard.'
+                : 'La fiche est rangée dans les archives et retirée du site.'
+            }</span>
             ${icone('i-arrow')}
-          </button>`}
+          </button>`
+        }
         <button type="button" class="ad-row ad-row-danger" data-do="supprimer">
           ${icone('i-trash', 'ad-ico-lg')}
           <span><strong>Supprimer définitivement</strong>La fiche est effacée. Cette action ne peut pas être annulée.</span>
@@ -378,7 +419,13 @@
       titre: ev.title,
       corps,
       actions: [
-        { id: 'modifier', label: 'Modifier', icone: 'i-pencil', style: 'ad-btn-primary', onClick: () => ouvrirFormulaire(ev) },
+        {
+          id: 'modifier',
+          label: 'Modifier',
+          icone: 'i-pencil',
+          style: 'ad-btn-primary',
+          onClick: () => ouvrirFormulaire(ev)
+        },
         { id: 'fermer', label: 'Fermer', onClick: () => AdminPanel.fermer() }
       ]
     });
@@ -554,7 +601,9 @@
     // Compteurs de caractères, mis à jour à la frappe.
     corps.querySelectorAll('[data-counter]').forEach((p) => {
       const champ = corps.querySelector(`#${p.dataset.counter}`);
-      const maj = () => { p.textContent = `${champ.value.length}/${champ.maxLength}`; };
+      const maj = () => {
+        p.textContent = `${champ.value.length}/${champ.maxLength}`;
+      };
       champ.addEventListener('input', maj);
       maj();
     });
@@ -566,7 +615,8 @@
     function rendreImage() {
       const slot = corps.querySelector('[data-slot="image"]');
       const affichee = imagePendingDataUrl || (imageRetiree ? null : imageUrl);
-      slot.innerHTML = affichee ? `
+      slot.innerHTML = affichee
+        ? `
         <div class="ad-image-preview-wrap">
           <img class="ad-image-preview" src="${echapper(affichee)}" alt="">
           <div class="ad-image-actions">
@@ -574,7 +624,8 @@
             <button type="button" class="ad-btn ad-btn-line ad-btn-sm" data-img="retirer">Retirer l’image</button>
           </div>
         </div>
-      ` : `
+      `
+        : `
         <label class="ad-image-drop" for="ev-image-input">
           ${icone('i-image', 'ad-ico-xl')}
           <span>Ajouter une image</span>
@@ -583,12 +634,13 @@
       const changer = slot.querySelector('[data-img="changer"]');
       if (changer) changer.addEventListener('click', () => fichierInput.click());
       const retirer = slot.querySelector('[data-img="retirer"]');
-      if (retirer) retirer.addEventListener('click', () => {
-        imagePendingDataUrl = null;
-        imageRetiree = true;
-        fichierInput.value = '';
-        rendreImage();
-      });
+      if (retirer)
+        retirer.addEventListener('click', () => {
+          imagePendingDataUrl = null;
+          imageRetiree = true;
+          fichierInput.value = '';
+          rendreImage();
+        });
     }
     rendreImage();
 
@@ -596,7 +648,9 @@
       const fichier = fichierInput.files && fichierInput.files[0];
       if (!fichier) return;
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(fichier.type)) {
-        AdminPanel.alerte('Format d’image non pris en charge : utilisez un JPEG, un PNG ou un WebP.');
+        AdminPanel.alerte(
+          'Format d’image non pris en charge : utilisez un JPEG, un PNG ou un WebP.'
+        );
         fichierInput.value = '';
         return;
       }
@@ -633,7 +687,11 @@
       }
 
       AdminPanel.cacherAlerte();
-      AdminPanel.occuper('enregistrer', true, imagePendingDataUrl ? 'Envoi de l’image…' : 'Enregistrement…');
+      AdminPanel.occuper(
+        'enregistrer',
+        true,
+        imagePendingDataUrl ? 'Envoi de l’image…' : 'Enregistrement…'
+      );
 
       if (imagePendingDataUrl) {
         try {
@@ -644,7 +702,9 @@
           imagePendingDataUrl = null;
         } catch {
           AdminPanel.occuper('enregistrer', false);
-          AdminPanel.alerte('L’image n’a pas pu être envoyée. Réessayez, ou enregistrez sans image.');
+          AdminPanel.alerte(
+            'L’image n’a pas pu être envoyée. Réessayez, ou enregistrez sans image.'
+          );
           return;
         }
       }
@@ -654,7 +714,9 @@
         await AdminStore.enregistrer(payload, modif ? ev.id : null);
       } catch {
         AdminPanel.occuper('enregistrer', false);
-        AdminPanel.alerte('L’enregistrement a échoué. Vos informations sont toujours là : réessayez.');
+        AdminPanel.alerte(
+          'L’enregistrement a échoué. Vos informations sont toujours là : réessayez.'
+        );
         return;
       }
       AdminPanel.fermer();
@@ -672,7 +734,13 @@
       titre: modif ? ev.title : 'Ajouter un événement',
       corps,
       actions: [
-        { id: 'enregistrer', label: 'Enregistrer', icone: 'i-check', style: 'ad-btn-primary', onClick: enregistrer },
+        {
+          id: 'enregistrer',
+          label: 'Enregistrer',
+          icone: 'i-check',
+          style: 'ad-btn-primary',
+          onClick: enregistrer
+        },
         {
           id: 'annuler',
           label: modif ? 'Revenir à la fiche' : 'Annuler',

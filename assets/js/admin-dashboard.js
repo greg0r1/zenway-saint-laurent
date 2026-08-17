@@ -126,7 +126,9 @@
           </div>
         </section>
       `;
-      cible.querySelector('[data-action="retry"]').addEventListener('click', () => AdminStore.charger());
+      cible
+        .querySelector('[data-action="retry"]')
+        .addEventListener('click', () => AdminStore.charger());
       return;
     }
 
@@ -142,16 +144,22 @@
           <div class="ad-fact">
             <dt>Mis en avant dans le bandeau</dt>
             <dd>
-              ${vedette ? `
+              ${
+                vedette
+                  ? `
                 <span class="ad-pill ad-pill-live">${icone('i-eye')}En avant</span>
                 <b>${echapper(vedette.title)}</b>
-                <small>${vedette.starts_at
-                  ? `${echapper(AdminStore.dateLongue(vedette.starts_at))} · ${echapper(AdminStore.quand(vedette.starts_at))}`
-                  : 'Aucune date renseignée'}</small>
-              ` : `
+                <small>${
+                  vedette.starts_at
+                    ? `${echapper(AdminStore.dateLongue(vedette.starts_at))} · ${echapper(AdminStore.quand(vedette.starts_at))}`
+                    : 'Aucune date renseignée'
+                }</small>
+              `
+                  : `
                 <span class="ad-pill">${icone('i-eye-off')}Rien en avant</span>
                 <small>Le bandeau en haut du site est masqué. Les événements publiés restent visibles dans leur section.</small>
-              `}
+              `
+              }
             </dd>
             <a class="ad-fact-go" href="#/events">Gérer${icone('i-arrow')}</a>
           </div>
@@ -159,13 +167,17 @@
           <div class="ad-fact">
             <dt>Prochaine séance</dt>
             <dd>
-              ${seance ? `
+              ${
+                seance
+                  ? `
                 <b>${echapper(seance.day)} ${echapper(seance.time)}</b>
                 <small>${echapper(seance.place || seance.label || '')}</small>
-              ` : `
+              `
+                  : `
                 <span class="ad-pill">Aucun créneau</span>
                 <small>Le site invite les visiteurs à vous contacter pour connaître les horaires.</small>
-              `}
+              `
+              }
             </dd>
             <a class="ad-fact-go" href="#/planning">Voir${icone('i-arrow')}</a>
           </div>
@@ -174,9 +186,11 @@
             <dt>Événements publiés</dt>
             <dd>
               <b>${publies} ${publies > 1 ? 'événements visibles sur le site' : 'événement visible sur le site'}</b>
-              <small>${snap.archives.length
-                ? `${snap.archives.length} ${snap.archives.length > 1 ? 'autres sont archivés' : 'autre est archivé'} et ${snap.archives.length > 1 ? 'n\'apparaissent' : 'n\'apparaît'} plus sur le site.`
-                : 'Aucun événement archivé.'}</small>
+              <small>${
+                snap.archives.length
+                  ? `${snap.archives.length} ${snap.archives.length > 1 ? 'autres sont archivés' : 'autre est archivé'} et ${snap.archives.length > 1 ? "n'apparaissent" : "n'apparaît"} plus sur le site.`
+                  : 'Aucun événement archivé.'
+              }</small>
             </dd>
             <a class="ad-fact-go" href="#/events">Gérer${icone('i-arrow')}</a>
           </div>

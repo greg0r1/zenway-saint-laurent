@@ -34,7 +34,9 @@
       return;
     }
 
-    list.innerHTML = slots.map((s) => `
+    list.innerHTML = slots
+      .map(
+        (s) => `
       <div class="sheet slot">
         <p class="slot-day">${echapper(s.day)}</p>
         <p class="slot-time">${echapper(s.time)}</p>
@@ -42,7 +44,9 @@
         ${s.place ? `<p class="slot-place">${echapper(s.place)}</p>` : ''}
         ${s.note ? `<p class="slot-start">${echapper(s.note)}</p>` : ''}
       </div>
-    `).join('');
+    `
+      )
+      .join('');
   }
 
   fetch('/api/planning/public')
@@ -51,5 +55,7 @@
       if (!data) return;
       rendre(data.slots || []);
     })
-    .catch(() => { /* API indisponible : contenu statique par défaut conservé */ });
+    .catch(() => {
+      /* API indisponible : contenu statique par défaut conservé */
+    });
 })();

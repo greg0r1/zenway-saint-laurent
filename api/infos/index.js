@@ -13,13 +13,13 @@
    dans db/README.md).
    ============================================================ */
 const { getSupabase } = require('../_lib/supabase');
-const { getSessionEmail } = require('../_lib/session');
+const { exigerAdmin } = require('../_lib/session');
 const { champTropLong, champObligatoireInvalide, urlInvalide } = require('../_lib/infos');
+const { logAudit, logErreur } = require('../_lib/log');
 
 module.exports = async (req, res) => {
-  const supabase = getSupabase();
-
   if (req.method === 'GET') {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('infos_pratiques')
       .select('address, map_url, parking, phone, email, next_session')
@@ -28,6 +28,7 @@ module.exports = async (req, res) => {
       .maybeSingle();
 
     if (error) {
+      logErreur('infos.read', error);
       res.status(500).json({ error: 'server_error' });
       return;
     }
@@ -36,12 +37,12 @@ module.exports = async (req, res) => {
   }
 
   if (req.method === 'PUT') {
-    const email = getSessionEmail(req);
-    if (!email) {
-      res.status(401).json({ error: 'unauthenticated' });
-      return;
-    }
+    // Le garde passe avant tout le reste, client de base de données
+    // compris : une requête non authentifiée ne doit rien déclencher.
+    const email = exigerAdmin(req, res);
+    if (!email) return;
 
+    const supabase = getSupabase();
     const { address, map_url, parking, phone, email: contactEmail, next_session } = req.body || {};
     const payload = { address, map_url, parking, phone, email: contactEmail, next_session };
 
@@ -73,11 +74,16 @@ module.exports = async (req, res) => {
       .maybeSingle();
 
     if (erreurLecture) {
+      logErreur('infos.update.read', erreurLecture, email);
       res.status(500).json({ error: 'server_error' });
       return;
     }
     if (!existante) {
-      res.status(500).json({ error: 'no_row', message: 'Aucune fiche « Infos pratiques » en base. Jouez la migration 008 et son seed.' });
+      logErreur('infos.update', new Error('aucune fiche infos_pratiques en base'), email);
+      res.status(500).json({
+        error: 'no_row',
+        message: 'Aucune fiche « Infos pratiques » en base. Jouez la migration 008 et son seed.'
+      });
       return;
     }
 
@@ -99,9 +105,11 @@ module.exports = async (req, res) => {
       .single();
 
     if (error) {
+      logErreur('infos.update', error, email);
       res.status(500).json({ error: 'server_error' });
       return;
     }
+    logAudit('infos.update', email, { champs: Object.keys(updates) });
     res.status(200).json({ infos: data });
     return;
   }

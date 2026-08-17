@@ -40,7 +40,13 @@
      pour le canvas recadré du mobile) : le galet est invisible avant
      d'atteindre la limite. */
   mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 68%, transparent 88%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 68%, transparent 88%);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 18%,
+    black 68%,
+    transparent 88%
+  );
 }
 
 /* Un pigment menthe qui passe derrière le titre le rendrait illisible :
@@ -51,11 +57,13 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(101deg,
-      rgba(var(--ink-overlay), 0.95) 0%,
-      rgba(var(--ink-overlay), 0.9) 30%,
-      rgba(var(--ink-overlay), 0.4) 52%,
-      transparent 66%);
+  background: linear-gradient(
+    101deg,
+    rgba(var(--ink-overlay), 0.95) 0%,
+    rgba(var(--ink-overlay), 0.9) 30%,
+    rgba(var(--ink-overlay), 0.4) 52%,
+    transparent 66%
+  );
   pointer-events: none;
 }
 
@@ -235,7 +243,10 @@ h1 {
   text-decoration: none;
   padding-bottom: 3px;
   border-bottom: 1px solid rgba(216, 243, 220, 0.42);
-  transition: color 0.2s ease, border-color 0.2s ease, gap 0.2s ease;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    gap 0.2s ease;
 }
 
 .link-arrow::after {
@@ -310,7 +321,9 @@ h1 {
   flex: none;
   outline: 1px solid rgba(216, 243, 220, 0.28);
   opacity: 0.35;
-  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .drops li.in .chip {
@@ -318,10 +331,18 @@ h1 {
   transform: scale(1.2);
 }
 
-.c1 { background: var(--teal); }
-.c2 { background: var(--mint); }
-.c3 { background: var(--teal-bright); }
-.c4 { background: var(--gold); }
+.c1 {
+  background: var(--teal);
+}
+.c2 {
+  background: var(--mint);
+}
+.c3 {
+  background: var(--teal-bright);
+}
+.c4 {
+  background: var(--gold);
+}
 
 /* ---------- LA SECTION : ce qu'est l'association, en clair ---------- */
 .section-band {

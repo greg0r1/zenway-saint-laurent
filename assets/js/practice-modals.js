@@ -8,7 +8,7 @@
   const buttons = [...document.querySelectorAll('.more[data-modal]')];
   if (!buttons.length) return;
 
-  buttons.forEach(btn => {
+  buttons.forEach((btn) => {
     const modal = document.getElementById(btn.dataset.modal);
     if (!modal) return;
 

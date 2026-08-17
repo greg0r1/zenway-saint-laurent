@@ -4,15 +4,13 @@
    POST : crée un créneau, ajouté en fin de liste
    ============================================================ */
 const { getSupabase } = require('../_lib/supabase');
-const { getSessionEmail } = require('../_lib/session');
+const { exigerAdmin } = require('../_lib/session');
 const { champTropLong, champObligatoireInvalide } = require('../_lib/planning');
+const { logAudit, logErreur } = require('../_lib/log');
 
 module.exports = async (req, res) => {
-  const email = getSessionEmail(req);
-  if (!email) {
-    res.status(401).json({ error: 'unauthenticated' });
-    return;
-  }
+  const email = exigerAdmin(req, res);
+  if (!email) return;
 
   const supabase = getSupabase();
 
@@ -24,6 +22,7 @@ module.exports = async (req, res) => {
       .order('created_at', { ascending: true });
 
     if (error) {
+      logErreur('planning.list', error, email);
       res.status(500).json({ error: 'server_error' });
       return;
     }
@@ -54,6 +53,7 @@ module.exports = async (req, res) => {
       .maybeSingle();
 
     if (erreurDernier) {
+      logErreur('planning.create.position', erreurDernier, email);
       res.status(500).json({ error: 'server_error' });
       return;
     }
@@ -72,9 +72,11 @@ module.exports = async (req, res) => {
       .single();
 
     if (error) {
+      logErreur('planning.create', error, email);
       res.status(500).json({ error: 'server_error' });
       return;
     }
+    logAudit('planning.create', email, { id: data.id, day: data.day, time: data.time });
     res.status(201).json({ slot: data });
     return;
   }

@@ -47,10 +47,18 @@
   function optionsJours(valeurActuelle) {
     const connue = JOURS.includes(valeurActuelle);
     const liste = valeurActuelle && !connue ? [valeurActuelle, ...JOURS] : JOURS;
-    const vide = valeurActuelle ? '' : '<option value="" disabled selected>Choisir un jour</option>';
-    return vide + liste
-      .map((j) => `<option value="${echapper(j)}"${j === valeurActuelle ? ' selected' : ''}>${echapper(j)}</option>`)
-      .join('');
+    const vide = valeurActuelle
+      ? ''
+      : '<option value="" disabled selected>Choisir un jour</option>';
+    return (
+      vide +
+      liste
+        .map(
+          (j) =>
+            `<option value="${echapper(j)}"${j === valeurActuelle ? ' selected' : ''}>${echapper(j)}</option>`
+        )
+        .join('')
+    );
   }
 
   // Relit un horaire déjà composé ("17 h 45 — 18 h 45") pour préremplir
@@ -59,7 +67,9 @@
   // avant l'introduction de ces champs) : le formulaire repart alors
   // vide plutôt que d'afficher une valeur fausse.
   function analyserHoraire(txt) {
-    const m = String(txt || '').trim().match(/^(\d{1,2})\s*h\s*(\d{1,2})?\s*(?:[-–—]\s*(\d{1,2})\s*h\s*(\d{1,2})?)?$/i);
+    const m = String(txt || '')
+      .trim()
+      .match(/^(\d{1,2})\s*h\s*(\d{1,2})?\s*(?:[-–—]\s*(\d{1,2})\s*h\s*(\d{1,2})?)?$/i);
     if (!m) return null;
     const deux = (n) => String(n || 0).padStart(2, '0');
     return {
@@ -89,7 +99,12 @@
     page = api;
 
     page.setActions([
-      { label: 'Ajouter un créneau', icone: 'i-plus', style: 'ad-btn-primary', onClick: ouvrirNouveau }
+      {
+        label: 'Ajouter un créneau',
+        icone: 'i-plus',
+        style: 'ad-btn-primary',
+        onClick: ouvrirNouveau
+      }
     ]);
 
     root.innerHTML = `
@@ -121,7 +136,7 @@
     if (!root || !snap) return;
     const cible = root.querySelector('[data-slot="liste"]');
 
-    if (page) page.setBadge(snap.statut === 'pret' ? (snap.slots.length || null) : null);
+    if (page) page.setBadge(snap.statut === 'pret' ? snap.slots.length || null : null);
 
     if (snap.statut === 'chargement' || snap.statut === 'attente') {
       cible.innerHTML = `
@@ -138,16 +153,20 @@
         <div class="ad-alert" role="alert">
           ${icone('i-alert')}
           <div>
-            ${snap.erreur === 'session'
-              ? 'Votre session a expiré. Rechargez la page pour vous reconnecter.'
-              : 'Le planning n’a pas pu être chargé.'}
+            ${
+              snap.erreur === 'session'
+                ? 'Votre session a expiré. Rechargez la page pour vous reconnecter.'
+                : 'Le planning n’a pas pu être chargé.'
+            }
             <div class="ad-alert-actions">
               <button type="button" class="ad-btn ad-btn-line ad-btn-sm" data-action="retry">Réessayer</button>
             </div>
           </div>
         </div>
       `;
-      cible.querySelector('[data-action="retry"]').addEventListener('click', () => AdminStore.chargerPlanning());
+      cible
+        .querySelector('[data-action="retry"]')
+        .addEventListener('click', () => AdminStore.chargerPlanning());
       return;
     }
 
@@ -257,18 +276,26 @@
 
       <h3 class="ad-box-title ad-box-title-sep">Actions</h3>
       <div class="ad-rows">
-        ${!premier ? `
+        ${
+          !premier
+            ? `
         <button type="button" class="ad-row" data-do="monter">
           ${icone('i-arrow-up', 'ad-ico-lg')}
           <span><strong>Monter</strong>Fait apparaître ce créneau avant le précédent dans la section « Planning ».</span>
           ${icone('i-arrow')}
-        </button>` : ''}
-        ${!dernier ? `
+        </button>`
+            : ''
+        }
+        ${
+          !dernier
+            ? `
         <button type="button" class="ad-row" data-do="descendre">
           ${icone('i-arrow-down', 'ad-ico-lg')}
           <span><strong>Descendre</strong>Fait apparaître ce créneau après le suivant dans la section « Planning ».</span>
           ${icone('i-arrow')}
-        </button>` : ''}
+        </button>`
+            : ''
+        }
         <button type="button" class="ad-row ad-row-danger" data-do="supprimer">
           ${icone('i-trash', 'ad-ico-lg')}
           <span><strong>Supprimer définitivement</strong>Le créneau est effacé. Cette action ne peut pas être annulée.</span>
@@ -283,7 +310,13 @@
       titre: `${slot.day} · ${slot.time}`,
       corps,
       actions: [
-        { id: 'modifier', label: 'Modifier', icone: 'i-pencil', style: 'ad-btn-primary', onClick: () => ouvrirFormulaire(slot) },
+        {
+          id: 'modifier',
+          label: 'Modifier',
+          icone: 'i-pencil',
+          style: 'ad-btn-primary',
+          onClick: () => ouvrirFormulaire(slot)
+        },
         { id: 'fermer', label: 'Fermer', onClick: () => AdminPanel.fermer() }
       ]
     });
@@ -312,7 +345,10 @@
       return;
     }
     AdminPanel.fermer();
-    if (page) page.flash(quoi === 'monter' ? 'Créneau déplacé vers le haut.' : 'Créneau déplacé vers le bas.');
+    if (page)
+      page.flash(
+        quoi === 'monter' ? 'Créneau déplacé vers le haut.' : 'Créneau déplacé vers le bas.'
+      );
   }
 
   function confirmerSuppression(slot) {
@@ -422,7 +458,9 @@
 
     corps.querySelectorAll('[data-counter]').forEach((p) => {
       const champ = corps.querySelector(`#${p.dataset.counter}`);
-      const maj = () => { p.textContent = `${champ.value.length}/${champ.maxLength}`; };
+      const maj = () => {
+        p.textContent = `${champ.value.length}/${champ.maxLength}`;
+      };
       champ.addEventListener('input', maj);
       maj();
     });
@@ -454,7 +492,9 @@
         await AdminStore.enregistrerPlanning(payload, modif ? slot.id : null);
       } catch {
         AdminPanel.occuper('enregistrer', false);
-        AdminPanel.alerte('L’enregistrement a échoué. Vos informations sont toujours là : réessayez.');
+        AdminPanel.alerte(
+          'L’enregistrement a échoué. Vos informations sont toujours là : réessayez.'
+        );
         return;
       }
       AdminPanel.fermer();
@@ -472,7 +512,13 @@
       titre: modif ? `${slot.day} · ${slot.time}` : 'Ajouter un créneau',
       corps,
       actions: [
-        { id: 'enregistrer', label: 'Enregistrer', icone: 'i-check', style: 'ad-btn-primary', onClick: enregistrer },
+        {
+          id: 'enregistrer',
+          label: 'Enregistrer',
+          icone: 'i-check',
+          style: 'ad-btn-primary',
+          onClick: enregistrer
+        },
         {
           id: 'annuler',
           label: modif ? 'Revenir à la fiche' : 'Annuler',

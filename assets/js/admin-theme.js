@@ -38,7 +38,9 @@ const AdminTheme = (function adminTheme() {
     try {
       if (choix === 'systeme') localStorage.removeItem(CLE);
       else localStorage.setItem(CLE, choix);
-    } catch { /* navigation privée : le thème vaut pour la session */ }
+    } catch {
+      /* navigation privée : le thème vaut pour la session */
+    }
     return appliquer(choix);
   }
 

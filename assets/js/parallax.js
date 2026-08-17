@@ -9,7 +9,7 @@
 (function parallax() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const layers = [...document.querySelectorAll('[data-par]')].map(el => ({
+  const layers = [...document.querySelectorAll('[data-par]')].map((el) => ({
     el,
     rate: parseFloat(el.dataset.par) || 0
   }));

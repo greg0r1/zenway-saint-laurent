@@ -9,7 +9,7 @@ const AdminStore = (function adminStore() {
   const abonnes = [];
 
   const etat = {
-    statut: 'attente',   // attente | chargement | pret | erreur
+    statut: 'attente', // attente | chargement | pret | erreur
     events: [],
     erreur: null
   };
@@ -150,8 +150,20 @@ const AdminStore = (function adminStore() {
 
   /* ---------- Mise en forme des dates, partagée par les pages ---------- */
 
-  const MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
-    'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  const MOIS = [
+    'janvier',
+    'février',
+    'mars',
+    'avril',
+    'mai',
+    'juin',
+    'juillet',
+    'août',
+    'septembre',
+    'octobre',
+    'novembre',
+    'décembre'
+  ];
   const JOURS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
 
   function versDate(iso) {
@@ -169,7 +181,11 @@ const AdminStore = (function adminStore() {
   function dateCourte(iso) {
     const d = versDate(iso);
     if (!d) return null;
-    return { jour: String(d.getDate()), mois: MOIS[d.getMonth()].slice(0, 4), annee: String(d.getFullYear()) };
+    return {
+      jour: String(d.getDate()),
+      mois: MOIS[d.getMonth()].slice(0, 4),
+      annee: String(d.getFullYear())
+    };
   }
 
   /* Distance en jours pleins, du point de vue du matin d'aujourd'hui. */
@@ -206,7 +222,7 @@ const AdminStore = (function adminStore() {
   const abonnesPlanning = [];
 
   const etatPlanning = {
-    statut: 'attente',   // attente | chargement | pret | erreur
+    statut: 'attente', // attente | chargement | pret | erreur
     slots: [],
     erreur: null
   };
@@ -321,7 +337,7 @@ const AdminStore = (function adminStore() {
   const abonnesInfos = [];
 
   const etatInfos = {
-    statut: 'attente',   // attente | chargement | pret | erreur
+    statut: 'attente', // attente | chargement | pret | erreur
     infos: null,
     erreur: null
   };
@@ -398,10 +414,28 @@ const AdminStore = (function adminStore() {
   }
 
   return {
-    abonner, charger, enregistrer, modifier, supprimer, reinitialiser, instantane,
-    dateLongue, dateCourte, joursRestants, quand, estPasse, estArchive,
-    abonnerPlanning, chargerPlanning, instantanePlanning,
-    enregistrerPlanning, supprimerPlanning, deplacerPlanning,
-    abonnerInfos, chargerInfos, instantaneInfos, enregistrerInfos
+    abonner,
+    charger,
+    enregistrer,
+    modifier,
+    supprimer,
+    reinitialiser,
+    instantane,
+    dateLongue,
+    dateCourte,
+    joursRestants,
+    quand,
+    estPasse,
+    estArchive,
+    abonnerPlanning,
+    chargerPlanning,
+    instantanePlanning,
+    enregistrerPlanning,
+    supprimerPlanning,
+    deplacerPlanning,
+    abonnerInfos,
+    chargerInfos,
+    instantaneInfos,
+    enregistrerInfos
   };
 })();
