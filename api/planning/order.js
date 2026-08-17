@@ -7,7 +7,7 @@
    est refusé par la fonction elle-même.
    ============================================================ */
 const { getSupabase } = require('../_lib/supabase');
-const { getSessionEmail } = require('../_lib/session');
+const { exigerAdmin } = require('../_lib/session');
 const { logAudit, logErreur } = require('../_lib/log');
 
 // Garde-fou sur un appel manifestement aberrant : le planning tient en
@@ -15,11 +15,8 @@ const { logAudit, logErreur } = require('../_lib/log');
 const MAX_CRENEAUX = 200;
 
 module.exports = async (req, res) => {
-  const email = getSessionEmail(req);
-  if (!email) {
-    res.status(401).json({ error: 'unauthenticated' });
-    return;
-  }
+  const email = exigerAdmin(req, res);
+  if (!email) return;
 
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'method_not_allowed' });

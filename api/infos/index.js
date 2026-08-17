@@ -13,7 +13,7 @@
    dans db/README.md).
    ============================================================ */
 const { getSupabase } = require('../_lib/supabase');
-const { getSessionEmail } = require('../_lib/session');
+const { exigerAdmin } = require('../_lib/session');
 const { champTropLong, champObligatoireInvalide, urlInvalide } = require('../_lib/infos');
 const { logAudit, logErreur } = require('../_lib/log');
 
@@ -38,11 +38,8 @@ module.exports = async (req, res) => {
   }
 
   if (req.method === 'PUT') {
-    const email = getSessionEmail(req);
-    if (!email) {
-      res.status(401).json({ error: 'unauthenticated' });
-      return;
-    }
+    const email = exigerAdmin(req, res);
+    if (!email) return;
 
     const { address, map_url, parking, phone, email: contactEmail, next_session } = req.body || {};
     const payload = { address, map_url, parking, phone, email: contactEmail, next_session };

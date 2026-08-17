@@ -7,16 +7,13 @@
    cette route ne touche jamais la base.
    ============================================================ */
 const { put } = require('@vercel/blob');
-const { getSessionEmail } = require('../_lib/session');
+const { exigerAdmin } = require('../_lib/session');
 const { IMAGE_MAX_BYTES, IMAGE_MIME_TYPES } = require('../_lib/events');
 const { logAudit, logErreur } = require('../_lib/log');
 
 module.exports = async (req, res) => {
-  const email = getSessionEmail(req);
-  if (!email) {
-    res.status(401).json({ error: 'unauthenticated' });
-    return;
-  }
+  const email = exigerAdmin(req, res);
+  if (!email) return;
 
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'method_not_allowed' });

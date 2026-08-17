@@ -2,6 +2,7 @@
    SESSION — cookie admin signé (HMAC), sans dépendance JWT dédiée
    ============================================================ */
 const crypto = require('crypto');
+const { logRefus } = require('./log');
 
 const COOKIE_NAME = 'zw_admin_session';
 const MAX_AGE_SECONDS = 60 * 60 * 8; // 8h
@@ -85,4 +86,43 @@ function getSessionEmail(req) {
   return email;
 }
 
-module.exports = { createSessionCookie, clearSessionCookie, getSessionEmail, COOKIE_NAME };
+function emailsAutorises() {
+  return (process.env.ADMIN_EMAILS || '')
+    .split(',')
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+/* Garde d'entrée des routes admin. Renvoie l'e-mail, ou null après
+   avoir répondu 401 — l'appelant n'a plus qu'à sortir.
+
+   La whitelist est relue à chaque requête, et pas seulement à la
+   connexion : sans cela, un cookie signé reste valable 8 h, et retirer
+   un e-mail de ADMIN_EMAILS (départ, compte Google compromis) ne
+   coupait l'accès qu'à l'expiration. Le coût est nul, la variable
+   d'environnement est déjà en mémoire. */
+function exigerAdmin(req, res) {
+  const email = getSessionEmail(req);
+  if (!email) {
+    res.status(401).json({ error: 'unauthenticated' });
+    return null;
+  }
+  if (!emailsAutorises().includes(email.toLowerCase())) {
+    // Cookie valide mais e-mail retiré de la whitelist entre-temps :
+    // c'est une révocation qui s'applique, pas une panne.
+    logRefus('revoked_admin', { email });
+    res.setHeader('Set-Cookie', clearSessionCookie());
+    res.status(401).json({ error: 'unauthenticated' });
+    return null;
+  }
+  return email;
+}
+
+module.exports = {
+  createSessionCookie,
+  clearSessionCookie,
+  getSessionEmail,
+  exigerAdmin,
+  emailsAutorises,
+  COOKIE_NAME
+};

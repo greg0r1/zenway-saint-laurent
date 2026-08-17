@@ -2,7 +2,7 @@
    POST /api/auth/google — vérifie le token Google, whitelist, pose le cookie
    ============================================================ */
 const { verifyGoogleToken } = require('../_lib/google');
-const { createSessionCookie } = require('../_lib/session');
+const { createSessionCookie, emailsAutorises } = require('../_lib/session');
 const { logAudit, logRefus } = require('../_lib/log');
 
 module.exports = async (req, res) => {
@@ -32,12 +32,10 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const allowed = (process.env.ADMIN_EMAILS || '')
-    .split(',')
-    .map((e) => e.trim().toLowerCase())
-    .filter(Boolean);
-
-  if (!allowed.includes(payload.email.toLowerCase())) {
+  // Même source de vérité que le garde des routes admin (exigerAdmin),
+  // pour que la connexion et chaque requête suivante lisent la whitelist
+  // exactement de la même façon.
+  if (!emailsAutorises().includes(payload.email.toLowerCase())) {
     // Un compte Google valide mais hors whitelist : c'est le signal
     // qu'on veut voir remonter, pas une simple erreur de saisie.
     logRefus('not_authorized', { email: payload.email });
