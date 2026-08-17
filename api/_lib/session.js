@@ -6,9 +6,26 @@ const crypto = require('crypto');
 const COOKIE_NAME = 'zw_admin_session';
 const MAX_AGE_SECONDS = 60 * 60 * 8; // 8h
 
-function sign(payload) {
+// Plancher d'entropie du secret de signature. Sans ce contrôle, un
+// SESSION_SECRET vide ou trop court passerait sans bruit : createHmac
+// l'accepte, et la signature devient devinable. Le format du payload
+// (`email|expiration`) étant connu, un secret faible suffirait à forger
+// une session admin complète sans jamais passer par Google.
+const SECRET_MIN_LENGTH = 32;
+
+function secretSession() {
   const secret = process.env.SESSION_SECRET;
-  return crypto.createHmac('sha256', secret).update(payload).digest('base64url');
+  if (typeof secret !== 'string' || secret.length < SECRET_MIN_LENGTH) {
+    throw new Error(
+      `SESSION_SECRET absent ou trop court (${SECRET_MIN_LENGTH} caractères minimum). ` +
+      'Générez-en un avec : openssl rand -base64 48'
+    );
+  }
+  return secret;
+}
+
+function sign(payload) {
+  return crypto.createHmac('sha256', secretSession()).update(payload).digest('base64url');
 }
 
 function createSessionCookie(email) {
