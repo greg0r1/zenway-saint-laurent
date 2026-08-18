@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <!-- Ensō — le cercle tracé d'un souffle. Décoratif, sur fond sombre. -->
+  <defs>
+    <radialGradient id="halo" cx=".5" cy=".5" r=".5">
+      <stop offset=".55" stop-color="#f3ecdc" stop-opacity="0"/>
+      <stop offset=".82" stop-color="#f3ecdc" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#f3ecdc" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="brosse" x1=".1" y1="0" x2=".9" y2="1">
+      <stop offset="0" stop-color="#fdf8ec"/>
+      <stop offset=".42" stop-color="#f2ebd9"/>
+      <stop offset=".78" stop-color="#d9cfb2"/>
+      <stop offset="1" stop-color="#b8ae90"/>
+    </linearGradient>
+    <filter id="lueur" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+  </defs>
+
+  <circle cx="200" cy="200" r="190" fill="url(#halo)"/>
+
+  <g filter="url(#lueur)" opacity=".38">
+    <path d="M214 46c81 7 145 75 145 158 0 87-71 158-158 158S43 291 43 204c0-72 48-133 114-152"
+          fill="none" stroke="#fdf8ec" stroke-width="20" stroke-linecap="round"/>
+  </g>
+
+  <!-- Le trait : deux arcs qui se referment, épais au sommet, effilé à la sortie -->
+  <path d="M157 52c-9 3-6 17 3 15 68-16 141 34 141 116 0 68-55 123-123 123S55 251 55 183c0-40 19-77 51-100 8-6 0-19-9-13-38 26-60 68-60 113 0 76 62 138 138 138s138-62 138-138C313 105 240 39 157 52Z"
+        fill="url(#brosse)"/>
+  <path d="M282 300c-6 6-2 15 6 12 21-9 38-25 48-46 3-8-8-13-12-5-9 17-24 31-42 39Z"
+        fill="url(#brosse)" opacity=".8"/>
+</svg>

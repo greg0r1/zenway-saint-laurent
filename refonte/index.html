@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Zenway Saint-Laurent-du-Var — refonte (aperçu)</title>
+    <meta
+      name="description"
+      content="Aperçu de la refonte graphique du site Zenway Saint-Laurent-du-Var. Page de travail, non indexée."
+    />
+    <link rel="icon" href="../assets/img/favicons/favicon-32.png" sizes="32x32" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="../assets/fonts/dmsans-latin.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="../assets/fonts/cormorant-normal-latin.woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../assets/css/fonts.css" />
+    <link rel="stylesheet" href="../assets/css/refonte.css" />
+  </head>
+  <body>
+    <!--
+      THESIS: une seule discipline, montrée comme un seul geste continu — la page
+      alterne des bandes crème respirantes et des bandes sombres profondes plutôt
+      que d'empiler les cartes-icône-titre-texte du site associatif type.
+      OWN-WORLD: crème #f8f4ec et ardoise chaude #343b3d en champs pleins pleine
+      largeur ; or #c9a86a et sauge #5d7358 en accents ; illustrations au trait
+      dessinées ici (bambou, rameau, courbes de niveau, galets, ensō) ; médaillons
+      circulaires cerclés d'or ; DM Sans 300 en capitales larges, Cormorant en titres.
+      STORY: le visiteur comprend en un écran que les quatre héritages n'en font
+      qu'un, voit quand et où cela se pratique, et part s'inscrire sur HelloAsso.
+      FIRST VIEWPORT: bandeau clair, titre en capitales à gauche sur trois lignes,
+      bouton sauge dessous, silhouette de Béatrice découpée à droite dans un halo,
+      bambou au trait à droite, rameau en bas à gauche, courbes de niveau au sol.
+      FORM: maquette fournie par l'utilisateur et épinglée — reproduction, pas de tirage.
+      FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+    -->
+
+    <a class="r-skip" href="#contenu">Aller au contenu</a>
+
+    <!-- Jeu d'icônes — tracé 1,5 px, bouts arrondis, dessiné pour cette page -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+      <defs>
+        <g
+          id="i-calendrier"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="3" y="5" width="18" height="16" rx="2.5" />
+          <path d="M3 10h18M8 3v4M16 3v4" />
+          <circle cx="8.5" cy="14.5" r="1.1" fill="currentColor" stroke="none" />
+          <circle cx="12.5" cy="14.5" r="1.1" fill="currentColor" stroke="none" />
+        </g>
+        <g
+          id="i-lieu"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" />
+          <circle cx="12" cy="10" r="2.6" />
+        </g>
+        <g
+          id="i-tel"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M6.5 3h3l1.6 4-2 1.4a12.5 12.5 0 0 0 6.5 6.5l1.4-2 4 1.6v3a2 2 0 0 1-2.2 2A17.5 17.5 0 0 1 4.5 5.2 2 2 0 0 1 6.5 3Z"
+          />
+        </g>
+        <g
+          id="i-mail"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="3" y="5" width="18" height="14" rx="2.5" />
+          <path d="m3.6 7 8.4 6 8.4-6" />
+        </g>
+        <g
+          id="i-voiture"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4 16v2.5M20 16v2.5M3 16h18v-3.6L19.2 8H4.8L3 12.4Z" />
+          <path d="M3 12.4h18" />
+          <circle cx="7" cy="16" r="1.4" />
+          <circle cx="17" cy="16" r="1.4" />
+        </g>
+        <g
+          id="i-horloge"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="8.5" />
+          <path d="M12 7.2V12l3.2 2" />
+        </g>
+        <g
+          id="i-feuille"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4 20c0-8 5.6-14 16-14 0 9-5.4 14-12 14H4Z" />
+          <path d="M4 20C8 15 12 12 17 10" />
+        </g>
+        <g
+          id="i-lecture"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M8 5.6v12.8L19 12 8 5.6Z" fill="currentColor" stroke="none" />
+        </g>
+        <g id="i-facebook">
+          <path
+            fill="currentColor"
+            d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5H16.7V3.6a21 21 0 0 0-2.4-.13c-2.4 0-4 1.45-4 4.13V9.9H7.6V13h2.7v8Z"
+          />
+        </g>
+        <g id="i-instagram" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3.4" y="3.4" width="17.2" height="17.2" rx="5" />
+          <circle cx="12" cy="12" r="3.9" />
+          <circle cx="16.9" cy="7.1" r="1.05" fill="currentColor" stroke="none" />
+        </g>
+        <g id="i-youtube">
+          <path
+            fill="currentColor"
+            d="M21.3 8.1a2.6 2.6 0 0 0-1.8-1.85C17.9 5.8 12 5.8 12 5.8s-5.9 0-7.5.45A2.6 2.6 0 0 0 2.7 8.1 27 27 0 0 0 2.25 12c0 1.35.15 2.7.45 3.9a2.6 2.6 0 0 0 1.8 1.85c1.6.45 7.5.45 7.5.45s5.9 0 7.5-.45a2.6 2.6 0 0 0 1.8-1.85c.3-1.2.45-2.55.45-3.9s-.15-2.7-.45-3.9ZM10.2 14.85v-5.7L15 12Z"
+          />
+        </g>
+        <g
+          id="i-reseau"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="8.5" />
+          <path d="M3.5 12h17M12 3.5c2.4 2.6 2.4 14.4 0 17M12 3.5c-2.4 2.6-2.4 14.4 0 17" />
+        </g>
+      </defs>
+    </svg>
+
+    <!-- ============ NAV ============ -->
+    <header class="r-nav" id="nav">
+      <div class="r-nav-in">
+        <a class="r-brand" href="#accueil" aria-label="Zenway Saint-Laurent-du-Var, accueil">
+          <img src="../assets/img/logo/logo-zenway.png" width="176" height="131" alt="" />
+          <span class="r-brand-txt">Saint-Laurent-<wbr />du-Var</span>
+        </a>
+
+        <nav aria-label="Navigation principale">
+          <ul class="r-links" id="navLinks">
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#pratiques">Nos pratiques</a></li>
+            <li><a href="#tarifs">Adhésion</a></li>
+            <li><a href="#videos">Vidéos</a></li>
+            <li><a href="#evenements">Événements</a></li>
+            <li><a href="#planning">Planning</a></li>
+            <li><a href="#infos">Contact</a></li>
+          </ul>
+        </nav>
+
+        <button
+          class="r-burger"
+          id="burger"
+          type="button"
+          aria-expanded="false"
+          aria-controls="navLinks"
+          aria-label="Ouvrir le menu"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <!-- ============ HERO ============ -->
+      <section class="r-hero" id="accueil">
+        <div class="r-hero-courbes" aria-hidden="true"></div>
+        <div class="r-hero-bambou" aria-hidden="true"></div>
+        <div class="r-hero-feuillage" aria-hidden="true"></div>
+
+        <div class="r-wrap r-hero-grid">
+          <div class="r-hero-txt">
+            <p class="r-eyebrow">
+              Une nouvelle voie vers l'harmonie<br class="r-br-m" />
+              · Saint-Laurent-du-Var
+            </p>
+            <h1 class="r-display">
+              Unissez tai-chi, yoga, <br class="r-br" />pilates et qi gong <br class="r-br" />en une
+              seule pratique
+            </h1>
+            <p class="r-lede">
+              Un seul enchaînement continu, porté par une musique relaxante, animé par Béatrice
+              Viallon. Accessible à tous les âges, en complément d'un suivi médical.
+            </p>
+            <a
+              class="r-btn r-btn-sage"
+              data-helloasso-link
+              href="https://www.helloasso.com/associations/zenway-st-laurent-du-var/adhesions/zenway-st-laurent-du-var"
+              target="_blank"
+              rel="noopener"
+            >
+              S'inscrire à la saison
+            </a>
+          </div>
+
+          <figure class="r-hero-fig">
+            <img
+              src="../assets/img/bea/bea-posture-005.png"
+              width="701"
+              height="1036"
+              alt="Béatrice Viallon en posture, les bras levés en cercle au-dessus de la tête"
+              fetchpriority="high"
+            />
+          </figure>
+        </div>
+      </section>
+
+      <!-- ============ PRATIQUES & BIENFAITS ============ -->
+      <section class="r-section r-dark r-pratiques" id="pratiques">
+        <div class="r-enso" aria-hidden="true"></div>
+
+        <div class="r-wrap">
+          <div class="r-head r-reveal">
+            <h2 class="r-title">Nos pratiques &amp; bienfaits</h2>
+            <p class="r-lede">
+              Zenway n'est pas quatre cours à choisir. C'est une seule discipline, où le tai-chi
+              chuan, le yoga, le pilates et le qi gong se fondent dans un même enchaînement. Voici
+              les quatre héritages qu'il réunit.
+            </p>
+          </div>
+
+          <div class="r-medaillons">
+            <article class="r-med r-reveal">
+              <div class="r-med-ring">
+                <picture>
+                  <source srcset="../assets/img/activites/activite-taichi.webp" type="image/webp" />
+                  <img
+                    src="../assets/img/activites/activite-taichi.jpg"
+                    width="700"
+                    height="382"
+                    alt="Pratique du tai-chi chuan en extérieur"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </div>
+              <h3>Tai-chi chuan</h3>
+              <ul>
+                <li>Équilibre</li>
+                <li>Coordination</li>
+                <li>Prévention des chutes</li>
+              </ul>
+            </article>
+
+            <article class="r-med r-reveal">
+              <div class="r-med-ring">
+                <picture>
+                  <source srcset="../assets/img/activites/activite-yoga.webp" type="image/webp" />
+                  <img
+                    src="../assets/img/activites/activite-yoga.jpg"
+                    width="700"
+                    height="382"
+                    alt="Posture de yoga au sol"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </div>
+              <h3>Yoga</h3>
+              <ul>
+                <li>Souplesse</li>
+                <li>Tonicité</li>
+                <li>Gestion du stress</li>
+              </ul>
+            </article>
+
+            <article class="r-med r-reveal">
+              <div class="r-med-ring">
+                <picture>
+                  <source
+                    srcset="../assets/img/activites/activite-pilates.webp"
+                    type="image/webp"
+                  />
+                  <img
+                    src="../assets/img/activites/activite-pilates.jpg"
+                    width="700"
+                    height="382"
+                    alt="Exercice de pilates sur tapis"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </div>
+              <h3>Pilates</h3>
+              <ul>
+                <li>Gainage</li>
+                <li>Posture</li>
+                <li>Soulagement du dos</li>
+              </ul>
+            </article>
+
+            <article class="r-med r-reveal">
+              <div class="r-med-ring">
+                <picture>
+                  <source srcset="../assets/img/activites/activite-qigong.webp" type="image/webp" />
+                  <img
+                    src="../assets/img/activites/activite-qigong.jpg"
+                    width="700"
+                    height="382"
+                    alt="Mouvement de qi gong, bras ouverts"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </div>
+              <h3>Qi gong</h3>
+              <ul>
+                <li>Vitalité</li>
+                <li>Immunité</li>
+                <li>Apaisement profond</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="r-pratiques-pied r-reveal">
+            <div class="r-galets-mini" aria-hidden="true"></div>
+            <a class="r-btn r-btn-gold" href="#tarifs">Découvrir Zenway</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ TARIFS & ADHÉSION ============ -->
+      <section class="r-section r-tarifs" id="tarifs">
+        <div class="r-tarifs-bambou" aria-hidden="true"></div>
+
+        <div class="r-wrap r-tarifs-grid">
+          <div class="r-tarifs-txt r-reveal">
+            <h2 class="r-title">Adhésion &amp; inscription</h2>
+            <p class="r-lede">
+              L'inscription se fait en ligne sur HelloAsso, qui gère l'adhésion à l'association et
+              le règlement. Les montants en vigueur y sont indiqués au moment de l'inscription.
+            </p>
+            <ul class="r-tarifs-pts">
+              <li>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-feuille" /></svg>
+                <span>Une séance d'essai pour découvrir l'enchaînement avant de vous engager.</span>
+              </li>
+              <li>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-horloge" /></svg>
+                <span>Séance hebdomadaire d'une heure, en petit groupe, au KMCS.</span>
+              </li>
+              <li>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-tel" /></svg>
+                <span
+                  >Une question avant de vous inscrire ? Béatrice vous répond au 06 66 05 66
+                  49.</span
+                >
+              </li>
+            </ul>
+            <a
+              class="r-btn r-btn-sage"
+              data-helloasso-link
+              href="https://www.helloasso.com/associations/zenway-st-laurent-du-var/adhesions/zenway-st-laurent-du-var"
+              target="_blank"
+              rel="noopener"
+            >
+              S'inscrire sur HelloAsso
+            </a>
+          </div>
+
+          <div class="r-galets-grand r-reveal" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <!-- ============ VIDÉOS ============ -->
+      <section class="r-section r-dark r-videos" id="videos">
+        <div class="r-wrap">
+          <div class="r-head r-reveal">
+            <h2 class="r-title">Nos dernières vidéos</h2>
+            <p class="r-lede">
+              Des extraits de séances et de moments partagés, publiés au fil de la saison.
+            </p>
+          </div>
+
+          <div class="r-videos-grid" id="videosGrid">
+            <p class="r-videos-vide">Chargement des vidéos…</p>
+          </div>
+
+          <div class="r-videos-pied">
+            <a
+              class="r-btn r-btn-line"
+              id="ytChannelLink"
+              href="https://www.youtube.com/@beatricemeunier-r2m"
+              target="_blank"
+              rel="noopener"
+            >
+              Voir la chaîne YouTube
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ ÉVÉNEMENTS ============ -->
+      <section class="r-section r-evts" id="evenements">
+        <div class="r-wrap">
+          <div class="r-head r-reveal">
+            <h2 class="r-title">Événements à venir</h2>
+            <p class="r-lede">
+              Portes ouvertes, rencontres et rendez-vous ponctuels de la section.
+            </p>
+          </div>
+
+          <div class="r-evts-liste" id="eventsGrid"></div>
+          <p class="r-evts-vide" id="eventsEmpty">
+            Aucun événement n'est programmé pour le moment. Les prochaines dates seront annoncées
+            ici.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ PLANNING ============ -->
+      <section class="r-section r-planning" id="planning">
+        <div class="r-planning-bambou" aria-hidden="true"></div>
+
+        <div class="r-wrap">
+          <div class="r-head r-reveal">
+            <h2 class="r-title">Planning des séances</h2>
+          </div>
+
+          <div class="r-planning-carte r-reveal">
+            <div class="r-planning-scroll">
+              <table class="r-grille" id="planningGrille">
+                <caption class="r-vh">
+                  Jours et horaires des séances Zenway
+                </caption>
+                <thead>
+                  <tr>
+                    <td></td>
+                    <th scope="col">Lundi</th>
+                    <th scope="col">Mardi</th>
+                    <th scope="col">Mercredi</th>
+                    <th scope="col">Jeudi</th>
+                    <th scope="col">Vendredi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">17:45 – 18:45</th>
+                    <td></td>
+                    <td>
+                      <span class="r-creneau">
+                        <strong>Zenway</strong>
+                        <span>KMCS, 357 chemin des Iscles</span>
+                      </span>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p class="r-planning-note">
+            Les séances reprennent en septembre. Pour rejoindre le groupe en cours de saison,
+            contactez Béatrice avant de venir.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ INFOS PRATIQUES ============ -->
+      <section class="r-section r-dark r-infos" id="infos">
+        <div class="r-wrap">
+          <div class="r-head r-reveal">
+            <h2 class="r-title">Infos pratiques</h2>
+          </div>
+
+          <div class="r-infos-grid">
+            <div class="r-carte r-reveal">
+              <h3>Notre adresse</h3>
+              <div class="r-ligne">
+                <span class="r-ligne-ico"
+                  ><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-lieu" /></svg
+                ></span>
+                <p class="r-ligne-txt">
+                  <a
+                    data-info-link="address"
+                    href="https://maps.app.goo.gl/8CUUvNqfYXpvJnFf7"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    KMCS, 357 chemin des Iscles<br />06700 Saint-Laurent-du-Var
+                  </a>
+                </p>
+              </div>
+
+              <h3 style="margin-top: 26px">Contact</h3>
+              <div class="r-ligne">
+                <span class="r-ligne-ico"
+                  ><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-tel" /></svg
+                ></span>
+                <p class="r-ligne-txt">
+                  <a data-info-link="phone" href="tel:+33666056649">06 66 05 66 49</a>
+                </p>
+              </div>
+              <div class="r-ligne">
+                <span class="r-ligne-ico"
+                  ><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-mail" /></svg
+                ></span>
+                <p class="r-ligne-txt">
+                  <a data-info-link="email" href="mailto:contact@zenwaysaintlaurentduvar.fr"
+                    >contact@zenwaysaintlaurentduvar.fr</a
+                  >
+                </p>
+              </div>
+            </div>
+
+            <div class="r-carte r-reveal">
+              <div class="r-map">
+                <iframe
+                  title="Carte : KMCS, 357 chemin des Iscles, Saint-Laurent-du-Var"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1442.1935757497079!2d7.1841235!3d43.7025028!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12cdd11d1aa3c0a7%3A0x894ef048acd4af1f!2sKrav%20Maga%20Combat%20Self%20(KMCS)%20Saint%20Laurent%20du%20Var!5e0!3m2!1sfr!2sfr!4v1782476191519!5m2!1sfr!2sfr"
+                ></iframe>
+              </div>
+
+              <h3>Sur place</h3>
+              <div class="r-ligne">
+                <span class="r-ligne-ico"
+                  ><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-voiture" /></svg
+                ></span>
+                <p class="r-ligne-txt">
+                  <span class="r-ligne-lab">Stationnement</span>
+                  <span data-info="parking">Parking gratuit devant la salle.</span>
+                </p>
+              </div>
+              <div class="r-ligne" data-info-row="next_session" hidden>
+                <span class="r-ligne-ico"
+                  ><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-horloge" /></svg
+                ></span>
+                <p class="r-ligne-txt">
+                  <span class="r-ligne-lab">Prochain rendez-vous</span>
+                  <span data-info="next_session"></span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="r-footer">
+      <div class="r-footer-orn" aria-hidden="true"></div>
+
+      <div class="r-wrap r-footer-grid">
+        <section>
+          <h2>Suivez l'asso</h2>
+          <div class="r-socials">
+            <a
+              href="https://www.instagram.com/zenway06"
+              target="_blank"
+              rel="noopener"
+              aria-label="Instagram"
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-instagram" /></svg>
+            </a>
+            <a
+              href="https://www.facebook.com/share/1NozThaYE1/?mibextid=wwXIfr"
+              target="_blank"
+              rel="noopener"
+              aria-label="Facebook"
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-facebook" /></svg>
+            </a>
+            <a
+              href="https://www.youtube.com/@beatricemeunier-r2m"
+              target="_blank"
+              rel="noopener"
+              aria-label="YouTube"
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-youtube" /></svg>
+            </a>
+            <a
+              href="https://zenway-rh.fr"
+              target="_blank"
+              rel="noopener"
+              aria-label="Le réseau Zenway"
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-reseau" /></svg>
+            </a>
+          </div>
+        </section>
+
+        <section>
+          <h2>Rejoindre l'asso</h2>
+          <ul>
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#pratiques">Nos pratiques</a></li>
+            <li><a href="#planning">Planning</a></li>
+            <li><a href="#tarifs">Adhésion</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Contact</h2>
+          <ul>
+            <li>KMCS, 357 chemin des Iscles<br />06700 Saint-Laurent-du-Var</li>
+            <li><a data-info-link="phone" href="tel:+33666056649">06 66 05 66 49</a></li>
+            <li>
+              <a data-info-link="email" href="mailto:contact@zenwaysaintlaurentduvar.fr"
+                >contact@zenwaysaintlaurentduvar.fr</a
+              >
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="r-footer-bas">
+        <div class="r-wrap">Zenway Saint-Laurent-du-Var — aperçu de refonte, page non indexée.</div>
+      </div>
+    </footer>
+
+    <script src="../assets/js/config-helloasso.js"></script>
+    <script src="../assets/js/refonte.js"></script>
+  </body>
+</html>

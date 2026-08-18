@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 900" fill="none" stroke="#7f8d78" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Bambou au trait — trois cannes, noeuds et feuilles. Décoratif. -->
+  <g opacity=".9">
+    <!-- canne 1 -->
+    <path d="M64 900V0"/><path d="M92 900V0"/>
+    <path d="M64 812h28M64 686h28M64 560h28M64 434h28M64 308h28M64 182h28M64 56h28"/>
+    <path d="M64 806c9 4 19 4 28 0M64 680c9 4 19 4 28 0M64 554c9 4 19 4 28 0M64 428c9 4 19 4 28 0M64 302c9 4 19 4 28 0M64 176c9 4 19 4 28 0M64 50c9 4 19 4 28 0"/>
+    <!-- feuilles canne 1 -->
+    <path d="M92 640c34-6 62-26 82-56-32-2-62 14-82 56Z"/>
+    <path d="M92 604c30 8 60 4 86-14-28-16-60-12-86 14Z"/>
+    <path d="M64 386c-32-10-58-32-74-64 32-4 62 16 74 64Z"/>
+    <path d="M64 350c-28 10-56 8-80-8 26-18 56-18 80 8Z"/>
+    <path d="M92 214c36-4 66-24 88-54-34-4-66 12-88 54Z"/>
+  </g>
+  <g opacity=".55">
+    <!-- canne 2, plus fine et en retrait -->
+    <path d="M186 900V120"/><path d="M206 900V120"/>
+    <path d="M186 796h20M186 682h20M186 568h20M186 454h20M186 340h20M186 226h20"/>
+    <path d="M206 512c26-6 46-22 60-44-24-2-46 10-60 44Z"/>
+    <path d="M206 482c22 6 44 2 62-12-20-12-44-8-62 12Z"/>
+    <path d="M186 296c-24-8-42-24-54-46 24-2 44 12 54 46Z"/>
+    <path d="M206 176c26-4 48-18 62-40-24-2-48 8-62 40Z"/>
+  </g>
+  <g opacity=".35">
+    <!-- canne 3, la plus lointaine -->
+    <path d="M272 900V300"/><path d="M288 900V300"/>
+    <path d="M272 800h16M272 700h16M272 600h16M272 500h16M272 400h16"/>
+    <path d="M272 566c-20-6-36-20-46-38 20-2 38 10 46 38Z"/>
+    <path d="M288 452c22-4 40-16 52-34-20-2-40 8-52 34Z"/>
+  </g>
+</svg>
