@@ -273,6 +273,10 @@
     if (grilleVideos) grilleVideos.innerHTML = `<p class="r-videos-vide">${texte}</p>`;
   }
 
+  // mqdefault plutôt que hqdefault : hqdefault est un 4:3 dans lequel
+  // YouTube incruste des bandes noires pour une vidéo 16:9. Elles font
+  // partie de l'image, aucun cadrage CSS ne les enlève. mqdefault est
+  // nativement en 16:9, existe toujours, et remplit la carte proprement.
   function rendreVideos(videos) {
     if (!grilleVideos) return;
     if (!videos.length) {
@@ -285,7 +289,7 @@
         (v) => `
       <article class="r-vcard">
         <button type="button" class="r-vthumb" data-id="${echapper(v.id)}"
-          style="background-image:url(https://img.youtube.com/vi/${echapper(v.id)}/hqdefault.jpg)"
+          style="background-image:url(https://img.youtube.com/vi/${echapper(v.id)}/mqdefault.jpg)"
           aria-label="Lire la vidéo « ${echapper(v.title)} »">
           <span class="r-vplay" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-lecture"/></svg></span>
         </button>
