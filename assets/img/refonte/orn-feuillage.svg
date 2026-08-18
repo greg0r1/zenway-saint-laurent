@@ -1,20 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 420" fill="none" stroke="#a89a80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-  <!-- Rameau botanique au trait, pour le pied du hero. Décoratif. -->
-  <path d="M6 414C86 388 158 336 214 262 268 190 300 106 306 8"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 420" fill="none" stroke="#b0a289" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Rameau botanique au trait, pour le pied du hero. Une tige, des
+       feuilles espacées de part et d'autre : lisible à faible opacité. -->
   <g>
-    <path d="M262 214c-40 4-72 26-92 62 40 8 76-10 92-62Z"/>
-    <path d="M262 214c34-20 52-54 54-98-36 20-56 52-54 98Z"/>
-    <path d="M212 282c-42 0-76 20-100 56 40 12 78-4 100-56Z"/>
-    <path d="M212 282c32-22 48-58 48-102-36 22-54 56-48 102Z"/>
-    <path d="M158 340c-40 4-72 24-94 58 40 10 76-6 94-58Z"/>
-    <path d="M158 340c30-24 44-60 42-104-34 24-50 60-42 104Z"/>
-    <path d="M296 122c30-16 48-46 52-88-32 18-52 46-52 88Z"/>
-    <path d="M296 122c-36 2-64 22-82 56 36 8 68-8 82-56Z"/>
+    <path d="M4 416C96 396 176 344 236 264 296 184 330 92 340 4"/>
+    <!-- feuilles, alternées le long de la tige -->
+    <path d="M336 34c34-10 58-36 70-76-36 12-62 38-70 76Z"/>
+    <path d="M330 74c-38-6-70 8-94 42 38 10 72-4 94-42Z"/>
+    <path d="M318 122c34-14 56-42 64-84-34 16-58 44-64 84Z"/>
+    <path d="M304 166c-40-4-72 12-96 48 40 10 74-6 96-48Z"/>
+    <path d="M286 208c32-18 52-48 58-90-32 20-54 50-58 90Z"/>
+    <path d="M262 250c-42 0-76 20-100 58 42 10 78-8 100-58Z"/>
+    <path d="M236 288c30-20 48-52 52-94-30 22-50 54-52 94Z"/>
+    <path d="M198 330c-44 4-78 26-102 64 44 10 82-8 102-64Z"/>
+    <path d="M162 366c26-22 42-54 44-96-28 24-46 56-44 96Z"/>
+    <path d="M108 400c-40 6-70 26-92 60 40 8 76-8 92-60Z"/>
   </g>
-  <g opacity=".7">
-    <path d="M104 418c56-30 100-76 132-138"/>
-    <path d="M198 330c-34-2-62 14-84 46 34 8 66-4 84-46Z"/>
-    <path d="M236 264c26-18 40-48 42-88-30 20-46 50-42 88Z"/>
-  </g>
-  <circle cx="306" cy="8" r="4" fill="#a89a80" stroke="none"/>
+  <circle cx="340" cy="4" r="4.5" fill="#b0a289" stroke="none"/>
 </svg>

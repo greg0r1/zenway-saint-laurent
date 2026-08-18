@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 760" preserveAspectRatio="none">
+  <!-- Le sillage : rubans pleins qui traversent le hero, sur lesquels
+       viennent se poser les courbes fines. Décoratif. -->
+  <defs>
+    <linearGradient id="v1" x1="0" y1="0" x2="1" y2=".3">
+      <stop offset="0" stop-color="#e6dcc6"/><stop offset=".55" stop-color="#ded2b8"/><stop offset="1" stop-color="#eae1cd"/>
+    </linearGradient>
+    <linearGradient id="v2" x1="0" y1="0" x2="1" y2=".4">
+      <stop offset="0" stop-color="#f2ecdd"/><stop offset=".6" stop-color="#eae2cf"/><stop offset="1" stop-color="#f4efe3"/>
+    </linearGradient>
+    <linearGradient id="v3" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#d9cdb1"/><stop offset="1" stop-color="#e8dfc8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ruban haut, clair -->
+  <path d="M-40 352C168 352 300 268 476 214 652 160 838 168 1012 120 1186 72 1354-16 1480-152v250c-126 116-294 196-468 244-174 48-360 40-536 94-176 54-308 138-516 138Z"
+        fill="url(#v2)" opacity=".85"/>
+
+  <!-- ruban principal -->
+  <path d="M-40 470C176 470 314 386 496 332 678 278 870 286 1046 238 1222 190 1392 106 1480-6v212c-88 108-258 188-434 236-176 48-368 40-550 94-182 54-320 138-536 138Z"
+        fill="url(#v1)"/>
+
+  <!-- ruban bas, plus dense, qui fait le sol -->
+  <path d="M-40 662C184 662 328 578 516 524 704 470 902 478 1084 430 1266 382 1394 300 1480 210v550H-40Z"
+        fill="url(#v3)" opacity=".62"/>
+</svg>
