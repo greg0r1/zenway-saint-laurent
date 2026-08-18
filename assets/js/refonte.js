@@ -6,6 +6,7 @@
    silence : le contenu statique déjà présent dans la page reste
    affiché tel quel. Aucun fichier du site actuel n'est modifié.
    ============================================================ */
+/* global YT_CHANNEL_HANDLE, YT_API_KEY */
 (function refonte() {
   document.documentElement.classList.add('js');
 
@@ -97,12 +98,13 @@
     const table = document.getElementById('planningGrille');
     if (!table || !slots.length) return;
 
-    const joursUtilises = JOURS.filter((j) =>
+    // La semaine ouvrable est toujours affichée en entier : une case vide
+    // dit « pas de séance ce jour-là », c'est une information. Le week-end
+    // ne s'ajoute que si l'admin y a posé un créneau.
+    const weekEnd = JOURS.slice(5).filter((j) =>
       slots.some((s) => normaliser(s.day).startsWith(normaliser(j)))
     );
-    // Un créneau dont le jour n'est pas reconnu ne doit pas disparaître :
-    // la semaine ouvrable sert alors de grille minimale et il tombe en note.
-    const colonnes = joursUtilises.length ? joursUtilises : JOURS.slice(0, 5);
+    const colonnes = JOURS.slice(0, 5).concat(weekEnd);
 
     const horaires = [];
     slots.forEach((s) => {
@@ -255,13 +257,17 @@
     });
 
   /* ---------- Vidéos : YouTube Data API ----------
-     Mêmes identifiants que assets/js/config-videos.js. La miniature
-     ne devient une iframe qu'au clic : rien de tiers n'est chargé
-     tant que le visiteur ne demande pas la lecture. */
-  const YT_HANDLE = 'beatricemeunier-r2m';
-  const YT_KEY = 'AIzaSyCzLih88Jl6hWSqLKzX5UEdx_8RF4_Qdgc';
+     La chaîne et la clé viennent de assets/js/config-videos.js, chargé
+     juste avant : une seule copie de la clé dans le dépôt, sinon une
+     rotation en oublierait la moitié. Cette page nomme sa grille
+     `refonteVideos` pour que le rendu de config-videos.js, qui vise
+     `videosGrid`, n'écrive pas son ancien balisage ici.
+     La miniature ne devient une iframe qu'au clic : rien de tiers
+     n'est chargé tant que le visiteur ne demande pas la lecture. */
+  const YT_HANDLE = typeof YT_CHANNEL_HANDLE === 'string' ? YT_CHANNEL_HANDLE : '';
+  const YT_KEY = typeof YT_API_KEY === 'string' ? YT_API_KEY : '';
   const YT_COUNT = 3;
-  const grilleVideos = document.getElementById('videosGrid');
+  const grilleVideos = document.getElementById('refonteVideos');
 
   function messageVideos(texte) {
     if (grilleVideos) grilleVideos.innerHTML = `<p class="r-videos-vide">${texte}</p>`;
@@ -321,7 +327,9 @@
     }));
   }
 
-  if (grilleVideos) {
+  if (grilleVideos && (!YT_KEY || !YT_HANDLE)) {
+    rendreVideos([]);
+  } else if (grilleVideos) {
     dernieresVideos()
       .then(rendreVideos)
       .catch(() => rendreVideos([]));

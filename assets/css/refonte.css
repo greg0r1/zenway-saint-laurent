@@ -862,6 +862,11 @@ a {
   text-align: center;
   vertical-align: middle;
 }
+.r-grille thead td:first-child {
+  background: #faf6ee;
+  border-top: 0;
+  border-left: 0;
+}
 .r-grille thead th {
   padding: 16px 8px;
   font-size: 0.75rem;
@@ -872,8 +877,12 @@ a {
   background: #faf6ee;
   border-top: 0;
 }
+/* En disposition fixe, ce sont les cellules de la première rangée qui
+   fixent les colonnes : la largeur de l'horaire se pose donc aussi sur
+   l'angle vide de l'en-tête, sinon il prend une part égale aux jours. */
+.r-grille thead td:first-child,
 .r-grille tbody th {
-  width: 96px;
+  width: 132px;
   padding: 18px 12px;
   font-size: 0.82rem;
   font-weight: 500;

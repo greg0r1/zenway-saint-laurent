@@ -41,7 +41,9 @@
       FIRST VIEWPORT: bandeau clair, titre en capitales à gauche sur trois lignes,
       bouton sauge dessous, silhouette de Béatrice découpée à droite dans un halo,
       bambou au trait à droite, rameau en bas à gauche, courbes de niveau au sol.
-      FORM: maquette fournie par l'utilisateur et épinglée — reproduction, pas de tirage.
+      FORM: maquette fournie en pièce jointe de la demande — reproduction, pas de tirage.
+      Elle n'existe pas dans le dépôt : une pièce jointe n'est pas un fichier accessible
+      ici. Toute vérification de fidélité repose donc sur la demande d'origine.
       FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
     -->
 
@@ -239,13 +241,16 @@
           </div>
 
           <figure class="r-hero-fig">
-            <img
-              src="../assets/img/bea/bea-posture-005.png"
-              width="701"
-              height="1036"
-              alt="Béatrice Viallon en posture, les bras levés en cercle au-dessus de la tête"
-              fetchpriority="high"
-            />
+            <picture>
+              <source srcset="../assets/img/bea/bea-posture-005.webp" type="image/webp" />
+              <img
+                src="../assets/img/bea/bea-posture-005.png"
+                width="701"
+                height="1036"
+                alt="Béatrice Viallon en posture, les bras levés en cercle au-dessus de la tête"
+                fetchpriority="high"
+              />
+            </picture>
           </figure>
         </div>
       </section>
@@ -378,11 +383,14 @@
             <ul class="r-tarifs-pts">
               <li>
                 <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-feuille" /></svg>
-                <span>Une séance d'essai pour découvrir l'enchaînement avant de vous engager.</span>
+                <span
+                  >Premier cours d'essai offert, pour découvrir l'enchaînement avant de vous
+                  engager.</span
+                >
               </li>
               <li>
                 <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-horloge" /></svg>
-                <span>Séance hebdomadaire d'une heure, en petit groupe, au KMCS.</span>
+                <span>Séance hebdomadaire d'une heure, au KMCS.</span>
               </li>
               <li>
                 <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-tel" /></svg>
@@ -417,7 +425,7 @@
             </p>
           </div>
 
-          <div class="r-videos-grid" id="videosGrid">
+          <div class="r-videos-grid" id="refonteVideos">
             <p class="r-videos-vide">Chargement des vidéos…</p>
           </div>
 
@@ -568,7 +576,7 @@
                 ></span>
                 <p class="r-ligne-txt">
                   <span class="r-ligne-lab">Stationnement</span>
-                  <span data-info="parking">Parking gratuit devant la salle.</span>
+                  <span data-info="parking">Stationnement gratuit sur place</span>
                 </p>
               </div>
               <div class="r-ligne" data-info-row="next_session" hidden>
@@ -659,6 +667,7 @@
     </footer>
 
     <script src="../assets/js/config-helloasso.js"></script>
+    <script src="../assets/js/config-videos.js"></script>
     <script src="../assets/js/refonte.js"></script>
   </body>
 </html>

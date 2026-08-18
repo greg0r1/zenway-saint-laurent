@@ -1,48 +1,58 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 380">
-  <!-- Empilement de galets — illustration décorative de l'équilibre. -->
+  <!-- Empilement de galets — illustration décorative de l'équilibre.
+       Volumes pleins, comme dans la maquette : c'est le seul élément
+       du décor qui porte une matière, les autres sont au trait. -->
   <defs>
-    <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#b9b3a6"/><stop offset=".52" stop-color="#8e8a80"/><stop offset="1" stop-color="#5f5d57"/>
+    <linearGradient id="g1" x1=".2" y1="0" x2=".75" y2="1">
+      <stop offset="0" stop-color="#c3bcae"/><stop offset=".46" stop-color="#948f84"/><stop offset="1" stop-color="#5a5852"/>
     </linearGradient>
-    <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#c6bfb1"/><stop offset=".5" stop-color="#9a958a"/><stop offset="1" stop-color="#6a6862"/>
+    <linearGradient id="g2" x1=".25" y1="0" x2=".8" y2="1">
+      <stop offset="0" stop-color="#cfc8b9"/><stop offset=".46" stop-color="#a09a8e"/><stop offset="1" stop-color="#67655f"/>
     </linearGradient>
-    <linearGradient id="g3" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#d2cbbc"/><stop offset=".5" stop-color="#a7a196"/><stop offset="1" stop-color="#74716b"/>
+    <linearGradient id="g3" x1=".3" y1="0" x2=".82" y2="1">
+      <stop offset="0" stop-color="#dbd4c4"/><stop offset=".46" stop-color="#ada79b"/><stop offset="1" stop-color="#726f68"/>
     </linearGradient>
     <radialGradient id="sh" cx=".5" cy=".5" r=".5">
-      <stop offset="0" stop-color="#3d3a34" stop-opacity=".34"/><stop offset="1" stop-color="#3d3a34" stop-opacity="0"/>
+      <stop offset="0" stop-color="#3d3a34" stop-opacity=".32"/><stop offset="1" stop-color="#3d3a34" stop-opacity="0"/>
     </radialGradient>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="3" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".13"/></feComponentTransfer>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
   </defs>
 
-  <ellipse cx="150" cy="356" rx="118" ry="20" fill="url(#sh)"/>
+  <ellipse cx="150" cy="357" rx="120" ry="19" fill="url(#sh)"/>
 
-  <!-- base -->
-  <path d="M32 322c0-24 52-40 118-40s118 16 118 40-52 38-118 38S32 346 32 322Z" fill="url(#g1)"/>
-  <path d="M46 312c14-16 58-26 104-26s90 10 104 26c-16-18-58-30-104-30s-88 12-104 30Z" fill="#d8d2c4" opacity=".55"/>
+  <g id="pile">
+    <!-- base : silhouette asymétrique, jamais une ellipse parfaite -->
+    <path d="M30 320c2-26 56-42 122-40s116 20 116 42c0 21-54 36-119 36S28 344 30 320Z" fill="url(#g1)"/>
+    <path d="M44 310c16-17 60-27 106-26s86 12 100 28c-14-20-56-33-102-34s-88 12-104 32Z" fill="#dcd6c8" opacity=".5"/>
 
-  <!-- 2 -->
-  <path d="M56 264c0-22 44-36 96-36s94 14 94 36-42 34-94 34-96-12-96-34Z" fill="url(#g2)"/>
-  <path d="M70 256c12-14 48-22 82-22s70 8 82 22c-14-16-48-26-82-26s-68 10-82 26Z" fill="#ddd7c9" opacity=".5"/>
+    <!-- 2 -->
+    <path d="M54 263c1-23 46-37 98-36s92 16 90 37c-1 20-42 33-94 32s-95-13-94-33Z" fill="url(#g2)"/>
+    <path d="M68 254c13-14 48-23 82-22s70 10 82 24c-13-17-48-28-82-29s-69 12-82 27Z" fill="#e0dacb" opacity=".46"/>
 
-  <!-- 3 -->
-  <path d="M74 212c0-20 36-32 78-32s76 12 76 32-34 30-76 30-78-10-78-30Z" fill="url(#g3)"/>
-  <path d="M88 204c10-12 38-20 66-20s56 8 66 20c-12-14-38-22-66-22s-54 8-66 22Z" fill="#e4dece" opacity=".5"/>
+    <!-- 3 -->
+    <path d="M73 211c0-21 37-33 79-32s74 14 73 33c-1 18-34 29-76 28s-76-11-76-29Z" fill="url(#g3)"/>
+    <path d="M87 203c10-12 39-20 67-19s57 9 66 21c-11-14-38-23-66-24s-56 10-67 22Z" fill="#e7e1d1" opacity=".46"/>
 
-  <!-- 4 -->
-  <path d="M92 164c0-17 28-28 60-28s58 11 58 28-26 26-58 26-60-9-60-26Z" fill="url(#g2)"/>
-  <path d="M104 158c8-10 30-16 50-16s42 6 50 16c-10-12-30-18-50-18s-42 6-50 18Z" fill="#ddd7c9" opacity=".5"/>
+    <!-- 4 -->
+    <path d="M91 163c1-17 28-28 61-27s57 12 56 28c-1 15-26 25-59 24s-59-10-58-25Z" fill="url(#g2)"/>
+    <path d="M103 156c9-10 31-17 51-16s42 7 50 18c-9-12-30-19-50-20s-42 7-51 18Z" fill="#e0dacb" opacity=".46"/>
 
-  <!-- 5 -->
-  <path d="M110 124c0-14 20-23 42-23s40 9 40 23-18 21-40 21-42-7-42-21Z" fill="url(#g3)"/>
-  <path d="M120 119c7-8 21-13 33-13s25 5 32 13c-8-10-20-14-32-14s-25 4-33 14Z" fill="#e8e2d3" opacity=".55"/>
+    <!-- 5 -->
+    <path d="M111 124c0-14 21-23 43-22s39 10 38 23c0 12-19 20-41 20s-40-8-40-21Z" fill="url(#g3)"/>
+    <path d="M120 118c7-8 22-13 34-13s25 6 32 14c-8-9-20-14-32-15s-26 5-34 14Z" fill="#eae4d4" opacity=".5"/>
 
-  <!-- sommet -->
-  <path d="M126 92c0-11 12-18 26-18s24 7 24 18-11 16-24 16-26-5-26-16Z" fill="url(#g1)"/>
-  <path d="M134 88c5-6 12-9 19-9s13 3 18 9c-5-7-12-10-18-10s-14 3-19 10Z" fill="#e2dccd" opacity=".55"/>
+    <!-- sommet -->
+    <path d="M127 93c1-11 13-18 27-17s23 8 22 18c-1 9-12 15-25 15s-25-7-24-16Z" fill="url(#g1)"/>
+    <path d="M135 88c5-6 12-9 19-9s13 4 17 10c-5-7-11-11-18-11s-13 4-18 10Z" fill="#e5dfd0" opacity=".5"/>
+  </g>
+  <use href="#pile" filter="url(#grain)"/>
 
-  <!-- ondes -->
-  <g fill="none" stroke="#a89f8d" stroke-width="1.3" opacity=".5">
+  <g fill="none" stroke="#a89f8d" stroke-width="1.3" opacity=".45">
     <path d="M22 352c34 10 84 16 128 16s94-6 128-16"/>
     <path d="M6 368c40 14 96 22 144 22s104-8 144-22"/>
   </g>
