@@ -49,7 +49,35 @@
       burger.setAttribute('aria-label', ouvert ? 'Fermer le menu' : 'Ouvrir le menu');
     });
     liens.addEventListener('click', (e) => {
-      if (e.target.closest('a')) fermer();
+      const lien = e.target.closest('a');
+      if (!lien) return;
+      // Sur desktop `liens` n'est jamais "is-open" (le bouton qui pose cette
+      // classe est display:none, jamais cliqué) : le lien y garde son
+      // comportement natif, inchangé. Seul le tiroir mobile plein écran a
+      // besoin d'être fermé avant de sauter — sinon les deux se jouent dans
+      // le même geste, et le calcul de défilement se fait pendant qu'un
+      // aplat opaque recouvre encore tout l'écran, d'où une arrivée mal
+      // calée.
+      if (!liens.classList.contains('is-open')) return;
+      const href = lien.getAttribute('href') || '';
+      const cible = href.startsWith('#') && document.getElementById(href.slice(1));
+      // Ctrl/Cmd/Maj/Alt ou clic autre que gauche : on laisse le navigateur
+      // faire (ouverture dans un nouvel onglet, etc.), on ferme juste le
+      // tiroir au passage.
+      const clicSimple =
+        cible && e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
+      if (clicSimple) e.preventDefault();
+      fermer();
+      if (clicSimple) {
+        const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.setTimeout(
+          () => {
+            cible.scrollIntoView({ behavior: reduit ? 'auto' : 'smooth', block: 'start' });
+            history.pushState(null, '', href);
+          },
+          reduit ? 0 : 360
+        );
+      }
     });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && liens.classList.contains('is-open')) {
