@@ -574,12 +574,13 @@ a {
 /* La marge négative fait mordre la silhouette sur la colonne de texte,
    comme dans la maquette où ses mains viennent frôler le titre. Le bloc
    de texte garde sa propre largeur maximale, donc rien ne se recouvre. */
-/* La marge basse négative fait descendre les pieds sous le bord du bloc de
-   texte, dans la bande où la vague les rejoint — sans elle la silhouette
-   restait pincée au ras du bloc, loin au-dessus de la vague. */
+/* `.r-hero` est en overflow:hidden : toute marge basse négative sort la
+   silhouette du cadre et tranche le pied net, aussi faible soit-elle (10px
+   suffisaient à le couper). Sans marge, `align-self:end` suffit déjà à
+   poser les pieds au bord bas du hero, pile là où la vague commence. */
 .r-hero-fig {
   position: relative;
-  margin: 0 clamp(-56px, -3.2vw, 0px) clamp(-30px, -3.5vh, -12px) clamp(-52px, -3vw, 0px);
+  margin: 0 clamp(-56px, -3.2vw, 0px) 0 clamp(-52px, -3vw, 0px);
   justify-self: end;
   align-self: end;
 }
