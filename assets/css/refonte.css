@@ -363,25 +363,35 @@ a {
   padding: 0;
   place-items: center;
 }
+/* Les trois barres sont empilées dans la même cellule de grille et écartées
+   par transform, pas par des marges. L'écart ne dépend donc plus de la
+   hauteur du bouton : à l'ouverture les deux barres reviennent à zéro et se
+   croisent exactement. Avec des marges, les rangées de la grille s'étirent
+   (44/3 ≈ 14.7px) et la croix s'ouvre en chevron. */
 .r-burger span {
-  display: block;
+  grid-area: 1 / 1;
   width: 22px;
   height: 1.5px;
-  margin: 4px auto;
   background: var(--r-ink);
   transition:
     transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
     opacity 0.25s ease,
     background-color 0.5s ease;
 }
+.r-burger span:nth-child(1) {
+  transform: translateY(-6px);
+}
+.r-burger span:nth-child(3) {
+  transform: translateY(6px);
+}
 .r-burger[aria-expanded="true"] span:nth-child(1) {
-  transform: translateY(5.5px) rotate(45deg);
+  transform: rotate(45deg);
 }
 .r-burger[aria-expanded="true"] span:nth-child(2) {
   opacity: 0;
 }
 .r-burger[aria-expanded="true"] span:nth-child(3) {
-  transform: translateY(-5.5px) rotate(-45deg);
+  transform: rotate(-45deg);
 }
 
 /* ============================================================
@@ -1226,25 +1236,40 @@ a {
     display: none;
   }
 
-  /* Une seule colonne : le texte en haut, la silhouette au sol, et le vide
-     qui reste se place entre les deux plutôt qu'au-dessus du titre. */
+  /* Une seule colonne. Le texte prend ce qu'il lui faut, la silhouette
+     occupe tout le reste : plus de vide qui traîne entre les deux, quelle
+     que soit la hauteur du téléphone. */
   .r-hero-grid {
     grid-template-columns: 1fr;
-    align-content: space-between;
+    grid-template-rows: auto minmax(0, 1fr);
+    align-content: stretch;
     padding-left: 0;
     gap: 0;
   }
   .r-hero-txt {
     align-self: start;
     max-width: none;
-    padding-bottom: 34px;
+    padding-bottom: clamp(20px, 4vh, 40px);
+    text-align: center;
+  }
+  /* Les éléments du haut respirent : ils portent l'écran d'accueil à eux
+     seuls tant que la silhouette n'est pas atteinte. */
+  .r-hero-txt .r-eyebrow {
+    margin-bottom: clamp(22px, 4vh, 40px);
+  }
+  .r-hero-txt .r-display {
+    margin-bottom: clamp(30px, 5.5vh, 56px);
   }
   .r-hero-fig {
-    justify-self: center;
+    justify-self: stretch;
+    min-height: 0;
   }
   .r-hero-fig img {
-    width: min(78%, 320px);
-    margin-inline: auto;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: contain;
+    object-position: bottom center;
   }
   .r-hero-fig::before {
     width: 300px;
