@@ -24,7 +24,9 @@
 
        Les longueurs de segment et la phase du pointillé diffèrent d'une
        canne à l'autre : des jointures alignées trahiraient le motif. Un
-       masque efface le bas pour rendre le premier plan à la silhouette. -->
+       masque efface le bas (86%-100%) pour que les cannes s'estompent
+       juste avant la courbe de la coupure du hero (orn-sol.svg), plutôt
+       que de s'arrêter net à mi-hauteur. -->
   <defs>
     <path id="cA" d="M262-20C270 200 288 400 298 600 304 700 304 782 306 840" />
     <path id="cB" d="M356 10C352 220 344 420 336 610 332 700 332 782 332 840" />
@@ -33,7 +35,7 @@
 
     <linearGradient id="bfade" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#fff" />
-      <stop offset=".72" stop-color="#fff" />
+      <stop offset=".86" stop-color="#fff" />
       <stop offset="1" stop-color="#000" />
     </linearGradient>
     <mask id="bmask">

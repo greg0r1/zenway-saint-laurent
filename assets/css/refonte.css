@@ -481,16 +481,18 @@ a {
   opacity: 0.8;
 }
 
-/* Le bambou est une masse verte posée dans l'angle haut-droit, pas une
-   bande qui court sur toute la hauteur : `contain` le laisse s'arrêter aux
-   deux tiers du hero, là où la silhouette prend le relais. */
+/* Le bambou descend jusqu'à la courbe de la coupure (`auto 100%`, calé sur
+   la hauteur du hero) — `contain` le limitait aux deux tiers du hero
+   (borné par la largeur), laissant un vide entre la base des cannes et le
+   ruban. Le fondu du masque, dans le SVG, s'occupe de l'estomper avant que
+   le ruban ne prenne le relais. */
 .r-hero-bambou {
   top: 0;
   right: -6px;
   width: clamp(128px, 26vw, 380px);
   height: 100%;
   background-image: url("../img/refonte/orn-bambou.svg");
-  background-size: contain;
+  background-size: auto 100%;
   background-position: right top;
   opacity: 0.6;
 }
@@ -500,11 +502,11 @@ a {
    avec la section suivante, pas une ligne droite. Dernier ornement du
    HTML, donc peint après le bambou, mais avant la grille (z-index 2) — le
    personnage passe donc devant, posé sur le ruban.
-   La hauteur suit la largeur (20.83vw = 300/1440, le rapport du viewBox) :
+   La hauteur suit la largeur (22.22vw = 320/1440, le rapport du viewBox) :
    une hauteur en `vh` aurait écrasé le dessin sur les écrans bas. */
 .r-hero-sol {
   inset: auto 0 -1px;
-  height: 20.83vw;
+  height: 22.22vw;
   background-image: url("../img/refonte/orn-sol.svg");
   background-size: 100% 100%;
   background-position: left bottom;
@@ -1432,7 +1434,12 @@ a {
   .r-hero-feuillage-droite {
     opacity: 0.3;
   }
+  /* `auto 100%` (calé sur la hauteur) dépasse la largeur du conteneur sous
+     880px, où le conteneur est délibérément étroit : le fond ne montre
+     plus qu'une tranche zoomée de l'illustration. `contain` (calé sur la
+     dimension la plus contraignante) redevient nécessaire ici. */
   .r-hero-bambou {
+    background-size: contain;
     opacity: 0.4;
   }
 
