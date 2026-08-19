@@ -33,21 +33,17 @@
     window.addEventListener('scroll', majEtat, { passive: true });
   }
 
-  const scrim = document.getElementById('navScrim');
-
   if (burger && liens) {
     const fermer = () => {
       liens.classList.remove('is-open');
-      if (scrim) scrim.classList.remove('is-open');
       document.documentElement.classList.remove('r-noscroll');
       burger.setAttribute('aria-expanded', 'false');
       burger.setAttribute('aria-label', 'Ouvrir le menu');
     };
     burger.addEventListener('click', () => {
       const ouvert = liens.classList.toggle('is-open');
-      if (scrim) scrim.classList.toggle('is-open', ouvert);
-      // Le tiroir flotte sur la page plutôt que de la remplacer : sans ce
-      // verrou, on peut faire défiler le contenu qu'il recouvre à moitié.
+      // Le tiroir remplace la page plutôt que de flotter dessus : sans ce
+      // verrou elle reste défilable derrière, invisible mais toujours là.
       document.documentElement.classList.toggle('r-noscroll', ouvert);
       burger.setAttribute('aria-expanded', String(ouvert));
       burger.setAttribute('aria-label', ouvert ? 'Fermer le menu' : 'Ouvrir le menu');
@@ -55,7 +51,6 @@
     liens.addEventListener('click', (e) => {
       if (e.target.closest('a')) fermer();
     });
-    if (scrim) scrim.addEventListener('click', fermer);
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && liens.classList.contains('is-open')) {
         fermer();

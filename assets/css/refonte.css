@@ -260,6 +260,12 @@ a {
    C'est le seul mouvement orchestré de la page.
    ============================================================ */
 
+/* Le flou vient d'un calque séparé (::before) plutôt que d'un
+   `backdrop-filter` posé directement sur `.r-nav` : `filter`/`backdrop-filter`
+   sur un ancêtre en fait le bloc de référence de tout descendant
+   `position: fixed`, ce qui aurait cassé le tiroir mobile en plein écran
+   (il se serait redimensionné sur les 76px de l'en-tête au lieu du
+   viewport). Le calque, lui, ne porte aucun descendant fixed. */
 .r-nav {
   position: fixed;
   inset: 0 0 auto;
@@ -267,13 +273,17 @@ a {
   height: var(--r-nav-h);
   display: flex;
   align-items: center;
+  border-bottom: 1px solid rgb(221 212 193 / 70%);
+  transition: border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.r-nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background: rgb(248 244 236 / 92%);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgb(221 212 193 / 70%);
-  transition:
-    background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .r-nav-in {
@@ -346,8 +356,10 @@ a {
 
 /* État sombre, posé par refonte.js au défilement */
 .r-nav.is-scrolled {
-  background: rgb(43 49 51 / 96%);
   border-bottom-color: var(--r-line-dark);
+}
+.r-nav.is-scrolled::before {
+  background: rgb(43 49 51 / 96%);
 }
 .r-nav.is-scrolled .r-links a {
   color: var(--r-bone);
@@ -359,23 +371,13 @@ a {
   background: var(--r-bone);
 }
 
-/* Voile derrière le tiroir mobile — inerte tant que le tiroir est fermé,
-   pour ne jamais intercepter de clic sur desktop où il n'existe pas. */
-.r-nav-scrim {
-  position: fixed;
-  inset: var(--r-nav-h) 0 0;
-  z-index: 90;
-  background: rgb(36 48 41 / 32%);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition:
-    opacity 0.35s ease,
-    visibility 0.35s;
-}
-
+/* `position: relative` + z-index au-dessus du tiroir (fixed, z-index 100) :
+   sans ça le tiroir plein page, une fois ouvert, peint par-dessus ce bouton
+   normalement positionné et sa croix devient invisible et incliquable. */
 .r-burger {
   display: none;
+  position: relative;
+  z-index: 101;
   width: 44px;
   height: 44px;
   border: 0;
@@ -1223,51 +1225,39 @@ a {
   .r-burger {
     display: grid;
   }
-  .r-nav-scrim.is-open {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-  }
 
-  /* Le tiroir mobile, dans l'esprit du menu apple.com : une carte claire et
-     dépolie qui ne prend que sa propre hauteur, posée sous l'en-tête plutôt
-     qu'un aplat sombre plein écran. Le texte reste sombre quel que soit
-     l'état de la nav (claire ou assombrie au défilement), puisque le fond
-     du tiroir, lui, ne change jamais. */
+  /* Le tiroir mobile façon apple.com : un aplat opaque qui prend toute la
+     page sous l'en-tête, pas une carte transparente qui ne couvre que sa
+     propre hauteur. Le texte reste sombre quel que soit l'état de la nav
+     (claire ou assombrie au défilement), puisque le fond du tiroir, lui,
+     ne change jamais. */
   .r-links {
     position: fixed;
-    inset: var(--r-nav-h) 0 auto;
+    inset: var(--r-nav-h) 0 0;
     z-index: 100;
     flex-direction: column;
     align-items: stretch;
+    justify-content: center;
     gap: 0;
-    max-height: calc(100svh - var(--r-nav-h));
     overflow-y: auto;
-    background: rgb(250 247 240 / 90%);
-    backdrop-filter: blur(22px) saturate(160%);
-    padding: 6px var(--r-gut) 14px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    box-shadow: 0 18px 40px rgb(36 48 41 / 14%);
-    transform: translateY(-8px);
+    background: var(--r-cream);
+    padding: 4vh var(--r-gut);
     opacity: 0;
     visibility: hidden;
     transition:
-      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
       opacity 0.3s ease,
-      visibility 0.4s;
+      visibility 0.35s;
   }
   .r-links.is-open {
-    transform: none;
     opacity: 1;
     visibility: visible;
   }
   .r-links li {
     opacity: 0;
-    transform: translateY(-6px);
+    transform: translateY(10px);
     transition:
-      opacity 0.3s ease,
-      transform 0.3s ease;
+      opacity 0.35s ease,
+      transform 0.35s ease;
   }
   .r-links.is-open li {
     opacity: 1;
@@ -1275,34 +1265,35 @@ a {
   }
   /* Cascade légère à l'ouverture, item par item */
   .r-links.is-open li:nth-child(1) {
-    transition-delay: 0.03s;
+    transition-delay: 0.05s;
   }
   .r-links.is-open li:nth-child(2) {
-    transition-delay: 0.06s;
-  }
-  .r-links.is-open li:nth-child(3) {
     transition-delay: 0.09s;
   }
+  .r-links.is-open li:nth-child(3) {
+    transition-delay: 0.13s;
+  }
   .r-links.is-open li:nth-child(4) {
-    transition-delay: 0.12s;
+    transition-delay: 0.17s;
   }
   .r-links.is-open li:nth-child(5) {
-    transition-delay: 0.15s;
+    transition-delay: 0.21s;
   }
   .r-links.is-open li:nth-child(6) {
-    transition-delay: 0.18s;
+    transition-delay: 0.25s;
   }
   .r-links.is-open li:nth-child(7) {
-    transition-delay: 0.21s;
+    transition-delay: 0.29s;
   }
   .r-links a,
   .r-nav.is-scrolled .r-links a {
     display: block;
     color: var(--r-ink);
-    padding: 16px 2px;
-    font-size: 0.98rem;
+    padding: 18px 2px;
+    font-family: var(--r-serif);
+    font-size: clamp(1.6rem, 8vw, 2.1rem);
     font-weight: 500;
-    border-bottom: 1px solid rgb(36 48 41 / 10%);
+    border-bottom: 1px solid var(--r-line);
   }
   .r-links li:last-child a {
     border-bottom: 0;
