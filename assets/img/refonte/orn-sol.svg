@@ -1,14 +1,47 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 260" preserveAspectRatio="none">
-  <!-- La coupure entre le hero et la section sombre qui suit. Reprend le
-       même langage que le ruban du fond du hero (orn-vague.svg) : deux
-       courbes larges et lisses, pas les petits godrons répétés de l'essai
-       précédent — le tracé fourni par la maquette, une fois posé sur la
-       page, se lisait comme « trop ondulé » à côté du reste du décor,
-       beaucoup plus ample. Même famille de mouvement, donc, pour que la
-       coupure se sente comme une continuation du ruban plutôt qu'un motif
-       à part. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 640" preserveAspectRatio="none">
+  <!-- La coupure entre le hero et la section sombre qui suit, construite
+       comme le ruban du fond du hero (orn-vague.svg) : un ruban clair
+       AU-DESSUS d'un fond sombre, chacun avec son propre bord ondulé —
+       pas une bande à fond plat fermée par une ligne droite. Le bord haut
+       du fond sombre REPREND exactement le tracé du bord bas du ruban : les
+       deux coïncident, donc le fond commence pile où le ruban s'arrête,
+       sans lisière de crème entre eux ni passage du fond par-dessus le
+       ruban. Un fond dessiné indépendamment déraillait dans les deux sens
+       à la vérification (pixel par pixel) : décalé vers le bas, il
+       laissait un filet de crème du hero entre les deux ; non lié, il
+       remontait par endroits plus haut que le ruban et passait devant.
+
+       Le ruban grimpe beaucoup plus haut à droite qu'à gauche — c'est lui
+       qui recouvre la base des cannes de bambou (orn-bambou.svg, peint
+       juste avant dans le HTML, donc sous ce calque) : sans cette montée,
+       leur base reste visible, suspendue au-dessus du ruban.
+
+       La pointe droite du ruban (x=1444) porte un segment droit explicite
+       entre son bord haut et son bord bas plutôt qu'une courbe continue :
+       les deux bords sont deux tracés lisses indépendants, et vouloir les
+       relier par une seule courbe à la pointe (essai précédent) créait un
+       pincement — une fine poche de crème visible à l'intérieur même du
+       ruban, confirmée pixel par pixel (canvas, la pointe ~x=1350-1440).
+
+       Le fond sombre reprend le dégradé radial de la section suivante
+       (voir .r-pratiques dans refonte.css : #3b4345 au centre, #343b3d
+       aux bords) pour que le raccord entre les deux sections reste
+       invisible. -->
+  <defs>
+    <linearGradient id="solDark" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#353c3e" />
+      <stop offset=".5" stop-color="#3b4345" />
+      <stop offset="1" stop-color="#353c3e" />
+    </linearGradient>
+  </defs>
+
+  <path
+    fill="url(#solDark)"
+    d="M-4 612C47 603 183 567 300 558 417 549 583 581 700 558 817 535 908 470 1000 420 1092 370 1176 305 1250 260 1324 215 1412 170 1444 152V644H-4Z"
+  />
+
   <path
     fill="#c8c5b8"
-    d="M-4 168C220 130 452 100 700 116 948 132 1160 176 1444 118V264H-4Z"
+    d="M-4 560C47 546 183 499 300 478 417 457 583 466 700 436 817 406 908 346 1000 300 1092 254 1176 201 1250 158 1324 115 1412 61 1444 42L1444 152C1412 170 1324 215 1250 260 1176 305 1092 370 1000 420 908 470 817 535 700 558 583 581 417 549 300 558 183 567 47 603 -4 612Z"
   />
 </svg>

@@ -494,16 +494,18 @@ a {
   background-position: right top;
   opacity: 0.6;
 }
-/* La coupure entre le hero et la section sombre : deux courbes larges et
-   lisses, dans la même famille que le ruban du fond du hero. Dernier
-   ornement du HTML, donc peint après le ruban et les courbes qu'elle doit
+/* La coupure entre le hero et la section sombre : un ruban clair qui
+   grimpe recouvrir la base des cannes à droite, posé sur un fond sombre
+   dont le bord haut ondule aussi — c'est ce second bord qui fait la
+   transition avec la section suivante, pas une ligne droite. Dernier
+   ornement du HTML, donc peint après le bambou qu'il doit en partie
    recouvrir, mais avant la grille (z-index 2) — le personnage passe donc
-   devant, posé sur la vague.
-   La hauteur suit la largeur (18.06vw = 260/1440, le rapport du viewBox) :
-   une hauteur en `vh` aurait écrasé la vague sur les écrans bas. */
+   devant, posé sur le ruban.
+   La hauteur suit la largeur (44.44vw = 640/1440, le rapport du viewBox) :
+   une hauteur en `vh` aurait écrasé le dessin sur les écrans bas. */
 .r-hero-sol {
   inset: auto 0 -1px;
-  height: 18.06vw;
+  height: 44.44vw;
   background-image: url("../img/refonte/orn-sol.svg");
   background-size: 100% 100%;
   background-position: left bottom;
