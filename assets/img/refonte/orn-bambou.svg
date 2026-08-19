@@ -2,17 +2,22 @@
   <!-- Angle haut-droit du hero. Deux couches distinctes, comme dans la
        maquette — et c'est bien deux choses, pas une : des feuilles
        dessinées au trait, larges et posées en arrière-plan, puis devant
-       elles des cannes de bambou NUES, sans feuillage accroché. Les
-       fondre en un seul bambou feuillu écrase ce qui fait la profondeur
-       du décor.
+       elles des cannes de bambou NUES, sans feuillage accroché.
 
-       Les cannes sont des tracés courbes, pas des rectangles : trois
-       verticales parfaites se lisaient comme des barreaux. Chacune vient
-       d'un chemin légèrement fléchi, et ses noeuds sont le MÊME chemin
-       repassé en plus sombre avec un pointillé très espacé — les bandes
-       suivent donc la courbe d'elles-mêmes, au lieu d'être posées à plat
-       en travers. Un masque efface le bas pour rendre le premier plan à
-       la silhouette. Décoratif. -->
+       Chaque canne est un tracé fléchi (trois verticales parfaites se
+       lisaient comme des barreaux) monté en trois passes sur le MÊME
+       chemin, ce qui laisse les segments épouser la courbe au lieu d'être
+       posés à plat en travers :
+         1. un trait sombre un peu plus large — il ne se voit qu'aux
+            jointures, où il déborde de part et d'autre : c'est le noeud
+            saillant du bambou ;
+         2. le trait clair en pointillé très long — chaque tiret est un
+            entre-noeud, chaque intervalle une jointure ;
+         3. une nervure claire décalée, qui donne le galbe du tube.
+       Les longueurs de segment et la phase du pointillé diffèrent d'une
+       canne à l'autre : des jointures alignées trahiraient le motif.
+       Un masque efface le bas pour rendre le premier plan à la
+       silhouette. Décoratif. -->
   <defs>
     <!-- feuille au trait, pointe vers +x : contour + nervure -->
     <g id="lf" fill="none" stroke="#a9bba1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -20,25 +25,35 @@
       <path d="M4 1Q50 3 104-6" />
     </g>
 
-    <!-- les trois tracés, réutilisés pour la canne puis pour ses noeuds -->
-    <path id="cA" d="M290-20C284 200 264 380 270 560 274 700 262 790 258 840" />
-    <path id="cB" d="M344 30C338 220 356 378 348 540 342 680 350 772 346 840" />
-    <path id="cC" d="M398 116C394 300 406 452 400 600 396 720 402 790 399 840" />
+    <!-- les tracés, réutilisés par les trois passes de chaque canne -->
+    <path id="cA" d="M292-20C286 190 268 380 274 560 278 700 266 792 262 840" />
+    <path id="cB" d="M352 24C346 210 362 372 354 536 348 676 356 770 352 840" />
+    <path id="cC" d="M406 104C402 296 414 448 408 596 404 716 410 788 407 840" />
+    <path id="cD" d="M236 62C232 244 244 398 238 548 234 680 240 778 237 840" />
 
-    <linearGradient id="gA" gradientUnits="userSpaceOnUse" x1="248" y1="0" x2="302" y2="0">
-      <stop offset="0" stop-color="#47693e" />
-      <stop offset=".42" stop-color="#79a466" />
-      <stop offset="1" stop-color="#3f5f38" />
+    <linearGradient id="gA" gradientUnits="userSpaceOnUse" x1="252" y1="0" x2="310" y2="0">
+      <stop offset="0" stop-color="#8a9d55" />
+      <stop offset=".3" stop-color="#d2de9e" />
+      <stop offset=".6" stop-color="#b2c377" />
+      <stop offset="1" stop-color="#7a8c4c" />
     </linearGradient>
-    <linearGradient id="gB" gradientUnits="userSpaceOnUse" x1="330" y1="0" x2="360" y2="0">
-      <stop offset="0" stop-color="#517a46" />
-      <stop offset=".45" stop-color="#86ac72" />
-      <stop offset="1" stop-color="#476b3e" />
+    <linearGradient id="gB" gradientUnits="userSpaceOnUse" x1="336" y1="0" x2="374" y2="0">
+      <stop offset="0" stop-color="#90a35c" />
+      <stop offset=".32" stop-color="#d6e2a6" />
+      <stop offset=".62" stop-color="#b7c87e" />
+      <stop offset="1" stop-color="#7f9151" />
     </linearGradient>
-    <linearGradient id="gC" gradientUnits="userSpaceOnUse" x1="390" y1="0" x2="410" y2="0">
-      <stop offset="0" stop-color="#5b8450" />
-      <stop offset=".45" stop-color="#8fb47b" />
-      <stop offset="1" stop-color="#4e7245" />
+    <linearGradient id="gC" gradientUnits="userSpaceOnUse" x1="394" y1="0" x2="422" y2="0">
+      <stop offset="0" stop-color="#9aac68" />
+      <stop offset=".34" stop-color="#dde7b3" />
+      <stop offset=".64" stop-color="#c0d089" />
+      <stop offset="1" stop-color="#8b9d5c" />
+    </linearGradient>
+    <linearGradient id="gD" gradientUnits="userSpaceOnUse" x1="224" y1="0" x2="250" y2="0">
+      <stop offset="0" stop-color="#9db06b" />
+      <stop offset=".34" stop-color="#e0e9b8" />
+      <stop offset=".64" stop-color="#c4d38e" />
+      <stop offset="1" stop-color="#90a260" />
     </linearGradient>
 
     <linearGradient id="bfade" x1="0" y1="0" x2="0" y2="1">
@@ -70,16 +85,27 @@
 
     <!-- ============ couche 2 : les cannes nues, devant ============ -->
     <g fill="none">
-      <use href="#cA" stroke="url(#gA)" stroke-width="25" />
-      <use href="#cA" stroke="#33512d" stroke-width="25" stroke-dasharray="5 151" opacity=".55" />
-
-      <use href="#cB" stroke="url(#gB)" stroke-width="17" />
-      <use href="#cB" stroke="#3a5a33" stroke-width="17" stroke-dasharray="4 146" opacity=".5" />
-
-      <g opacity=".6">
-        <use href="#cC" stroke="url(#gC)" stroke-width="12" />
-        <use href="#cC" stroke="#3f6038" stroke-width="12" stroke-dasharray="4 142" opacity=".55" />
+      <!-- canne d'arrière-plan, la plus fine -->
+      <g opacity=".5">
+        <use href="#cD" stroke="#7d9050" stroke-width="20" />
+        <use href="#cD" stroke="url(#gD)" stroke-width="16" stroke-dasharray="86 7" stroke-dashoffset="-30" />
+        <use href="#cD" stroke="#eef4d5" stroke-width="2.5" stroke-dasharray="70 23" stroke-dashoffset="-38" opacity=".5" />
       </g>
+
+      <g opacity=".72">
+        <use href="#cC" stroke="#849656" stroke-width="26" />
+        <use href="#cC" stroke="url(#gC)" stroke-width="21" stroke-dasharray="98 8" stroke-dashoffset="-12" />
+        <use href="#cC" stroke="#f0f6da" stroke-width="3" stroke-dasharray="80 26" stroke-dashoffset="-21" opacity=".5" />
+      </g>
+
+      <use href="#cB" stroke="#77894a" stroke-width="33" />
+      <use href="#cB" stroke="url(#gB)" stroke-width="27" stroke-dasharray="112 9" stroke-dashoffset="-56" />
+      <use href="#cB" stroke="#f0f6da" stroke-width="3.6" stroke-dasharray="92 29" stroke-dashoffset="-68" opacity=".45" />
+
+      <!-- canne maîtresse, au premier plan -->
+      <use href="#cA" stroke="#6d7f42" stroke-width="41" />
+      <use href="#cA" stroke="url(#gA)" stroke-width="34" stroke-dasharray="124 10" stroke-dashoffset="-20" />
+      <use href="#cA" stroke="#f2f7de" stroke-width="4.4" stroke-dasharray="102 32" stroke-dashoffset="-32" opacity=".45" />
     </g>
   </g>
 </svg>
