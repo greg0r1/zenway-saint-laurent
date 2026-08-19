@@ -60,6 +60,12 @@ html {
   scroll-padding-top: calc(var(--r-nav-h) + 16px);
   -webkit-text-size-adjust: 100%;
 }
+/* Posé par refonte.js tant que le tiroir mobile est ouvert : il flotte
+   au-dessus de la page plutôt que de la remplacer, donc sans ce verrou le
+   contenu qu'il recouvre à moitié resterait défilable en dessous. */
+html.r-noscroll {
+  overflow: hidden;
+}
 
 body {
   margin: 0;
@@ -351,6 +357,21 @@ a {
 }
 .r-nav.is-scrolled .r-burger span {
   background: var(--r-bone);
+}
+
+/* Voile derrière le tiroir mobile — inerte tant que le tiroir est fermé,
+   pour ne jamais intercepter de clic sur desktop où il n'existe pas. */
+.r-nav-scrim {
+  position: fixed;
+  inset: var(--r-nav-h) 0 0;
+  z-index: 90;
+  background: rgb(36 48 41 / 32%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.35s ease,
+    visibility 0.35s;
 }
 
 .r-burger {
@@ -1202,35 +1223,89 @@ a {
   .r-burger {
     display: grid;
   }
+  .r-nav-scrim.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* Le tiroir mobile, dans l'esprit du menu apple.com : une carte claire et
+     dépolie qui ne prend que sa propre hauteur, posée sous l'en-tête plutôt
+     qu'un aplat sombre plein écran. Le texte reste sombre quel que soit
+     l'état de la nav (claire ou assombrie au défilement), puisque le fond
+     du tiroir, lui, ne change jamais. */
   .r-links {
     position: fixed;
     inset: var(--r-nav-h) 0 auto;
+    z-index: 100;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    background: rgb(43 49 51 / 98%);
-    backdrop-filter: blur(10px);
-    padding: 8px var(--r-gut) 22px;
-    border-bottom: 1px solid var(--r-line-dark);
-    transform: translateY(-12px);
+    max-height: calc(100svh - var(--r-nav-h));
+    overflow-y: auto;
+    background: rgb(250 247 240 / 90%);
+    backdrop-filter: blur(22px) saturate(160%);
+    padding: 6px var(--r-gut) 14px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0 18px 40px rgb(36 48 41 / 14%);
+    transform: translateY(-8px);
     opacity: 0;
     visibility: hidden;
     transition:
       transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
       opacity 0.3s ease,
-      visibility 0.3s;
+      visibility 0.4s;
   }
   .r-links.is-open {
     transform: none;
     opacity: 1;
     visibility: visible;
   }
+  .r-links li {
+    opacity: 0;
+    transform: translateY(-6px);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+  }
+  .r-links.is-open li {
+    opacity: 1;
+    transform: none;
+  }
+  /* Cascade légère à l'ouverture, item par item */
+  .r-links.is-open li:nth-child(1) {
+    transition-delay: 0.03s;
+  }
+  .r-links.is-open li:nth-child(2) {
+    transition-delay: 0.06s;
+  }
+  .r-links.is-open li:nth-child(3) {
+    transition-delay: 0.09s;
+  }
+  .r-links.is-open li:nth-child(4) {
+    transition-delay: 0.12s;
+  }
+  .r-links.is-open li:nth-child(5) {
+    transition-delay: 0.15s;
+  }
+  .r-links.is-open li:nth-child(6) {
+    transition-delay: 0.18s;
+  }
+  .r-links.is-open li:nth-child(7) {
+    transition-delay: 0.21s;
+  }
   .r-links a,
   .r-nav.is-scrolled .r-links a {
-    color: var(--r-bone);
-    padding: 15px 0;
-    font-size: 0.9rem;
-    border-bottom: 1px solid var(--r-line-dark);
+    display: block;
+    color: var(--r-ink);
+    padding: 16px 2px;
+    font-size: 0.98rem;
+    font-weight: 500;
+    border-bottom: 1px solid rgb(36 48 41 / 10%);
+  }
+  .r-links li:last-child a {
+    border-bottom: 0;
   }
   .r-links a::after {
     display: none;
