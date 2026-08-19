@@ -455,14 +455,16 @@ a {
   background-size: 114% 100%;
   background-position: left bottom;
 }
-/* Le ruban porte déjà ses propres fils : ceux-ci restent en sourdine */
+/* La vague dessinée de la maquette : des fils qui traversent tout le hero
+   de gauche à droite. Ils étaient confinés au bas de la section et
+   presque effacés — le ruban clair portait seul le mouvement, alors que
+   la maquette en fait un trait franc. */
 .r-hero-courbes {
-  inset: auto 0 0;
-  height: 62%;
+  inset: 0;
   background-image: url("../img/refonte/orn-courbes.svg");
-  background-size: 132% auto;
-  background-position: left bottom;
-  opacity: 0.32;
+  background-size: 124% auto;
+  background-position: left 56%;
+  opacity: 0.62;
 }
 /* Le feuillage du côté droit : une nappe posée SOUS les cannes (elle les
    précède dans le HTML, donc elle se peint avant). Le bambou ne porte plus

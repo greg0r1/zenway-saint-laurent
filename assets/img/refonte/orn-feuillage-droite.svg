@@ -1,44 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 400" fill="none" stroke="#b5a88f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 400" fill="none" stroke="#b5a88f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
   <!-- Feuillage du côté droit du hero, posé SOUS les cannes de bambou
        (orn-bambou.svg, qui ne porte plus la moindre feuille). Même trait
        que la gerbe de l'angle bas-gauche — beige, contour seul, sans
        remplissage : les deux nappes doivent se lire comme un seul décor,
-       pas comme deux dessins voisins. Trois tiges qui montent du bord
-       droit vers la gauche, feuilles larges et espacées. Décoratif. -->
+       pas comme deux dessins voisins.
+
+       Feuilles libres, sans tige qui les enfile : posées éparses, chacune
+       d'une forme, d'une taille et d'une inclinaison propres. Cinq patrons
+       distincts plutôt qu'un seul répété — une même silhouette reprise dix
+       fois se remarque comme un motif, ce que le décor ne doit pas être.
+       Décoratif. -->
   <defs>
-    <path id="fd" d="M0 0Q42-16 100-6Q42 17 0 0Z" />
+    <!-- cinq patrons, tous pointe vers +x, du plus large au plus effilé -->
+    <path id="fa" d="M0 0Q46-30 112-10Q48 30 0 0Z" />
+    <path id="fb" d="M0 0Q54-16 122-4Q58 30 0 0Z" />
+    <path id="fc" d="M0 0Q40-28 90-8Q42 26 0 0Z" />
+    <path id="fd" d="M0 0Q60-22 134-14Q64 24 0 0Z" />
+    <path id="fe" d="M0 0Q48-34 118-30Q56 20 0 0Z" />
   </defs>
 
-  <!-- tige haute, la plus ouverte -->
   <g opacity=".95">
-    <path d="M492 214C412 206 320 176 236 126 176 90 122 56 66 32" />
-    <use href="#fd" transform="translate(430 208) rotate(168) scale(.72)" />
-    <use href="#fd" transform="translate(392 198) rotate(-152) scale(.66)" />
-    <use href="#fd" transform="translate(330 176) rotate(152) scale(.8)" />
-    <use href="#fd" transform="translate(272 146) rotate(-140) scale(.7)" />
-    <use href="#fd" transform="translate(214 112) rotate(158) scale(.86)" />
-    <use href="#fd" transform="translate(150 74) rotate(-146) scale(.74)" />
-    <use href="#fd" transform="translate(92 44) rotate(150) scale(.8)" />
+    <use href="#fa" transform="translate(408 96) rotate(158) scale(1.05)" />
+    <use href="#fd" transform="translate(300 44) rotate(-166) scale(.86)" />
+    <use href="#fc" transform="translate(238 178) rotate(146) scale(1.15)" />
   </g>
-
-  <!-- tige médiane, plus courte -->
   <g opacity=".72">
-    <path d="M494 300C424 300 344 282 268 246 206 216 150 182 100 148" />
-    <use href="#fd" transform="translate(438 298) rotate(174) scale(.64)" />
-    <use href="#fd" transform="translate(376 286) rotate(-158) scale(.7)" />
-    <use href="#fd" transform="translate(310 262) rotate(160) scale(.76)" />
-    <use href="#fd" transform="translate(246 230) rotate(-144) scale(.66)" />
-    <use href="#fd" transform="translate(184 196) rotate(162) scale(.72)" />
-    <use href="#fd" transform="translate(124 162) rotate(-150) scale(.6)" />
+    <use href="#fe" transform="translate(448 208) rotate(172) scale(.92)" />
+    <use href="#fb" transform="translate(346 262) rotate(-158) scale(1.08)" />
+    <use href="#fa" transform="translate(150 108) rotate(-134) scale(.78)" />
   </g>
-
-  <!-- tige basse, rase le bord -->
   <g opacity=".5">
-    <path d="M496 370C430 374 356 366 288 344 226 324 168 296 118 264" />
-    <use href="#fd" transform="translate(430 372) rotate(-176) scale(.6)" />
-    <use href="#fd" transform="translate(362 364) rotate(164) scale(.66)" />
-    <use href="#fd" transform="translate(296 346) rotate(-162) scale(.58)" />
-    <use href="#fd" transform="translate(232 322) rotate(166) scale(.64)" />
-    <use href="#fd" transform="translate(166 292) rotate(-152) scale(.56)" />
+    <use href="#fd" transform="translate(420 336) rotate(163) scale(1)" />
+    <use href="#fc" transform="translate(258 350) rotate(-172) scale(.88)" />
+    <use href="#fb" transform="translate(120 262) rotate(140) scale(1.12)" />
+    <use href="#fe" transform="translate(196 302) rotate(-150) scale(.7)" />
   </g>
 </svg>
