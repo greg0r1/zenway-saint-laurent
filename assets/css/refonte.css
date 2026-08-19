@@ -390,15 +390,15 @@ a {
 
 .r-hero {
   position: relative;
-  padding-top: calc(var(--r-nav-h) + clamp(46px, 6.5vw, 92px));
-  padding-bottom: clamp(112px, 14.5vw, 196px);
-  background: linear-gradient(178deg, #faf7f0 0%, #f3ecdf 62%, #ece4d3 100%);
+  padding-top: calc(var(--r-nav-h) + clamp(44px, 6vw, 86px));
+  padding-bottom: 0;
+  background: linear-gradient(180deg, #fbf9f4 0%, #f9f5ec 52%, #f5efe4 100%);
   overflow: hidden;
 }
 
-/* Le décor du hero, du plus lointain au plus proche : le ruban plein,
-   les courbes fines posées dessus, le bambou à droite, le rameau au sol.
-   Ce sont des masses, pas des filets : c'est ce que montre la maquette. */
+/* Le décor du hero : le ruban clair qui traverse la section, le bambou à
+   droite, la gerbe de feuillage dans l'angle bas-gauche. La maquette garde
+   ce fond très clair — le décor se sent, il ne pèse pas. */
 .r-hero-vague,
 .r-hero-courbes,
 .r-hero-bambou,
@@ -409,85 +409,95 @@ a {
 }
 .r-hero-vague {
   inset: auto 0 -2px;
-  height: 74%;
+  height: 78%;
   background-image: url("../img/refonte/orn-vague.svg");
-  background-size: 118% 100%;
+  background-size: 114% 100%;
   background-position: left bottom;
 }
+/* Le ruban porte déjà ses propres fils : ceux-ci restent en sourdine */
 .r-hero-courbes {
   inset: auto 0 0;
-  height: 80%;
+  height: 62%;
   background-image: url("../img/refonte/orn-courbes.svg");
-  background-size: 128% auto;
+  background-size: 132% auto;
   background-position: left bottom;
-  opacity: 0.9;
+  opacity: 0.32;
 }
 .r-hero-bambou {
-  top: -40px;
-  right: -10px;
-  width: clamp(180px, 23vw, 320px);
-  height: 116%;
+  top: -30px;
+  right: -6px;
+  width: clamp(150px, 19vw, 272px);
+  height: 112%;
   background-image: url("../img/refonte/orn-bambou.svg");
   background-size: auto 100%;
   background-position: right top;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 .r-hero-feuillage {
-  left: -24px;
-  bottom: -12px;
-  width: clamp(230px, 30vw, 420px);
-  height: clamp(190px, 24vw, 330px);
+  left: -34px;
+  bottom: -14px;
+  width: clamp(240px, 30vw, 430px);
+  height: clamp(180px, 21vw, 300px);
   background-image: url("../img/refonte/orn-feuillage.svg");
   background-size: contain;
   background-position: left bottom;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
-/* La silhouette sort du flux : elle se cale au bord droit du hero et
-   monte du sol, le texte reste centré dans la page comme dans la maquette. */
-.r-hero-fig {
-  position: absolute;
-  right: max(8px, calc(50% - 682px));
-  bottom: 0;
-  z-index: 1;
+/* Le texte à gauche, la silhouette posée au sol à sa droite : c'est la
+   composition de la maquette. Les deux tiennent dans la même grille, donc
+   ils ne peuvent pas se chevaucher quelle que soit la largeur. */
+.r-hero-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.6fr);
+  align-items: end;
+  gap: clamp(10px, 2.4vw, 40px);
+  padding-left: clamp(0px, 6vw, 104px);
+}
+
+.r-hero-txt {
+  max-width: 38rem;
+  padding-bottom: clamp(70px, 9.5vw, 130px);
+  text-align: left;
+}
+.r-hero-txt .r-eyebrow {
+  margin-bottom: 20px;
+  line-height: 1.85;
+}
+.r-hero-txt .r-display {
+  margin-bottom: 34px;
+  font-size: clamp(1.45rem, 3.5vw, 2.85rem);
+}
+/* Le bouton se centre sous le bloc de texte, comme dans la maquette */
+.r-hero-cta {
   margin: 0;
+  text-align: center;
+}
+
+.r-hero-fig {
+  position: relative;
+  margin: 0;
+  justify-self: end;
+  align-self: end;
 }
 .r-hero-fig img {
-  width: clamp(186px, 23vw, 330px);
+  display: block;
+  width: min(100%, 442px);
   height: auto;
-  filter: drop-shadow(0 24px 40px rgb(52 59 61 / 22%));
+  filter: drop-shadow(0 22px 38px rgb(52 59 61 / 20%));
 }
 .r-hero-fig::before {
   content: "";
   position: absolute;
-  left: 46%;
-  bottom: 22%;
-  width: clamp(260px, 34vw, 480px);
+  left: 50%;
+  bottom: 6%;
+  width: clamp(240px, 32vw, 460px);
   aspect-ratio: 1;
   transform: translateX(-50%);
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(255 253 246 / 88%) 0%, rgb(244 238 224 / 0%) 70%);
-}
-
-.r-hero-grid {
-  position: relative;
-  z-index: 2;
-}
-
-/* Bloc de texte centré, calé à gauche de la silhouette */
-.r-hero-txt {
-  max-width: 46rem;
-  margin-inline: auto;
-  margin-right: clamp(0px, 9vw, 152px);
-  text-align: center;
-}
-.r-hero-txt .r-eyebrow {
-  margin-bottom: 18px;
-  line-height: 1.8;
-}
-.r-hero-txt .r-display {
-  margin-bottom: 38px;
-  font-size: clamp(1.5rem, 3.9vw, 3.2rem);
+  background: radial-gradient(circle, rgb(255 253 247 / 82%) 0%, rgb(245 239 228 / 0%) 70%);
 }
 
 /* ============================================================
@@ -1203,40 +1213,25 @@ a {
     display: none;
   }
 
-  .r-hero {
-    padding-bottom: 0;
+  /* Une seule colonne : le texte, puis la silhouette posée dessous */
+  .r-hero-grid {
+    grid-template-columns: 1fr;
+    padding-left: 0;
+    gap: 0;
   }
   .r-hero-txt {
-    margin-right: auto;
     max-width: none;
-  }
-  /* La silhouette précède le texte dans le balisage pour se caler au bord
-     droit en grand écran ; ici elle repasse dans le flux, et l'ordre de
-     lecture doit rester celui de la page : le titre d'abord. */
-  .r-hero {
-    display: flex;
-    flex-direction: column;
-  }
-  .r-hero-grid {
-    order: 1;
+    padding-bottom: 34px;
   }
   .r-hero-fig {
-    order: 2;
-    position: static;
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-  }
-  .r-hero-fig picture {
-    display: block;
-    width: 100%;
+    justify-self: center;
   }
   .r-hero-fig img {
-    width: min(64%, 252px);
+    width: min(78%, 320px);
     margin-inline: auto;
   }
   .r-hero-fig::before {
-    width: 280px;
+    width: 300px;
   }
   .r-br {
     display: none;

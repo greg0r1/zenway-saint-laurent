@@ -1,27 +1,32 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 760" preserveAspectRatio="none">
-  <!-- Le sillage : rubans pleins qui traversent le hero, sur lesquels
-       viennent se poser les courbes fines. Décoratif. -->
+  <!-- Le sillage du hero : un ruban très clair qui traverse la section, à
+       peine plus soutenu que le fond. La maquette garde le hero aéré — ce
+       décor doit se sentir, pas se voir. Décoratif. -->
   <defs>
-    <linearGradient id="v1" x1="0" y1="0" x2="1" y2=".3">
-      <stop offset="0" stop-color="#e6dcc6"/><stop offset=".55" stop-color="#ded2b8"/><stop offset="1" stop-color="#eae1cd"/>
+    <linearGradient id="v1" x1="0" y1="0" x2="1" y2=".25">
+      <stop offset="0" stop-color="#f2ebdd" stop-opacity=".95"/>
+      <stop offset=".5" stop-color="#eee6d5" stop-opacity=".8"/>
+      <stop offset="1" stop-color="#f4eee2" stop-opacity=".55"/>
     </linearGradient>
-    <linearGradient id="v2" x1="0" y1="0" x2="1" y2=".4">
-      <stop offset="0" stop-color="#f2ecdd"/><stop offset=".6" stop-color="#eae2cf"/><stop offset="1" stop-color="#f4efe3"/>
-    </linearGradient>
-    <linearGradient id="v3" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0" stop-color="#d9cdb1"/><stop offset="1" stop-color="#e8dfc8"/>
+    <linearGradient id="v2" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#efe7d6" stop-opacity=".7"/>
+      <stop offset="1" stop-color="#f6f0e5" stop-opacity=".35"/>
     </linearGradient>
   </defs>
 
-  <!-- ruban haut, clair -->
-  <path d="M-40 352C168 352 300 268 476 214 652 160 838 168 1012 120 1186 72 1354-16 1480-152v250c-126 116-294 196-468 244-174 48-360 40-536 94-176 54-308 138-516 138Z"
-        fill="url(#v2)" opacity=".85"/>
-
-  <!-- ruban principal -->
-  <path d="M-40 470C176 470 314 386 496 332 678 278 870 286 1046 238 1222 190 1392 106 1480-6v212c-88 108-258 188-434 236-176 48-368 40-550 94-182 54-320 138-536 138Z"
+  <!-- le ruban : une bande souple, pas une masse -->
+  <path d="M-40 468C190 468 336 396 520 344 704 292 892 300 1064 254 1236 208 1382 132 1480 44v128c-98 78-244 152-416 198-172 46-360 38-544 90-184 52-330 124-560 124Z"
         fill="url(#v1)"/>
 
-  <!-- ruban bas, plus dense, qui fait le sol -->
-  <path d="M-40 662C184 662 328 578 516 524 704 470 902 478 1084 430 1266 382 1394 300 1480 210v550H-40Z"
-        fill="url(#v3)" opacity=".62"/>
+  <!-- le sol, très légèrement plus chaud sous le ruban -->
+  <path d="M-40 690C196 690 348 620 540 568 732 516 926 524 1102 478 1278 432 1394 360 1480 288v472H-40Z"
+        fill="url(#v2)"/>
+
+  <!-- les fils qui suivent le ruban -->
+  <g fill="none" stroke="#c9bda2" stroke-opacity=".5" stroke-width="1.1">
+    <path d="M-40 404C196 404 346 330 536 278 726 226 918 234 1094 188 1270 142 1390 68 1480-22"/>
+    <path d="M-40 440C198 440 350 366 542 314 734 262 928 270 1104 224 1280 178 1396 104 1480 16"/>
+    <path d="M-40 536C202 536 356 462 550 410 744 358 940 366 1116 320 1292 274 1400 202 1480 116"/>
+    <path d="M-40 596C204 596 360 522 556 470 752 418 950 426 1126 380 1302 334 1404 264 1480 180"/>
+  </g>
 </svg>
