@@ -35,6 +35,14 @@
   --r-line-dark: rgb(233 226 211 / 16%);
   --r-line-dark-strong: rgb(233 226 211 / 28%);
 
+  /* Anneau des médaillons : dégradé pierre, du clair en haut au sombre
+     en bas — c'est ce qui donne son relief au cerclage, plutôt qu'un
+     trait plat. */
+  --r-anneau-haut: #c1b8a6;
+  --r-anneau-corps: #8e887c;
+  --r-anneau-bas: #7b7060;
+  --r-anneau-ombre: #635b50;
+
   --r-serif: "Cormorant Garamond", Georgia, serif;
   --r-sans: "DM Sans", system-ui, sans-serif;
 
@@ -619,11 +627,39 @@ a {
 .r-enso {
   position: absolute;
   right: clamp(-90px, -3vw, -20px);
-  bottom: -60px;
+  bottom: -104px;
   width: clamp(260px, 32vw, 440px);
   aspect-ratio: 1;
   background: url("../img/refonte/orn-enso.svg") no-repeat center/contain;
-  opacity: 0.34;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* La gerbe du hero, retournée : elle s'ouvrait depuis le bas-gauche pour
+   border le sol, elle s'ouvre ici depuis le haut-gauche pour border le
+   titre — même fichier, un seul axe inversé plutôt qu'un second dessin. */
+.r-pratiques-feuillage {
+  position: absolute;
+  left: -18px;
+  top: -18px;
+  width: clamp(180px, 22vw, 300px);
+  height: clamp(150px, 18vw, 250px);
+  background: url("../img/refonte/orn-feuillage.svg") no-repeat left top/contain;
+  transform: scaleY(-1);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Les sillages dorés qui rasent le bas de la section, posés avant l'ensō
+   dans le HTML : ils se peignent derrière lui. */
+.r-pratiques-volutes {
+  position: absolute;
+  left: 0;
+  bottom: 12px;
+  width: min(58vw, 760px);
+  height: clamp(90px, 12vw, 170px);
+  background: url("../img/refonte/orn-volutes.svg") no-repeat left bottom/contain;
+  opacity: 0.6;
   pointer-events: none;
 }
 
@@ -634,6 +670,21 @@ a {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(18px, 2.6vw, 40px);
   margin-top: clamp(46px, 5vw, 70px);
+}
+/* La vigne qui court derrière les quatre médaillons, pincée au-dessus de
+   chacun. Premier enfant du grid : elle se peint avant les .r-med, qui la
+   recouvrent donc dans le creux de chaque anneau — pas de z-index à
+   coordonner, l'ordre du DOM suffit. `100% 100%` colle son viewBox de
+   1200 unités à la largeur de la grille : les quatre pincements du tracé
+   tombent tout seuls sur les quatre colonnes. */
+.r-pratiques-vigne {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: clamp(-46px, -4.4vw, -34px);
+  height: clamp(92px, 10vw, 150px);
+  background: url("../img/refonte/orn-vigne.svg") no-repeat center / 100% 100%;
+  pointer-events: none;
 }
 
 .r-med {
@@ -646,19 +697,35 @@ a {
   margin: 0 auto 22px;
   border-radius: 50%;
   padding: 7px;
-  box-shadow: inset 0 0 0 1px var(--r-line-dark-strong);
+  background: linear-gradient(
+    148deg,
+    var(--r-anneau-haut) 0%,
+    var(--r-anneau-corps) 40%,
+    var(--r-anneau-bas) 76%,
+    var(--r-anneau-ombre) 100%
+  );
+  box-shadow: var(--r-shadow-dark);
 }
+/* Le filet or, fin et légèrement détaché du cerclage pierre — la maquette
+   pose les deux l'un sur l'autre plutôt qu'un seul anneau uni. */
 .r-med-ring::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  box-shadow: inset 0 0 0 1px rgb(201 168 106 / 55%);
+  box-shadow:
+    inset 0 0 0 1px rgb(201 168 106 / 68%),
+    inset 0 0 12px rgb(201 168 106 / 22%);
   transform: scale(1.055);
   transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .r-med:hover .r-med-ring::after {
   transform: scale(1.09);
+}
+@media (prefers-reduced-motion: reduce) {
+  .r-med-ring::after {
+    transition: none;
+  }
 }
 .r-med-ring img {
   width: 100%;
@@ -695,16 +762,21 @@ a {
   opacity: 0.75;
 }
 
+/* Une seule pile, posée à côté du bouton plutôt qu'au-dessus : la
+   maquette les met sur la même ligne, la pierre venant border le doré
+   plutôt que le surmonter. */
 .r-pratiques-pied {
   position: relative;
   z-index: 2;
   margin-top: clamp(52px, 6vw, 84px);
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2vw, 26px);
 }
 .r-galets-mini {
-  width: 88px;
-  height: 112px;
-  margin: 0 auto 22px;
+  width: 118px;
+  height: 75px;
   background: url("../img/refonte/orn-galets.svg") no-repeat center bottom/contain;
   opacity: 0.9;
 }
@@ -761,8 +833,8 @@ a {
   color: var(--r-sage);
 }
 .r-galets-grand {
-  width: min(100%, 268px);
-  aspect-ratio: 300 / 380;
+  width: min(100%, 300px);
+  aspect-ratio: 300 / 190;
   margin-inline: auto;
   background: url("../img/refonte/orn-galets.svg") no-repeat center/contain;
 }
@@ -1478,6 +1550,17 @@ a {
     grid-template-columns: 1fr;
     max-width: 340px;
     margin-inline: auto;
+  }
+  /* Le tracé suppose quatre colonnes côte à côte : sur une seule, ses
+     quatre pincements se resserrent en un nœud. */
+  .r-pratiques-vigne {
+    display: none;
+  }
+  /* Les sillages sont une composition en largeur : sur une colonne unique
+     ils passent derrière le bouton et se mêlent à l'ensō. L'ensō suffit
+     alors à tenir le bas de la section. */
+  .r-pratiques-volutes {
+    display: none;
   }
   .r-videos-grid {
     grid-template-columns: 1fr;
