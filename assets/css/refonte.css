@@ -388,9 +388,16 @@ a {
    HERO
    ============================================================ */
 
+/* Le hero occupe la hauteur de l'écran. `svh` plutôt que `vh` : sur mobile
+   la barre d'adresse se rétracte au défilement, et `vh` ferait sauter la
+   section au premier geste. */
 .r-hero {
   position: relative;
-  padding-top: calc(var(--r-nav-h) + clamp(44px, 6vw, 86px));
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-top: calc(var(--r-nav-h) + clamp(28px, 3.5vw, 60px));
   padding-bottom: 0;
   background: linear-gradient(180deg, #fbf9f4 0%, #f9f5ec 52%, #f5efe4 100%);
   overflow: hidden;
@@ -447,9 +454,12 @@ a {
 /* Le texte à gauche, la silhouette posée au sol à sa droite : c'est la
    composition de la maquette. Les deux tiennent dans la même grille, donc
    ils ne peuvent pas se chevaucher quelle que soit la largeur. */
+/* La grille prend toute la hauteur restante : le texte se centre dedans,
+   la silhouette reste posée au sol quelle que soit la taille de l'écran. */
 .r-hero-grid {
   position: relative;
   z-index: 2;
+  flex: 1;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 0.6fr);
   align-items: end;
@@ -458,8 +468,9 @@ a {
 }
 
 .r-hero-txt {
+  align-self: center;
   max-width: 38rem;
-  padding-bottom: clamp(70px, 9.5vw, 130px);
+  padding-bottom: clamp(20px, 4vw, 56px);
   text-align: left;
 }
 .r-hero-txt .r-eyebrow {
@@ -482,9 +493,11 @@ a {
   justify-self: end;
   align-self: end;
 }
+/* La silhouette grandit avec la hauteur de l'écran pour que le hero ne se
+   vide pas sur un grand moniteur, sans jamais déborder de sa colonne. */
 .r-hero-fig img {
   display: block;
-  width: min(100%, 442px);
+  width: min(100%, max(442px, 48svh));
   height: auto;
   filter: drop-shadow(0 22px 38px rgb(52 59 61 / 20%));
 }
@@ -1213,13 +1226,16 @@ a {
     display: none;
   }
 
-  /* Une seule colonne : le texte, puis la silhouette posée dessous */
+  /* Une seule colonne : le texte en haut, la silhouette au sol, et le vide
+     qui reste se place entre les deux plutôt qu'au-dessus du titre. */
   .r-hero-grid {
     grid-template-columns: 1fr;
+    align-content: space-between;
     padding-left: 0;
     gap: 0;
   }
   .r-hero-txt {
+    align-self: start;
     max-width: none;
     padding-bottom: 34px;
   }
