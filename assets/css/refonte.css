@@ -443,6 +443,7 @@ a {
 .r-hero-courbes,
 .r-hero-bambou,
 .r-hero-feuillage-droite,
+.r-hero-sol,
 .r-hero-feuillage {
   position: absolute;
   pointer-events: none;
@@ -493,6 +494,19 @@ a {
   background-position: right top;
   opacity: 0.6;
 }
+/* La coupure entre le hero et la section sombre : un trait beige courbe,
+   et sous lui la couleur de cette section. Dernier ornement du HTML, donc
+   peint après le ruban et les courbes qu'il doit recouvrir, mais avant la
+   grille (z-index 2) — le personnage passe donc devant, et ses pieds
+   retombent dans la bande sombre. */
+.r-hero-sol {
+  inset: auto 0 -1px;
+  height: clamp(58px, 8.5vh, 112px);
+  background-image: url("../img/refonte/orn-sol.svg");
+  background-size: 100% 100%;
+  background-position: left bottom;
+}
+
 .r-hero-feuillage {
   left: -34px;
   bottom: -14px;
@@ -515,11 +529,11 @@ a {
   z-index: 2;
   flex: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.72fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.56fr);
   align-items: end;
   gap: 0;
-  padding-left: clamp(0px, 5vw, 88px);
-  padding-right: clamp(0px, 2.5vw, 44px);
+  padding-left: clamp(0px, 4vw, 64px);
+  padding-right: 0;
 }
 
 .r-hero-txt {
@@ -530,12 +544,14 @@ a {
   text-align: center;
 }
 .r-hero-txt .r-eyebrow {
-  margin-bottom: 20px;
-  line-height: 1.85;
+  margin-bottom: 24px;
+  font-size: clamp(0.78rem, 1.05vw, 0.98rem);
+  letter-spacing: 0.24em;
+  line-height: 1.9;
 }
 .r-hero-txt .r-display {
-  margin-bottom: 18px;
-  font-size: clamp(1.45rem, 4.2vw, 3.4rem);
+  margin-bottom: 22px;
+  font-size: clamp(1.5rem, 4.9vw, 4.05rem);
 }
 /* La signature du hero : seconde voix (Cormorant en italique) qui
    nomme la pratique sans reprendre les capitales du titre. */
@@ -544,7 +560,7 @@ a {
   font-family: var(--r-serif);
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(1.35rem, 4.4vw, 3.4rem);
+  font-size: clamp(1.35rem, 4.8vw, 3.9rem);
   letter-spacing: 0.02em;
   color: var(--r-sage-deep);
 }
@@ -559,7 +575,7 @@ a {
    de texte garde sa propre largeur maximale, donc rien ne se recouvre. */
 .r-hero-fig {
   position: relative;
-  margin: 0 0 0 clamp(-52px, -3vw, 0px);
+  margin: 0 clamp(-56px, -3.2vw, 0px) 0 clamp(-52px, -3vw, 0px);
   justify-self: end;
   align-self: end;
 }
@@ -567,7 +583,7 @@ a {
    vide pas sur un grand moniteur, sans jamais déborder de sa colonne. */
 .r-hero-fig img {
   display: block;
-  width: min(100%, max(442px, 62svh));
+  width: min(100%, max(340px, 46svh));
   height: auto;
   filter: drop-shadow(0 22px 38px rgb(52 59 61 / 20%));
 }

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 140" preserveAspectRatio="none">
+  <!-- La coupure entre le hero et la section sombre qui suit : un trait
+       beige courbe, et sous lui la couleur de cette section. Le personnage
+       étant posé au bas du hero, ses pieds retombent dans cette bande —
+       c'est ce qui le fait tenir sur la limite plutôt que flotter
+       au-dessus.
+
+       Le fond n'est pas d'un ton plat : la section du dessous porte un
+       dégradé radial qui l'éclaircit en son centre (#3b4345) et la laisse
+       presque au ton de base sur les bords. Une bande unie aurait donc
+       tranché sur elle par une arête horizontale nette, en plein milieu.
+       Ce dégradé reprend la rangée de pixels du haut de cette section.
+
+       Étiré en largeur (preserveAspectRatio="none"), d'où le vector-effect
+       qui garde au trait une épaisseur constante. -->
+  <defs>
+    <linearGradient id="solg" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#353c3e" />
+      <stop offset=".5" stop-color="#3b4345" />
+      <stop offset="1" stop-color="#353c3e" />
+    </linearGradient>
+  </defs>
+  <path d="M0 78C232 34 512 10 754 24 996 38 1236 78 1440 100V140H0Z" fill="url(#solg)" />
+  <path
+    d="M0 78C232 34 512 10 754 24 996 38 1236 78 1440 100"
+    fill="none"
+    stroke="#e6dabd"
+    stroke-width="4"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>
