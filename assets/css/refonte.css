@@ -484,35 +484,49 @@ a {
   opacity: 0.9;
 }
 
-/* Le texte à gauche, la silhouette posée au sol à sa droite : c'est la
-   composition de la maquette. Les deux tiennent dans la même grille, donc
-   ils ne peuvent pas se chevaucher quelle que soit la largeur. */
-/* La grille prend toute la hauteur restante : le texte se centre dedans,
+/* La composition de la maquette : un bloc de texte centré sur lui-même,
+   posé dans la moitié gauche, et la silhouette qui vient le border à
+   droite en mordant légèrement dessus — c'est ce chevauchement qui donne
+   au hero sa profondeur, plutôt que deux colonnes qui s'ignorent.
+   La grille prend toute la hauteur restante : le texte se centre dedans,
    la silhouette reste posée au sol quelle que soit la taille de l'écran. */
 .r-hero-grid {
   position: relative;
   z-index: 2;
   flex: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.6fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.72fr);
   align-items: end;
-  gap: clamp(10px, 2.4vw, 40px);
-  padding-left: clamp(0px, 6vw, 104px);
+  gap: 0;
+  padding-left: clamp(0px, 5vw, 88px);
+  padding-right: clamp(0px, 2.5vw, 44px);
 }
 
 .r-hero-txt {
   align-self: center;
-  max-width: 38rem;
-  padding-bottom: clamp(20px, 4vw, 56px);
-  text-align: left;
+  max-width: 44rem;
+  margin-inline: auto;
+  padding-bottom: clamp(20px, 5vh, 64px);
+  text-align: center;
 }
 .r-hero-txt .r-eyebrow {
   margin-bottom: 20px;
   line-height: 1.85;
 }
 .r-hero-txt .r-display {
-  margin-bottom: 34px;
-  font-size: clamp(1.45rem, 3.5vw, 2.85rem);
+  margin-bottom: 18px;
+  font-size: clamp(1.45rem, 4.2vw, 3.4rem);
+}
+/* La signature du hero : seconde voix (Cormorant en italique) qui
+   nomme la pratique sans reprendre les capitales du titre. */
+.r-hero-tagline {
+  margin: 0 0 34px;
+  font-family: var(--r-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.35rem, 4.4vw, 3.4rem);
+  letter-spacing: 0.02em;
+  color: var(--r-sage-deep);
 }
 /* Le bouton se centre sous le bloc de texte, comme dans la maquette */
 .r-hero-cta {
@@ -520,9 +534,12 @@ a {
   text-align: center;
 }
 
+/* La marge négative fait mordre la silhouette sur la colonne de texte,
+   comme dans la maquette où ses mains viennent frôler le titre. Le bloc
+   de texte garde sa propre largeur maximale, donc rien ne se recouvre. */
 .r-hero-fig {
   position: relative;
-  margin: 0;
+  margin: 0 0 0 clamp(-52px, -3vw, 0px);
   justify-self: end;
   align-self: end;
 }
@@ -530,7 +547,7 @@ a {
    vide pas sur un grand moniteur, sans jamais déborder de sa colonne. */
 .r-hero-fig img {
   display: block;
-  width: min(100%, max(442px, 48svh));
+  width: min(100%, max(442px, 62svh));
   height: auto;
   filter: drop-shadow(0 22px 38px rgb(52 59 61 / 20%));
 }
@@ -1330,10 +1347,15 @@ a {
     justify-self: stretch;
     min-height: 0;
   }
+  /* `height: 100%` ne se résout pas dans une rangée `1fr` : le navigateur
+     retombe sur la hauteur naturelle de l'image, qui devient le minimum de
+     la rangée et fait déborder le hero. Le plafond en `svh` redonne à la
+     rangée le droit de se comprimer. */
   .r-hero-fig img {
     width: 100%;
     height: 100%;
     max-width: none;
+    max-height: 40svh;
     object-fit: contain;
     object-position: bottom center;
   }
