@@ -442,6 +442,7 @@ a {
 .r-hero-vague,
 .r-hero-courbes,
 .r-hero-bambou,
+.r-hero-feuillage-droite,
 .r-hero-feuillage {
   position: absolute;
   pointer-events: none;
@@ -463,6 +464,20 @@ a {
   background-position: left bottom;
   opacity: 0.32;
 }
+/* Le feuillage du côté droit : une nappe posée SOUS les cannes (elle les
+   précède dans le HTML, donc elle se peint avant). Le bambou ne porte plus
+   aucune feuille — les deux calques sont dissociés, comme dans la maquette. */
+.r-hero-feuillage-droite {
+  top: clamp(120px, 20vh, 250px);
+  right: -24px;
+  width: clamp(220px, 34vw, 520px);
+  height: clamp(180px, 28vw, 434px);
+  background-image: url("../img/refonte/orn-feuillage-droite.svg");
+  background-size: contain;
+  background-position: right top;
+  opacity: 0.8;
+}
+
 /* Le bambou est une masse verte posée dans l'angle haut-droit, pas une
    bande qui court sur toute la hauteur : `contain` le laisse s'arrêter aux
    deux tiers du hero, là où la silhouette prend le relais. */
@@ -1383,6 +1398,11 @@ a {
 
   .r-hero-feuillage {
     opacity: 0.55;
+  }
+  /* Cette nappe passe derrière le titre en une seule colonne : plus
+     discrète que sur grand écran, où elle a de la place à sa droite. */
+  .r-hero-feuillage-droite {
+    opacity: 0.3;
   }
   .r-hero-bambou {
     opacity: 0.4;

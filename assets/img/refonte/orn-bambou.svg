@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 820">
-  <!-- Angle haut-droit du hero. Deux couches distinctes, comme dans la
-       maquette — et c'est bien deux choses, pas une : des feuilles
-       dessinées au trait, larges et posées en arrière-plan, puis devant
-       elles des cannes de bambou NUES, sans feuillage accroché.
+  <!-- Angle haut-droit du hero : les cannes de bambou SEULES, nues. Le
+       feuillage est un calque à part (orn-feuillage-droite.svg, posé
+       dessous) — c'est bien deux choses dans la maquette, et les réunir
+       ici écraserait la profondeur du décor.
 
        Chaque canne est un tracé fléchi (trois verticales parfaites se
        lisaient comme des barreaux) monté en trois passes sur le MÊME
@@ -19,12 +19,6 @@
        Un masque efface le bas pour rendre le premier plan à la
        silhouette. Décoratif. -->
   <defs>
-    <!-- feuille au trait, pointe vers +x : contour + nervure -->
-    <g id="lf" fill="none" stroke="#a9bba1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M0 0Q44-17 104-6Q44 18 0 0Z" />
-      <path d="M4 1Q50 3 104-6" />
-    </g>
-
     <!-- les tracés, réutilisés par les trois passes de chaque canne -->
     <path id="cA" d="M292-20C286 190 274 380 280 560 284 700 272 792 268 840" />
     <path id="cB" d="M352 24C348 210 362 372 354 536 346 676 336 770 330 840" />
@@ -67,23 +61,6 @@
   </defs>
 
   <g mask="url(#bmask)">
-    <!-- ============ couche 1 : le feuillage dessiné, derrière ============ -->
-    <g opacity=".85">
-      <use href="#lf" transform="translate(150 34) rotate(-20) scale(1.2)" />
-      <use href="#lf" transform="translate(196 96) rotate(14) scale(1.05)" />
-      <use href="#lf" transform="translate(252 14) rotate(-36) scale(1.15)" />
-      <use href="#lf" transform="translate(124 124) rotate(-4) scale(1.3)" />
-      <use href="#lf" transform="translate(272 82) rotate(26) scale(.95)" />
-    </g>
-    <g opacity=".55">
-      <use href="#lf" transform="translate(182 188) rotate(-28) scale(1.1)" />
-      <use href="#lf" transform="translate(302 138) rotate(-12) scale(1.15)" />
-      <use href="#lf" transform="translate(92 58) rotate(30) scale(1)" />
-      <use href="#lf" transform="translate(226 248) rotate(18) scale(1.2)" />
-      <use href="#lf" transform="translate(330 202) rotate(-32) scale(.9)" />
-    </g>
-
-    <!-- ============ couche 2 : les cannes nues, devant ============ -->
     <g fill="none">
       <!-- canne d'arrière-plan, la plus fine -->
       <g opacity=".5">
