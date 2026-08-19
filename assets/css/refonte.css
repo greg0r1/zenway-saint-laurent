@@ -494,14 +494,15 @@ a {
   background-position: right top;
   opacity: 0.6;
 }
-/* La coupure entre le hero et la section sombre : un trait beige courbe,
-   et sous lui la couleur de cette section. Dernier ornement du HTML, donc
-   peint après le ruban et les courbes qu'il doit recouvrir, mais avant la
-   grille (z-index 2) — le personnage passe donc devant, et ses pieds
-   retombent dans la bande sombre. */
+/* La coupure entre le hero et la section sombre : la vague de la maquette,
+   reprise au tracé près. Dernier ornement du HTML, donc peint après le
+   ruban et les courbes qu'elle doit recouvrir, mais avant la grille
+   (z-index 2) — le personnage passe donc devant, posé sur la vague.
+   La hauteur suit la largeur (18.9vw = 80/423, le rapport du viewBox) :
+   une hauteur en `vh` aurait écrasé la vague sur les écrans bas. */
 .r-hero-sol {
   inset: auto 0 -1px;
-  height: clamp(58px, 8.5vh, 112px);
+  height: 18.9vw;
   background-image: url("../img/refonte/orn-sol.svg");
   background-size: 100% 100%;
   background-position: left bottom;
@@ -1450,6 +1451,13 @@ a {
 }
 
 @media (width <= 620px) {
+  /* La vague de coupure ne tient qu'à partir de la tablette : sous cette
+     largeur elle se réduit à un liseré de quelques dizaines de pixels, où
+     les ondulations du tracé ne se lisent plus. */
+  .r-hero-sol {
+    display: none;
+  }
+
   .r-medaillons {
     grid-template-columns: 1fr;
     max-width: 340px;
