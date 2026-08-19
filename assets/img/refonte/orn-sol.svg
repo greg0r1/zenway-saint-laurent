@@ -8,14 +8,15 @@
        sans lisière de crème entre eux ni passage du fond par-dessus le
        ruban.
 
-       Le ruban monte un peu plus à droite qu'à gauche (~35 unités sur 320
-       de haut) — un premier essai le faisait grimper jusqu'à recouvrir la
-       base des cannes de bambou, mais la montée était bien trop marquée ;
-       ramené à une pente discrète. Son épaisseur (39-60 unités) varie
-       d'un point à l'autre plutôt que de suivre un décalage constant
-       depuis le bord haut (30-36 partout, un essai précédent, trop
-       régulier) — un bord bas qui ne fait que reproduire le bord haut en
-       parallèle se lit comme rectiligne, même courbé.
+       Le bord haut creuse d'abord (un creux vers x=250, sous le bouton
+       d'inscription) avant de remonter franchement vers la droite — la
+       maquette dessine une vague en S, pas une pente qui grimpe tout du
+       long. Un premier essai, monotone, montait sans jamais redescendre :
+       plus proche d'une rampe que d'une vague.
+       Son épaisseur (38-58 unités) varie d'un point à l'autre plutôt que
+       de suivre un décalage constant depuis le bord haut — un bord bas
+       qui ne fait que reproduire le bord haut en parallèle se lit comme
+       rectiligne, même courbé.
 
        La pointe droite du ruban (x=1444) porte un segment droit explicite
        entre son bord haut et son bord bas plutôt qu'une courbe continue :
@@ -38,11 +39,11 @@
 
   <path
     fill="url(#solDark)"
-    d="M-4 320C47 312 183 282 300 272 417 262 583 268 700 258 817 248 908 225 1000 214 1092 203 1176 201 1250 190 1324 179 1412 157 1444 150V324H-4Z"
+    d="M-4 285C38 290 149 314 250 315 351 316 483 309 600 293 717 277 842 236 950 218 1058 200 1168 199 1250 187 1332 175 1412 154 1444 147V324H-4Z"
   />
 
   <path
     fill="#c8c5b8"
-    d="M-4 260C47 255 183 239 300 230 417 221 583 214 700 205 817 196 908 186 1000 175 1092 164 1176 151 1250 140 1324 129 1412 115 1444 110L1444 150C1412 157 1324 179 1250 190 1176 201 1092 203 1000 214 908 225 817 248 700 258 583 268 417 262 300 272 183 282 47 312 -4 320Z"
+    d="M-4 230C38 237 149 269 250 270 351 271 483 250 600 235 717 220 842 197 950 180 1058 163 1168 148 1250 135 1332 122 1412 110 1444 105L1444 147C1412 154 1332 175 1250 187 1168 199 1058 200 950 218 842 236 717 277 600 293 483 309 351 316 250 315 149 314 38 290 -4 285Z"
   />
 </svg>
