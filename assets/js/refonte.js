@@ -72,7 +72,17 @@
         const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         window.setTimeout(
           () => {
-            cible.scrollIntoView({ behavior: reduit ? 'auto' : 'smooth', block: 'start' });
+            // `scrollIntoView` + le `scroll-padding-top` CSS suffisent
+            // partout ailleurs (liens desktop, retour navigateur, URL avec
+            // ancre), mais atterrissaient ici avec un léger manque — la
+            // section précédente restait visible sous l'en-tête. Position
+            // calculée à la main, sur la hauteur RÉELLE de l'en-tête plutôt
+            // que sur la variable CSS : les deux devraient toujours
+            // correspondre, mais un calcul indépendant ne peut pas hériter
+            // d'un éventuel écart entre les deux.
+            const navH = nav ? nav.getBoundingClientRect().height : 0;
+            const y = cible.getBoundingClientRect().top + window.scrollY - (navH + 16);
+            window.scrollTo({ top: Math.max(0, y), behavior: reduit ? 'auto' : 'smooth' });
             history.pushState(null, '', href);
           },
           reduit ? 0 : 360
