@@ -538,7 +538,7 @@ a {
 }
 
 .r-hero-txt {
-  align-self: center;
+  align-self: start;
   max-width: 44rem;
   margin-inline: auto;
   padding-bottom: clamp(20px, 5vh, 64px);
@@ -574,9 +574,12 @@ a {
 /* La marge négative fait mordre la silhouette sur la colonne de texte,
    comme dans la maquette où ses mains viennent frôler le titre. Le bloc
    de texte garde sa propre largeur maximale, donc rien ne se recouvre. */
+/* La marge basse négative fait descendre les pieds sous le bord du bloc de
+   texte, dans la bande où la vague les rejoint — sans elle la silhouette
+   restait pincée au ras du bloc, loin au-dessus de la vague. */
 .r-hero-fig {
   position: relative;
-  margin: 0 clamp(-56px, -3.2vw, 0px) 0 clamp(-52px, -3vw, 0px);
+  margin: 0 clamp(-56px, -3.2vw, 0px) clamp(-30px, -3.5vh, -12px) clamp(-52px, -3vw, 0px);
   justify-self: end;
   align-self: end;
 }
@@ -1380,7 +1383,10 @@ a {
   .r-hero-txt .r-display {
     margin-bottom: clamp(30px, 5.5vh, 56px);
   }
+  /* La marge négative du bureau n'a plus de sens en une colonne pleine
+     largeur : elle mordrait sur la gouttière au lieu de border le texte. */
   .r-hero-fig {
+    margin: 0;
     justify-self: stretch;
     min-height: 0;
   }
