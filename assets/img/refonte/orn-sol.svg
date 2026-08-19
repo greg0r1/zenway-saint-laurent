@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 640" preserveAspectRatio="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 300" preserveAspectRatio="none">
   <!-- La coupure entre le hero et la section sombre qui suit, construite
        comme le ruban du fond du hero (orn-vague.svg) : un ruban clair
        AU-DESSUS d'un fond sombre, chacun avec son propre bord ondulé —
@@ -6,22 +6,20 @@
        du fond sombre REPREND exactement le tracé du bord bas du ruban : les
        deux coïncident, donc le fond commence pile où le ruban s'arrête,
        sans lisière de crème entre eux ni passage du fond par-dessus le
-       ruban. Un fond dessiné indépendamment déraillait dans les deux sens
-       à la vérification (pixel par pixel) : décalé vers le bas, il
-       laissait un filet de crème du hero entre les deux ; non lié, il
-       remontait par endroits plus haut que le ruban et passait devant.
+       ruban.
 
-       Le ruban grimpe beaucoup plus haut à droite qu'à gauche — c'est lui
-       qui recouvre la base des cannes de bambou (orn-bambou.svg, peint
-       juste avant dans le HTML, donc sous ce calque) : sans cette montée,
-       leur base reste visible, suspendue au-dessus du ruban.
+       Le ruban monte un peu plus à droite qu'à gauche (~35 unités sur 300
+       de haut) — un premier essai le faisait grimper jusqu'à recouvrir la
+       base des cannes de bambou, mais la montée était bien trop marquée et
+       le ruban lui-même trop épais (jusqu'à 120 unités) ; ramené à une
+       épaisseur fine et constante (30-36 unités) et à une pente discrète.
 
        La pointe droite du ruban (x=1444) porte un segment droit explicite
        entre son bord haut et son bord bas plutôt qu'une courbe continue :
        les deux bords sont deux tracés lisses indépendants, et vouloir les
-       relier par une seule courbe à la pointe (essai précédent) créait un
-       pincement — une fine poche de crème visible à l'intérieur même du
-       ruban, confirmée pixel par pixel (canvas, la pointe ~x=1350-1440).
+       relier par une seule courbe à la pointe créait un pincement — une
+       fine poche de crème visible à l'intérieur même du ruban, confirmée
+       pixel par pixel (canvas, la pointe ~x=1350-1440).
 
        Le fond sombre reprend le dégradé radial de la section suivante
        (voir .r-pratiques dans refonte.css : #3b4345 au centre, #343b3d
@@ -37,11 +35,11 @@
 
   <path
     fill="url(#solDark)"
-    d="M-4 612C47 603 183 567 300 558 417 549 583 581 700 558 817 535 908 470 1000 420 1092 370 1176 305 1250 260 1324 215 1412 170 1444 152V644H-4Z"
+    d="M-4 296C47 291 183 275 300 266 417 257 583 250 700 240 817 230 908 219 1000 208 1092 197 1176 183 1250 172 1324 161 1412 145 1444 140V304H-4Z"
   />
 
   <path
     fill="#c8c5b8"
-    d="M-4 560C47 546 183 499 300 478 417 457 583 466 700 436 817 406 908 346 1000 300 1092 254 1176 201 1250 158 1324 115 1412 61 1444 42L1444 152C1412 170 1324 215 1250 260 1176 305 1092 370 1000 420 908 470 817 535 700 558 583 581 417 549 300 558 183 567 47 603 -4 612Z"
+    d="M-4 260C47 255 183 239 300 230 417 221 583 214 700 205 817 196 908 186 1000 175 1092 164 1176 151 1250 140 1324 129 1412 115 1444 110L1444 140C1412 145 1324 161 1250 172 1176 183 1092 197 1000 208 908 219 817 230 700 240 583 250 417 257 300 266 183 275 47 291 -4 296Z"
   />
 </svg>
