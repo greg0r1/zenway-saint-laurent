@@ -57,7 +57,7 @@
 html {
   overflow-x: clip;
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--r-nav-h) + 16px);
+  scroll-padding-top: var(--r-nav-h);
   -webkit-text-size-adjust: 100%;
 }
 /* Posé par refonte.js tant que le tiroir mobile est ouvert : il flotte
