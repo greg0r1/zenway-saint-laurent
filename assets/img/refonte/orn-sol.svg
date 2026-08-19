@@ -1,22 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 423 80" preserveAspectRatio="none">
-  <!-- La coupure entre le hero et la section sombre qui suit. Tracé repris
-       tel quel de la maquette : une vague amortie, à fortes ondulations à
-       gauche qui s'aplatissent vers la droite, montant de y=65 à y=30.
-
-       Le tracé fourni continuait au-delà de ce point en centaines de
-       micro-segments d'un pixel. Ils sont écartés, non par simplification
-       mais parce qu'ils sont hors cadre : les vingt courbes conservées
-       cumulent exactement 423 unités en x, soit le bord droit du viewBox.
-       Ce qui suivait n'était donc jamais rendu — une queue d'auto-traçage.
-       Le contour est refermé vers le bas (V80 H0 Z), le tracé d'origine
-       étant ouvert alors qu'il porte un fill.
-
-       #c8c5b8 vient de la maquette et n'appartient pas encore aux jetons
-       de la charte. Étiré en largeur (preserveAspectRatio="none"), mais la
-       hauteur de l'élément suit la largeur du viewBox (18.9vw = 80/423),
-       donc l'échelle reste uniforme et la vague n'est pas déformée. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 260" preserveAspectRatio="none">
+  <!-- La coupure entre le hero et la section sombre qui suit. Reprend le
+       même langage que le ruban du fond du hero (orn-vague.svg) : deux
+       courbes larges et lisses, pas les petits godrons répétés de l'essai
+       précédent — le tracé fourni par la maquette, une fois posé sur la
+       page, se lisait comme « trop ondulé » à côté du reste du décor,
+       beaucoup plus ample. Même famille de mouvement, donc, pour que la
+       coupure se sente comme une continuation du ruban plutôt qu'un motif
+       à part. -->
   <path
     fill="#c8c5b8"
-    d="M0 65c15-8 28-22 42-18 12 3 18 18 32 12 10-5 8-20 22-22 14-2 20 15 35 10 12-4 10-18 25-15 14 3 18 20 32 14 11-5 9-18 22-16 13 2 16 18 30 12 10-4 8-16 20-14 12 2 14 16 26 11 9-4 7-14 18-12 10 2 12 14 22 9 8-4 6-12 15-10 9 2 10 12 18 8 7-3 5-10 12-8 6 2 8 10 14 6 5-3 4-8 10-6 5 1 6 8 11 5 4-2 3-6 8-5 4 1 5 6 9 4V80H0Z"
+    d="M-4 168C220 130 452 100 700 116 948 132 1160 176 1444 118V264H-4Z"
   />
 </svg>
