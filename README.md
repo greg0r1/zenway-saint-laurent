@@ -114,7 +114,8 @@ zenway-saint-laurent/
 │       ├── config-helloasso.js ← slugs HelloAsso, injection des liens et du widget
 │       ├── config-videos.js    ← vidéo teaser du hero + galerie YouTube
 │       ├── planning-schedule.js← alimente la section « Planning » depuis l'API
-│       ├── events-banner.js    ← alimente la section « Événements » et le bandeau
+│       ├── events-banner.js    ← alimente la section « Événements », le bandeau et le
+│       │                          « Prochain rendez-vous » calculé des infos pratiques
 │       ├── infos-pratiques.js  ← alimente la section « Infos pratiques » depuis l'API
 │       ├── practice-modals.js  ← ouverture des fiches disciplines
 │       ├── nav-reveal.js       ← scroll de la nav, burger, animations reveal

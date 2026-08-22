@@ -1,6 +1,10 @@
 /* ============================================================
-   ÉVÉNEMENTS — liste, bandeau d'annonce et agrandissement d'image,
-   alimentés par /api/events/public (module « Événements » de l'admin)
+   ÉVÉNEMENTS — liste, bandeau d'annonce, agrandissement d'image et
+   « Prochain rendez-vous » (section « Infos pratiques »), tous
+   alimentés par /api/events/public (module « Événements » de l'admin).
+   « Prochain rendez-vous » n'est pas une valeur saisie à la main : ce
+   fichier la calcule pour ne jamais désynchroniser d'avec la liste
+   des événements.
    ============================================================ */
 (function evenements() {
   // Échappe aussi guillemets et apostrophe : ces valeurs finissent
@@ -97,32 +101,52 @@
     .then((res) => (res.ok ? res.json() : null))
     .then((data) => {
       const events = (data && data.events) || [];
-      if (!events.length) return;
 
-      const liste = document.getElementById('eventsGrid');
-      const vide = document.getElementById('eventsEmpty');
-      if (liste) {
-        liste.innerHTML = events.map(ligneEvenement).join('');
-        if (vide) vide.hidden = true;
-        liste.querySelectorAll('.r-evt-image').forEach((btn) => {
-          btn.addEventListener('click', () => ouvrirImage(btn.dataset.image, btn.dataset.titre, btn));
-        });
+      if (events.length) {
+        const liste = document.getElementById('eventsGrid');
+        const vide = document.getElementById('eventsEmpty');
+        if (liste) {
+          liste.innerHTML = events.map(ligneEvenement).join('');
+          if (vide) vide.hidden = true;
+          liste.querySelectorAll('.r-evt-image').forEach((btn) => {
+            btn.addEventListener('click', () => ouvrirImage(btn.dataset.image, btn.dataset.titre, btn));
+          });
+        }
       }
 
       // Le bandeau n'annonce que l'événement mis en avant depuis l'admin,
       // et reste masqué s'il n'y en a aucun.
       const vedette = events.find((ev) => ev.featured);
-      if (!vedette) return;
+      if (vedette) {
+        const bandeau = document.getElementById('eventBanner');
+        const tag = document.getElementById('eventBannerTag');
+        const titre = document.getElementById('eventBannerTitle');
+        if (bandeau && tag && titre) {
+          tag.textContent = vedette.tag || 'Prochain événement';
+          titre.textContent = vedette.title;
+          bandeau.href = `#evenement-${vedette.id}`;
+          bandeau.hidden = false;
+          document.documentElement.classList.add('a-bandeau');
+        }
+      }
 
-      const bandeau = document.getElementById('eventBanner');
-      const tag = document.getElementById('eventBannerTag');
-      const titre = document.getElementById('eventBannerTitle');
-      if (bandeau && tag && titre) {
-        tag.textContent = vedette.tag || 'Prochain événement';
-        titre.textContent = vedette.title;
-        bandeau.href = `#evenement-${vedette.id}`;
-        bandeau.hidden = false;
-        document.documentElement.classList.add('a-bandeau');
+      // « Prochain rendez-vous » (section « Infos pratiques ») : le premier
+      // événement dont la date n'est pas déjà passée, dans cette même liste
+      // déjà triée par date croissante (voir api/events/public.js) — pas de
+      // second appel réseau, pas de second tri. Comparaison en chaînes
+      // AAAA-MM-JJ, valide pour l'ordre comme pour l'égalité.
+      const aujourdhui = new Date().toISOString().slice(0, 10);
+      const prochain = events.find((ev) => ev.starts_at && ev.starts_at.slice(0, 10) >= aujourdhui);
+      const ligneProchain = document.querySelector('[data-info-row="next_session"]');
+      const cibleProchain = document.querySelector('[data-info="next_session"]');
+      if (ligneProchain && cibleProchain) {
+        if (prochain) {
+          const date = dateLongue(prochain.starts_at);
+          cibleProchain.textContent = date ? `${date} · ${prochain.title}` : prochain.title;
+          ligneProchain.hidden = false;
+        } else {
+          ligneProchain.hidden = true;
+        }
       }
     })
     .catch(() => {

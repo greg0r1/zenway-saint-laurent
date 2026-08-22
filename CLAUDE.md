@@ -36,7 +36,7 @@ Zenway n'est **pas** un enchaînement de quatre cours séparés. C'est **une seu
 
 ## Exception backend — gestion des événements, du planning et des infos pratiques
 
-Le reste du site reste 100 % statique (HTML/CSS/JS vanilla, zéro build). Trois fonctionnalités dérogent à la règle « pas de backend / pas de base de données » : la gestion des événements (portes ouvertes, rencontres...), celle du planning (jours et horaires de séance) et celle des infos pratiques (adresse, parking, téléphone, e-mail, prochain rendez-vous), pour permettre à Béatrice de les mettre à jour sans toucher au code.
+Le reste du site reste 100 % statique (HTML/CSS/JS vanilla, zéro build). Trois fonctionnalités dérogent à la règle « pas de backend / pas de base de données » : la gestion des événements (portes ouvertes, rencontres...), celle du planning (jours et horaires de séance) et celle des infos pratiques (adresse, parking, téléphone, e-mail), pour permettre à Béatrice de les mettre à jour sans toucher au code. Le « Prochain rendez-vous » affiché dans les infos pratiques n'est pas une valeur saisie à part : c'est le plus proche événement à venir, calculé côté site public depuis `api/events/public.js` — voir plus bas.
 
 ### Stack de cette exception
 
@@ -107,7 +107,8 @@ db/
     ├── 005_evenements_image.sql   ← ajoute image_url (image facultative, Vercel Blob)
     ├── 006_planning.sql           ← table planning_slots (module « Planning »)
     ├── 007_planning_ordre.sql     ← fonction planning_set_order() : réordonnancement atomique
-    └── 008_infos_pratiques.sql    ← table infos_pratiques (module « Infos pratiques »), fiche unique
+    ├── 008_infos_pratiques.sql    ← table infos_pratiques (module « Infos pratiques »), fiche unique
+    └── 009_infos_pratiques_retrait_next_session.sql ← retire next_session, calculé depuis les événements
 ```
 
 ### Schéma de base de données
@@ -245,7 +246,8 @@ zenway-saint-laurent/
 │   │   ├── config-videos.js     ← clé YouTube + rendu de la galerie
 │   │   ├── planning-schedule.js ← fetch /api/planning/public, alimente la grille « Planning »
 │   │   ├── events-banner.js     ← fetch /api/events/public : liste, bandeau d'annonce,
-│   │   │                          agrandissement de l'image d'un événement
+│   │   │                          agrandissement de l'image, « Prochain rendez-vous »
+│   │   │                          (calculé, dans « Infos pratiques »)
 │   │   ├── infos-pratiques.js   ← fetch /api/infos, alimente « Infos pratiques » et le footer
 │   │   ├── practice-modals.js   ← ouverture des fiches disciplines
 │   │   ├── nav-reveal.js        ← état de la nav au défilement, tiroir mobile, révélation

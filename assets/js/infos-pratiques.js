@@ -1,6 +1,9 @@
 /* ============================================================
-   INFOS PRATIQUES — adresse, parking, téléphone, e-mail et prochain
-   rendez-vous, alimentés par /api/infos (module « Infos pratiques »)
+   INFOS PRATIQUES — adresse, parking, téléphone et e-mail, alimentés
+   par /api/infos (module « Infos pratiques »). Le « Prochain
+   rendez-vous » de cette même section vient d'ailleurs : voir
+   assets/js/events-banner.js, qui le calcule depuis le plus proche
+   événement à venir.
    ============================================================ */
 (function infospratiques() {
   // Échappe aussi guillemets et apostrophe : ces valeurs finissent
@@ -16,9 +19,8 @@
   }
 
   /* ---------- Infos pratiques : /api/infos ----------
-     Mêmes règles que assets/js/infos-pratiques.js : une fiche
-     incomplète n'écrase pas le repli, et une valeur ne devient
-     un href que si c'est bien une https. */
+     Une fiche incomplète n'écrase pas le repli, et une valeur ne
+     devient un href que si c'est bien une https. */
   const OBLIGATOIRES = ['address', 'map_url', 'parking', 'phone', 'email'];
 
   function urlSure(valeur) {
@@ -47,17 +49,6 @@
       });
       const parking = document.querySelector('[data-info="parking"]');
       if (parking) parking.textContent = infos.parking;
-
-      const prochain = document.querySelector('[data-info="next_session"]');
-      const ligne = document.querySelector('[data-info-row="next_session"]');
-      if (prochain && ligne) {
-        if (infos.next_session) {
-          prochain.textContent = infos.next_session;
-          ligne.hidden = false;
-        } else {
-          ligne.hidden = true;
-        }
-      }
     })
     .catch(() => {
       /* API indisponible : le repli statique reste affiché */
