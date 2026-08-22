@@ -116,8 +116,6 @@ zenway-saint-laurent/
 │       ├── planning-schedule.js← alimente la section « Planning » depuis l'API
 │       ├── events-banner.js    ← alimente la section « Événements » et le bandeau
 │       ├── infos-pratiques.js  ← alimente la section « Infos pratiques » depuis l'API
-│       ├── hero-bath.js        ← animation du bain du hero
-│       ├── parallax.js         ← défilement parallaxe des visuels
 │       ├── practice-modals.js  ← ouverture des fiches disciplines
 │       ├── nav-reveal.js       ← scroll de la nav, burger, animations reveal
 │       ├── config-admin.js     ← identifiant client Google (page /admin uniquement)

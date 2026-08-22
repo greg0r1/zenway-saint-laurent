@@ -1,28 +1,56 @@
 /* ============================================================
-   BASE — variables, reset, typographie, boutons, feuille levée
+   BASE — jetons de couleur et de typographie, reset, voix
+   typographiques, boutons, révélation à l'entrée dans le champ
    ============================================================ */
+
 :root {
-  --green-900: #1b4332;
-  --green-800: #22543e;
-  --green-700: #2d6a4f;
-  --green-950: #17392b; /* Profondeur du bain, second point du dégradé de fond */
-  --ink-overlay: 19, 48, 35; /* Voile sombre du hero (rgba(var(--ink-overlay), alpha)) */
-  --teal: #2f8f7f;
-  --teal-bright: #36a18c;
-  --mint: #d8f3dc;
-  --mint-soft: #eef7f0;
-  --beige: #f5f1e8;
-  --paper: #faf8f2;
-  --gold: #c9a86a;
-  --gold-soft: #e7d6ad;
-  --ink: #243029;
-  --ink-soft: #4b5a51;
+  /* Grounds */
+  --r-dark: #343b3d;
+  --r-dark-deep: #2b3133;
+  --r-dark-raise: #3e4649;
+  --r-cream: #f8f4ec;
+  --r-cream-2: #f1ebdf;
 
-  --serif: "Cormorant Garamond", Georgia, serif;
-  --sans: "DM Sans", system-ui, sans-serif;
+  /* Encres */
+  --r-ink: #2b332f;
+  --r-ink-soft: #5f6a62;
+  --r-bone: #e9e2d3;
+  --r-bone-soft: #bcb6a8;
 
-  --maxw: 1180px;
-  --gut: 30px;
+  /* Accents */
+  --r-sage: #5d7358;
+  --r-sage-deep: #4b5e47;
+  --r-sage-light: #9fb298;
+  --r-sage-veil: #dfe7db;
+  --r-gold: #c9a86a;
+  --r-gold-warm: #d8bb85;
+  --r-gold-veil: #f0e4c9;
+
+  /* Filets */
+  --r-line: #ddd4c1;
+  --r-line-strong: #cabfa7;
+  --r-line-dark: rgb(233 226 211 / 16%);
+  --r-line-dark-strong: rgb(233 226 211 / 28%);
+
+  /* Anneau des médaillons : dégradé pierre, du clair en haut au sombre
+     en bas — c'est ce qui donne son relief au cerclage, plutôt qu'un
+     trait plat. */
+  --r-anneau-haut: #c1b8a6;
+  --r-anneau-corps: #8e887c;
+  --r-anneau-bas: #7b7060;
+  --r-anneau-ombre: #635b50;
+
+  --r-serif: "Cormorant Garamond", Georgia, serif;
+  --r-sans: "DM Sans", system-ui, sans-serif;
+
+  --r-maxw: 1180px;
+  --r-gut: 28px;
+  --r-radius: 22px;
+  --r-nav-h: 76px;
+
+  --r-shadow-sm: 0 2px 6px rgb(43 51 47 / 6%), 0 8px 20px rgb(43 51 47 / 7%);
+  --r-shadow: 0 4px 12px rgb(43 51 47 / 8%), 0 18px 44px rgb(43 51 47 / 10%);
+  --r-shadow-dark: 0 4px 12px rgb(12 16 15 / 26%), 0 22px 52px rgb(12 16 15 / 30%);
 }
 
 *,
@@ -32,152 +60,234 @@
 }
 
 html {
+  overflow-x: clip;
   scroll-behavior: smooth;
+  scroll-padding-top: var(--r-nav-h);
   -webkit-text-size-adjust: 100%;
+}
+/* Posé par refonte.js tant que le tiroir mobile est ouvert : il flotte
+   au-dessus de la page plutôt que de la remplacer, donc sans ce verrou le
+   contenu qu'il recouvre à moitié resterait défilable en dessous. */
+html.r-noscroll {
+  overflow: hidden;
 }
 
 body {
   margin: 0;
-  /* Le bain : jamais un aplat, toujours une profondeur d'eau épaissie */
-  background:
-    radial-gradient(120% 80% at 20% 0%, var(--green-800), transparent 60%),
-    radial-gradient(100% 70% at 85% 100%, var(--green-950), transparent 65%), var(--green-900);
-  background-attachment: fixed;
-  color: var(--mint-soft);
-  font-family: var(--sans);
-  font-size: 1.06rem;
+  background: var(--r-cream);
+  color: var(--r-ink);
+  font-family: var(--r-sans);
+  font-size: 1.02rem;
+  font-weight: 400;
   line-height: 1.7;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-img {
-  max-width: 100%;
+img,
+svg {
   display: block;
+  max-width: 100%;
 }
 
 a {
   color: inherit;
 }
 
-h1,
-h2,
-h3 {
-  font-family: var(--serif);
-  font-weight: 400;
-  line-height: 1.08;
+:focus-visible {
+  outline: 2px solid var(--r-gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.r-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 200;
+  background: var(--r-ink);
+  color: var(--r-cream);
+  padding: 12px 18px;
+  font-size: 0.9rem;
+}
+.r-skip:focus {
+  left: 12px;
+  top: 12px;
+}
+
+.r-wrap {
+  width: min(100% - calc(var(--r-gut) * 2), var(--r-maxw));
+  margin-inline: auto;
+}
+
+/* ============================================================
+   TYPOGRAPHIE — deux voix. DM Sans 300 en capitales larges pour
+   le titre du hero, Cormorant en capitales pour les titres de
+   section. Rien d'autre.
+   ============================================================ */
+
+.r-display {
   margin: 0;
+  font-family: var(--r-sans);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 4.1vw, 3.5rem);
+  line-height: 1.14;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--r-ink);
 }
 
-p {
-  margin: 0 0 1.15em;
+.r-title {
+  margin: 0;
+  font-family: var(--r-serif);
+  font-weight: 400;
+  font-size: clamp(1.9rem, 3.6vw, 3rem);
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-wrap: balance;
 }
 
-.wrap {
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 0 var(--gut);
+.r-eyebrow {
+  margin: 0 0 12px;
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--r-ink-soft);
 }
 
-.visually-hidden {
+/* Sauts de ligne composés : .r-br disparaît en petit écran (le titre
+   se recompose seul), .r-br-m n'apparaît qu'en petit écran. */
+.r-br-m {
+  display: none;
+}
+
+.r-lede {
+  margin: 18px 0 0;
+  max-width: 62ch;
+  font-size: 1.03rem;
+  line-height: 1.72;
+  color: var(--r-ink-soft);
+}
+
+/* Registres sombres */
+.r-dark {
+  background: var(--r-dark);
+  color: var(--r-bone);
+}
+.r-dark .r-title,
+.r-dark .r-display {
+  color: var(--r-bone);
+}
+.r-dark .r-eyebrow {
+  color: var(--r-gold);
+}
+.r-dark .r-lede {
+  color: var(--r-bone-soft);
+}
+
+/* En-tête de section, centré comme dans la maquette */
+.r-head {
+  text-align: center;
+  max-width: 46rem;
+  margin-inline: auto;
+}
+.r-head .r-lede {
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* Section : le rythme d'ensemble */
+.r-section {
+  position: relative;
+  padding: clamp(72px, 9vw, 128px) 0;
+  overflow: hidden;
+}
+
+/* ============================================================
+   BOUTONS
+   ============================================================ */
+
+.r-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 13px 30px;
+  border: 0;
+  border-radius: 999px;
+  font-family: var(--r-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.r-btn-sage {
+  background: var(--r-sage);
+  color: #fbf8f1;
+  box-shadow: 0 6px 18px rgb(59 76 55 / 22%);
+}
+.r-btn-sage:hover {
+  background: var(--r-sage-deep);
+  box-shadow: 0 8px 24px rgb(59 76 55 / 30%);
+}
+
+.r-btn-gold {
+  background: var(--r-gold);
+  color: var(--r-ink);
+  box-shadow: 0 6px 18px rgb(20 26 24 / 34%);
+}
+.r-btn-gold:hover {
+  background: var(--r-gold-warm);
+}
+
+.r-btn-line {
+  background: transparent;
+  color: var(--r-bone);
+  box-shadow: inset 0 0 0 1px var(--r-line-dark-strong);
+}
+.r-btn-line:hover {
+  box-shadow: inset 0 0 0 1px var(--r-gold);
+  color: var(--r-gold);
+}
+
+/* ============================================================
+   RÉVÉLATION — un seul mouvement, une montée douce à l'entrée
+   dans le champ. Le contenu est visible par défaut.
+   ============================================================ */
+
+.r-reveal {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js .r-reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .js .r-reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Masqué à l'œil, lu par les technologies d'assistance */
+.r-vh {
   position: absolute;
   width: 1px;
   height: 1px;
   overflow: hidden;
-  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
   white-space: nowrap;
-}
-/* ---------- Boutons ---------- */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 28px;
-  font-family: var(--sans);
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  text-decoration: none;
-  border: 0;
-  border-radius: 2px;
-  cursor: pointer;
-  transition:
-    background-color 0.25s ease,
-    color 0.25s ease,
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-.btn-gold {
-  background: var(--gold);
-  color: var(--green-900);
-}
-
-.btn-gold:hover,
-.btn-gold:focus-visible {
-  background: var(--gold-soft);
-  transform: translateY(-2px);
-  box-shadow: 0 14px 30px -16px rgba(0, 0, 0, 0.75);
-}
-
-.btn-line {
-  background: transparent;
-  color: var(--green-800);
-  box-shadow: inset 0 0 0 1.5px rgba(45, 106, 79, 0.45);
-}
-
-.btn-line:hover,
-.btn-line:focus-visible {
-  background: var(--mint-soft);
-  box-shadow: inset 0 0 0 1.5px var(--green-700);
-}
-
-/* Sur le bain, le bouton filet passe en clair */
-.planning .btn-line,
-.videos .btn-line,
-.close .btn-line,
-.event .btn-line {
-  color: var(--mint);
-  box-shadow: inset 0 0 0 1.5px rgba(216, 243, 220, 0.42);
-}
-
-.planning .btn-line:hover,
-.videos .btn-line:hover,
-.close .btn-line:hover,
-.event .btn-line:hover {
-  background: rgba(216, 243, 220, 0.12);
-  box-shadow: inset 0 0 0 1.5px var(--mint);
-}
-
-.btn-big {
-  padding: 17px 34px;
-  font-size: 1rem;
-}
-
-a:focus-visible,
-button:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 3px;
-}
-
-/* ---------- La feuille levée ---------- */
-.sheet {
-  background: var(--paper);
-  color: var(--ink);
-  padding: 48px 52px 52px;
-  position: relative;
-  box-shadow: 0 30px 70px -34px rgba(0, 0, 0, 0.85);
-}
-
-.sheet h2,
-.sheet h3 {
-  color: var(--green-900);
-}
-
-.sheet p {
-  color: var(--ink-soft);
-}
-
-.sheet b {
-  color: var(--ink);
-  font-weight: 700;
 }

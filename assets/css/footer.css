@@ -1,67 +1,87 @@
 /* ============================================================
-   FOOTER — pied de page
+   PIED DE PAGE
    ============================================================ */
-/* ---------- FOOTER ---------- */
-footer {
+
+.r-footer {
   position: relative;
-  background: rgba(20, 51, 38, 0.9);
-  padding: 66px 0 28px;
-  border-top: 2px solid var(--gold);
+  background: var(--r-dark-deep);
+  color: var(--r-bone);
+  padding: clamp(56px, 6vw, 84px) 0 0;
+  overflow: hidden;
 }
-
-.foot-grid {
+.r-footer-orn {
+  position: absolute;
+  right: -80px;
+  top: -30px;
+  width: 520px;
+  height: 320px;
+  background: url("../img/ornements/orn-spirales.svg") no-repeat center/contain;
+  opacity: 0.3;
+  pointer-events: none;
+}
+.r-footer-grid {
+  position: relative;
+  z-index: 2;
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1.3fr 1fr;
-  gap: 40px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 56px);
+  padding-bottom: 48px;
 }
-
-.foot-grid p {
-  font-size: 0.9rem;
-  color: rgba(238, 247, 240, 0.72);
-  max-width: 30ch;
-  margin-top: 16px;
-}
-
-.foot-grid h3 {
-  font-family: var(--sans);
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
+.r-footer h2 {
+  margin: 0 0 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 15px;
+  color: var(--r-bone);
 }
-
-.foot-grid ul {
+.r-footer ul {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  font-size: 0.93rem;
+  color: var(--r-bone-soft);
 }
-
-.foot-grid li {
-  margin-bottom: 9px;
-  font-size: 0.91rem;
-  color: rgba(238, 247, 240, 0.78);
-}
-
-.foot-grid a {
+.r-footer a {
   text-decoration: none;
-  border-bottom: 1px solid transparent;
+  color: var(--r-bone-soft);
+  transition: color 0.3s ease;
 }
-
-.foot-grid a:hover {
-  color: var(--mint);
-  border-bottom-color: var(--gold);
+.r-footer a:hover {
+  color: var(--r-gold);
 }
-
-.foot-bottom {
+.r-socials {
   display: flex;
-  justify-content: space-between;
-  gap: 18px;
-  flex-wrap: wrap;
-  margin-top: 50px;
-  padding-top: 22px;
-  border-top: 1px solid rgba(216, 243, 220, 0.14);
-  font-size: 0.79rem;
-  color: rgba(238, 247, 240, 0.55);
+  gap: 12px;
+}
+.r-socials a {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--r-line-dark-strong);
+  color: var(--r-bone);
+  transition:
+    box-shadow 0.35s ease,
+    color 0.35s ease;
+}
+.r-socials a:hover {
+  box-shadow: inset 0 0 0 1px var(--r-gold);
+  color: var(--r-gold);
+}
+.r-socials svg {
+  width: 18px;
+  height: 18px;
+}
+.r-footer-bas {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid var(--r-line-dark);
+  padding: 22px 0 28px;
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--r-bone-soft);
 }

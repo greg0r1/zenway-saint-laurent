@@ -1,32 +1,32 @@
 /* ============================================================
-   PRACTICE-MODALS — ouverture/fermeture des fenêtres modales de détail
-   Une fenêtre modale par pratique (<dialog>), à l'apple : fond
-   assombri et flouté, carte centrée, fermeture par la croix, un
-   clic hors carte ou la touche Échap (gérée nativement).
+   FICHES DISCIPLINES — ouverture des quatre fenêtres de détail
+   Un <dialog> par discipline : fermeture par la croix, par un clic
+   hors carte, ou par Échap (géré nativement par le navigateur, qui
+   fournit aussi le piège à focus).
    ============================================================ */
-(function practiceModals() {
-  const buttons = [...document.querySelectorAll('.more[data-modal]')];
-  if (!buttons.length) return;
+(function fichesDisciplines() {
+  const boutons = [...document.querySelectorAll('[data-modal]')];
+  if (!boutons.length) return;
 
-  buttons.forEach((btn) => {
-    const modal = document.getElementById(btn.dataset.modal);
-    if (!modal) return;
+  boutons.forEach((btn) => {
+    const modale = document.getElementById(btn.dataset.modal);
+    if (!modale) return;
 
     btn.addEventListener('click', () => {
-      document.body.style.overflow = 'hidden';
-      modal.showModal();
+      // Même verrou que le tiroir de navigation : sans lui la page reste
+      // défilable derrière la fiche, invisible mais toujours là.
+      document.documentElement.classList.add('r-noscroll');
+      modale.showModal();
     });
 
-    modal.querySelector('.modal-close')?.addEventListener('click', () => {
-      modal.close();
+    modale.querySelector('.r-modal-close')?.addEventListener('click', () => modale.close());
+
+    modale.addEventListener('click', (e) => {
+      if (e.target === modale) modale.close();
     });
 
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.close();
-    });
-
-    modal.addEventListener('close', () => {
-      document.body.style.overflow = '';
+    modale.addEventListener('close', () => {
+      document.documentElement.classList.remove('r-noscroll');
       btn.focus();
     });
   });

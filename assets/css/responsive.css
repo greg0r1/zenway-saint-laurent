@@ -1,296 +1,249 @@
 /* ============================================================
-   RESPONSIVE — media queries (chargé en dernier)
+   RESPONSIVE
    ============================================================ */
-/* ---------- RESPONSIVE ---------- */
-@media (max-width: 1080px) {
-  .foot-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 40px 30px;
+
+@media (width <= 1040px) {
+  .r-medaillons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 38px 24px;
+  }
+  .r-videos-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 980px) {
+@media (width <= 880px) {
   :root {
-    --gut: 20px;
+    --r-gut: 20px;
   }
 
-  section {
-    padding: 74px 0;
+  .r-burger {
+    display: grid;
   }
 
-  .hero-grid,
-  .concept-head,
-  .planning-grid,
-  .pourqui-grid,
-  .videos-row,
-  .infos-grid {
-    grid-template-columns: 1fr;
-    gap: 38px;
-  }
-
-  .sheet,
-  .sheet-wide {
-    padding: 40px 34px 44px;
-  }
-
-  .practice-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 34px 24px;
-  }
-
-  .videos-gallery,
-  .events-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .modal-copy {
-    padding: 32px 32px 0;
-  }
-
-  .band-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .band-grid > div {
-    padding: 26px 24px 28px;
-  }
-
-  .band-grid > div:nth-child(2n) {
-    border-right: 0;
-    padding-right: 0;
-  }
-
-  .band-grid > div:nth-child(2n + 1) {
-    padding-left: 0;
-  }
-
-  .band-grid > div:nth-child(-n + 2) {
-    border-bottom: 1px solid rgba(231, 214, 173, 0.18);
-  }
-
-  /* Sur une colonne la paroi d'image quitte le flux absolu et devient
-     une bande pleine largeur PLACÉE SOUS LE TEXTE — l'ordre du DOM la
-     met avant, l'ordre visuel la remet après. Béatrice y reste entière,
-     posée sur la même ligne basse qu'au format large. */
-  .hero {
-    min-height: auto;
-    padding: 28px 0 0;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .hero-grid {
-    order: 1;
-  }
-
-  .hero-copy {
-    max-width: none;
-  }
-
-  /* La paroi d'image rejoint le flux normal ici : .hero devient donc
-     bien plus haut que le seul bloc de texte. Le bain reste calé en
-     `%` de .hero (voir .bath) — sans plafond, son canvas explose à la
-     mesure de toute la section au lieu du seul texte qu'il éclaire,
-     ce qui pèse sur le rendu pendant le scroll. */
-  .bath {
-    top: -18vw;
-    bottom: auto;
-    height: 130vw;
-  }
-
-  .hero-figure {
-    order: 2;
-    position: relative;
-    width: auto;
-    height: 112vw;
-    min-height: 420px;
-    max-height: 560px;
-    margin: 46px calc(var(--gut) * -1) 0;
-  }
-
-  .figure-photo {
-    inset: 0;
-    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
-    mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
-  }
-
-  /* Le dégradé devient vertical ici : il ne masque plus le second
-     pratiquant du cliché. C'est donc au cadrage seul de l'exclure. */
-  .figure-photo img {
-    transform: scale(1.5);
-  }
-
-  .figure-subject {
-    left: 0;
-    right: 0;
-    top: 6%;
-    bottom: 0;
-  }
-
-  .figure-shadow {
-    left: 22%;
-    right: 22%;
-    bottom: 6px;
-  }
-}
-
-@media (max-width: 680px) {
-  body {
-    font-size: 1.02rem;
-  }
-
-  /* Plein écran jusqu'au bas de la vitre, jamais une carte qui
-     s'arrête à mi-hauteur : sous elle, rien de la page ne doit
-     rester visible ni atteignable tant que le menu est ouvert. */
-  .links {
+  /* Le tiroir mobile façon apple.com : un aplat opaque qui prend toute la
+     page sous l'en-tête, pas une carte transparente qui ne couvre que sa
+     propre hauteur. Le texte reste sombre quel que soit l'état de la nav
+     (claire ou assombrie au défilement), puisque le fond du tiroir, lui,
+     ne change jamais. */
+  .r-links {
     position: fixed;
-    inset: 72px 0 0;
+    inset: var(--r-nav-h) 0 0;
+    z-index: 100;
     flex-direction: column;
     align-items: stretch;
+    justify-content: center;
     gap: 0;
-    background: var(--green-900);
-    border-bottom: 2px solid var(--gold);
-    padding: 8px 20px 24px;
     overflow-y: auto;
+    background: var(--r-cream);
+    padding: 4vh var(--r-gut);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.35s;
+  }
+  .r-links.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+  .r-links li {
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s ease;
+  }
+  .r-links.is-open li {
+    opacity: 1;
+    transform: none;
+  }
+  /* Cascade légère à l'ouverture, item par item */
+  .r-links.is-open li:nth-child(1) {
+    transition-delay: 0.05s;
+  }
+  .r-links.is-open li:nth-child(2) {
+    transition-delay: 0.09s;
+  }
+  .r-links.is-open li:nth-child(3) {
+    transition-delay: 0.13s;
+  }
+  .r-links.is-open li:nth-child(4) {
+    transition-delay: 0.17s;
+  }
+  .r-links.is-open li:nth-child(5) {
+    transition-delay: 0.21s;
+  }
+  .r-links.is-open li:nth-child(6) {
+    transition-delay: 0.25s;
+  }
+  .r-links.is-open li:nth-child(7) {
+    transition-delay: 0.29s;
+  }
+  .r-links a,
+  .r-nav.is-scrolled .r-links a {
+    display: block;
+    color: var(--r-ink);
+    padding: 18px 2px;
+    font-family: var(--r-serif);
+    font-size: clamp(1.6rem, 8vw, 2.1rem);
+    font-weight: 500;
+    border-bottom: 1px solid var(--r-line);
+  }
+  .r-links li:last-child a {
+    border-bottom: 0;
+  }
+  .r-links a::after {
     display: none;
   }
 
-  .links.open {
-    display: flex;
-  }
-
-  .links a {
-    padding: 15px 0;
-    border-bottom: 1px solid rgba(216, 243, 220, 0.14);
-    font-size: 1.02rem;
-  }
-
-  .links .cta {
-    margin-top: 14px;
-    text-align: center;
-    padding: 15px;
-  }
-
-  .burger {
-    display: flex;
-  }
-
-  body.menu-open {
-    overflow: hidden;
-  }
-
-  .practice-grid {
+  /* Une seule colonne. Le texte prend ce qu'il lui faut, la silhouette
+     occupe tout le reste : plus de vide qui traîne entre les deux, quelle
+     que soit la hauteur du téléphone. */
+  .r-hero-grid {
     grid-template-columns: 1fr;
-  }
-
-  .practice img {
-    height: 200px;
-  }
-
-  .band-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .band-grid > div {
-    padding: 22px 0 24px;
-    border-right: 0;
-    border-bottom: 1px solid rgba(231, 214, 173, 0.18);
-  }
-
-  .band-grid > div:last-child {
-    border-bottom: 0;
-  }
-
-  .detail-modal {
-    width: 94vw;
-    max-height: 90vh;
-  }
-
-  .modal-scroll {
-    max-height: 90vh;
-  }
-
-  .modal-figs {
-    grid-template-columns: 1fr;
-  }
-
-  .modal-figs img {
-    height: 200px;
-  }
-
-  .modal-copy {
-    padding: 28px 22px 0;
-  }
-
-  .practices {
-    padding: 14px 16px 12px;
-  }
-
-  /* Sous 680px les quatre noms passent en deux rangs égaux : les filets
-     de séparation ne traversent plus une ligne qui casse au hasard. */
-  .drops {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    row-gap: 11px;
-    margin-bottom: 12px;
-    padding-bottom: 12px;
-  }
-
-  .drops li {
-    padding: 0 0 0 14px;
-    font-size: 0.98rem;
-  }
-
-  .drops li:nth-child(odd) {
+    grid-template-rows: auto minmax(0, 1fr);
+    align-content: stretch;
     padding-left: 0;
-    border-left: 0;
+    gap: 0;
+  }
+  .r-hero-txt {
+    align-self: start;
+    max-width: none;
+    padding-bottom: clamp(20px, 4vh, 40px);
+    text-align: center;
+  }
+  /* Les éléments du haut respirent : ils portent l'écran d'accueil à eux
+     seuls tant que la silhouette n'est pas atteinte. */
+  .r-hero-txt .r-eyebrow {
+    margin-bottom: clamp(22px, 4vh, 40px);
+  }
+  .r-hero-txt .r-display {
+    margin-bottom: clamp(30px, 5.5vh, 56px);
+  }
+  /* La marge négative du bureau n'a plus de sens en une colonne pleine
+     largeur : elle mordrait sur la gouttière au lieu de border le texte. */
+  .r-hero-fig {
+    margin: 0;
+    justify-self: stretch;
+    min-height: 0;
+  }
+  /* `height: 100%` ne se résout pas dans une rangée `1fr` : le navigateur
+     retombe sur la hauteur naturelle de l'image, qui devient le minimum de
+     la rangée et fait déborder le hero. Le plafond en `svh` redonne à la
+     rangée le droit de se comprimer. */
+  .r-hero-fig img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: 40svh;
+    object-fit: contain;
+    object-position: bottom center;
+  }
+  .r-hero-fig::before {
+    width: 300px;
+  }
+  .r-br {
+    display: none;
+  }
+  .r-br-m {
+    display: block;
+  }
+  .r-brand img {
+    width: 44px;
+  }
+  .r-brand-txt {
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    max-width: none;
   }
 
-  .place {
-    letter-spacing: 0.18em;
+  .r-hero-feuillage {
+    opacity: 0.55;
+  }
+  /* Cette nappe passe derrière le titre en une seule colonne : plus
+     discrète que sur grand écran, où elle a de la place à sa droite. */
+  .r-hero-feuillage-droite {
+    opacity: 0.3;
+  }
+  /* `auto 100%` (calé sur la hauteur) dépasse la largeur du conteneur sous
+     880px, où le conteneur est délibérément étroit : le fond ne montre
+     plus qu'une tranche zoomée de l'illustration. `contain` (calé sur la
+     dimension la plus contraignante) redevient nécessaire ici. */
+  .r-hero-bambou {
+    background-size: contain;
+    opacity: 0.4;
   }
 
-  .hero-mark {
-    width: 124px;
-  }
-
-  /* la paroi déborde des gouttières : le cartel se recale dessus pour
-     ne pas venir affleurer le bord de l'écran */
-  .hero-figure figcaption {
-    right: calc(var(--gut) + 20px);
-    top: 20px;
-    padding: 11px 16px;
-  }
-
-  .info-list > div {
+  .r-tarifs-grid {
     grid-template-columns: 1fr;
-    gap: 4px;
+    text-align: center;
+  }
+  .r-tarifs-pts {
+    margin-inline: auto;
+    text-align: left;
+  }
+  .r-galets-grand {
+    width: min(60%, 190px);
+    order: -1;
+    margin-bottom: 12px;
   }
 
-  .vcard img {
-    height: 230px;
-  }
-
-  .videos-gallery,
-  .events-grid {
+  .r-infos-grid,
+  .r-footer-grid {
     grid-template-columns: 1fr;
   }
-
-  .close {
-    padding: 80px 0 88px;
+  .r-footer-grid {
+    gap: 34px;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+@media (width <= 620px) {
+  /* La vague de coupure ne tient qu'à partir de la tablette : sous cette
+     largeur elle se réduit à un liseré de quelques dizaines de pixels, où
+     les ondulations du tracé ne se lisent plus. */
+  .r-hero-sol {
+    display: none;
   }
 
-  *,
-  *::before,
-  *::after {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
+  .r-medaillons {
+    grid-template-columns: 1fr;
+    max-width: 340px;
+    margin-inline: auto;
+  }
+  /* Le tracé suppose quatre colonnes côte à côte : sur une seule, ses
+     quatre pincements se resserrent en un nœud. */
+  .r-pratiques-vigne {
+    display: none;
+  }
+  /* Les sillages sont une composition en largeur : sur une colonne unique
+     ils passent derrière le bouton et se mêlent à l'ensō. L'ensō suffit
+     alors à tenir le bas de la section. */
+  .r-pratiques-volutes {
+    display: none;
+  }
+  .r-videos-grid {
+    grid-template-columns: 1fr;
+  }
+  .r-evt {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 16px;
+  }
+  .r-evt-ico {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+  }
+  .r-evt-ico svg {
+    width: 20px;
+    height: 20px;
+  }
+  .r-carte {
+    padding: 24px 22px;
+  }
+  .r-enso {
+    width: 220px;
+    opacity: 0.3;
   }
 }

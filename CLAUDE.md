@@ -164,17 +164,33 @@ Voir `README.md` pour la procédure complète (SQL Supabase, config Google Cloud
 
 ### Couleurs (variables CSS déjà définies dans `assets/css/base.css`)
 
+Les jetons du site public sont préfixés `--r-*`. Le préfixe vient de la refonte,
+où il évitait toute collision avec l'ancienne feuille ; il est resté comme
+espace de noms du site après la mise en production, et se distingue des jetons
+`--ad-*` de l'administration.
+
 ```css
---green-900: #1b4332 /* Fonds foncés : footer, header scrollé */ --green-800: #22543e
-  /* Dégradés foncés */ --green-700: #2d6a4f /* Titres, boutons, accent principal */ --teal: #2f8f7f
-  /* Dégradés, accents */ --teal-bright: #36a18c /* Survols, mises en valeur */ --mint: #d8f3dc
-  /* Fonds clairs, badges */ --mint-soft: #eef7f0 /* Fonds de section clairs */ --beige: #f5f1e8
-  /* Fond Infos pratiques */ --paper: #faf8f2 /* Fond général */ --gold: #c9a86a
-  /* Boutons CTA, accents premium */ --gold-soft: #e7d6ad /* Accents secondaires sur fonds foncés */
-  --ink: #243029 /* Texte principal */ --ink-soft: #4b5a51 /* Texte secondaire, légendes */;
+--r-dark: #343b3d /* Bandes sombres */ --r-dark-deep: #2b3133 /* Creux des bandes sombres */
+  --r-dark-raise: #3e4649 /* Relief sur bande sombre */ --r-cream: #f8f4ec /* Bandes claires */
+  --r-cream-2: #f1ebdf /* Crème chaud, fiches */ --r-ink: #2b332f /* Texte sur clair */
+  --r-ink-soft: #5f6a62 /* Texte secondaire sur clair */ --r-bone: #e9e2d3 /* Texte sur sombre */
+  --r-bone-soft: #bcb6a8 /* Texte secondaire sur sombre */ --r-sage: #5d7358 /* Action de second rang */
+  --r-sage-deep: #4b5e47 /* Survol sauge, texte sauge */ --r-sage-light: #9fb298 /* Sauge sur sombre */
+  --r-sage-veil: #dfe7db /* Pastilles de sauge */ --r-gold: #c9a86a /* Action principale, ornements */
+  --r-gold-warm: #d8bb85 /* Survol de l'or */ --r-gold-veil: #f0e4c9 /* Aplats d'or très clairs */
+  --r-line: #ddd4c1 /* Filet sur clair */ --r-line-strong: #cabfa7 /* Filet marqué sur clair */
+  --r-line-dark: rgb(233 226 211 / 16%) /* Filet sur sombre */
+  --r-line-dark-strong: rgb(233 226 211 / 28%) /* Filet marqué sur sombre */;
 ```
 
+Quatre jetons de plus (`--r-anneau-haut`, `--r-anneau-corps`, `--r-anneau-bas`,
+`--r-anneau-ombre`) composent le dégradé de pierre qui cercle les médaillons de
+« Nos pratiques ». Ils n'existent que pour cet usage.
+
 Ne jamais introduire de nouvelle couleur sans l'ajouter en variable CSS et justifier son usage.
+Le vert forêt (`#1b4332`) et le teal (`#2f8f7f`) de l'ancienne charte ne subsistent
+que dans l'administration (`assets/css/admin.css`) et dans `theme-color` — le site
+public ne les emploie plus.
 
 ### Typographies (auto-hébergées, woff2 dans `assets/fonts/`)
 
@@ -210,13 +226,14 @@ zenway-saint-laurent/
 ├── assets/
 │   ├── css/
 │   │   ├── fonts.css        ← @font-face des polices auto-hébergées
-│   │   ├── base.css        ← variables, reset, typo, logo, reveal
-│   │   ├── nav.css          ← en-tête fixe, liens, burger
-│   │   ├── hero.css         ← section d'accueil
-│   │   ├── sections.css     ← concept & pratiques, planning, pour qui,
-│   │   │                      vidéos, événements, inscriptions, infos, cta
-│   │   ├── video.css        ← composant vidéo (teaser + galerie)
-│   │   ├── discipline-modal.css ← fiches des quatre disciplines (modale)
+│   │   ├── base.css        ← jetons --r-*, reset, typo, boutons, révélation
+│   │   ├── nav.css          ← en-tête fixe, liens, burger, bandeau d'événement
+│   │   ├── hero.css         ← section d'accueil et ses ornements
+│   │   ├── sections.css     ← pratiques & bienfaits, adhésion (+ widget
+│   │   │                      HelloAsso), événements, planning, infos
+│   │   ├── video.css        ← galerie vidéo YouTube
+│   │   ├── discipline-modal.css ← fiches des quatre disciplines + agrandissement
+│   │   │                      d'image d'événement (même châssis <dialog>)
 │   │   ├── admin.css        ← page /admin (console : coquille + tous les modules)
 │   │   ├── footer.css       ← pied de page
 │   │   └── responsive.css   ← media queries (chargé en dernier)
@@ -225,13 +242,13 @@ zenway-saint-laurent/
 │   │                          pour éviter l'appel à fonts.googleapis.com)
 │   ├── js/
 │   │   ├── config-helloasso.js  ← slugs HelloAsso, injection des liens/widget
-│   │   ├── config-videos.js     ← vidéo teaser hero + galerie YouTube
-│   │   ├── planning-schedule.js ← fetch /api/planning/public, alimente la section « Planning »
-│   │   ├── events-banner.js     ← fetch /api/events/public, alimente la section événements + le bandeau
-│   │   ├── nav-reveal.js        ← scroll nav, burger menu, animations reveal
-│   │   ├── hero-bath.js         ← animation du bain du hero
-│   │   ├── parallax.js          ← défilement parallaxe des visuels
+│   │   ├── config-videos.js     ← clé YouTube + rendu de la galerie
+│   │   ├── planning-schedule.js ← fetch /api/planning/public, alimente la grille « Planning »
+│   │   ├── events-banner.js     ← fetch /api/events/public : liste, bandeau d'annonce,
+│   │   │                          agrandissement de l'image d'un événement
+│   │   ├── infos-pratiques.js   ← fetch /api/infos, alimente « Infos pratiques » et le footer
 │   │   ├── practice-modals.js   ← ouverture des fiches disciplines
+│   │   ├── nav-reveal.js        ← état de la nav au défilement, tiroir mobile, révélation
 │   │   ├── config-admin.js      ← identifiant client Google (page /admin uniquement)
 │   │   ├── admin-theme.js       ← thème clair/sombre de l'admin (chargé dans le <head>)
 │   │   ├── admin-auth.js        ← connexion Google + session, partagé par les modules admin
@@ -247,10 +264,11 @@ zenway-saint-laurent/
 │       │                      n'ont pas de variante webp
 │       ├── logo/            ← logo-zenway (nav, footer)
 │       ├── bea/             ← photos de Béatrice
-│       ├── activites/       ← les quatre pratiques (cartes de la page d'accueil)
+│       ├── activites/       ← les quatre pratiques (médaillons de la page d'accueil)
 │       ├── disciplines/     ← fiches disciplines : *-origines et *-aujourdhui
-│       ├── hero/            ← visuel de la section d'accueil
-│       ├── video/           ← affiche de la vidéo teaser
+│       ├── ornements/       ← ornements SVG au trait, dessinés pour ce site
+│       │                      (bambou, feuillage, courbes, vague, sol, vigne,
+│       │                      volutes, ensō, spirales) + la pile de galets
 │       ├── favicons/        ← déclinaisons d'icône (16 → 512 px)
 │       └── meta/            ← og-image du partage social
 ├── admin/
@@ -278,21 +296,29 @@ zenway-saint-laurent/
 
 Les sections dans l'ordre, chacune avec son commentaire `<!-- === NOM === -->` :
 
-1. `<head>` (meta, fonts, `<link rel="stylesheet">` vers `assets/css/`, script Vercel Insights)
-2. NAV
-3. HERO (vidéo de teasing)
-4. CONCEPT & PRATIQUES (section fusionnée — concept Zenway + les 4 cartes pratiques)
-5. PLANNING
-6. POUR QUI
-7. VIDÉOS
-8. ÉVÉNEMENTS À VENIR (remplace les anciennes « portes ouvertes » ponctuelles)
-9. INSCRIPTION (`#inscription`) — section unique, une seule colonne centrée : message clé, 3 étapes condensées, points clés, CTA HelloAsso et widget/iframe
-10. INFOS PRATIQUES
-11. CTA BAND
-12. FOOTER
-13. `<script src="...">` vers `assets/js/` (HelloAsso config, Vidéos config, Planning config, Nav/Reveal)
+1. `<head>` (meta, SEO, JSON-LD, favicons, `<link rel="stylesheet">` vers `assets/css/`, Vercel Insights)
+2. Jeu d'icônes SVG (`<defs>` de symboles, tracé 1,5 px — repris par `<use href="#i-…">`)
+3. BANDEAU ÉVÉNEMENT (`#eventBanner`, masqué par défaut)
+4. NAV
+5. HERO (`#accueil`) — bande claire
+6. PRATIQUES & BIENFAITS (`#pratiques`) — bande **sombre** : les 4 médaillons, les 4 fiches disciplines en `<dialog>`
+7. TARIFS & ADHÉSION (`#tarifs`) — bande claire : points clés, CTA et widget HelloAsso
+8. VIDÉOS (`#videos`) — bande **sombre**
+9. ÉVÉNEMENTS (`#evenements`) — bande claire
+10. PLANNING (`#planning`) — bande claire
+11. INFOS PRATIQUES (`#infos`) — bande **sombre**
+12. Modale d'agrandissement d'image d'événement (`#eventImageModal`)
+13. FOOTER
+14. `<script src="...">` vers `assets/js/`, dans cet ordre : HelloAsso, Vidéos, Planning, Événements, Infos, Fiches disciplines, Nav/Révélation
 
-Une seule section d'inscription (`#inscription`) : les anciennes sections `#inscription` (widget) et `#inscriptions` (étapes + CTA) ont été fusionnées pour éviter la redondance et permettre une inscription rapide, en un seul écran. Le lien de nav et de footer "Inscriptions" a été retiré au profit du seul CTA "S'inscrire" (`#inscription`).
+La page avance par **bandes pleine largeur qui alternent le crème et l'ardoise**
+(classe `r-dark` sur les bandes sombres). Cette alternance est structurante : une
+nouvelle section s'insère en respectant le battement, jamais deux bandes de même
+valeur à la suite.
+
+Les sections « Pour qui », « Concept » et la levée finale de l'ancien site n'ont
+pas été reprises à la refonte : leur message est porté par le chapeau du hero et
+le lede de « Nos pratiques ».
 
 ### Fichiers CSS (`assets/css/`)
 
@@ -320,7 +346,13 @@ Chaque fichier commence par un en-tête commenté :
    ============================================================ */
 ```
 
-Les fichiers de configuration (`config-*.js`) regroupent les données variables (planning, vidéos, HelloAsso) en haut de fichier, suivies du code de rendu qui les consomme. Ne jamais mélanger la logique de rendu et les données de configuration dans des fichiers séparés — chaque `config-*.js` reste autonome. Ne jamais remettre du JS inline dans `index.html` via une balise `<script>` sans `src`.
+Les fichiers de configuration (`config-*.js`) regroupent les données variables (vidéos, HelloAsso) en haut de fichier, suivies du code de rendu qui les consomme. Le planning, les événements et les infos pratiques n'ont pas de `config-*.js` : ils viennent de l'admin, et leur fichier ne porte que le rendu. Ne jamais mélanger la logique de rendu et les données de configuration dans des fichiers séparés — chaque `config-*.js` reste autonome. Ne jamais remettre du JS inline dans `index.html` via une balise `<script>` sans `src`.
+
+Sans modules ES, il n'y a pas de fichier partagé : la fonction `echapper` (qui
+échappe aussi guillemets et apostrophe, parce que ces valeurs finissent en
+position d'attribut) est recopiée dans chaque fichier qui compose du HTML depuis
+une réponse d'API. C'est le prix assumé du « pas de build » — la corriger à un
+seul endroit serait une régression silencieuse ailleurs.
 
 ---
 
