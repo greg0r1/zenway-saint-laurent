@@ -245,6 +245,7 @@ zenway-saint-laurent/
 │   │   ├── config-helloasso.js  ← slugs HelloAsso, injection des liens/widget
 │   │   ├── config-videos.js     ← clé YouTube + rendu de la galerie
 │   │   ├── planning-schedule.js ← fetch /api/planning/public, alimente la grille « Planning »
+│   │   │                          et sa liste mobile (mêmes données, deux formes)
 │   │   ├── events-banner.js     ← fetch /api/events/public : liste, bandeau d'annonce,
 │   │   │                          agrandissement de l'image, « Prochain rendez-vous »
 │   │   │                          (calculé, dans « Infos pratiques »)

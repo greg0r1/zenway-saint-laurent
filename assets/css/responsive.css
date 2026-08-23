@@ -221,6 +221,18 @@
   }
 }
 
+/* La grille de planning réclame 620 px de colonnes, plus les gouttières :
+   en dessous, elle n'apparaîtrait qu'au bout d'un défilement horizontal.
+   La liste prend le relais (styles dans sections.css). */
+@media (width <= 760px) {
+  .r-planning-scroll {
+    display: none;
+  }
+  .r-seances {
+    display: block;
+  }
+}
+
 @media (width <= 620px) {
   /* La vague de coupure ne tient qu'à partir de la tablette : sous cette
      largeur elle se réduit à un liseré de quelques dizaines de pixels, où

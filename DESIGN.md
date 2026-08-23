@@ -390,6 +390,7 @@ Un liseré coloré de plus de 1 px sur le flanc d'un bloc n'existe pas dans ce s
 - **Ligne :** `15px 20px`, filet haut à 8 %, curseur pointeur — toute la ligne ouvre la fiche, mais le titre reste un vrai `<button>` pour le clavier.
 - **Ligne mise en avant :** champ Or Sanctuaire Clair sur toute la ligne, qui garde sa teinte au survol.
 - **Sous 700 px :** chaque ligne devient une fiche bordée, l'en-tête disparaît, et la flèche d'ouverture se positionne à droite en absolu.
+- **Site public, grille de planning :** elle réclame 620 px de colonnes. Sous 760 px, le tableau cède la place à une liste de séances — pastille du jour, horaire en Cormorant, lieu — écrite dans le HTML à côté de lui : le CSS n'en montre jamais qu'une, jamais de défilement horizontal.
 
 ### Tabs
 

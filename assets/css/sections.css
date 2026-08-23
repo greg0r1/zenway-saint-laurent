@@ -561,6 +561,63 @@
 .r-creneau-or strong {
   color: #7d6229;
 }
+
+/* La grille demande 620 px pour ses colonnes : sous cette largeur elle
+   n'existe plus qu'au prix d'un défilement horizontal, pour une semaine
+   dont presque toutes les cases sont vides. La même donnée se lit alors
+   en liste, une séance par ligne — la bascule est dans responsive.css.
+   Les deux formes coexistent dans le HTML, une seule est affichée : le
+   lecteur d'écran n'en rencontre jamais qu'une. */
+.r-seances {
+  display: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.r-seance {
+  padding: 24px 22px;
+  border-top: 1px solid #e8e0cf;
+}
+.r-seance:first-child {
+  border-top: 0;
+}
+.r-seance-jour {
+  display: inline-block;
+  margin: 0;
+  padding: 5px 13px;
+  border-radius: 999px;
+  background: var(--r-sage-veil);
+  box-shadow: inset 0 0 0 1px rgb(93 115 88 / 22%);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--r-sage-deep);
+}
+.r-seance-heure {
+  margin: 12px 0 0;
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  line-height: 1.15;
+  color: var(--r-ink);
+}
+.r-seance-lieu {
+  margin: 6px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--r-ink-soft);
+}
+.r-seance-lieu strong {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.76rem;
+  color: var(--r-sage-deep);
+}
+.r-seance-lieu span {
+  display: block;
+}
+
 .r-planning-note {
   position: relative;
   z-index: 2;
