@@ -1,18 +1,29 @@
 /* ============================================================
    CONFIG VIDÉOS — à adapter au fil des publications YouTube
-   1. YT_CHANNEL_HANDLE / YT_API_KEY : la galerie récupère automatiquement
+   1. FEATURED_VIDEO : une vidéo mise en avant en tête de grille, en
+      dehors de la chaîne YouTube (ex: un Reel Facebook). Laisser href
+      vide ("") pour la masquer — seules les vidéos YouTube s'affichent
+      alors. Contrairement aux cartes YouTube, elle ne s'intègre pas sur
+      place : elle ouvre sa source dans un nouvel onglet.
+   2. YT_CHANNEL_HANDLE / YT_API_KEY : la galerie récupère automatiquement
       les derniers uploads de la chaîne via l'API YouTube Data v3. La clé
       API est restreinte par domaine référent dans Google Cloud Console
       (Identifiants → clé → Restrictions relatives aux applications) —
       c'est cette restriction qui la protège, pas le fait qu'elle soit en
       dur ici (un site statique sans backend ne peut pas la cacher du
       code source servi au navigateur).
-   2. YT_VIDEOS_COUNT : nombre de vidéos affichées dans la galerie.
+   3. YT_VIDEOS_COUNT : nombre de vidéos YouTube affichées à la suite de
+      la vidéo mise en avant.
    ============================================================ */
+const FEATURED_VIDEO = {
+  href: 'https://www.facebook.com/reel/380948047631379',
+  poster: 'assets/img/video/hero-poster.jpg',
+  title: 'La séance en vidéo : présentation Zenway'
+};
 const YT_CHANNEL_HANDLE = 'beatricemeunier-r2m';
 const YT_CHANNEL_URL = `https://www.youtube.com/@${YT_CHANNEL_HANDLE}`;
 const YT_API_KEY = 'AIzaSyCzLih88Jl6hWSqLKzX5UEdx_8RF4_Qdgc';
-const YT_VIDEOS_COUNT = 3;
+const YT_VIDEOS_COUNT = 2;
 
 (function videos() {
   function echapper(str) {
@@ -55,6 +66,20 @@ const YT_VIDEOS_COUNT = 3;
     if (grille) grille.innerHTML = `<p class="r-videos-vide">${texte}</p>`;
   }
 
+  function carteVedette(v) {
+    return `
+      <article class="r-vcard">
+        <a class="r-vthumb" href="${echapper(v.href)}" target="_blank" rel="noopener"
+          style="background-image:url(${echapper(v.poster)})"
+          aria-label="Voir la vidéo « ${echapper(v.title)} »">
+          <span class="r-vplay" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-lecture"/></svg></span>
+        </a>
+        <div class="r-vmeta">
+          <h3>${echapper(v.title)}</h3>
+        </div>
+      </article>`;
+  }
+
   // mqdefault plutôt que hqdefault : hqdefault est un 4:3 dans lequel
   // YouTube incruste des bandes noires pour une vidéo 16:9. Elles font
   // partie de l'image, aucun cadrage CSS ne les enlève. mqdefault est
@@ -63,14 +88,17 @@ const YT_VIDEOS_COUNT = 3;
   // chargé tant que le visiteur ne demande pas la lecture.
   function rendreVideos(liste) {
     if (!grille) return;
-    if (!liste.length) {
+    const vedette = FEATURED_VIDEO.href ? carteVedette(FEATURED_VIDEO) : '';
+    if (!liste.length && !vedette) {
       messageVideos('Les premières vidéos seront mises en ligne prochainement. Revenez bientôt.');
       return;
     }
 
-    grille.innerHTML = liste
-      .map(
-        (v) => `
+    grille.innerHTML =
+      vedette +
+      liste
+        .map(
+          (v) => `
       <article class="r-vcard">
         <button type="button" class="r-vthumb" data-id="${echapper(v.id)}"
           style="background-image:url(https://img.youtube.com/vi/${echapper(v.id)}/mqdefault.jpg)"
@@ -82,10 +110,10 @@ const YT_VIDEOS_COUNT = 3;
           <p><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-calendrier"/></svg>${echapper(v.date)}</p>
         </div>
       </article>`
-      )
-      .join('');
+        )
+        .join('');
 
-    grille.querySelectorAll('.r-vthumb').forEach((thumb) => {
+    grille.querySelectorAll('.r-vthumb[data-id]').forEach((thumb) => {
       thumb.addEventListener(
         'click',
         () => {
