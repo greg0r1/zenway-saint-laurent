@@ -5,6 +5,68 @@
 .r-videos {
   background: radial-gradient(80% 60% at 50% 100%, #3b4345 0%, transparent 60%), var(--r-dark);
 }
+.r-video-vedette:not(:empty) {
+  margin-top: clamp(42px, 5vw, 64px);
+}
+.r-vedette-thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 21 / 9;
+  border-radius: var(--r-radius);
+  overflow: hidden;
+  background-color: #2f3638;
+  background-size: cover;
+  background-position: center;
+}
+.r-vedette-thumb::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgb(29 34 33 / 80%) 0%, rgb(29 34 33 / 12%) 42%, rgb(29 34 33 / 34%) 100%);
+  transition: opacity 0.4s ease;
+}
+.r-vedette-thumb:hover::before {
+  opacity: 0.85;
+}
+.r-vedette-thumb .r-vplay {
+  width: 64px;
+  height: 64px;
+}
+.r-vedette-thumb:hover .r-vplay {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+.r-vedette-tag {
+  position: absolute;
+  left: clamp(18px, 2.4vw, 28px);
+  top: clamp(16px, 2vw, 22px);
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 13px;
+  border-radius: 999px;
+  background: var(--r-line-dark-strong);
+  color: var(--r-bone);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.r-vedette-tag svg {
+  width: 13px;
+  height: 13px;
+}
+.r-vedette-titre {
+  position: absolute;
+  left: clamp(18px, 2.4vw, 28px);
+  right: clamp(18px, 2.4vw, 28px);
+  bottom: clamp(16px, 2vw, 22px);
+  z-index: 1;
+  margin: 0;
+  color: var(--r-bone);
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  font-weight: 500;
+}
 .r-videos-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
