@@ -195,6 +195,17 @@
     margin-inline: auto;
     text-align: left;
   }
+  /* .r-ha-row est un flex en ligne : le `text-align: center` hérité de
+     .r-tarifs-grid centre le texte à l'intérieur de .r-ha-actions, mais
+     pas la boîte elle-même dans la largeur du flex — sans quoi elle reste
+     collée à gauche (la pile de galets qui l'équilibrait sur desktop est
+     masquée ici, voir .r-galets-grand). */
+  .r-ha-row {
+    justify-content: center;
+  }
+  .r-ha-actions {
+    text-align: center;
+  }
   /* Purement décorative (aria-hidden) : masquée plutôt que réduite, pour
      laisser toute la largeur au formulaire d'adhésion. */
   .r-galets-grand {
@@ -222,6 +233,12 @@
     grid-template-columns: 1fr;
     max-width: 340px;
     margin-inline: auto;
+  }
+  /* Empilés plutôt que côte à côte : sur une colonne étroite, la pierre
+     borde le bouton par-dessus plutôt qu'à côté. */
+  .r-pratiques-pied {
+    flex-direction: column;
+    gap: 18px;
   }
   /* Le tracé suppose quatre colonnes côte à côte : sur une seule, ses
      quatre pincements se resserrent en un nœud. */
