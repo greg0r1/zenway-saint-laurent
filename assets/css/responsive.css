@@ -10,6 +10,15 @@
   .r-videos-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  /* Décorative : masquée dès la tablette plutôt qu'empilée, pour laisser
+     toute la largeur au planning (voir sections.css). */
+  .r-planning-grid {
+    grid-template-columns: 1fr;
+  }
+  .r-planning-fig {
+    display: none;
+  }
 }
 
 @media (width <= 880px) {

@@ -475,6 +475,19 @@
   opacity: 0.24;
   pointer-events: none;
 }
+/* La photo ne rejoint le planning qu'à partir de 1040px (voir
+   responsive.css) : en dessous, la grille a déjà besoin de ses 620px de
+   colonnes, et la carte bascule en liste — pas de place pour une image à
+   côté sans la comprimer. */
+.r-planning-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.3fr);
+  align-items: center;
+  gap: clamp(28px, 4vw, 48px);
+}
+.r-planning-col {
+  min-width: 0;
+}
 .r-planning-carte {
   position: relative;
   z-index: 2;
@@ -483,6 +496,28 @@
   border-radius: var(--r-radius);
   box-shadow: var(--r-shadow);
   overflow: hidden;
+}
+/* Hauteur fixe plutôt que calée sur le ratio naturel de la photo
+   (portrait, bien plus haute que large) : le nombre de créneaux du
+   planning varie et la carte peut être très courte (un seul jour, comme
+   ici) — sans ce plafond, la photo la dépasserait largement. Le cadrage
+   « top center » garde la tête et les bras levés du geste dans le cadre
+   plutôt que de couper au centre. Mêmes coins et même ombre que la carte
+   pour que les deux se lisent comme une paire. */
+.r-planning-fig {
+  z-index: 1;
+  margin: clamp(38px, 4.5vw, 58px) 0 0;
+  height: clamp(280px, 26vw, 360px);
+  border-radius: var(--r-radius);
+  overflow: hidden;
+  box-shadow: var(--r-shadow);
+}
+.r-planning-fig img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
 }
 .r-planning-scroll {
   overflow-x: auto;
