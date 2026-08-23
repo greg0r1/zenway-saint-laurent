@@ -109,7 +109,9 @@
           liste.innerHTML = events.map(ligneEvenement).join('');
           if (vide) vide.hidden = true;
           liste.querySelectorAll('.r-evt-image').forEach((btn) => {
-            btn.addEventListener('click', () => ouvrirImage(btn.dataset.image, btn.dataset.titre, btn));
+            btn.addEventListener('click', () =>
+              ouvrirImage(btn.dataset.image, btn.dataset.titre, btn)
+            );
           });
         }
       }
