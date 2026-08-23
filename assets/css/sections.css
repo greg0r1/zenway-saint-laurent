@@ -78,10 +78,12 @@
   text-align: center;
 }
 .r-med-ring {
+  display: block;
   position: relative;
   width: min(100%, 196px);
   aspect-ratio: 1;
   margin: 0 auto 22px;
+  border: 0;
   border-radius: 50%;
   padding: 7px;
   background: linear-gradient(
@@ -92,6 +94,7 @@
     var(--r-anneau-ombre) 100%
   );
   box-shadow: var(--r-shadow-dark);
+  cursor: pointer;
 }
 /* Le filet or, fin et légèrement détaché du cerclage pierre — la maquette
    pose les deux l'un sur l'autre plutôt qu'un seul anneau uni. */
