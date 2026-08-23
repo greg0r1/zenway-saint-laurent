@@ -64,9 +64,13 @@
     const notes = slots
       .map((s) => s.note)
       .filter(Boolean)
-      .join(' ');
+      .map(echapper);
     const zoneNote = document.querySelector('.r-planning-note');
-    if (zoneNote && notes) zoneNote.textContent = notes;
+    // Une ligne par note : `innerHTML` (contenu déjà échappé ci-dessus)
+    // plutôt que `textContent`, sinon le repli statique perd son <br />
+    // dès qu'un créneau porte une note, et plusieurs notes se
+    // retrouveraient collées en une seule ligne.
+    if (zoneNote && notes.length) zoneNote.innerHTML = notes.join('<br />');
   }
 
   function rendrePlanning(slots) {

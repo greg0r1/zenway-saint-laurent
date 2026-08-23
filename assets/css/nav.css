@@ -97,42 +97,26 @@
   transform: scaleX(1);
 }
 
-/* État sombre, posé par nav-reveal.js au défilement */
-.r-nav.is-scrolled {
+/* État sombre, posé par nav-reveal.js au défilement — sauf `is-light`,
+   posé quand la bande sous la barre est sombre (r-dark) : la barre y
+   reprend son état clair d'origine (celui du hero, juste au-dessus) plutôt
+   que de le recopier ici. `:not(.is-light)` laisse alors la cascade
+   retomber sur les règles par défaut de `.r-nav`, qui portent déjà ces
+   valeurs — un seul jeu de couleurs claires à tenir à jour, pas deux. */
+.r-nav.is-scrolled:not(.is-light) {
   border-bottom-color: var(--r-line-dark);
 }
-.r-nav.is-scrolled::before {
+.r-nav.is-scrolled:not(.is-light)::before {
   background: rgb(43 49 51 / 96%);
 }
-.r-nav.is-scrolled .r-links a {
+.r-nav.is-scrolled:not(.is-light) .r-links a {
   color: var(--r-bone);
 }
-.r-nav.is-scrolled .r-brand-txt {
+.r-nav.is-scrolled:not(.is-light) .r-brand-txt {
   color: var(--r-bone-soft);
 }
-.r-nav.is-scrolled .r-burger span {
+.r-nav.is-scrolled:not(.is-light) .r-burger span {
   background: var(--r-bone);
-}
-
-/* `is-light` : la bande actuellement sous la barre est sombre (r-dark),
-   donc la barre repasse dans son état clair — les mêmes règles que l'état
-   par défaut (celui du hero), réappliquées par-dessus `.is-scrolled` qui
-   sinon l'assombrirait. Rien ne bouge sur une bande claire : `.is-scrolled`
-   seul y suffit déjà. */
-.r-nav.is-scrolled.is-light {
-  border-bottom-color: rgb(221 212 193 / 70%);
-}
-.r-nav.is-scrolled.is-light::before {
-  background: rgb(248 244 236 / 92%);
-}
-.r-nav.is-scrolled.is-light .r-links a {
-  color: var(--r-ink);
-}
-.r-nav.is-scrolled.is-light .r-brand-txt {
-  color: var(--r-ink-soft);
-}
-.r-nav.is-scrolled.is-light .r-burger span {
-  background: var(--r-ink);
 }
 
 /* `position: relative` + z-index au-dessus du tiroir (fixed, z-index 100) :
