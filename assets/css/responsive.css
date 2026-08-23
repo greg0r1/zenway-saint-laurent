@@ -211,6 +211,15 @@
   .r-galets-grand {
     display: none;
   }
+  /* Les 760px de sections.css sont mesurés sur la colonne desktop
+     (~420px de large) : en dessous de 880px, la colonne du formulaire
+     est plus étroite (~335px sur un iPhone), ce qui pousse HelloAsso à
+     empiler davantage ses champs et allonge le formulaire. Un peu plus
+     de hauteur ici réduit le scroll interne à l'iframe sans l'agrandir
+     partout. */
+  .r-ha-widget iframe {
+    min-height: 900px;
+  }
 
   .r-infos-grid,
   .r-footer-grid {
