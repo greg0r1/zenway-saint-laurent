@@ -11,9 +11,28 @@
   const burger = document.getElementById('burger');
 
   if (nav) {
-    const majEtat = () => nav.classList.toggle('is-scrolled', window.scrollY > 40);
+    // Chaque bande de la page (voir CLAUDE.md) porte ou non `r-dark` : la
+    // barre reprend son état clair d'origine (celui du hero) dès qu'une
+    // bande sombre passe dessous, et son état sombre sur une bande claire —
+    // elle suit l'alternance plutôt que de rester figée après le hero.
+    const sections = document.querySelectorAll('#contenu > .r-hero, #contenu > .r-section');
+    const majEtat = () => {
+      nav.classList.toggle('is-scrolled', window.scrollY > 40);
+      if (!sections.length) return;
+      const limite = nav.getBoundingClientRect().bottom;
+      let surBandeSombre = false;
+      for (const section of sections) {
+        const r = section.getBoundingClientRect();
+        if (r.top <= limite && r.bottom > limite) {
+          surBandeSombre = section.classList.contains('r-dark');
+          break;
+        }
+      }
+      nav.classList.toggle('is-light', surBandeSombre);
+    };
     majEtat();
     window.addEventListener('scroll', majEtat, { passive: true });
+    window.addEventListener('resize', majEtat);
   }
 
   if (burger && liens) {
