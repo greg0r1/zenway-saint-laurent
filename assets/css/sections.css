@@ -211,20 +211,53 @@
   transform: scaleX(-1);
   pointer-events: none;
 }
+/* En-tête plein largeur, commun aux deux chemins d'inscription
+   ci-dessous : le titre et le chapeau ne privilégient ni le widget ni le
+   bouton, ils introduisent les deux. Porte les traits ondulés — ancrés
+   ici plutôt que sur .r-tarifs-grid pour qu'ils partent du tout début de
+   la section, avant même que la hauteur du widget n'entre en jeu. */
+.r-tarifs-head {
+  position: relative;
+  max-width: 40rem;
+  margin-bottom: clamp(36px, 4.5vw, 56px);
+}
+/* Sept fils verticaux derrière le titre — même principe que le feuillage
+   qui borde « Nos pratiques » (.r-pratiques-feuillage) : un décor discret
+   posé à l'endroit précis que la maquette lui donne, pas étiré sur toute
+   la section comme le bambou. */
+.r-tarifs-ondulations {
+  position: absolute;
+  z-index: -1;
+  left: -28px;
+  top: -30px;
+  width: clamp(150px, 16vw, 200px);
+  height: clamp(220px, 25vw, 300px);
+  background: url("../img/ornements/orn-ondulations.svg") no-repeat left top/contain;
+  opacity: 0.55;
+  pointer-events: none;
+}
+/* Le widget reste le chemin d'inscription qu'on propose d'abord — plus
+   grand, et premier dans le DOM pour rester en tête sur mobile, où les
+   deux colonnes s'empilent dans cet ordre (responsive.css). Sur desktop
+   en revanche il se place à droite : `order` déplace visuellement les
+   deux colonnes sans toucher à cet ordre du DOM, ni à leurs largeurs
+   respectives (`grid-template-columns` porte 0.7fr à gauche, 1.3fr à
+   droite — c'est bien la piste large qui accueille le widget). Le texte
+   et le bouton, à gauche et plus étroits, restent l'alternative — pas une
+   deuxième offre équivalente. `start` plutôt que `center` : la colonne de
+   texte, bien plus courte que le widget (760px), doit rester lisible en
+   un bloc près du haut plutôt que flotter au milieu de sa hauteur. */
 .r-tarifs-grid {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
-  align-items: center;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+  align-items: start;
   gap: clamp(28px, 5vw, 72px);
-}
-.r-tarifs-txt .r-btn {
-  margin-top: 30px;
 }
 .r-tarifs-pts {
   list-style: none;
-  margin: 26px 0 0;
+  margin: 0;
   padding: 0;
   display: grid;
   gap: 12px;
@@ -244,14 +277,24 @@
   margin-top: 4px;
   color: var(--r-sage);
 }
-/* La colonne de droite porte deux choses : la pile de galets, et le
-   formulaire d'adhésion quand HelloAsso répond. */
 .r-tarifs-cote {
   display: grid;
-  gap: clamp(20px, 3vw, 34px);
+  order: 2;
+}
+.r-tarifs-txt {
+  order: 1;
 }
 
-.r-ha-actions {
+/* Bouton d'inscription et pile de galets sur la même ligne, comme le
+   bouton « Découvrir Zenway » et sa propre pile en pied de « Nos
+   pratiques » (.r-pratiques-pied) : la pierre vient border l'action
+   plutôt que la surmonter. La marge qui séparait .r-ha-actions de la
+   liste de points au-dessus vit ici plutôt que sur .r-ha-actions : posée
+   sur l'enfant flex, elle décalerait le bouton sans bouger les galets. */
+.r-ha-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 3vw, 32px);
   margin-top: 30px;
 }
 .r-ha-note {
@@ -279,17 +322,31 @@
   font-size: 0.9rem;
   color: var(--r-ink-soft);
 }
+/* 760px, pas une estimation : le formulaire HelloAsso (activité, don,
+   pied « Propulsé par ») mesure 714px de haut une fois posé à la largeur
+   réelle de cette colonne (~420px sur desktop) — en dessous, l'iframe fait
+   défiler sa propre page. 620px le coupait avant la fin. */
 .r-ha-widget iframe {
   width: 100%;
-  min-height: 620px;
+  min-height: 760px;
   border: 0;
 }
 
+/* Photo plutôt que dessin, ici seulement : la pile de galets au trait
+   (orn-galets.svg) reste en place dans « Nos pratiques » (.r-galets-mini),
+   pas de fichier partagé à faire diverger. Pas de <picture> possible pour
+   un fond CSS — un seul format suffit : le webp couvre tous les
+   navigateurs ciblés par le site, sans le mode dégradé qu'exigerait un
+   support IE inexistant ici. Desktop uniquement : masquée sous 880px
+   (assets/css/responsive.css) plutôt que réduite — .r-ha-row n'a alors
+   plus qu'un seul enfant visible et se comporte comme un simple bloc.
+   Étant purement décorative (aria-hidden), sa disparition ne retire rien
+   au contenu. */
 .r-galets-grand {
-  width: min(100%, 300px);
-  aspect-ratio: 300 / 190;
-  margin-inline: auto;
-  background: url("../img/ornements/orn-galets.svg") no-repeat center/contain;
+  flex: 0 0 auto;
+  width: 96px;
+  aspect-ratio: 480 / 524;
+  background: url("../img/adhesion/galets-ombre.webp") no-repeat center/contain;
 }
 
 /* ============================================================

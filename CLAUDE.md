@@ -270,7 +270,9 @@ zenway-saint-laurent/
 │       ├── disciplines/     ← fiches disciplines : *-origines et *-aujourdhui
 │       ├── ornements/       ← ornements SVG au trait, dessinés pour ce site
 │       │                      (bambou, feuillage, courbes, vague, sol, vigne,
-│       │                      volutes, ensō, spirales) + la pile de galets
+│       │                      volutes, ensō, spirales) + la petite pile de galets
+│       ├── adhesion/        ← photo de la grande pile de galets (section Adhésion),
+│       │                      seule photo purement décorative du site — voir DESIGN.md
 │       ├── favicons/        ← déclinaisons d'icône (16 → 512 px)
 │       └── meta/            ← og-image du partage social
 ├── admin/

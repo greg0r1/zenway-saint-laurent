@@ -176,18 +176,29 @@
     opacity: 0.4;
   }
 
+  .r-tarifs-head {
+    max-width: none;
+    text-align: center;
+  }
   .r-tarifs-grid {
     grid-template-columns: 1fr;
     text-align: center;
+  }
+  /* `order` ne sert qu'à placer le widget à droite sur desktop (voir
+     sections.css) : annulé ici pour que l'empilement mobile retrouve
+     l'ordre du DOM — le widget d'abord, le texte ensuite. */
+  .r-tarifs-cote,
+  .r-tarifs-txt {
+    order: 0;
   }
   .r-tarifs-pts {
     margin-inline: auto;
     text-align: left;
   }
+  /* Purement décorative (aria-hidden) : masquée plutôt que réduite, pour
+     laisser toute la largeur au formulaire d'adhésion. */
   .r-galets-grand {
-    width: min(60%, 190px);
-    order: -1;
-    margin-bottom: 12px;
+    display: none;
   }
 
   .r-infos-grid,
