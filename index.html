@@ -417,13 +417,7 @@
             </h1>
             <p class="r-hero-tagline">Le Zenway</p>
             <p class="r-hero-cta">
-              <a
-                class="r-btn r-btn-sage"
-                data-helloasso-link
-                href="https://www.helloasso.com/associations/zenway-st-laurent-du-var/adhesions/zenway-st-laurent-du-var"
-                target="_blank"
-                rel="noopener"
-              >
+              <a class="r-btn r-btn-sage" href="#tarifs">
                 S'inscrire à la saison
               </a>
             </p>
@@ -822,73 +816,84 @@
       <section class="r-section r-tarifs" id="tarifs">
         <div class="r-tarifs-bambou" aria-hidden="true"></div>
 
-        <div class="r-wrap r-tarifs-grid">
-          <div class="r-tarifs-txt r-reveal">
+        <div class="r-wrap">
+          <div class="r-tarifs-head r-reveal">
+            <div class="r-tarifs-ondulations" aria-hidden="true"></div>
             <h2 class="r-title">Adhésion &amp; inscription</h2>
             <p class="r-lede">
               L'inscription se fait en ligne sur HelloAsso, qui gère l'adhésion à l'association et
               le règlement. Les montants en vigueur y sont indiqués au moment de l'inscription.
             </p>
-            <ul class="r-tarifs-pts">
-              <li>
-                <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-feuille" /></svg>
-                <span
-                  >Premier cours d'essai offert, pour découvrir l'enchaînement avant de vous
-                  engager.</span
-                >
-              </li>
-              <li>
-                <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-horloge" /></svg>
-                <span>Séance hebdomadaire d'une heure, au KMCS.</span>
-              </li>
-              <li>
-                <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-tel" /></svg>
-                <span
-                  >Une question avant de vous inscrire ? Béatrice vous répond au 06 66 05 66
-                  49.</span
-                >
-              </li>
-            </ul>
-            <div class="r-ha-actions">
-              <a
-                class="r-btn r-btn-sage"
-                id="haOnlineBtn"
-                data-helloasso-link
-                href="https://www.helloasso.com/associations/zenway-st-laurent-du-var/adhesions/zenway-st-laurent-du-var"
-                target="_blank"
-                rel="noopener"
-                style="display: none"
-              >
-                S'inscrire sur HelloAsso
-              </a>
-              <a class="r-btn r-btn-sage" id="haFallbackBtn" href="tel:+33666056649">
-                Appelez-nous pour vous inscrire
-              </a>
-              <p class="r-ha-note" id="haOnlineNote" style="display: none">
-                Connexion sécurisée, vous restez maître de vos données.
-              </p>
-              <p class="r-ha-note" id="haFallbackNote">
-                Inscription en ligne bientôt disponible — contactez-nous en attendant, par
-                téléphone ou
-                <a href="mailto:contact@zenwaysaintlaurentduvar.fr">e-mail</a>.
-              </p>
-            </div>
           </div>
 
-          <div class="r-tarifs-cote">
-            <div class="r-galets-grand r-reveal" aria-hidden="true"></div>
+          <div class="r-tarifs-grid">
+            <div class="r-tarifs-cote r-reveal">
+              <!-- Formulaire d'adhésion embarqué, proposé en premier : c'est le
+                   chemin d'inscription principal. Rempli et révélé par
+                   assets/js/config-helloasso.js ; le bloc entier disparaît si
+                   l'iframe ne répond pas, ne laissant que le bouton ci-contre
+                   comme seul chemin. -->
+              <div class="r-ha-widget r-reveal" id="haWidgetWrap">
+                <p class="r-ha-placeholder" id="haPlaceholder">Formulaire d'adhésion</p>
+                <iframe
+                  id="haWidget"
+                  title="Formulaire d'adhésion HelloAsso"
+                  loading="lazy"
+                  style="display: none"
+                ></iframe>
+              </div>
+            </div>
 
-            <!-- Formulaire d'adhésion embarqué. Rempli et révélé par
-                 assets/js/config-helloasso.js ; le bloc entier disparaît si
-                 l'iframe ne répond pas, ne laissant que le bouton ci-contre. -->
-            <div class="r-ha-widget r-reveal" id="haWidgetWrap">
-              <p class="r-ha-placeholder" id="haPlaceholder">Formulaire d'adhésion</p>
-              <iframe
-                id="haWidget"
-                title="Formulaire d'adhésion HelloAsso"
-                loading="lazy"
-                style="display: none"
-              ></iframe>
+            <div class="r-tarifs-txt r-reveal">
+              <ul class="r-tarifs-pts">
+                <li>
+                  <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-feuille" /></svg>
+                  <span
+                    >Premier cours d'essai offert, pour découvrir l'enchaînement avant de vous
+                    engager.</span
+                  >
+                </li>
+                <li>
+                  <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-horloge" /></svg>
+                  <span>Séance hebdomadaire d'une heure, au KMCS.</span>
+                </li>
+                <li>
+                  <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-tel" /></svg>
+                  <span
+                    >Une question avant de vous inscrire ?<br />Béatrice vous répond au 06 66 05
+                    66 49.</span
+                  >
+                </li>
+              </ul>
+              <!-- Alternative au widget ci-contre : même destination
+                   (HelloAsso) ou l'appel, pas une seconde façon de faire. -->
+              <div class="r-ha-row">
+                <div class="r-ha-actions">
+                  <a
+                    class="r-btn r-btn-sage"
+                    id="haOnlineBtn"
+                    data-helloasso-link
+                    href="https://www.helloasso.com/associations/zenway-st-laurent-du-var/adhesions/zenway-st-laurent-du-var"
+                    target="_blank"
+                    rel="noopener"
+                    style="display: none"
+                  >
+                    S'inscrire sur HelloAsso
+                  </a>
+                  <a class="r-btn r-btn-sage" id="haFallbackBtn" href="tel:+33666056649">
+                    Appelez-nous pour vous inscrire
+                  </a>
+                  <p class="r-ha-note" id="haOnlineNote" style="display: none">
+                    Connexion sécurisée, vous restez maître de vos données.
+                  </p>
+                  <p class="r-ha-note" id="haFallbackNote">
+                    Inscription en ligne bientôt disponible — contactez-nous en attendant, par
+                    téléphone ou
+                    <a href="mailto:contact@zenwaysaintlaurentduvar.fr">e-mail</a>.
+                  </p>
+                </div>
+                <div class="r-galets-grand r-reveal" aria-hidden="true"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -982,6 +987,19 @@
                 </tbody>
               </table>
             </div>
+
+            <!-- Même donnée, forme adaptée : sous 760 px la grille laisse
+                 la place à cette liste (voir sections.css / responsive.css). -->
+            <ul class="r-seances" id="planningListe" aria-label="Jours et horaires des séances Zenway">
+              <li class="r-seance">
+                <p class="r-seance-jour">Mardi</p>
+                <p class="r-seance-heure">17:45 – 18:45</p>
+                <p class="r-seance-lieu">
+                  <strong>Zenway</strong>
+                  <span>KMCS, 357 chemin des Iscles</span>
+                </p>
+              </li>
+            </ul>
           </div>
 
           <p class="r-planning-note">

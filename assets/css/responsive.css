@@ -176,18 +176,40 @@
     opacity: 0.4;
   }
 
+  .r-tarifs-head {
+    max-width: none;
+    text-align: center;
+  }
   .r-tarifs-grid {
     grid-template-columns: 1fr;
     text-align: center;
+  }
+  /* `order` ne sert qu'à placer le widget à droite sur desktop (voir
+     sections.css) : annulé ici pour que l'empilement mobile retrouve
+     l'ordre du DOM — le widget d'abord, le texte ensuite. */
+  .r-tarifs-cote,
+  .r-tarifs-txt {
+    order: 0;
   }
   .r-tarifs-pts {
     margin-inline: auto;
     text-align: left;
   }
+  /* .r-ha-row est un flex en ligne : le `text-align: center` hérité de
+     .r-tarifs-grid centre le texte à l'intérieur de .r-ha-actions, mais
+     pas la boîte elle-même dans la largeur du flex — sans quoi elle reste
+     collée à gauche (la pile de galets qui l'équilibrait sur desktop est
+     masquée ici, voir .r-galets-grand). */
+  .r-ha-row {
+    justify-content: center;
+  }
+  .r-ha-actions {
+    text-align: center;
+  }
+  /* Purement décorative (aria-hidden) : masquée plutôt que réduite, pour
+     laisser toute la largeur au formulaire d'adhésion. */
   .r-galets-grand {
-    width: min(60%, 190px);
-    order: -1;
-    margin-bottom: 12px;
+    display: none;
   }
 
   .r-infos-grid,
@@ -196,6 +218,18 @@
   }
   .r-footer-grid {
     gap: 34px;
+  }
+}
+
+/* La grille de planning réclame 620 px de colonnes, plus les gouttières :
+   en dessous, elle n'apparaîtrait qu'au bout d'un défilement horizontal.
+   La liste prend le relais (styles dans sections.css). */
+@media (width <= 760px) {
+  .r-planning-scroll {
+    display: none;
+  }
+  .r-seances {
+    display: block;
   }
 }
 
@@ -211,6 +245,12 @@
     grid-template-columns: 1fr;
     max-width: 340px;
     margin-inline: auto;
+  }
+  /* Empilés plutôt que côte à côte : sur une colonne étroite, la pierre
+     borde le bouton par-dessus plutôt qu'à côté. */
+  .r-pratiques-pied {
+    flex-direction: column;
+    gap: 18px;
   }
   /* Le tracé suppose quatre colonnes côte à côte : sur une seule, ses
      quatre pincements se resserrent en un nœud. */

@@ -245,6 +245,7 @@ zenway-saint-laurent/
 │   │   ├── config-helloasso.js  ← slugs HelloAsso, injection des liens/widget
 │   │   ├── config-videos.js     ← clé YouTube + rendu de la galerie
 │   │   ├── planning-schedule.js ← fetch /api/planning/public, alimente la grille « Planning »
+│   │   │                          et sa liste mobile (mêmes données, deux formes)
 │   │   ├── events-banner.js     ← fetch /api/events/public : liste, bandeau d'annonce,
 │   │   │                          agrandissement de l'image, « Prochain rendez-vous »
 │   │   │                          (calculé, dans « Infos pratiques »)
@@ -270,7 +271,9 @@ zenway-saint-laurent/
 │       ├── disciplines/     ← fiches disciplines : *-origines et *-aujourdhui
 │       ├── ornements/       ← ornements SVG au trait, dessinés pour ce site
 │       │                      (bambou, feuillage, courbes, vague, sol, vigne,
-│       │                      volutes, ensō, spirales) + la pile de galets
+│       │                      volutes, ensō, spirales) + la petite pile de galets
+│       ├── adhesion/        ← photo de la grande pile de galets (section Adhésion),
+│       │                      seule photo purement décorative du site — voir DESIGN.md
 │       ├── favicons/        ← déclinaisons d'icône (16 → 512 px)
 │       └── meta/            ← og-image du partage social
 ├── admin/
