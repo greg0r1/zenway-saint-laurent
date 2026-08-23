@@ -14,20 +14,31 @@
     // Chaque bande de la page (voir CLAUDE.md) porte ou non `r-dark` : la
     // barre reprend son état clair d'origine (celui du hero) dès qu'une
     // bande sombre passe dessous, et son état sombre sur une bande claire —
-    // elle suit l'alternance plutôt que de rester figée après le hero.
-    const sections = document.querySelectorAll('#contenu > .r-hero, #contenu > .r-section');
+    // elle suit l'alternance plutôt que de rester figée après le hero. Le
+    // footer est inclus : il porte lui aussi `r-dark` (voir index.html),
+    // sans quoi la barre repasserait sombre en bas de page, sur un fond
+    // qui l'est tout autant.
+    const sections = document.querySelectorAll(
+      '#contenu > .r-hero, #contenu > .r-section, .r-footer'
+    );
     const majEtat = () => {
-      nav.classList.toggle('is-scrolled', window.scrollY > 40);
-      if (!sections.length) return;
-      const limite = nav.getBoundingClientRect().bottom;
+      // Lectures d'abord, écritures ensuite : `is-scrolled` change le
+      // `top` de la barre quand le bandeau d'événement est affiché
+      // (voir nav.css), donc l'écrire avant de lire les rectangles
+      // forcerait un recalcul de mise en page superflu.
+      const estDefile = window.scrollY > 40;
       let surBandeSombre = false;
-      for (const section of sections) {
-        const r = section.getBoundingClientRect();
-        if (r.top <= limite && r.bottom > limite) {
-          surBandeSombre = section.classList.contains('r-dark');
-          break;
+      if (sections.length) {
+        const limite = nav.getBoundingClientRect().bottom;
+        for (const section of sections) {
+          const r = section.getBoundingClientRect();
+          if (r.top <= limite && r.bottom > limite) {
+            surBandeSombre = section.classList.contains('r-dark');
+            break;
+          }
         }
       }
+      nav.classList.toggle('is-scrolled', estDefile);
       nav.classList.toggle('is-light', surBandeSombre);
     };
     majEtat();
