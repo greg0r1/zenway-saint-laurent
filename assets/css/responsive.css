@@ -275,6 +275,9 @@
   .r-videos-grid {
     grid-template-columns: 1fr;
   }
+  .r-vedette-thumb {
+    aspect-ratio: 4 / 3;
+  }
   .r-evt {
     grid-template-columns: 44px minmax(0, 1fr);
     gap: 16px;

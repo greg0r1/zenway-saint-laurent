@@ -1,14 +1,24 @@
 /* ============================================================
    CONFIG VIDÉOS — à adapter au fil des publications YouTube
-   1. YT_CHANNEL_HANDLE / YT_API_KEY : la galerie récupère automatiquement
+   1. FEATURED_VIDEO : une vidéo de présentation, à part de la chaîne
+      YouTube (ex: un Reel Facebook) — ce n'est pas une séance filmée,
+      donc elle ne se mêle pas à la galerie. Elle a son propre bloc,
+      au-dessus, et ouvre sa source dans un nouvel onglet plutôt que de
+      s'intégrer sur place. Laisser href vide ("") pour la masquer.
+   2. YT_CHANNEL_HANDLE / YT_API_KEY : la galerie récupère automatiquement
       les derniers uploads de la chaîne via l'API YouTube Data v3. La clé
       API est restreinte par domaine référent dans Google Cloud Console
       (Identifiants → clé → Restrictions relatives aux applications) —
       c'est cette restriction qui la protège, pas le fait qu'elle soit en
       dur ici (un site statique sans backend ne peut pas la cacher du
       code source servi au navigateur).
-   2. YT_VIDEOS_COUNT : nombre de vidéos affichées dans la galerie.
+   3. YT_VIDEOS_COUNT : nombre de vidéos affichées dans la galerie.
    ============================================================ */
+const FEATURED_VIDEO = {
+  href: 'https://www.facebook.com/reel/380948047631379',
+  poster: 'assets/img/video/hero-poster.jpg',
+  title: 'La séance en vidéo : présentation Zenway'
+};
 const YT_CHANNEL_HANDLE = 'beatricemeunier-r2m';
 const YT_CHANNEL_URL = `https://www.youtube.com/@${YT_CHANNEL_HANDLE}`;
 const YT_API_KEY = 'AIzaSyCzLih88Jl6hWSqLKzX5UEdx_8RF4_Qdgc';
@@ -50,10 +60,34 @@ const YT_VIDEOS_COUNT = 3;
   if (lienChaine) lienChaine.href = YT_CHANNEL_URL;
 
   const grille = document.getElementById('videosGrid');
+  const vedette = document.getElementById('videoVedette');
 
   function messageVideos(texte) {
     if (grille) grille.innerHTML = `<p class="r-videos-vide">${texte}</p>`;
   }
+
+  // Vidéo de présentation : un bloc à part, avant la grille. Elle ne
+  // vient pas de la chaîne et ne s'intègre pas sur place (Facebook ne
+  // s'embarque pas comme une iframe YouTube) — l'étiquette et le lien
+  // sortant le disent, pour ne pas laisser croire à une séance filmée
+  // parmi les autres.
+  function rendreVedette() {
+    if (!vedette) return;
+    if (!FEATURED_VIDEO.href) {
+      vedette.innerHTML = '';
+      return;
+    }
+    const v = FEATURED_VIDEO;
+    vedette.innerHTML = `
+      <a class="r-vedette-thumb" href="${echapper(v.href)}" target="_blank" rel="noopener"
+        style="background-image:url(${echapper(v.poster)})"
+        aria-label="Voir « ${echapper(v.title)} » sur Facebook, dans un nouvel onglet">
+        <span class="r-vedette-tag"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-facebook"/></svg>Vidéo de présentation</span>
+        <span class="r-vplay" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-lecture"/></svg></span>
+        <h3 class="r-vedette-titre">${echapper(v.title)}</h3>
+      </a>`;
+  }
+  rendreVedette();
 
   // mqdefault plutôt que hqdefault : hqdefault est un 4:3 dans lequel
   // YouTube incruste des bandes noires pour une vidéo 16:9. Elles font
