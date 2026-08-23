@@ -97,7 +97,7 @@
   transform: scaleX(1);
 }
 
-/* État sombre, posé par refonte.js au défilement */
+/* État sombre, posé par nav-reveal.js au défilement */
 .r-nav.is-scrolled {
   border-bottom-color: var(--r-line-dark);
 }
@@ -112,6 +112,27 @@
 }
 .r-nav.is-scrolled .r-burger span {
   background: var(--r-bone);
+}
+
+/* `is-light` : la bande actuellement sous la barre est sombre (r-dark),
+   donc la barre repasse dans son état clair — les mêmes règles que l'état
+   par défaut (celui du hero), réappliquées par-dessus `.is-scrolled` qui
+   sinon l'assombrirait. Rien ne bouge sur une bande claire : `.is-scrolled`
+   seul y suffit déjà. */
+.r-nav.is-scrolled.is-light {
+  border-bottom-color: rgb(221 212 193 / 70%);
+}
+.r-nav.is-scrolled.is-light::before {
+  background: rgb(248 244 236 / 92%);
+}
+.r-nav.is-scrolled.is-light .r-links a {
+  color: var(--r-ink);
+}
+.r-nav.is-scrolled.is-light .r-brand-txt {
+  color: var(--r-ink-soft);
+}
+.r-nav.is-scrolled.is-light .r-burger span {
+  background: var(--r-ink);
 }
 
 /* `position: relative` + z-index au-dessus du tiroir (fixed, z-index 100) :
