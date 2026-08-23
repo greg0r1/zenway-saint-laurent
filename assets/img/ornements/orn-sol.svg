@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+  <!-- La coupure entre le hero et la section sombre qui suit, construite
+       comme le ruban du fond du hero (orn-vague.svg) : un ruban clair
+       AU-DESSUS d'un fond sombre, chacun avec son propre bord ondulé —
+       pas une bande à fond plat fermée par une ligne droite. Le bord haut
+       du fond sombre REPREND exactement le tracé du bord bas du ruban : les
+       deux coïncident, donc le fond commence pile où le ruban s'arrête,
+       sans lisière de crème entre eux ni passage du fond par-dessus le
+       ruban.
+
+       Le bord haut creuse d'abord (un creux vers x=250, sous le bouton
+       d'inscription) avant de remonter franchement vers la droite — la
+       maquette dessine une vague en S, pas une pente qui grimpe tout du
+       long. Un premier essai, monotone, montait sans jamais redescendre :
+       plus proche d'une rampe que d'une vague.
+       Son épaisseur (38-58 unités) varie d'un point à l'autre plutôt que
+       de suivre un décalage constant depuis le bord haut — un bord bas
+       qui ne fait que reproduire le bord haut en parallèle se lit comme
+       rectiligne, même courbé.
+
+       La pointe droite du ruban (x=1444) porte un segment droit explicite
+       entre son bord haut et son bord bas plutôt qu'une courbe continue :
+       les deux bords sont deux tracés lisses indépendants, et vouloir les
+       relier par une seule courbe à la pointe créait un pincement — une
+       fine poche de crème visible à l'intérieur même du ruban, confirmée
+       pixel par pixel (canvas, la pointe ~x=1350-1440).
+
+       Le fond sombre reprend le dégradé radial de la section suivante
+       (voir .r-pratiques dans refonte.css : #3b4345 au centre, #343b3d
+       aux bords) pour que le raccord entre les deux sections reste
+       invisible. -->
+  <defs>
+    <linearGradient id="solDark" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#353c3e" />
+      <stop offset=".5" stop-color="#3b4345" />
+      <stop offset="1" stop-color="#353c3e" />
+    </linearGradient>
+  </defs>
+
+  <path
+    fill="url(#solDark)"
+    d="M-4 285C38 290 149 314 250 315 351 316 483 309 600 293 717 277 842 236 950 218 1058 200 1168 199 1250 187 1332 175 1412 154 1444 147V324H-4Z"
+  />
+
+  <path
+    fill="#c8c5b8"
+    d="M-4 230C38 237 149 269 250 270 351 271 483 250 600 235 717 220 842 197 950 180 1058 163 1168 148 1250 135 1332 122 1412 110 1444 105L1444 147C1412 154 1332 175 1250 187 1168 199 1058 200 950 218 842 236 717 277 600 293 483 309 351 316 250 315 149 314 38 290 -4 285Z"
+  />
+</svg>

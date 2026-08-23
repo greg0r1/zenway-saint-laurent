@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 190">
+  <!-- Empilement de galets — illustration décorative de l'équilibre.
+
+       Trois pierres, pas davantage : au-delà, la pile devient une tour et
+       perd le calme qu'elle est censée dire.
+
+       Ce qui fait une pierre plutôt qu'une pastille :
+       — une silhouette qui n'est pas une lentille. Chaque galet a son
+         caractère (la base longue et tassée, la médiane oblongue penchée
+         à droite, le sommet court et bombé), et aucun n'est l'autre mis
+         à l'échelle ;
+       — un aplomb rompu. Les trois centres ne sont pas sur un axe : la
+         médiane déborde à droite, le sommet revient à gauche. Un cairn
+         d'équerre ne tient jamais tout seul ;
+       — une lumière qui vient d'un seul endroit, en haut à gauche. Le
+         corps est un dégradé radial dont le foyer est décalé de ce
+         côté-là ; l'ombre propre est une nappe posée en bas à droite,
+         DANS la silhouette, et le spéculaire une tache courte, jamais
+         un arc qui suit tout le bord ;
+       — des ombres de contact. C'est ce qui pose une pierre sur l'autre
+         plutôt que de la faire flotter : chacune projette sur celle du
+         dessous, décalée du côté opposé à la lumière.
+
+       Ce fichier sert aux deux tailles (le petit encadrement du bouton de
+       « Nos pratiques », la grande pile de « Adhésion ») et se pose donc
+       aussi bien sur le fond sombre que sur le crème : les valeurs
+       restent médianes, sans blanc ni noir francs, pour tenir des deux
+       côtés. C'est le seul élément du décor qui porte une matière, les
+       autres sont au trait. -->
+  <defs>
+    <radialGradient id="corpsA" cx=".34" cy=".18" r=".92">
+      <stop offset="0" stop-color="#9a9488" />
+      <stop offset=".46" stop-color="#736d63" />
+      <stop offset="1" stop-color="#46433d" />
+    </radialGradient>
+    <radialGradient id="corpsB" cx=".32" cy=".16" r=".92">
+      <stop offset="0" stop-color="#b0a99b" />
+      <stop offset=".46" stop-color="#888173" />
+      <stop offset="1" stop-color="#565249" />
+    </radialGradient>
+    <radialGradient id="corpsC" cx=".3" cy=".16" r=".92">
+      <stop offset="0" stop-color="#cec7b7" />
+      <stop offset=".46" stop-color="#a59d8e" />
+      <stop offset="1" stop-color="#6b665d" />
+    </radialGradient>
+
+    <radialGradient id="solOmbre" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#34302a" stop-opacity=".4" />
+      <stop offset=".6" stop-color="#34302a" stop-opacity=".15" />
+      <stop offset="1" stop-color="#34302a" stop-opacity="0" />
+    </radialGradient>
+
+    <filter id="flou" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="7" />
+    </filter>
+    <filter id="flouS" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3.4" />
+    </filter>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="1.05" numOctaves="3" result="n" />
+      <feColorMatrix in="n" type="saturate" values="0" />
+      <feComponentTransfer><feFuncA type="linear" slope=".14" /></feComponentTransfer>
+      <feComposite operator="in" in2="SourceGraphic" />
+    </filter>
+
+    <!-- Base : longue et tassée, l'extrémité gauche épaisse, la droite effilée -->
+    <path
+      id="sA"
+      d="M30,148c-1-14 42-27 108-29 68-2 118 6 126 20 8 13-32 28-104 30-70 2-129-7-130-21Z"
+    />
+    <!-- Médiane : oblongue, penchée, débordant à droite -->
+    <path
+      id="sB"
+      d="M68,110c-3-14 34-27 88-28 52-1 87 8 89 21 2 12-32 25-84 26-52 1-90-7-93-19Z"
+    />
+    <!-- Sommet : court, bombé, ramené à gauche -->
+    <path
+      id="sC"
+      d="M92,74c-2-12 20-22 48-22 27 0 47 8 48 18 1 11-19 20-46 20-26 0-48-6-50-16Z"
+    />
+
+    <clipPath id="cA"><use href="#sA" /></clipPath>
+    <clipPath id="cB"><use href="#sB" /></clipPath>
+    <clipPath id="cC"><use href="#sC" /></clipPath>
+  </defs>
+
+  <!-- Sable ratissé : posé avant la pile, il contourne les pierres au lieu
+       de leur passer dessus. -->
+  <g fill="none" stroke="#a89f8d" stroke-width="1.3" opacity=".38">
+    <path d="M20,167c38 10 90 15 140 15s104-5 140-15" />
+    <path d="M2,183c44 13 102 20 158 20s114-7 158-20" />
+  </g>
+
+  <g id="pile">
+    <ellipse cx="160" cy="170" rx="126" ry="13" fill="url(#solOmbre)" />
+
+    <!-- Base -->
+    <g clip-path="url(#cA)">
+      <use href="#sA" fill="url(#corpsA)" />
+      <!-- ombre propre, en bas à droite -->
+      <ellipse cx="216" cy="182" rx="130" ry="52" fill="#3b3830" opacity=".58" filter="url(#flou)" />
+      <!-- rebond du sol sur le ventre : sans lui, le bas de la pierre se
+           dissout dans le fond sombre et la silhouette ne se referme pas -->
+      <ellipse cx="98" cy="178" rx="76" ry="18" fill="#cdc5b4" opacity=".22" filter="url(#flou)" />
+      <!-- spéculaire court, en haut à gauche -->
+      <ellipse cx="92" cy="129" rx="40" ry="8" fill="#efe9d9" opacity=".32" filter="url(#flouS)" />
+      <!-- arête de lumière, au sommet seulement -->
+      <ellipse cx="136" cy="120" rx="82" ry="4" fill="#f4eee0" opacity=".28" filter="url(#flouS)" />
+      <!-- couture de contact : serrée et franche, là où la médiane pose -->
+      <ellipse cx="164" cy="134" rx="86" ry="11" fill="#232120" opacity=".6" filter="url(#flouS)" />
+    </g>
+
+    <!-- Médiane -->
+    <g clip-path="url(#cB)">
+      <use href="#sB" fill="url(#corpsB)" />
+      <ellipse cx="200" cy="140" rx="100" ry="42" fill="#403b34" opacity=".55" filter="url(#flou)" />
+      <ellipse cx="106" cy="134" rx="56" ry="14" fill="#cdc5b4" opacity=".2" filter="url(#flou)" />
+      <ellipse cx="110" cy="94" rx="30" ry="7" fill="#efe9d9" opacity=".34" filter="url(#flouS)" />
+      <ellipse cx="148" cy="86" rx="64" ry="3.4" fill="#f4eee0" opacity=".3" filter="url(#flouS)" />
+      <ellipse cx="140" cy="95" rx="52" ry="8" fill="#232120" opacity=".55" filter="url(#flouS)" />
+    </g>
+
+    <!-- Sommet -->
+    <g clip-path="url(#cC)">
+      <use href="#sC" fill="url(#corpsC)" />
+      <ellipse cx="172" cy="96" rx="64" ry="30" fill="#443f37" opacity=".52" filter="url(#flou)" />
+      <ellipse cx="114" cy="94" rx="38" ry="10" fill="#d3cbba" opacity=".2" filter="url(#flou)" />
+      <ellipse cx="120" cy="62" rx="21" ry="6" fill="#f2ece0" opacity=".38" filter="url(#flouS)" />
+      <ellipse cx="138" cy="55" rx="38" ry="3" fill="#f6f0e4" opacity=".32" filter="url(#flouS)" />
+    </g>
+  </g>
+  <use href="#pile" filter="url(#grain)" />
+</svg>

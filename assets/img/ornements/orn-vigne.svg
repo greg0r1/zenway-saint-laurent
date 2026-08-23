@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -55 1200 185" fill="none" preserveAspectRatio="none">
+  <!-- Ruban végétal qui court derrière les quatre médaillons de
+       « Nos pratiques & bienfaits ». Une tige et son revers dessinent une
+       suite de fuseaux, pincés au-dessus de chaque médaillon et creusés
+       dans les intervalles, comme dans la maquette.
+
+       Les médaillons recouvrent le tracé au centre de chaque anneau : la
+       vigne ne se montre qu'au-dessus d'eux et dans les gouttières.
+
+       Trois passes de la même trajectoire, de la plus large et la plus
+       pâle à la plus fine et la plus franche : c'est la lueur de la
+       maquette, obtenue sans filtre. Un `feGaussianBlur` serait étiré de
+       travers par le `preserveAspectRatio="none"` qui déforme la boîte,
+       alors que `non-scaling-stroke` garde ces trois épaisseurs justes
+       quelle que soit la largeur de la grille.
+
+       Aucun fuseau ne répète le précédent : hauteurs de crête, creux et
+       points de pincement diffèrent d'un intervalle à l'autre. Une vigne
+       qui se répète à l'identique redevient un fil de fer. -->
+  <defs>
+    <linearGradient id="vigneOr" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#c9a86a" stop-opacity="0" />
+      <stop offset="0.09" stop-color="#c9a86a" stop-opacity="0.9" />
+      <stop offset="0.42" stop-color="#e2c795" stop-opacity="0.95" />
+      <stop offset="0.72" stop-color="#d8bb85" stop-opacity="0.92" />
+      <stop offset="0.93" stop-color="#c9a86a" stop-opacity="0.82" />
+      <stop offset="1" stop-color="#c9a86a" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- La trajectoire seule : reprise trois fois par <use>. -->
+    <g id="vigneTige">
+      <!-- Tige haute, d'un seul souffle, d'un bord à l'autre -->
+      <path
+        vector-effect="non-scaling-stroke"
+        d="M-40,74 C42,30 100,4 152,10
+           C266,-16 358,-20 448,2
+           C562,-22 658,-24 752,18
+           C866,-18 958,-22 1048,4
+           C1116,16 1164,34 1240,24"
+      />
+      <!-- Revers : un creux par intervalle, jamais deux de la même profondeur -->
+      <path vector-effect="non-scaling-stroke" d="M152,10 C216,36 228,76 160,92 C106,104 44,104 -34,94" />
+      <path vector-effect="non-scaling-stroke" d="M448,2 C504,24 510,60 448,74 C384,88 300,82 214,58" />
+      <path vector-effect="non-scaling-stroke" d="M752,18 C812,44 816,84 748,98 C680,112 592,104 508,78" />
+      <path vector-effect="non-scaling-stroke" d="M1048,4 C1100,26 1104,58 1044,72 C980,86 900,80 822,58" />
+    </g>
+  </defs>
+
+  <!-- La lueur, puis le trait -->
+  <g
+    stroke="url(#vigneOr)"
+    stroke-linecap="round"
+    fill="none"
+  >
+    <use href="#vigneTige" stroke-width="7" opacity="0.09" />
+    <use href="#vigneTige" stroke-width="3.4" opacity="0.2" />
+    <use href="#vigneTige" stroke-width="1.5" />
+  </g>
+
+  <!-- Brins de feuilles : un par pincement, alternés et de tailles
+       inégales, dans la façon déjà posée par orn-feuillage.svg. -->
+  <g stroke="#d8bb85" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+    <g opacity="0.78">
+      <path d="M152,10c-5-17-3-34 7-49" />
+      <path d="M159-39c15-6 27-2 35 11-15 6-27 2-35-11Z" fill="#e2c795" stroke="none" />
+      <path d="M152,10c-17 2-31-5-41-17 17-5 31 2 41 17Z" fill="#c9a86a" stroke="none" opacity=".7" />
+    </g>
+
+    <g opacity="0.66">
+      <path d="M448,2c4-12 14-21 27-26" />
+      <path d="M475-24c12-5 22-1 28 9-12 5-22 1-28-9Z" fill="#e2c795" stroke="none" />
+    </g>
+
+    <g opacity="0.82">
+      <path d="M752,18c2-19 13-33 28-42" />
+      <path d="M780-24c16-3 27 4 32 17-16 4-29-2-32-17Z" fill="#e2c795" stroke="none" />
+      <path d="M752,18c-15 7-31 4-44-6 14-9 31-9 44 6Z" fill="#c9a86a" stroke="none" opacity=".7" />
+      <path d="M766-6c11-9 14-21 10-34" stroke-width=".9" opacity=".7" />
+    </g>
+
+    <g opacity="0.7">
+      <path d="M1048,4c-3-14-1-27 8-39" />
+      <path d="M1054-33c13-5 24-1 30 10-13 5-24 1-30-10Z" fill="#e2c795" stroke="none" />
+      <path d="M1048,4c-13 3-25-3-33-13 13-4 25 1 33 13Z" fill="#c9a86a" stroke="none" opacity=".6" />
+    </g>
+  </g>
+
+  <!-- Baies : les seuls points pleins du tracé, posés hors des pincements -->
+  <circle cx="300" cy="-11" r="2.8" fill="#f0e4c9" opacity=".7" />
+  <circle cx="600" cy="-14" r="2.2" fill="#f0e4c9" opacity=".55" />
+  <circle cx="905" cy="-13" r="2.6" fill="#f0e4c9" opacity=".62" />
+</svg>

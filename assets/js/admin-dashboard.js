@@ -62,7 +62,7 @@
           </a>
           <a class="ad-row" href="#/infos">
             ${icone('i-pin', 'ad-ico-lg')}
-            <span><strong>Vérifier les infos pratiques</strong>Adresse, téléphone, prochain rendez-vous</span>
+            <span><strong>Vérifier les infos pratiques</strong>Adresse, téléphone, parking</span>
             ${icone('i-arrow')}
           </a>
         </div>

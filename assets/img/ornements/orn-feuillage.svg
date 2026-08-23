@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 440" fill="none" stroke="#b5a88f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Gerbe de feuillage pour l'angle bas-gauche du hero : trois tiges qui
+       s'ouvrent en éventail, feuilles larges et espacées. La maquette y met
+       une masse végétale ouverte, pas une tige unique. Décoratif. -->
+
+  <!-- tige haute, la plus ouverte -->
+  <g opacity=".95">
+    <path d="M-10 436C86 410 168 352 232 268 296 184 336 96 352 6"/>
+    <path d="M348 40c30-16 50-46 58-88-32 18-52 48-58 88Z"/>
+    <path d="M338 92c-38-12-72-2-100 30 36 16 72 6 100-30Z"/>
+    <path d="M322 146c34-18 56-50 62-94-34 22-56 54-62 94Z"/>
+    <path d="M300 196c-42-10-78 2-106 36 40 16 78 4 106-36Z"/>
+    <path d="M274 244c32-20 52-54 56-98-32 24-52 58-56 98Z"/>
+    <path d="M242 290c-44-8-80 6-108 40 42 16 80 2 108-40Z"/>
+    <path d="M204 334c30-22 48-56 50-100-30 26-48 60-50 100Z"/>
+    <path d="M158 376c-46-4-82 12-110 46 44 14 84-2 110-46Z"/>
+    <path d="M112 412c28-24 44-58 44-102-28 28-44 62-44 102Z"/>
+  </g>
+
+  <!-- tige médiane, plus courte, part vers la droite -->
+  <g opacity=".7">
+    <path d="M6 438C104 424 196 386 274 326 352 266 412 192 448 112"/>
+    <path d="M446 146c32-8 56-30 70-66-34 8-58 30-70 66Z"/>
+    <path d="M424 186c-34-18-66-14-96 12 32 22 66 20 96-12Z"/>
+    <path d="M394 226c32-10 56-32 70-68-34 10-58 32-70 68Z"/>
+    <path d="M356 264c-36-16-70-10-100 18 34 20 68 16 100-18Z"/>
+    <path d="M314 300c30-12 52-36 64-72-32 12-54 36-64 72Z"/>
+    <path d="M264 334c-38-14-72-6-102 24 36 18 70 12 102-24Z"/>
+  </g>
+
+  <!-- tige basse, rase le bord -->
+  <g opacity=".5">
+    <path d="M18 440C126 438 236 420 330 386 424 352 494 306 528 258"/>
+    <path d="M508 288c26-2 48-18 64-48-30 0-52 18-64 48Z"/>
+    <path d="M456 316c-26-20-56-24-88-6 28 24 60 30 88 6Z"/>
+    <path d="M414 342c28-4 50-22 64-54-30 4-52 22-64 54Z"/>
+    <path d="M352 368c-30-18-62-18-92 4 30 22 62 26 92-4Z"/>
+  </g>
+
+  <circle cx="352" cy="6" r="4" fill="#b5a88f" stroke="none"/>
+  <circle cx="448" cy="112" r="3.2" fill="#b5a88f" stroke="none" opacity=".7"/>
+</svg>

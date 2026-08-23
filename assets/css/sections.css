@@ -1,622 +1,719 @@
 /* ============================================================
-   SECTIONS — la section, concept & pratiques, galets, planning,
-              pour qui, inscription, infos, levée finale (cta)
+   SECTIONS — pratiques & bienfaits, adhésion, événements,
+   planning, infos pratiques
    ============================================================ */
-/* ---------- Galets — le trait de crayon ---------- */
-/* Deux galets sur toute la page, pas un de plus : dessinés au crayon,
-   chacun d'un seul trait continu, et chacun posé à cheval sur l'arête
-   haute d'une feuille de papier. C'est ce chevauchement qui fait tout :
-   la moitié haute du dessin court sur le bain, la moitié basse sur le
-   papier — la pierre est posée SUR la page, elle n'y est pas imprimée.
 
-   Le galet est ancré à la feuille elle-même, pas à la section qui la
-   contient : la feuille est centrée et bornée en largeur, donc au-delà
-   de 1180px la section déborde d'elle des deux côtés. Ancré à la
-   section, le dessin se retrouverait sur le bain des deux côtés de
-   l'arête sur grand écran, et le contraste clair/foncé qu'il exploite
-   n'existerait plus. Ancré à la feuille, l'arête sépare toujours le
-   bain du papier, quelle que soit la largeur.
+/* ============================================================
+   PRATIQUES & BIENFAITS — section sombre, médaillons circulaires
+   ============================================================ */
 
-   Calage exact et sans valeur devinée : `top: 0` colle le dessin à
-   l'arête, `translate: 0 -50%` le remonte de sa propre moitié. Il tient
-   donc quelle que soit sa taille ou celle du viewport. `translate` et
-   `rotate` sont les propriétés CSS autonomes — plus aucun script
-   n'écrit `transform` sur ces éléments. */
-.galet {
+.r-pratiques {
+  background: radial-gradient(90% 60% at 50% 0%, #3b4345 0%, transparent 62%), var(--r-dark);
+}
+
+.r-enso {
   position: absolute;
-  top: 0;
-  z-index: 1;
-  display: block;
-  height: auto;
+  right: clamp(-90px, -3vw, -20px);
+  bottom: -104px;
+  width: clamp(260px, 32vw, 440px);
+  aspect-ratio: 1;
+  background: url("../img/ornements/orn-enso.svg") no-repeat center/contain;
+  opacity: 0.5;
   pointer-events: none;
-  overflow: visible;
-  translate: 0 -50%;
 }
 
-/* Le trait traverse l'arête : il est clair au-dessus, sur le bain, et
-   foncé en dessous, sur le papier. La bascule est un arrêt net posé à
-   mi-hauteur du dessin — exactement là où passe l'arête, puisque c'est
-   là que `translate: -50%` place son milieu. Deux couleurs du thème,
-   celles-là mêmes qui portent déjà le texte sur chacun des deux fonds. */
-.galet path {
-  fill: none;
-  stroke-width: 1.6px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+/* La gerbe du hero, retournée : elle s'ouvrait depuis le bas-gauche pour
+   border le sol, elle s'ouvre ici depuis le haut-gauche pour border le
+   titre — même fichier, un seul axe inversé plutôt qu'un second dessin. */
+.r-pratiques-feuillage {
+  position: absolute;
+  left: -18px;
+  top: -18px;
+  width: clamp(180px, 22vw, 300px);
+  height: clamp(150px, 18vw, 250px);
+  background: url("../img/ornements/orn-feuillage.svg") no-repeat left top/contain;
+  transform: scaleY(-1);
+  opacity: 0.5;
+  pointer-events: none;
 }
 
-/* Le cairn reste d'aplomb : des pierres empilées ne tiennent qu'à la
-   verticale, l'incliner reviendrait à les faire tomber. La pierre
-   seule, elle, peut être posée de travers. */
-.galet-concept {
-  left: 7%;
-  width: 118px;
+/* Les sillages dorés qui rasent le bas de la section, posés avant l'ensō
+   dans le HTML : ils se peignent derrière lui. */
+.r-pratiques-volutes {
+  position: absolute;
+  left: 0;
+  bottom: 12px;
+  width: min(58vw, 760px);
+  height: clamp(90px, 12vw, 170px);
+  background: url("../img/ornements/orn-volutes.svg") no-repeat left bottom/contain;
+  opacity: 0.6;
+  pointer-events: none;
 }
 
-.galet-inscription {
-  right: 9%;
-  width: 118px;
-  rotate: -6deg;
-}
-
-/* Sous 980px la feuille n'a plus que 40px de marge haute : les dessins
-   se réduisent pour que leur moitié basse y tienne, sans jamais venir
-   se poser sur une ligne de texte. */
-@media (max-width: 980px) {
-  .galet-concept {
-    width: 72px;
-  }
-  .galet-inscription {
-    width: 96px;
-  }
-}
-
-@media (max-width: 680px) {
-  .galet-concept {
-    left: 6%;
-    width: 62px;
-  }
-  .galet-inscription {
-    right: 7%;
-    width: 82px;
-  }
-}
-
-.lifted {
-  padding: 90px 0;
-}
-
-.sheet-wide {
-  padding: 62px 66px 66px;
-}
-
-h2 {
-  font-size: clamp(2.1rem, 4.2vw, 3.2rem);
-  margin-bottom: 26px;
-}
-
-/* Sur le bain (hors feuille), les titres passent en clair */
-.planning h2,
-.videos h2,
-.events-section h2,
-.infos h2 {
-  color: var(--paper);
-}
-
-/* ---------- CONCEPT ---------- */
-.concept-head {
+.r-medaillons {
+  position: relative;
+  z-index: 2;
   display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
-  gap: 48px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(18px, 2.6vw, 40px);
+  margin-top: clamp(46px, 5vw, 70px);
+}
+/* La vigne qui court derrière les quatre médaillons, pincée au-dessus de
+   chacun. Premier enfant du grid : elle se peint avant les .r-med, qui la
+   recouvrent donc dans le creux de chaque anneau — pas de z-index à
+   coordonner, l'ordre du DOM suffit. `100% 100%` colle son viewBox de
+   1200 unités à la largeur de la grille : les quatre pincements du tracé
+   tombent tout seuls sur les quatre colonnes. */
+.r-pratiques-vigne {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: clamp(-46px, -4.4vw, -34px);
+  height: clamp(92px, 10vw, 150px);
+  background: url("../img/ornements/orn-vigne.svg") no-repeat center / 100% 100%;
+  pointer-events: none;
+}
+
+.r-med {
+  text-align: center;
+}
+.r-med-ring {
+  position: relative;
+  width: min(100%, 196px);
+  aspect-ratio: 1;
+  margin: 0 auto 22px;
+  border-radius: 50%;
+  padding: 7px;
+  background: linear-gradient(
+    148deg,
+    var(--r-anneau-haut) 0%,
+    var(--r-anneau-corps) 40%,
+    var(--r-anneau-bas) 76%,
+    var(--r-anneau-ombre) 100%
+  );
+  box-shadow: var(--r-shadow-dark);
+}
+/* Le filet or, fin et légèrement détaché du cerclage pierre — la maquette
+   pose les deux l'un sur l'autre plutôt qu'un seul anneau uni. */
+.r-med-ring::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow:
+    inset 0 0 0 1px rgb(201 168 106 / 68%),
+    inset 0 0 12px rgb(201 168 106 / 22%);
+  transform: scale(1.055);
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.r-med:hover .r-med-ring::after {
+  transform: scale(1.09);
+}
+@media (prefers-reduced-motion: reduce) {
+  .r-med-ring::after {
+    transition: none;
+  }
+}
+.r-med-ring img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: saturate(0.88) contrast(1.02);
+}
+
+.r-med h3 {
+  margin: 0 0 10px;
+  font-family: var(--r-serif);
+  font-weight: 400;
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+  color: var(--r-bone);
+}
+.r-med ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.87rem;
+  line-height: 1.85;
+  color: var(--r-bone-soft);
+}
+.r-med li::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 1px;
+  margin-right: 8px;
+  vertical-align: middle;
+  background: var(--r-gold);
+  opacity: 0.75;
+}
+
+/* Une seule pile, posée à côté du bouton plutôt qu'au-dessus : la
+   maquette les met sur la même ligne, la pierre venant border le doré
+   plutôt que le surmonter. */
+/* Le bouton qui ouvre la fiche détaillée : un simple mot souligné d'or,
+   pas un second bouton plein — les médaillons ne portent qu'une action
+   visible, « Découvrir Zenway » en bas de section. */
+.r-med-plus {
+  margin-top: 14px;
+  padding: 4px 2px;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--r-gold);
+  cursor: pointer;
+  border-bottom: 1px solid rgb(201 168 106 / 45%);
+  transition:
+    color 0.35s ease,
+    border-color 0.35s ease;
+}
+.r-med-plus:hover {
+  color: var(--r-gold-warm);
+  border-bottom-color: var(--r-gold-warm);
+}
+
+.r-pratiques-pied {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(52px, 6vw, 84px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2vw, 26px);
+}
+.r-galets-mini {
+  width: 118px;
+  height: 75px;
+  background: url("../img/ornements/orn-galets.svg") no-repeat center bottom/contain;
+  opacity: 0.9;
+}
+
+/* ============================================================
+   TARIFS & ADHÉSION
+   ============================================================ */
+
+.r-tarifs {
+  background: linear-gradient(180deg, #fbf8f2 0%, var(--r-cream) 100%);
+}
+.r-tarifs-bambou {
+  position: absolute;
+  left: -60px;
+  top: -40px;
+  width: 260px;
+  height: 120%;
+  background: url("../img/ornements/orn-bambou.svg") no-repeat left top/auto 100%;
+  opacity: 0.18;
+  transform: scaleX(-1);
+  pointer-events: none;
+}
+/* En-tête plein largeur, commun aux deux chemins d'inscription
+   ci-dessous : le titre et le chapeau ne privilégient ni le widget ni le
+   bouton, ils introduisent les deux. Porte les traits ondulés — ancrés
+   ici plutôt que sur .r-tarifs-grid pour qu'ils partent du tout début de
+   la section, avant même que la hauteur du widget n'entre en jeu. */
+.r-tarifs-head {
+  position: relative;
+  max-width: 40rem;
+  margin-bottom: clamp(36px, 4.5vw, 56px);
+}
+/* Sept fils verticaux derrière le titre — même principe que le feuillage
+   qui borde « Nos pratiques » (.r-pratiques-feuillage) : un décor discret
+   posé à l'endroit précis que la maquette lui donne, pas étiré sur toute
+   la section comme le bambou. */
+.r-tarifs-ondulations {
+  position: absolute;
+  z-index: -1;
+  left: -28px;
+  top: -30px;
+  width: clamp(150px, 16vw, 200px);
+  height: clamp(220px, 25vw, 300px);
+  background: url("../img/ornements/orn-ondulations.svg") no-repeat left top/contain;
+  opacity: 0.55;
+  pointer-events: none;
+}
+/* Le widget reste le chemin d'inscription qu'on propose d'abord — plus
+   grand, et premier dans le DOM pour rester en tête sur mobile, où les
+   deux colonnes s'empilent dans cet ordre (responsive.css). Sur desktop
+   en revanche il se place à droite : `order` déplace visuellement les
+   deux colonnes sans toucher à cet ordre du DOM, ni à leurs largeurs
+   respectives (`grid-template-columns` porte 0.7fr à gauche, 1.3fr à
+   droite — c'est bien la piste large qui accueille le widget). Le texte
+   et le bouton, à gauche et plus étroits, restent l'alternative — pas une
+   deuxième offre équivalente. `start` plutôt que `center` : la colonne de
+   texte, bien plus courte que le widget (760px), doit rester lisible en
+   un bloc près du haut plutôt que flotter au milieu de sa hauteur. */
+.r-tarifs-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
   align-items: start;
-  margin-bottom: 62px;
+  gap: clamp(28px, 5vw, 72px);
 }
-
-.concept-head p {
-  max-width: 64ch;
-}
-
-/* ---------- LES QUATRE PRATIQUES ---------- */
-.pratiques-intro {
-  max-width: 66ch;
-  margin-bottom: 54px;
-}
-
-.practice-grid {
+.r-tarifs-pts {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
+  gap: 12px;
+  max-width: 34rem;
 }
-
-.practice {
-  position: relative;
-  padding-top: 20px;
-  height: 100%;
+.r-tarifs-pts li {
   display: flex;
-  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 0.97rem;
+  color: var(--r-ink-soft);
 }
-
-/* Chaque pratique porte la couleur de son pigment dans le bain */
-.practice::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 46px;
-  height: 4px;
+.r-tarifs-pts svg {
+  flex: 0 0 auto;
+  width: 19px;
+  height: 19px;
+  margin-top: 4px;
+  color: var(--r-sage);
 }
-
-.p1::before {
-  background: var(--teal);
-}
-.p2::before {
-  background: var(--green-700);
-}
-.p3::before {
-  background: var(--teal-bright);
-}
-.p4::before {
-  background: var(--gold);
-}
-
-/* Le rang dans l'enchaînement : la séance suit toujours cet ordre */
-.practice-no {
-  position: absolute;
-  top: 12px;
-  right: 0;
-  font-family: var(--serif);
-  font-size: 1.05rem;
-  letter-spacing: 0.06em;
-  color: var(--green-700);
-}
-
-.practice img {
-  width: 100%;
-  height: 190px;
-  object-fit: cover;
-  filter: saturate(0.78) contrast(1.03);
-  transition: filter 0.4s ease;
-}
-
-.practice:hover img {
-  filter: saturate(1) contrast(1.03);
-}
-
-.practice h3 {
-  font-size: 1.5rem;
-  margin: 18px 0 8px;
-}
-
-.practice .what {
-  font-size: 0.96rem;
-  color: var(--ink-soft);
-  margin-bottom: 10px;
-}
-
-.more {
-  align-self: flex-start;
-  margin-top: 16px;
-  background: transparent;
-  border: 0;
-  padding: 0 0 3px;
-  font-family: var(--sans);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--green-800);
-  cursor: pointer;
-  border-bottom: 2px solid var(--gold);
-  transition:
-    color 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.more:hover,
-.more:focus-visible {
-  color: var(--green-900);
-  border-bottom-color: var(--green-800);
-}
-
-/* ---------- PLANNING ---------- */
-.planning-grid {
+.r-tarifs-cote {
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: 56px;
+  order: 2;
+}
+.r-tarifs-txt {
+  order: 1;
+}
+
+/* Bouton d'inscription et pile de galets sur la même ligne, comme le
+   bouton « Découvrir Zenway » et sa propre pile en pied de « Nos
+   pratiques » (.r-pratiques-pied) : la pierre vient border l'action
+   plutôt que la surmonter. La marge qui séparait .r-ha-actions de la
+   liste de points au-dessus vit ici plutôt que sur .r-ha-actions : posée
+   sur l'enfant flex, elle décalerait le bouton sans bouger les galets. */
+.r-ha-row {
+  display: flex;
   align-items: center;
+  gap: clamp(18px, 3vw, 32px);
+  margin-top: 30px;
+}
+.r-ha-note {
+  margin: 12px 0 0;
+  font-size: 0.85rem;
+  color: var(--r-ink-soft);
+}
+.r-ha-note a {
+  color: var(--r-sage-deep);
 }
 
-.planning-copy p {
-  max-width: 40ch;
-  color: rgba(238, 247, 240, 0.85);
-}
-
-.gold-note {
-  color: var(--gold-soft);
-  font-weight: 600;
-  margin-bottom: 26px;
-}
-
-#scheduleList {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.slot {
-  padding: 44px 48px;
-}
-
-.slot-day {
-  font-family: var(--serif);
-  font-size: 2.1rem;
-  color: var(--green-700);
-  margin: 0 0 4px;
-  line-height: 1;
-}
-
-.slot-time {
-  font-family: var(--serif);
-  font-size: clamp(2.3rem, 4.6vw, 3.4rem);
-  color: var(--green-900);
-  line-height: 1;
-  margin: 0 0 20px;
-}
-
-.slot-label {
-  font-weight: 700;
-  color: var(--ink);
-  margin-bottom: 5px;
-}
-
-.slot-place {
-  color: var(--ink-soft);
-  font-size: 0.95rem;
-  margin-bottom: 14px;
-}
-
-.slot-start {
-  margin: 0;
-  font-size: 0.84rem;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--green-700);
-  font-weight: 700;
-}
-
-/* ---------- POUR QUI ---------- */
-.pourqui-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 52px;
-  align-items: start;
-}
-
-.pourqui-grid p {
-  max-width: 46ch;
-}
-
-.bea {
-  margin: 30px 0 0;
-}
-
-.bea img {
-  width: 100%;
-  max-width: 320px;
-  height: auto;
-}
-
-.bea figcaption {
-  font-size: 0.8rem;
-  color: var(--ink-soft);
-  margin-top: 8px;
-}
-
-.gains {
-  margin: 0;
-}
-
-.gains > div {
-  padding: 20px 0;
-  border-bottom: 1px solid rgba(27, 67, 50, 0.14);
-}
-
-.gains > div:first-child {
-  padding-top: 0;
-}
-
-.gains dt {
-  font-family: var(--serif);
-  font-size: 1.4rem;
-  color: var(--green-800);
-  margin-bottom: 6px;
-}
-
-.gains dd {
-  margin: 0;
-  color: var(--ink-soft);
-  font-size: 0.98rem;
-}
-
-/* ---------- ÉVÉNEMENTS À VENIR ---------- */
-.events-lede {
-  max-width: 56ch;
-  color: rgba(238, 247, 240, 0.85);
-  margin-bottom: 38px;
-}
-
-.events-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
-}
-
-.event-card {
-  position: relative;
-}
-
-/* Neutralise le padding de `.sheet` (y compris sa version responsive,
-   voir responsive.css) : la carte gère elle-même sa mise en page pour
-   laisser l'image, quand il y en a une, s'étendre bord à bord. */
-.event-card.sheet {
-  padding: 0;
-}
-
-.event-card-image {
-  display: block;
-  width: 100%;
-  height: 190px;
-  object-fit: cover;
-  background: var(--mint-soft);
-}
-
-.event-card-body {
-  padding: 34px 32px;
-}
-
-.event-card-image-btn {
-  display: block;
-  width: 100%;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-}
-
-/* La fenêtre d'agrandissement reprend le chrome de .detail-modal
-   (discipline-modal.css) : même fond assombri, même animation, même
-   croix de fermeture — une seule image, sans colonne de texte. */
-.detail-modal.event-image-modal {
-  width: min(720px, 92vw);
-}
-
-/* Flex plutôt qu'un simple `width: 100%` sur l'image : une image
-   portrait, plus haute que large, doit rester centrée dans les deux
-   sens une fois limitée par `max-height`, pas seulement calée à
-   gauche par la largeur du cadre. */
-.event-image-modal .modal-scroll {
-  padding: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.event-image-modal-img {
-  display: block;
-  max-width: 100%;
-  max-height: 80vh;
-  border-radius: 16px;
-}
-
-.event-card-badge {
-  position: absolute;
-  top: 0;
-  right: 32px;
-  z-index: 1;
-  transform: translateY(-50%);
-  background: var(--gold);
-  color: var(--green-900);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 5px 12px;
-}
-
-.event-card-tag {
-  font-size: 0.65rem;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 12px;
-}
-
-.event-card h3 {
-  font-size: 1.4rem;
-  margin-bottom: 10px;
-}
-
-.event-card-date {
-  font-size: 0.86rem;
-  font-weight: 700;
-  color: var(--green-700);
-  margin-bottom: 12px;
-}
-
-.event-card-desc {
-  font-size: 0.94rem;
-  color: var(--ink-soft);
-  margin: 0;
-}
-
-.events-empty {
-  color: rgba(238, 247, 240, 0.75);
-}
-
-.events-empty p {
-  max-width: 56ch;
-  margin: 0;
-}
-
-/* ---------- INSCRIPTION ---------- */
-.insc-single {
-  max-width: 720px;
-  margin: 0 auto;
-}
-
-.ha-action-card {
-  margin: 22px 0 20px;
-  text-align: center;
-}
-
-.secure {
-  font-size: 0.84rem;
-  color: var(--ink-soft);
-  margin: 16px 0 0;
-}
-
-.secure a {
-  color: var(--green-700);
-  text-decoration: underline;
-  white-space: nowrap;
-}
-
-.ha-widget-wrap {
-  margin: -26px -26px 22px;
+.r-ha-widget {
+  border: 1px solid var(--r-line);
+  border-radius: var(--r-radius);
+  background: #fff;
   overflow: hidden;
-}
-
-.insc-recap {
-  font-size: 0.9rem;
-  color: var(--ink-soft);
-  margin: 0;
-}
-
-.ha-widget-placeholder {
-  margin: 0;
-  padding: 22px;
-  background: var(--paper);
-  color: var(--ink-soft);
-  font-size: 0.9rem;
-  text-align: center;
-  border: 1px dashed rgba(201, 168, 106, 0.55);
-}
-
-/* Pendant le chargement de l'iframe HelloAsso */
-.ha-widget-loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
   min-height: 220px;
-  border-style: solid;
+  display: grid;
+}
+.r-ha-placeholder {
+  margin: 0;
+  padding: 30px 22px;
+  place-self: center;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--r-ink-soft);
+}
+/* 760px, pas une estimation : le formulaire HelloAsso (activité, don,
+   pied « Propulsé par ») mesure 714px de haut une fois posé à la largeur
+   réelle de cette colonne (~420px sur desktop) — en dessous, l'iframe fait
+   défiler sa propre page. 620px le coupait avant la fin. */
+.r-ha-widget iframe {
+  width: 100%;
+  min-height: 760px;
+  border: 0;
 }
 
-.ha-widget-loading::before {
-  content: "";
-  width: 26px;
-  height: 26px;
-  border: 3px solid var(--mint);
-  border-top-color: var(--green-700);
-  border-radius: 50%;
-  animation: ha-spin 0.8s linear infinite;
+/* Photo plutôt que dessin, ici seulement : la pile de galets au trait
+   (orn-galets.svg) reste en place dans « Nos pratiques » (.r-galets-mini),
+   pas de fichier partagé à faire diverger. Pas de <picture> possible pour
+   un fond CSS — un seul format suffit : le webp couvre tous les
+   navigateurs ciblés par le site, sans le mode dégradé qu'exigerait un
+   support IE inexistant ici. Desktop uniquement : masquée sous 880px
+   (assets/css/responsive.css) plutôt que réduite — .r-ha-row n'a alors
+   plus qu'un seul enfant visible et se comporte comme un simple bloc.
+   Étant purement décorative (aria-hidden), sa disparition ne retire rien
+   au contenu. */
+.r-galets-grand {
+  flex: 0 0 auto;
+  width: 96px;
+  aspect-ratio: 480 / 524;
+  background: url("../img/adhesion/galets-ombre.webp") no-repeat center/contain;
 }
 
-@keyframes ha-spin {
-  to {
-    transform: rotate(360deg);
+/* ============================================================
+   ÉVÉNEMENTS
+   ============================================================ */
+
+.r-evts {
+  background: var(--r-cream);
+}
+.r-evts-liste {
+  margin-top: clamp(40px, 5vw, 62px);
+  max-width: 820px;
+  margin-inline: auto;
+  display: grid;
+  gap: 4px;
+}
+.r-evt {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+  padding: 24px 4px;
+  border-top: 1px solid var(--r-line);
+}
+.r-evt:last-child {
+  border-bottom: 1px solid var(--r-line);
+}
+.r-evt-ico {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--r-gold-veil);
+  color: #8a6f36;
+}
+.r-evt-ico svg {
+  width: 24px;
+  height: 24px;
+}
+.r-evt h3 {
+  margin: 0;
+  font-size: 1.06rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--r-ink);
+}
+.r-evt-date {
+  color: var(--r-sage-deep);
+}
+.r-evt p {
+  margin: 5px 0 0;
+  font-size: 0.94rem;
+  color: var(--r-ink-soft);
+}
+/* L'image que Béatrice joint depuis l'admin. Vignette discrète : la fiche
+   reste une ligne de liste, l'image ne la transforme pas en carte. */
+.r-evt-image {
+  display: block;
+  margin: 12px 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: none;
+  cursor: zoom-in;
+  line-height: 0;
+}
+.r-evt-image img {
+  display: block;
+  width: 100%;
+  max-width: 260px;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.r-evt-image:hover img {
+  transform: scale(1.04);
+}
+@media (prefers-reduced-motion: reduce) {
+  .r-evt-image img,
+  .r-med-plus {
+    transition: none;
   }
 }
 
-.ha-widget-frame {
-  display: block;
-  width: 100%;
-  height: 750px;
-  border: none;
-  background: var(--paper);
+.r-evt-tag {
+  display: inline-block;
+  margin: 10px 0 0;
+  padding: 3px 11px;
+  border-radius: 999px;
+  background: var(--r-sage-veil);
+  color: var(--r-sage-deep);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
-
-/* ---------- INFOS ---------- */
-.infos-grid {
-  display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: 52px;
-  align-items: start;
+.r-evts-vide {
+  text-align: center;
+  color: var(--r-ink-soft);
+  margin: 34px 0 0;
 }
-
-.info-list {
+.r-evts-liste:empty {
+  display: none;
   margin: 0;
 }
 
-.info-list > div {
-  display: grid;
-  grid-template-columns: 11em 1fr;
-  gap: 18px;
-  padding: 17px 0;
-  border-bottom: 1px solid rgba(216, 243, 220, 0.2);
+/* ============================================================
+   PLANNING
+   ============================================================ */
+
+.r-planning {
+  background: linear-gradient(180deg, var(--r-cream-2) 0%, #ece5d6 100%);
+}
+.r-planning-bambou {
+  position: absolute;
+  right: -40px;
+  top: -30px;
+  width: 300px;
+  height: 118%;
+  background: url("../img/ornements/orn-bambou.svg") no-repeat right top/auto 100%;
+  opacity: 0.24;
+  pointer-events: none;
+}
+.r-planning-carte {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(38px, 4.5vw, 58px);
+  background: #fffdf9;
+  border-radius: var(--r-radius);
+  box-shadow: var(--r-shadow);
+  overflow: hidden;
+}
+.r-planning-scroll {
+  overflow-x: auto;
+}
+.r-grille {
+  width: 100%;
+  min-width: 620px;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.r-grille th,
+.r-grille td {
+  border: 1px solid #e8e0cf;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+}
+.r-grille thead td:first-child {
+  background: #faf6ee;
+  border-top: 0;
+  border-left: 0;
+}
+.r-grille thead th {
+  padding: 16px 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--r-ink-soft);
+  background: #faf6ee;
+  border-top: 0;
+}
+/* En disposition fixe, ce sont les cellules de la première rangée qui
+   fixent les colonnes : la largeur de l'horaire se pose donc aussi sur
+   l'angle vide de l'en-tête, sinon il prend une part égale aux jours. */
+.r-grille thead td:first-child,
+.r-grille tbody th {
+  width: 132px;
+  padding: 18px 12px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--r-ink-soft);
+  background: #faf6ee;
+  white-space: nowrap;
+  border-left: 0;
+}
+.r-grille td {
+  height: 76px;
+  padding: 7px;
+}
+.r-creneau {
+  display: block;
+  height: 100%;
+  padding: 10px 8px;
+  border-radius: 10px;
+  background: var(--r-sage-veil);
+  box-shadow: inset 0 0 0 1px rgb(93 115 88 / 22%);
+}
+.r-creneau strong {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--r-sage-deep);
+}
+.r-creneau span {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--r-ink-soft);
+}
+.r-creneau-or {
+  background: var(--r-gold-veil);
+  box-shadow: inset 0 0 0 1px rgb(201 168 106 / 45%);
+}
+.r-creneau-or strong {
+  color: #7d6229;
 }
 
-/* Le display ci-dessus l'emporte sur la règle [hidden] du navigateur :
-   sans cette ligne, masquer une ligne depuis l'admin (« Prochain
-   rendez-vous » laissé vide, voir assets/js/infos-pratiques.js) ne
-   ferait rien et laisserait un libellé sans valeur. */
-.info-list > div[hidden] {
+/* La grille demande 620 px pour ses colonnes : sous cette largeur elle
+   n'existe plus qu'au prix d'un défilement horizontal, pour une semaine
+   dont presque toutes les cases sont vides. La même donnée se lit alors
+   en liste, une séance par ligne — la bascule est dans responsive.css.
+   Les deux formes coexistent dans le HTML, une seule est affichée : le
+   lecteur d'écran n'en rencontre jamais qu'une. */
+.r-seances {
+  display: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.r-seance {
+  padding: 24px 22px;
+  border-top: 1px solid #e8e0cf;
+}
+.r-seance:first-child {
+  border-top: 0;
+}
+.r-seance-jour {
+  display: inline-block;
+  margin: 0;
+  padding: 5px 13px;
+  border-radius: 999px;
+  background: var(--r-sage-veil);
+  box-shadow: inset 0 0 0 1px rgb(93 115 88 / 22%);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--r-sage-deep);
+}
+.r-seance-heure {
+  margin: 12px 0 0;
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  line-height: 1.15;
+  color: var(--r-ink);
+}
+.r-seance-lieu {
+  margin: 6px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--r-ink-soft);
+}
+.r-seance-lieu strong {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.76rem;
+  color: var(--r-sage-deep);
+}
+.r-seance-lieu span {
+  display: block;
+}
+
+.r-planning-note {
+  position: relative;
+  z-index: 2;
+  margin: 22px auto 0;
+  max-width: 46rem;
+  text-align: center;
+  font-size: 0.92rem;
+  color: var(--r-ink-soft);
+}
+
+/* ============================================================
+   INFOS PRATIQUES
+   ============================================================ */
+
+.r-infos {
+  background: radial-gradient(70% 70% at 20% 0%, #3b4345 0%, transparent 60%), var(--r-dark);
+}
+.r-infos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 2.6vw, 34px);
+  margin-top: clamp(40px, 5vw, 62px);
+}
+.r-carte {
+  padding: 30px 32px;
+  border-radius: var(--r-radius);
+  background: var(--r-dark-raise);
+  box-shadow: inset 0 0 0 1px var(--r-line-dark);
+}
+.r-carte h3 {
+  margin: 0 0 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--r-bone);
+}
+.r-ligne {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 12px 0;
+}
+.r-ligne[hidden] {
   display: none;
 }
-
-.info-list dt {
-  font-size: 0.7rem;
-  letter-spacing: 0.19em;
+.r-ligne + .r-ligne {
+  border-top: 1px solid var(--r-line-dark);
+}
+.r-ligne-ico {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: rgb(233 226 211 / 8%);
+  color: var(--r-gold);
+}
+.r-ligne-ico svg {
+  width: 19px;
+  height: 19px;
+}
+.r-ligne-txt {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--r-bone);
+}
+.r-ligne-txt a {
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+.r-ligne-txt a:hover {
+  border-bottom-color: var(--r-gold);
+}
+.r-ligne-lab {
+  display: block;
+  font-size: 0.73rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--gold-soft);
-  padding-top: 4px;
+  color: var(--r-bone-soft);
+  margin-bottom: 3px;
 }
-
-.info-list dd {
-  margin: 0;
-  color: var(--paper);
+.r-map {
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: inset 0 0 0 1px var(--r-line-dark);
+  background: #2f3638;
 }
-
-.info-list a {
-  color: var(--paper);
-  text-decoration-color: rgba(201, 168, 106, 0.7);
-  text-underline-offset: 4px;
-}
-
-.info-list a:hover {
-  color: var(--gold);
-}
-
-.map-card iframe {
+.r-map iframe {
   display: block;
   width: 100%;
-  height: 400px;
+  height: 212px;
   border: 0;
-  filter: grayscale(0.35) contrast(1.05);
-}
-
-/* ---------- LEVÉE FINALE ---------- */
-.close {
-  text-align: center;
-  padding: 118px 0 128px;
-}
-
-.close-line {
-  font-family: var(--serif);
-  font-size: clamp(1.9rem, 4.4vw, 3.2rem);
-  color: var(--paper);
-  max-width: 20ch;
-  margin: 0 auto 36px;
-  line-height: 1.18;
-}
-
-.close-actions {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
+  filter: saturate(0.86);
 }

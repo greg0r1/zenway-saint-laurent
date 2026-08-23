@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
     const supabase = getSupabase();
     const { data, error } = await supabase
       .from('infos_pratiques')
-      .select('address, map_url, parking, phone, email, next_session')
+      .select('address, map_url, parking, phone, email')
       .order('created_at', { ascending: true })
       .limit(1)
       .maybeSingle();
@@ -43,8 +43,8 @@ module.exports = async (req, res) => {
     if (!email) return;
 
     const supabase = getSupabase();
-    const { address, map_url, parking, phone, email: contactEmail, next_session } = req.body || {};
-    const payload = { address, map_url, parking, phone, email: contactEmail, next_session };
+    const { address, map_url, parking, phone, email: contactEmail } = req.body || {};
+    const payload = { address, map_url, parking, phone, email: contactEmail };
 
     const vide = champObligatoireInvalide(payload);
     if (vide) {
@@ -95,7 +95,6 @@ module.exports = async (req, res) => {
     if (typeof parking === 'string') updates.parking = parking.trim();
     if (typeof phone === 'string') updates.phone = phone.trim();
     if (typeof contactEmail === 'string') updates.email = contactEmail.trim();
-    if (next_session !== undefined) updates.next_session = next_session || '';
 
     const { data, error } = await supabase
       .from('infos_pratiques')

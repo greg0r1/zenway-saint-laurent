@@ -8,13 +8,9 @@ const LIMITS = {
   map_url: 300,
   parking: 120,
   phone: 30,
-  email: 120,
-  next_session: 120
+  email: 120
 };
 
-// next_session est facultatif : une valeur vide fait disparaître la
-// ligne « Prochain rendez-vous » côté site public plutôt que d'y
-// afficher un texte creux.
 const OBLIGATOIRES = ['address', 'map_url', 'parking', 'phone', 'email'];
 
 function champTropLong(payload) {

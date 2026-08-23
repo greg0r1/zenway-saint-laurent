@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 320" fill="none" stroke="#e7e0d0" stroke-width="1" stroke-linecap="round">
+  <!-- Ondes concentriques du pied de page. Décoratif. -->
+  <g opacity=".5">
+    <circle cx="392" cy="152" r="34"/><circle cx="392" cy="152" r="56"/><circle cx="392" cy="152" r="78"/>
+    <circle cx="392" cy="152" r="100"/><circle cx="392" cy="152" r="122"/><circle cx="392" cy="152" r="144"/>
+  </g>
+  <g opacity=".34">
+    <path d="M392 152c0-22 18-40 40-40s40 18 40 40-18 40-40 40-40-18-40-40 18-58 58-58 68 26 68 58"/>
+    <path d="M392 152c0 22-18 40-40 40s-40-18-40-40 18-40 40-40 40 18 40 40-18 58-58 58-68-26-68-58"/>
+  </g>
+  <g opacity=".26">
+    <circle cx="140" cy="188" r="26"/><circle cx="140" cy="188" r="44"/><circle cx="140" cy="188" r="62"/>
+    <circle cx="140" cy="188" r="80"/>
+  </g>
+  <g opacity=".2">
+    <path d="M0 96c60 0 96-28 148-28s86 26 146 26 96-30 152-30"/>
+    <path d="M0 132c60 0 96-28 148-28s86 26 146 26 96-30 152-30"/>
+  </g>
+</svg>

@@ -1,21 +1,27 @@
 ---
 name: Zenway Saint-Laurent-du-Var
-description: Un site vitrine posé comme une feuille sur un bain d'eau verte, et une console d'administration classique qui en partage la palette et les caractères.
+description: Un site vitrine en bandes alternées de crème et d'ardoise chaude, ponctué d'or et de sauge, et une console d'administration classique qui en partage les caractères.
 colors:
   gold: "#c9a86a"
-  gold-soft: "#e7d6ad"
-  teal: "#2f8f7f"
-  teal-bright: "#36a18c"
+  gold-warm: "#d8bb85"
+  gold-veil: "#f0e4c9"
+  sage: "#5d7358"
+  sage-deep: "#4b5e47"
+  sage-light: "#9fb298"
+  sage-veil: "#dfe7db"
+  dark: "#343b3d"
+  dark-deep: "#2b3133"
+  dark-raise: "#3e4649"
+  cream: "#f8f4ec"
+  cream-2: "#f1ebdf"
+  bone: "#e9e2d3"
+  bone-soft: "#bcb6a8"
+  line: "#ddd4c1"
+  line-strong: "#cabfa7"
+  ink: "#2b332f"
+  ink-soft: "#5f6a62"
   green-900: "#1b4332"
-  green-950: "#17392b"
-  green-800: "#22543e"
-  green-700: "#2d6a4f"
-  mint: "#d8f3dc"
-  mint-soft: "#eef7f0"
-  beige: "#f5f1e8"
-  paper: "#faf8f2"
-  ink: "#243029"
-  ink-soft: "#4b5a51"
+  teal: "#2f8f7f"
   danger: "#a3341f"
   danger-bg: "#fbeae6"
   danger-border: "#eec3b8"
@@ -179,44 +185,50 @@ components:
 
 Le projet porte **deux surfaces au registre volontairement différent**, tenues ensemble par une seule palette, trois caractères et une même discipline de tracé.
 
-**Le site public — « la feuille levée sur le bain ».** Le fond n'est jamais un aplat : c'est un bain, trois dégradés radiaux de verts profonds superposés et fixés au viewport, qui donnent au fond une épaisseur d'eau plutôt qu'une couleur. Sur ce bain, le contenu arrive comme une feuille de papier chaud posée à la surface, angles vifs, avec une ombre longue et très diffuse qui la fait flotter sans jamais la découper. La discipline que le site présente fusionne quatre pratiques en un seul enchaînement continu ; le système visuel se comporte de la même façon, une seule famille de gestes plutôt qu'un assemblage de composants empruntés.
+**Le site public — « les bandes qui alternent ».** La page ne pose pas de cartes sur un fond : elle avance par bandes pleine largeur qui alternent le crème (`#f8f4ec`) et l'ardoise chaude (`#343b3d`), sans jamais rien encadrer. Le contenu est posé à même la bande, tenu par des filets de 1 px et par l'espace ; l'ombre ne sert qu'aux médaillons et aux médias, jamais à découper un bloc de texte. Chaque bande porte un ou deux ornements au trait, dessinés pour ce site — bambou, feuillage, courbes de niveau, vigne dorée, ensō, volutes — et une illustration en matière, la petite pile de galets du pied de « Nos pratiques ». La grande pile, dans « Adhésion & inscription », est une exception délibérée : une vraie photo plutôt qu'un dessin, seule photo purement décorative du site (les autres photos — Béatrice, les quatre pratiques, les fiches disciplines — montrent toutes un fait, jamais un décor). La discipline que le site présente fusionne quatre pratiques en un seul enchaînement continu ; la page fait de même, une bande coulant dans la suivante par une coupure courbe plutôt qu'une ligne droite.
 
-**L'administration — la console, jouée droit.** `/admin` ne cherche pas à prolonger la métaphore du bain : c'est un outil, et il prend la forme que tout le monde reconnaît dans un back-office de site — barre latérale de navigation à gauche, pleine hauteur, qui ne bouge jamais ; zone de travail claire à droite ; une page par section. La barre latérale reste vert profond dans les deux thèmes : c'est le seul point où l'identité du site s'impose à l'outil. Le reste emprunte le vocabulaire attendu d'un admin — tableaux à filets fins, onglets soulignés, pastilles d'état, panneau latéral — au niveau de finition d'un admin de site éditorial, sans ironie ni signature glissée en douce.
+**L'administration — la console, jouée droit.** `/admin` ne cherche pas à prolonger les bandes du site : c'est un outil, et il prend la forme que tout le monde reconnaît dans un back-office de site — barre latérale de navigation à gauche, pleine hauteur, qui ne bouge jamais ; zone de travail claire à droite ; une page par section. La barre latérale reste vert profond dans les deux thèmes — un vert que le site public n'emploie plus depuis la refonte, et que l'admin garde comme son ancre propre. Le reste emprunte le vocabulaire attendu d'un admin — tableaux à filets fins, onglets soulignés, pastilles d'état, panneau latéral — au niveau de finition d'un admin de site éditorial, sans ironie ni signature glissée en douce.
 
 Le public du site est majoritairement senior : la densité reste basse, les cibles tactiles larges, et aucune information n'est portée par la couleur seule. L'administration a une seule utilisatrice non technique : chaque page y dit en toutes lettres ce qu'elle commande sur le site public et ce qui est en ligne à l'instant.
 
 **Key Characteristics :**
 
-- Côté site : un fond en profondeur d'eau, du papier à angles vifs, une ombre longue comme seule source de relief
+- Côté site : des bandes pleine largeur qui alternent crème et ardoise, des coupures courbes entre elles, des ornements au trait dessinés pour ce site
 - Côté admin : une charpente de console classique, des filets de 1 px, deux thèmes complets
-- L'or rare et décisif dans les deux mondes ; le teal réservé à l'attention et au focus
+- L'or rare et décisif dans les deux mondes ; la sauge pour l'action de second rang côté site, le teal pour le focus côté admin
 - Cormorant pour les titres, DM Sans pour tout le reste — deux polices, pas une de plus
 - Des icônes tracées, jamais un glyphe unicode ni un emoji
 - L'état écrit avant d'être coloré
 
 ## Colors
 
-Une palette de forêt et d'eau, réchauffée par un or unique et un papier crème ; aucune couleur froide, aucun gris neutre.
+Deux mondes de couleur qui se partagent un or. Le site public vit en crème et ardoise chaude ; l'administration garde la palette de forêt d'origine. Les jetons du site sont préfixés `--r-*` et définis en tête de `assets/css/base.css`.
 
 ### Primary
 
-- **Or Sanctuaire** (`#c9a86a`) : la seule couleur de décision. Bouton d'action principale, état « mis en avant dans le bandeau », soulignement de l'onglet courant, icône de l'entrée de menu active. Jamais décorative.
-- **Or Sanctuaire Clair** (`#e7d6ad`) : le survol de l'or, et les sur-titres sur fond vert.
+- **Or Sanctuaire** (`#c9a86a`) : la seule couleur de décision, et le seul point commun des deux surfaces. Sur le site : le bouton d'appel, le cerclage des médaillons, la vigne et les volutes, les puces de liste. Dans l'admin : l'action principale et l'état « visible par le public ». Jamais décoratif au point de perdre son sens.
+- **Or Chaud** (`#d8bb85`) : le survol de l'or, et le second point des dégradés dorés.
+- **Or Voile** (`#f0e4c9`) : les aplats d'or très clairs sur fond crème — fond d'icône d'événement, points de lumière des ornements.
 
 ### Secondary
 
-- **Teal Sanctuaire** (`#2f8f7f`) : l'attention sans l'alarme — icônes de libellé, liens internes, anneau de focus des champs. L'admin en clair l'assombrit à `#26786a` pour tenir le contraste sur blanc, et l'éclaircit à `#4bbba3` en thème sombre.
-- **Teal Lumineux** (`#36a18c`) : le survol du teal sur le site public.
+- **Sauge** (`#5d7358`) : la seule couleur végétale du site public, réservée à l'action de second rang — le bouton d'inscription du hero, le bandeau d'événement, les icônes de libellé.
+- **Sauge Profonde** (`#4b5e47`) : le survol de la sauge, et le texte de sauge sur fond clair.
+- **Sauge Claire** (`#9fb298`) et **Voile de Sauge** (`#dfe7db`) : la sauge sur fond sombre, et les pastilles de sauge sur fond clair.
+- **Teal Sanctuaire** (`#2f8f7f`) : n'existe plus que dans l'administration — icônes de libellé, liens internes, anneau de focus. Assombri à `#26786a` en thème clair, éclairci à `#4bbba3` en sombre.
 
 ### Neutral
 
-- **Vert Forêt Profonde** (`#1b4332`) : le corps du bain, la barre latérale de l'admin en thème clair, et la couleur des titres sur surface claire. C'est la couleur de base du produit.
-- **Vert Abyssal** (`#17392b`) : le second point du dégradé de fond, qui creuse le bain.
-- **Vert Mousse** (`#22543e`) et **Vert Forêt** (`#2d6a4f`) : dégradés et accents du site public.
-- **Menthe** (`#d8f3dc`) et **Menthe Douce** (`#eef7f0`) : le texte et les filets sur fond sombre, les fonds clairs du site.
-- **Beige Sanctuaire** (`#f5f1e8`) : fonds de section clairs du site public.
-- **Papier** (`#faf8f2`) : la matière des surfaces de contenu du site, et l'en-tête de tableau dans l'admin claire.
-- **Encre** (`#243029`) et **Encre Douce** (`#4b5a51`) : texte principal et secondaire sur clair.
+- **Crème** (`#f8f4ec`) et **Crème Chaud** (`#f1ebdf`) : les bandes claires du site, et la matière des fiches disciplines.
+- **Ardoise Chaude** (`#343b3d`), **Ardoise Profonde** (`#2b3133`), **Ardoise Levée** (`#3e4649`) : les bandes sombres, leur creux et leur relief. Ce ne sont pas des gris : ils tirent tous vers le vert.
+- **Os** (`#e9e2d3`) et **Os Doux** (`#bcb6a8`) : texte principal et secondaire sur bande sombre.
+- **Encre** (`#2b332f`) et **Encre Douce** (`#5f6a62`) : texte principal et secondaire sur bande claire.
+- **Filet** (`#ddd4c1`) et **Filet Marqué** (`#cabfa7`) : les deux poids de trait sur clair. Sur sombre, ce sont `--r-line-dark` et `--r-line-dark-strong`, l'os à 16 % et 28 %.
+- **Vert Forêt Profonde** (`#1b4332`) : ne subsiste que comme ancre de l'administration (barre latérale) et couleur de thème du navigateur.
+
+### La pierre des médaillons
+
+Quatre jetons (`--r-anneau-haut` `#c1b8a6`, `--r-anneau-corps` `#8e887c`, `--r-anneau-bas` `#7b7060`, `--r-anneau-ombre` `#635b50`) composent le dégradé de pierre qui cercle les quatre médaillons de « Nos pratiques ». Ils n'existent que pour cet usage : c'est le seul endroit du site où une couleur imite une matière plutôt que de désigner un rôle.
 
 ### Tertiary
 
@@ -249,8 +261,9 @@ Les deux sont auto-hébergées en woff2 dans `assets/fonts/` (sous-ensembles lat
 
 ### Hierarchy
 
-- **Display** (400, `clamp(2.2rem, 3.4vw, 3.2rem)`, 1.08) : le H1 du hero, une seule fois par page.
-- **Headline** (400, `clamp(2.1rem, 4.2vw, 3.2rem)`, 1.08) : les H2 de section du site public.
+- **Display** (DM Sans 300, `clamp(2rem, 4.6vw, 3.65rem)`, capitales, `0.01em`) : le H1 du hero, une seule fois par page. C'est la seule exception à la règle du serif en titre — le hero parle en capitales larges, pas en serif.
+- **Signature** (Cormorant 400 italique, `clamp(1.8rem, 3vw, 2.5rem)`) : « Le Zenway », sous le H1. Une ligne par page, jamais deux.
+- **Headline** (Cormorant 400, `clamp(1.9rem, 3.4vw, 2.9rem)`, capitales, `0.02em`) : les H2 de section du site public.
 - **Page title** (400, `1.85rem`, 1.1) : le titre de page dans l'en-tête de l'admin. Taille fixe, jamais fluide ; ramenée à `1.5rem` sous 900 px et `1.4rem` sous 700 px.
 - **Panel title** (400, `1.45rem`, 1.15) : le titre du panneau latéral.
 - **Body** (400, `1.06rem`, 1.7) : le texte courant du site public. Mesure de 62 à 68 caractères.
@@ -263,7 +276,7 @@ Les deux sont auto-hébergées en woff2 dans `assets/fonts/` (sous-ensembles lat
 - **Section label** (700, `0.8rem`, `0.09em`, capitales) : le titre d'un bloc de page.
 - **Overline** (700, `0.74rem`, `0.09em`, capitales) : en-têtes de colonne, compteurs, chapeau du panneau. **Réservé à ces emplois**, jamais au-dessus d'un titre de page.
 - **Overline XS** (400, `0.7rem`, `0.1em`, capitales) : la seule ligne en dessous — le lieu sous le mot « Administration » dans la barre latérale.
-- **Accent manuscrit** (400, `1.5rem`) : une phrase, une ligne, site public uniquement.
+- **Eyebrow** (DM Sans 400, `0.82rem`, `0.18em`, capitales) : le chapeau au-dessus du H1 du hero, et lui seul sur le site public.
 
 ### Named Rules
 
@@ -277,7 +290,11 @@ Les deux sont auto-hébergées en woff2 dans `assets/fonts/` (sous-ensembles lat
 
 ### Le site public
 
-Un conteneur de 1180 px (`--maxw`) avec une gouttière de 30 px, ramenée à 20 px sous 980 px. Les sections respirent à 74–110 px de padding vertical et passent en colonne unique à 980 px. Ruptures : **1080 px**, **980 px** (colonne unique), **680 px** (menu burger).
+Un conteneur de 1180 px (`--r-maxw`) avec une gouttière de 28 px (`--r-gut`). La page n'a pas de fond propre : chaque section porte le sien, en bande pleine largeur, et le conteneur ne fait que borner le texte. Trois ruptures :
+
+- **1040 px** — les médaillons passent de quatre à deux colonnes, les grilles à deux colonnes se resserrent.
+- **880 px** — menu burger, tiroir plein écran, colonne unique pour les grilles de section. Les nappes d'ornement s'effacent en opacité plutôt que de disparaître.
+- **620 px** — les médaillons passent à une colonne ; les ornements qui sont des compositions en largeur (la vigne des médaillons, les volutes du bas de section, la vague de coupure du hero) sont retirés : à cette largeur ils se resserrent en nœuds au lieu de se lire.
 
 ### L'administration
 
@@ -297,13 +314,15 @@ Trois ruptures :
 
 Les deux surfaces n'ont pas le même relief, et c'est délibéré.
 
-**Le site public est posé, pas empilé.** Un seul geste : une ombre très décalée vers le bas, très floue et très rentrée, qui fait flotter le papier au-dessus du bain sans dessiner de contour.
+**Le site public est posé à même la bande.** Le relief n'y sert qu'à trois choses : les médaillons de pratique, les médias (vidéos, carte, fiches disciplines) et le formulaire d'adhésion. Tout le reste — texte, listes, lignes d'événement, grille de planning — est tenu par des filets de 1 px et par l'espace. Une ombre sous un paragraphe n'appartient pas à ce système.
 
 **L'administration est plate, tenue par des filets.** Une surface se distingue par sa bordure de 1 px, pas par son élévation. L'ombre y est une confirmation discrète à deux couches, jamais un effet.
 
 ### Shadow Vocabulary
 
-- **La feuille levée** (`0 30px 70px -34px rgba(0, 0, 0, 0.85)`) — site public : toute surface papier posée sur le bain.
+- **Le posé léger** (`--r-shadow-sm`, `0 2px 6px rgb(43 51 47 / 6%), 0 8px 20px rgb(43 51 47 / 7%)`) — site public, bande claire : cartes vidéo, encarts.
+- **Le posé** (`--r-shadow`, `0 4px 12px rgb(43 51 47 / 8%), 0 18px 44px rgb(43 51 47 / 10%)`) — site public, bande claire : fiches disciplines, carte de planning.
+- **Le posé sur sombre** (`--r-shadow-dark`, `0 4px 12px rgb(12 16 15 / 26%), 0 22px 52px rgb(12 16 15 / 30%)`) — site public, bande sombre : les médaillons de pratique. Sur fond sombre l'ombre seule ne détache rien : les médaillons y ajoutent leur cerclage de pierre.
 - **Le posé de console** (`--ad-shadow`, `0 1px 2px rgba(27,67,50,.05), 0 8px 24px -18px rgba(27,67,50,.4)`) — admin : blocs, tableaux, rangées. La première couche assoit, la seconde suggère.
 - **Le flottant** (`--ad-shadow-lg`, `0 18px 48px -24px rgba(19,48,35,.45)`) — admin : le panneau latéral, le tiroir de menu, la carte de connexion, la bannière de confirmation.
 - **Le filet interne** (`inset 0 0 0 1px …`) : la façon de cerner une pastille ou un encart sans lui donner de bordure.
@@ -318,27 +337,38 @@ Les deux surfaces n'ont pas le même relief, et c'est délibéré.
 
 ## Shapes
 
-Les surfaces de contenu n'ont **aucun arrondi** : blocs, tableaux, encarts, états vides, carte de connexion et panneau ont des angles vifs. Les arrondis sont réservés aux commandes et aux compteurs.
+Les deux surfaces divergent ici, et c'est ce qui les distingue le plus vite. **Le site public arrondit** : ses commandes sont des gélules, ses médias et ses encarts ont 22 px de rayon (`--r-radius`), ses médaillons sont des cercles parfaits. **L'administration garde les angles vifs** : une surface de contenu y a toujours 0 de rayon.
 
-- **0** — toute surface de contenu ; c'est la forme signature.
-- **2 px** — pastilles d'état, étiquettes, et les boutons du site public.
-- **3 px** — boutons de l'admin, champs de saisie, entrées de menu, boutons-icônes, alertes.
+Côté site public :
+
+- **50 %** — les médaillons de pratique ; c'est la forme signature de la page.
+- **999 px** — tous les boutons, les pastilles et les étiquettes.
+- **22 px** (`--r-radius`) — médias, fiches disciplines, carte de planning, formulaire d'adhésion.
+- **12–14 px** — les petits blocs : icône d'événement, vignette d'image, images des fiches.
+
+Côté administration :
+
+- **0** — toute surface de contenu ; c'est la forme signature de la console.
+- **2 px** — pastilles d'état et étiquettes.
+- **3 px** — boutons, champs de saisie, entrées de menu, boutons-icônes, alertes.
 - **999 px** — les compteurs seulement : pastille du menu, compteur d'onglet.
-- **50 %** — la roue d'attente et quelques puces du site public.
-- **22 px** — les médias du site public (vidéos, cartes, images).
 
-Les bordures sont des filets de 1 px, jamais plus. Un liseré coloré de plus de 1 px sur le flanc d'un bloc n'existe pas dans ce système ; un état se marque par un champ de couleur qui remplit la ligne entière.
+Les bordures sont des filets de 1 px, jamais plus, dans les deux mondes.
+
+Un liseré coloré de plus de 1 px sur le flanc d'un bloc n'existe pas dans ce système ; un état se marque par un champ de couleur qui remplit la ligne entière. Seule exception assumée : le filet d'or de 2 px qui détache le rappel « en complément d'un suivi médical » au pied de chaque fiche discipline.
 
 ## Components
 
 ### Buttons
 
-- **Shape :** 3 px de rayon dans l'admin, 2 px sur le site public ; hauteur minimale 44 px pour la cible tactile.
+- **Shape :** 3 px de rayon dans l'admin ; gélule (999 px) sur le site public. Hauteur minimale 44 px pour la cible tactile dans les deux cas.
 - **Primary :** fond Or Sanctuaire, texte Vert Forêt Profonde, graisse 700, `11px 18px`. Au survol, l'or passe à `#d8bb85`. Pas de déplacement : dans une console, un bouton qui bouge au survol est du bruit.
 - **Line :** fond de surface, filet `--ad-line`, texte d'encre. Au survol, le filet passe au teal.
 - **Danger :** plein Terre Brûlée sur texte blanc, réservé à la confirmation de suppression.
 - **Icon button :** 38 × 38 px, transparent, filet au survol. Dans la barre latérale il perd son filet au repos.
 - **Working :** le bouton garde sa place et sa largeur, son icône est remplacée par une roue de 16 px et son libellé dit ce qui se passe (« Enregistrement… »). Il retrouve son icône exacte au retour, et tout le pied du panneau se verrouille pendant l'opération.
+
+**Les boutons du site public** forment une famille à part, en gélule : **Gold** (fond or, texte ardoise) pour l'appel d'une bande sombre, **Sage** (fond sauge, texte crème) pour l'appel d'une bande claire, **Line** (filet seul) pour l'action de second rang. Un seul bouton plein par bande — s'il en faut deux, le second passe en Line.
 
 ### Inputs / Fields
 
@@ -360,6 +390,7 @@ Les bordures sont des filets de 1 px, jamais plus. Un liseré coloré de plus de
 - **Ligne :** `15px 20px`, filet haut à 8 %, curseur pointeur — toute la ligne ouvre la fiche, mais le titre reste un vrai `<button>` pour le clavier.
 - **Ligne mise en avant :** champ Or Sanctuaire Clair sur toute la ligne, qui garde sa teinte au survol.
 - **Sous 700 px :** chaque ligne devient une fiche bordée, l'en-tête disparaît, et la flèche d'ouverture se positionne à droite en absolu.
+- **Site public, grille de planning :** elle réclame 620 px de colonnes. Sous 760 px, le tableau cède la place à une liste de séances — pastille du jour, horaire en Cormorant, lieu — écrite dans le HTML à côté de lui : le CSS n'en montre jamais qu'une, jamais de défilement horizontal.
 
 ### Tabs
 
@@ -410,5 +441,7 @@ Chaque page de l'admin dit en toutes lettres ce que le site publie à cause d'el
 - **Don't** ajouter une troisième police : Cormorant et DM Sans suffisent, et une police déclarée sans usage réel finit par être retirée.
 - **Don't** employer une fenêtre système (`confirm`, `alert`) : la confirmation de suppression se joue dans le panneau, et propose l'archivage comme sortie.
 - **Don't** poser du flou ou du verre en décoration ; le relief de ce système est une ombre et un filet, pas une texture.
-- **Don't** arrondir une surface de contenu.
+- **Don't** arrondir une surface de contenu dans l'admin ; à l'inverse, ne pas donner d'angle vif à une surface du site public.
+- **Don't** poser une ombre sous un bloc de texte du site public : ce relief est réservé aux médaillons, aux médias et au formulaire d'adhésion.
+- **Don't** laisser un ornament de composition en largeur (vigne, volutes, vague de coupure) sous 620 px : il s'y resserre en nœud.
 - **Don't** animer un bouton d'admin en déplacement au survol : la couleur suffit.
