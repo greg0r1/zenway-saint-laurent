@@ -203,41 +203,52 @@
 .r-tarifs {
   background: linear-gradient(180deg, #fbf8f2 0%, var(--r-cream) 100%);
 }
-.r-tarifs-bambou {
+/* Les deux ornements de la bande se répondent en pied de section, l'un à
+   chaque bord, et laissent le titre respirer — rien au-dessus de lui.
+   Aucun des deux ne porte de z-index : ils précèdent .r-wrap dans le HTML,
+   et .r-tarifs-grid monte à z-index 2, donc le contenu passe devant sans
+   qu'on ait à empiler quoi que ce soit. Un `z-index: -1` serait même un
+   piège ici : `.r-tarifs` n'est pas un contexte d'empilement, l'ornement
+   filerait jusqu'à la racine et passerait sous le dégradé de la bande. */
+
+/* À gauche, la gerbe du hero (orn-feuillage.svg), posée près de la pile de
+   galets — fine et précisément cadrée, à l'opposé du bambou qu'elle
+   remplace, qui s'étirait sur toute la hauteur de la section. */
+.r-tarifs-feuillage {
   position: absolute;
-  left: -60px;
-  top: -40px;
-  width: 260px;
-  height: 120%;
-  background: url("../img/ornements/orn-bambou.svg") no-repeat left top/auto 100%;
-  opacity: 0.18;
-  transform: scaleX(-1);
+  left: -20px;
+  bottom: -16px;
+  width: clamp(160px, 18vw, 260px);
+  height: clamp(130px, 15vw, 210px);
+  background: url("../img/ornements/orn-feuillage.svg") no-repeat left bottom/contain;
+  opacity: 0.85;
+  pointer-events: none;
+}
+/* À droite, les ondes concentriques du pied de page (orn-spirales.svg).
+   Son tracé en ton d'os (#e7e0d0) est pensé pour le fond sombre du
+   footer, où le contraste vient du fond plutôt que de la couleur : posé
+   tel quel sur le crème de cette bande, l'écart de teinte est trop
+   faible pour se voir, quelle que soit l'opacité. Le `filter` assombrit
+   le trait sans toucher au fichier partagé ni à son usage au footer. */
+.r-tarifs-spirales {
+  position: absolute;
+  right: -20px;
+  bottom: -10px;
+  width: clamp(200px, 24vw, 380px);
+  height: clamp(130px, 15vw, 240px);
+  background: url("../img/ornements/orn-spirales.svg") no-repeat right bottom/contain;
+  opacity: 0.55;
+  filter: brightness(0.6);
   pointer-events: none;
 }
 /* En-tête plein largeur, commun aux deux chemins d'inscription
    ci-dessous : le titre et le chapeau ne privilégient ni le widget ni le
-   bouton, ils introduisent les deux. Porte les traits ondulés — ancrés
-   ici plutôt que sur .r-tarifs-grid pour qu'ils partent du tout début de
-   la section, avant même que la hauteur du widget n'entre en jeu. */
+   bouton, ils introduisent les deux. Nu de tout ornement : les deux
+   dessins de la bande sont en pied de section. */
 .r-tarifs-head {
   position: relative;
   max-width: 40rem;
   margin-bottom: clamp(36px, 4.5vw, 56px);
-}
-/* Sept fils verticaux derrière le titre — même principe que le feuillage
-   qui borde « Nos pratiques » (.r-pratiques-feuillage) : un décor discret
-   posé à l'endroit précis que la maquette lui donne, pas étiré sur toute
-   la section comme le bambou. */
-.r-tarifs-ondulations {
-  position: absolute;
-  z-index: -1;
-  left: -28px;
-  top: -30px;
-  width: clamp(150px, 16vw, 200px);
-  height: clamp(220px, 25vw, 300px);
-  background: url("../img/ornements/orn-ondulations.svg") no-repeat left top/contain;
-  opacity: 0.55;
-  pointer-events: none;
 }
 /* Le widget reste le chemin d'inscription qu'on propose d'abord — plus
    grand, et premier dans le DOM pour rester en tête sur mobile, où les

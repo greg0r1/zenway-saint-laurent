@@ -193,6 +193,17 @@
     grid-template-columns: 1fr;
     text-align: center;
   }
+  /* Les deux ornements de fond (sections.css) supposent la colonne large
+     du bureau : resserrés ici derrière une seule colonne, ils passent
+     sous le bouton et sa note. Le seuil suit celui de `.r-tarifs-grid`
+     ci-dessus, pas celui, plus étroit, où le reste de la page bascule en
+     mobile — c'est cette grille-ci qui décide quand ils gênent. */
+  .r-tarifs-spirales {
+    display: none;
+  }
+  .r-tarifs-feuillage {
+    opacity: 0.5;
+  }
   /* `order` ne sert qu'à placer le widget à droite sur desktop (voir
      sections.css) : annulé ici pour que l'empilement mobile retrouve
      l'ordre du DOM — le widget d'abord, le texte ensuite. */

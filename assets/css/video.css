@@ -22,7 +22,12 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgb(29 34 33 / 80%) 0%, rgb(29 34 33 / 12%) 42%, rgb(29 34 33 / 34%) 100%);
+  background: linear-gradient(
+    0deg,
+    rgb(29 34 33 / 80%) 0%,
+    rgb(29 34 33 / 12%) 42%,
+    rgb(29 34 33 / 34%) 100%
+  );
   transition: opacity 0.4s ease;
 }
 .r-vedette-thumb:hover::before {

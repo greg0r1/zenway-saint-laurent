@@ -17,9 +17,13 @@ const HELLOASSO = {
 (function setupHelloAsso() {
   const base = `https://www.helloasso.com/associations/${HELLOASSO.org}/${HELLOASSO.type}/${HELLOASSO.campaign}`;
 
-  // Par défaut (ready: false) : on garde le repli téléphone/e-mail déjà
-  // affiché dans le HTML plutôt que de pointer le CTA vers un lien
-  // HelloAsso non confirmé.
+  // L'inscription en ligne est déjà l'état écrit dans le HTML, pour
+  // qu'aucun repli ne clignote le temps que ce script s'exécute — mais
+  // on le réaffirme quand même ici : sans ça, rien ne garantirait plus
+  // que le bon état s'affiche si les attributs `style` du HTML venaient
+  // à changer sans que cette branche soit mise à jour en écho. Reposer
+  // les mêmes valeurs que celles déjà à l'écran ne provoque aucun
+  // clignotement, contrairement à un changement d'état.
   if (HELLOASSO.ready) {
     document.querySelectorAll('[data-helloasso-link]').forEach((a) => {
       a.href = base;
@@ -77,6 +81,18 @@ const HELLOASSO = {
       f.src = base + '/widget';
     }
   } else {
+    // Slugs non confirmés : on retire le chemin HelloAsso plutôt que de
+    // pointer le CTA vers un lien incertain, et on montre le repli
+    // téléphone/e-mail à sa place.
+    const onlineBtn = document.getElementById('haOnlineBtn');
+    const fallbackBtn = document.getElementById('haFallbackBtn');
+    const onlineNote = document.getElementById('haOnlineNote');
+    const fallbackNote = document.getElementById('haFallbackNote');
+    if (onlineBtn) onlineBtn.style.display = 'none';
+    if (fallbackBtn) fallbackBtn.style.display = '';
+    if (onlineNote) onlineNote.style.display = 'none';
+    if (fallbackNote) fallbackNote.style.display = '';
+
     const wrap = document.getElementById('haWidgetWrap');
     if (wrap) wrap.style.display = 'none';
   }
