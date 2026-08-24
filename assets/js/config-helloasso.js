@@ -17,22 +17,14 @@ const HELLOASSO = {
 (function setupHelloAsso() {
   const base = `https://www.helloasso.com/associations/${HELLOASSO.org}/${HELLOASSO.type}/${HELLOASSO.campaign}`;
 
-  // Par défaut (ready: false) : on garde le repli téléphone/e-mail déjà
-  // affiché dans le HTML plutôt que de pointer le CTA vers un lien
-  // HelloAsso non confirmé.
+  // L'inscription en ligne est l'état écrit dans le HTML : rien à
+  // rétablir ici quand `ready` est vrai, sans quoi le repli
+  // téléphone/e-mail clignoterait à chaque chargement le temps que ce
+  // script s'exécute. C'est la branche `else` qui bascule vers le repli.
   if (HELLOASSO.ready) {
     document.querySelectorAll('[data-helloasso-link]').forEach((a) => {
       a.href = base;
     });
-
-    const onlineBtn = document.getElementById('haOnlineBtn');
-    const fallbackBtn = document.getElementById('haFallbackBtn');
-    const onlineNote = document.getElementById('haOnlineNote');
-    const fallbackNote = document.getElementById('haFallbackNote');
-    if (onlineBtn) onlineBtn.style.display = '';
-    if (fallbackBtn) fallbackBtn.style.display = 'none';
-    if (onlineNote) onlineNote.style.display = '';
-    if (fallbackNote) fallbackNote.style.display = 'none';
 
     // Widget embarqué (optionnel) -> affiché seulement si ready. Un
     // loader s'affiche pendant le chargement de l'iframe ; si elle ne
@@ -77,6 +69,18 @@ const HELLOASSO = {
       f.src = base + '/widget';
     }
   } else {
+    // Slugs non confirmés : on retire le chemin HelloAsso plutôt que de
+    // pointer le CTA vers un lien incertain, et on montre le repli
+    // téléphone/e-mail à sa place.
+    const onlineBtn = document.getElementById('haOnlineBtn');
+    const fallbackBtn = document.getElementById('haFallbackBtn');
+    const onlineNote = document.getElementById('haOnlineNote');
+    const fallbackNote = document.getElementById('haFallbackNote');
+    if (onlineBtn) onlineBtn.style.display = 'none';
+    if (fallbackBtn) fallbackBtn.style.display = '';
+    if (onlineNote) onlineNote.style.display = 'none';
+    if (fallbackNote) fallbackNote.style.display = '';
+
     const wrap = document.getElementById('haWidgetWrap');
     if (wrap) wrap.style.display = 'none';
   }

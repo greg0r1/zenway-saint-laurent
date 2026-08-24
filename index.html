@@ -687,21 +687,30 @@
               </li>
             </ul>
             <!-- Alternative au widget ci-contre : même destination
-                   (HelloAsso) ou l'appel, pas une seconde façon de faire. -->
+                   (HelloAsso) ou l'appel, pas une seconde façon de faire.
+
+                   L'inscription en ligne est l'état normal, donc écrite ici
+                   telle quelle : le lien HelloAsso est en dur, la page est
+                   juste même sans JavaScript. C'est le repli téléphone qui
+                   est masqué par défaut et que config-helloasso.js révèle
+                   quand `ready` repasse à false. L'inverse ferait clignoter
+                   le repli à chaque chargement, le temps que le script,
+                   chargé en bas de page, remette l'affichage d'aplomb. -->
             <div class="r-ha-row">
               <div class="r-ha-actions">
                 <a class="r-btn r-btn-sage" id="haOnlineBtn" data-helloasso-link
                   href="https://www.helloasso.com/associations/zenway-st-laurent-du-var/adhesions/zenway-st-laurent-du-var"
-                  target="_blank" rel="noopener" style="display: none">
+                  target="_blank" rel="noopener">
                   S'inscrire sur HelloAsso
                 </a>
-                <a class="r-btn r-btn-sage" id="haFallbackBtn" href="tel:+33666056649">
+                <a class="r-btn r-btn-sage" id="haFallbackBtn" href="tel:+33666056649"
+                  style="display: none">
                   Appelez-nous pour vous inscrire
                 </a>
-                <p class="r-ha-note" id="haOnlineNote" style="display: none">
+                <p class="r-ha-note" id="haOnlineNote">
                   Connexion sécurisée, vous restez maître de vos données.
                 </p>
-                <p class="r-ha-note" id="haFallbackNote">
+                <p class="r-ha-note" id="haFallbackNote" style="display: none">
                   Inscription en ligne bientôt disponible — contactez-nous en attendant, par
                   téléphone ou
                   <a href="mailto:contact@zenwaysaintlaurentduvar.fr">e-mail</a>.
