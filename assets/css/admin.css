@@ -173,8 +173,7 @@
   align-items: center;
   justify-content: center;
   padding: 32px 24px;
-  background:
-    radial-gradient(120% 90% at 50% 0%, var(--ad-bg-deep), transparent 70%), var(--ad-bg);
+  background: radial-gradient(120% 90% at 50% 0%, var(--ad-bg-deep), transparent 70%), var(--ad-bg);
 }
 
 .ad-gate-card {
