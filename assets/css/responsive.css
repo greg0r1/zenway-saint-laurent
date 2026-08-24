@@ -281,6 +281,17 @@
   .r-pratiques-volutes {
     display: none;
   }
+  /* Même raison pour les ondes d'« Adhésion » : leurs deux foyers sont
+     écartés sur la largeur du dessin, et réduits à la colonne unique ils
+     se referment en tache derrière le bouton et sa note. Le feuillage
+     d'en face, lui, est un accent de coin — il tient à toute largeur, on
+     l'allège seulement pour qu'il ne concurrence pas le texte. */
+  .r-tarifs-spirales {
+    display: none;
+  }
+  .r-tarifs-feuillage {
+    opacity: 0.5;
+  }
   .r-videos-grid {
     grid-template-columns: 1fr;
   }
