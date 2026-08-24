@@ -47,26 +47,37 @@
     root.innerHTML = `
       <p class="ad-lede">Ce que le site publie en ce moment. Chaque ligne renvoie à la page qui la commande.</p>
       <div data-slot="etat"></div>
-      <section class="ad-box">
-        <h2 class="ad-box-title">Que voulez-vous faire ?</h2>
-        <div class="ad-rows">
-          <button type="button" class="ad-row" data-go="nouveau">
-            ${icone('i-plus', 'ad-ico-lg')}
-            <span><strong>Annoncer un événement</strong>Portes ouvertes, rencontre, séance exceptionnelle</span>
-            ${icone('i-arrow')}
-          </button>
-          <a class="ad-row" href="#/events">
-            ${icone('i-calendar', 'ad-ico-lg')}
-            <span><strong>Gérer les événements</strong>Modifier, archiver, remettre en ligne</span>
-            ${icone('i-arrow')}
-          </a>
-          <a class="ad-row" href="#/infos">
-            ${icone('i-pin', 'ad-ico-lg')}
-            <span><strong>Vérifier les infos pratiques</strong>Adresse, téléphone, parking</span>
-            ${icone('i-arrow')}
-          </a>
-        </div>
-      </section>
+      <div class="ad-dash-grid">
+        <section class="ad-box">
+          <h2 class="ad-box-title">Que voulez-vous faire ?</h2>
+          <div class="ad-rows">
+            <button type="button" class="ad-row" data-go="nouveau">
+              ${icone('i-plus', 'ad-ico-lg')}
+              <span><strong>Annoncer un événement</strong>Portes ouvertes, rencontre, séance exceptionnelle</span>
+              ${icone('i-arrow')}
+            </button>
+            <a class="ad-row" href="#/events">
+              ${icone('i-calendar', 'ad-ico-lg')}
+              <span><strong>Gérer les événements</strong>Modifier, archiver, remettre en ligne</span>
+              ${icone('i-arrow')}
+            </a>
+            <a class="ad-row" href="#/infos">
+              ${icone('i-pin', 'ad-ico-lg')}
+              <span><strong>Vérifier les infos pratiques</strong>Adresse, téléphone, parking</span>
+              ${icone('i-arrow')}
+            </a>
+          </div>
+        </section>
+        <aside class="ad-dash-illus" aria-hidden="true">
+          <img
+            src="../assets/img/admin/illustration-tableau-de-bord.webp"
+            alt=""
+            width="927"
+            height="627"
+            loading="lazy"
+          />
+        </aside>
+      </div>
     `;
 
     root.querySelector('[data-go="nouveau"]').addEventListener('click', () => {

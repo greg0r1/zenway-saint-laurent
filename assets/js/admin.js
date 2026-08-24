@@ -25,7 +25,6 @@
   const appView = document.getElementById('appView');
   const whoEl = document.getElementById('who');
   const logoutBtn = document.getElementById('logoutBtn');
-  const themeBtn = document.getElementById('themeBtn');
   const navEl = document.getElementById('adNav');
   const pageEl = document.getElementById('ad-page');
   const titleEl = document.getElementById('pageTitle');
@@ -234,29 +233,6 @@
   window.matchMedia('(min-width: 901px)').addEventListener('change', (e) => {
     if (e.matches) fermerMenu();
   });
-
-  /* ---------------------------------------------------------------
-     Thème
-     --------------------------------------------------------------- */
-
-  /* Le bouton annonce ce vers quoi il emmène, jamais l'état actuel :
-     l'icône lune veut dire « passer en sombre ». */
-  function refletTheme(actif) {
-    if (!themeBtn) return;
-    const versSombre = actif !== 'sombre';
-    themeBtn.innerHTML = icone(versSombre ? 'i-moon' : 'i-sun');
-    themeBtn.setAttribute(
-      'aria-label',
-      versSombre ? 'Passer en thème sombre' : 'Passer en thème clair'
-    );
-    themeBtn.title = themeBtn.getAttribute('aria-label');
-  }
-
-  if (themeBtn) {
-    refletTheme(AdminTheme.actuel().actif);
-    AdminTheme.surChangement(refletTheme);
-    themeBtn.addEventListener('click', () => AdminTheme.basculer());
-  }
 
   /* ---------------------------------------------------------------
      Démarrage

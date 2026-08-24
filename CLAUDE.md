@@ -49,7 +49,7 @@ Le reste du site reste 100 % statique (HTML/CSS/JS vanilla, zéro build). Trois 
 - **Admin conçue comme une console classique** : barre latérale de navigation à gauche, une seule page montée à la fois dans la zone de travail. `admin/index.html` gère la connexion, puis `admin.js` fabrique une entrée de menu et une page par module déclaré dans `window.AdminModules`. La page courante vit dans l'adresse (`#/evenements`), donc le bouton Précédent du navigateur et les liens directs fonctionnent. Quatre pages aujourd'hui — « Tableau de bord », « Événements », « Planning » et « Infos pratiques » — chacune avec un CRUD complet via le panneau latéral (« Infos pratiques » porte une fiche unique : pas de création ni de suppression, un seul formulaire d'édition). L'admin est destinée à en accueillir d'autres (voir « Ajouter un module admin »). Cela ne change rien à la portée du backend/BDD, qui reste strictement limité aux événements, au planning et aux infos pratiques tant qu'aucune autre décision n'est prise.
 - **« Infos pratiques » est la source de vérité** : le site public lit ces valeurs via `GET /api/infos` (voir « Fichiers » ci-dessous) ; `index.html` ne conserve le contenu écrit en dur que comme repli tant qu'aucune fiche n'existe en base (voir le seed dans `db/README.md`). Contrairement aux événements et au planning, ce module n'a pas de fichier `public.js` séparé : `GET /api/infos` est public (cette table ne contient aucune donnée « pas encore publiée », donc rien à filtrer selon la session), seul `PUT /api/infos` exige une session admin. C'est aussi une contrainte pratique : le plan Hobby de Vercel limite à 12 fonctions serverless par déploiement, et le projet est déjà à cette limite.
 - **Menu burger en mobile** : sous 900 px la barre latérale sort du flux et devient un tiroir, ouvert par le bouton de l'en-tête, refermé par Échap, par le voile, ou par le choix d'une page.
-- **Thème clair / sombre** : l'admin porte les deux, réglés par `data-theme` sur `<html>` (`assets/js/admin-theme.js`, chargé en synchrone dans le `<head>` pour éviter l'éclair au chargement). Sans choix explicite, on suit `prefers-color-scheme`. La barre latérale reste vert profond dans les deux cas — c'est l'ancre d'identité. Aucune couleur en dur dans les composants : tout passe par les jetons `--ad-*` définis en tête de `admin.css`.
+- **Un seul thème, clair** : pas de bascule sombre (décision prise, l'admin ne suit plus `prefers-color-scheme`). La barre latérale est blanche, l'or reste réservé à l'action principale et à l'état « visible par le public », le teal (`--ad-focus`, Teal Sanctuaire) porte la navigation et la position courante. Cartes arrondies et ombrées plutôt que filetées à angle vif — voir DESIGN.md. Aucune couleur en dur dans les composants : tout passe par les jetons `--ad-*` définis en tête de `admin.css`.
 - **Panneau latéral** : tout ce qui agit (consulter une fiche, modifier, réordonner, mettre en ligne, archiver, supprimer) se passe dans un panneau unique et partagé (`assets/js/admin-panel.js`), bâti sur `<dialog>` natif — piège à focus, Échap et voile de fond viennent du navigateur. Les pages ne portent que de la lecture et des listes. Sur mobile le panneau prend tout l'écran.
 - **Magasins partagés** : les événements et les créneaux de planning sont chacun lus une seule fois et diffusés (`assets/js/admin-store.js`, deux magasins distincts dans le même fichier). Le tableau de bord et les pages « Événements » / « Planning » s'y abonnent : publier depuis l'une met les autres à jour sans rechargement.
 
@@ -87,7 +87,6 @@ admin/
 
 assets/js/
 ├── config-admin.js         ← identifiant client Google (page /admin uniquement)
-├── admin-theme.js          ← thème clair/sombre, chargé en synchrone dans le <head>
 ├── admin-auth.js           ← connexion Google + session, partagé par tous les modules admin
 ├── admin-store.js          ← magasins des événements, du planning et des infos pratiques + mise en forme des dates
 ├── admin-panel.js          ← panneau latéral partagé (<dialog>), utilisé par tous les modules
@@ -253,7 +252,6 @@ zenway-saint-laurent/
 │   │   ├── practice-modals.js   ← ouverture des fiches disciplines
 │   │   ├── nav-reveal.js        ← état de la nav au défilement, tiroir mobile, révélation
 │   │   ├── config-admin.js      ← identifiant client Google (page /admin uniquement)
-│   │   ├── admin-theme.js       ← thème clair/sombre de l'admin (chargé dans le <head>)
 │   │   ├── admin-auth.js        ← connexion Google + session, partagé par les modules admin
 │   │   ├── admin-store.js       ← magasins des événements, du planning et des infos pratiques + mise en forme des dates
 │   │   ├── admin-panel.js       ← panneau latéral partagé de l'admin (<dialog>)
