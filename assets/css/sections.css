@@ -225,10 +225,11 @@
   pointer-events: none;
 }
 /* À droite, les ondes concentriques du pied de page (orn-spirales.svg).
-   Son tracé est en ton d'os (#e7e0d0), pensé pour le fond sombre du
-   footer : sur le crème il ne fait qu'affleurer, et c'est exactement le
-   registre voulu ici — l'eau qui frissonne, pas un second dessin qui
-   rivaliserait avec le feuillage d'en face. */
+   Son tracé en ton d'os (#e7e0d0) est pensé pour le fond sombre du
+   footer, où le contraste vient du fond plutôt que de la couleur : posé
+   tel quel sur le crème de cette bande, l'écart de teinte est trop
+   faible pour se voir, quelle que soit l'opacité. Le `filter` assombrit
+   le trait sans toucher au fichier partagé ni à son usage au footer. */
 .r-tarifs-spirales {
   position: absolute;
   right: -20px;
@@ -236,7 +237,8 @@
   width: clamp(200px, 24vw, 380px);
   height: clamp(130px, 15vw, 240px);
   background: url("../img/ornements/orn-spirales.svg") no-repeat right bottom/contain;
-  opacity: 0.9;
+  opacity: 0.55;
+  filter: brightness(0.6);
   pointer-events: none;
 }
 /* En-tête plein largeur, commun aux deux chemins d'inscription
