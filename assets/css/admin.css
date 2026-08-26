@@ -1026,7 +1026,7 @@
 /* L'en-tête de la maquette : gras, sombre, en casse normale, sans fond. */
 .ad-table th {
   text-align: left;
-  padding: 10px 16px;
+  padding: 14px 20px;
   border-bottom: 1px solid var(--ad-line);
   font-size: 0.88rem;
   font-weight: 700;
@@ -1035,17 +1035,17 @@
 }
 
 .ad-table td {
-  padding: 13px 16px;
+  padding: 18px 20px;
   border-top: 1px solid var(--ad-line-soft);
   vertical-align: middle;
 }
 
 .ad-table tr > :first-child {
-  padding-left: 4px;
+  padding-left: 8px;
 }
 
 .ad-table tr > :last-child {
-  padding-right: 4px;
+  padding-right: 8px;
 }
 
 /* Toute la ligne ouvre la fiche : le curseur doit le dire avant le clic. */
