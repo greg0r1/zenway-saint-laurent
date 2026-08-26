@@ -200,7 +200,7 @@
 
     cible.innerHTML = `
       <div class="ad-tablewrap">
-        <table class="ad-table">
+        <table class="ad-table ad-table-click">
           <thead>
             <tr>
               <th scope="col" class="ad-col-date">Date</th>

@@ -49,7 +49,9 @@ Le reste du site reste 100 % statique (HTML/CSS/JS vanilla, zéro build). Trois 
 - **Admin conçue comme une console classique** : barre latérale de navigation à gauche, une seule page montée à la fois dans la zone de travail. `admin/index.html` gère la connexion, puis `admin.js` fabrique une entrée de menu et une page par module déclaré dans `window.AdminModules`. La page courante vit dans l'adresse (`#/evenements`), donc le bouton Précédent du navigateur et les liens directs fonctionnent. Quatre pages aujourd'hui — « Tableau de bord », « Événements », « Planning » et « Infos pratiques » — chacune avec un CRUD complet via le panneau latéral (« Infos pratiques » porte une fiche unique : pas de création ni de suppression, un seul formulaire d'édition). L'admin est destinée à en accueillir d'autres (voir « Ajouter un module admin »). Cela ne change rien à la portée du backend/BDD, qui reste strictement limité aux événements, au planning et aux infos pratiques tant qu'aucune autre décision n'est prise.
 - **« Infos pratiques » est la source de vérité** : le site public lit ces valeurs via `GET /api/infos` (voir « Fichiers » ci-dessous) ; `index.html` ne conserve le contenu écrit en dur que comme repli tant qu'aucune fiche n'existe en base (voir le seed dans `db/README.md`). Contrairement aux événements et au planning, ce module n'a pas de fichier `public.js` séparé : `GET /api/infos` est public (cette table ne contient aucune donnée « pas encore publiée », donc rien à filtrer selon la session), seul `PUT /api/infos` exige une session admin. C'est aussi une contrainte pratique : le plan Hobby de Vercel limite à 12 fonctions serverless par déploiement, et le projet est déjà à cette limite.
 - **Menu burger en mobile** : sous 900 px la barre latérale sort du flux et devient un tiroir, ouvert par le bouton de l'en-tête, refermé par Échap, par le voile, ou par le choix d'une page.
-- **Un seul thème, clair** : pas de bascule sombre (décision prise, l'admin ne suit plus `prefers-color-scheme`). La barre latérale est blanche, l'or reste réservé à l'action principale et à l'état « visible par le public », le teal (`--ad-focus`, Teal Sanctuaire) porte la navigation et la position courante. Cartes arrondies et ombrées plutôt que filetées à angle vif — voir DESIGN.md. Aucune couleur en dur dans les composants : tout passe par les jetons `--ad-*` définis en tête de `admin.css`.
+- **Un seul thème, clair** : pas de bascule sombre (décision prise, l'admin ne suit plus `prefers-color-scheme`).
+- **L'admin a sa propre identité, d'après une maquette épinglée par l'utilisateur.** Barre latérale blanche, zone de travail gris-bleu (`#f5f8f9`), cartes blanches arrondies (14 px) tenues par l'ombre, tableau de bord en grille de douze colonnes. **Sa couleur est le Sarcelle Ardoise** (`--ad-accent`, `#427482`) : elle porte l'action, la navigation, la position courante et le focus. **L'or et le Cormorant du site public n'entrent pas dans `/admin`** — les titres y sont en DM Sans gras capitales. Le sarcelle ne sort pas non plus vers le site public. Aucune couleur en dur dans les composants : tout passe par les jetons `--ad-*` définis en tête de `admin.css`.
+- **Deux exceptions épinglées par cette maquette**, à ne pas « corriger » : le sur-titre « Zenway Saint-Laurent-du-Var · Backoffice » au-dessus du titre de page (seul sur-titre autorisé du projet), et le liseré sarcelle de 4 px de l'entrée de menu active (il marque une position, pas un état, et le champ pâle le double). Détail et justification dans DESIGN.md.
 - **Panneau latéral** : tout ce qui agit (consulter une fiche, modifier, réordonner, mettre en ligne, archiver, supprimer) se passe dans un panneau unique et partagé (`assets/js/admin-panel.js`), bâti sur `<dialog>` natif — piège à focus, Échap et voile de fond viennent du navigateur. Les pages ne portent que de la lecture et des listes. Sur mobile le panneau prend tout l'écran.
 - **Magasins partagés** : les événements et les créneaux de planning sont chacun lus une seule fois et diffusés (`assets/js/admin-store.js`, deux magasins distincts dans le même fichier). Le tableau de bord et les pages « Événements » / « Planning » s'y abonnent : publier depuis l'une met les autres à jour sans rechargement.
 
@@ -188,9 +190,11 @@ Quatre jetons de plus (`--r-anneau-haut`, `--r-anneau-corps`, `--r-anneau-bas`,
 « Nos pratiques ». Ils n'existent que pour cet usage.
 
 Ne jamais introduire de nouvelle couleur sans l'ajouter en variable CSS et justifier son usage.
-Le vert forêt (`#1b4332`) et le teal (`#2f8f7f`) de l'ancienne charte ne subsistent
-que dans l'administration (`assets/css/admin.css`) et dans `theme-color` — le site
-public ne les emploie plus.
+Le vert forêt (`#1b4332`) et le teal (`#2f8f7f`) de l'ancienne charte ne servent
+plus nulle part : le site public ne les emploie plus depuis la refonte, et
+l'administration a désormais sa propre palette (`--ad-*`, `assets/css/admin.css`),
+bâtie autour du Sarcelle Ardoise `#427482`. Les deux jeux de jetons ne se
+mélangent pas — voir « la règle de la porte » dans DESIGN.md.
 
 ### Typographies (auto-hébergées, woff2 dans `assets/fonts/`)
 
@@ -272,6 +276,7 @@ zenway-saint-laurent/
 │       │                      volutes, ensō, spirales) + la petite pile de galets
 │       ├── adhesion/        ← photo de la grande pile de galets (section Adhésion),
 │       │                      seule photo purement décorative du site — voir DESIGN.md
+│       ├── admin/           ← illustration du tableau de bord de /admin (hors site public)
 │       ├── favicons/        ← déclinaisons d'icône (16 → 512 px)
 │       └── meta/            ← og-image du partage social
 ├── admin/
