@@ -198,9 +198,9 @@
 .ad-gate-title {
   font-family: var(--sans);
   font-weight: 700;
-  font-size: 1.55rem;
+  font-size: 1.6rem;
   line-height: 1.15;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.01em;
   text-transform: uppercase;
   color: var(--ad-title);
   margin-bottom: 14px;
@@ -273,9 +273,9 @@
 
 .ad-side-brand {
   min-width: 0;
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: -0.01em;
   text-transform: uppercase;
   line-height: 1;
   color: var(--ad-title);
@@ -290,25 +290,25 @@
 }
 
 /* ---------- Le menu ---------- */
-/* Les entrées partent du bord gauche de la barre, comme sur la
-   maquette : le liseré de l'entrée active touche le bord. */
+/* Les entrées flottent dans la barre, avec une marge de chaque côté —
+   la maquette n'a pas de rail, l'entrée active est un chip inséré,
+   arrondi sur ses quatre coins. */
 .ad-nav {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: 10px 14px 10px 0;
+  padding: 10px 14px;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
 .ad-nav-item {
-  position: relative;
   display: flex;
   align-items: center;
   gap: 13px;
-  padding: 12px 14px 12px 21px;
-  border-radius: 0 var(--ad-r-md) var(--ad-r-md) 0;
+  padding: 12px 14px;
+  border-radius: var(--ad-r-md);
   color: var(--ad-side-soft);
   text-decoration: none;
   font-size: 0.95rem;
@@ -327,23 +327,11 @@
   color: var(--ad-side-text);
 }
 
-/* L'entrée active : champ sarcelle pâle et liseré plein au bord de la
-   barre — c'est la maquette, et l'exception assumée à la règle « pas de
-   liseré latéral » du site public. */
+/* L'entrée active : champ sarcelle pâle, chip plein, sans liseré. */
 .ad-nav-item[aria-current="page"] {
   background: var(--ad-side-active);
   color: var(--ad-title);
   font-weight: 700;
-}
-
-.ad-nav-item[aria-current="page"]::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: var(--ad-accent);
 }
 
 .ad-nav-item[aria-current="page"] .ad-ico {
@@ -472,9 +460,9 @@
   min-width: 0;
   font-family: var(--sans);
   font-weight: 700;
-  font-size: 1.7rem;
+  font-size: 1.8rem;
   line-height: 1.1;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.015em;
   text-transform: uppercase;
   color: var(--ad-title);
 }
@@ -550,7 +538,7 @@
   font-family: var(--sans);
   font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
   color: var(--ad-title);
   margin-bottom: 16px;

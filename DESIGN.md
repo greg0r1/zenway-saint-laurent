@@ -52,10 +52,10 @@ typography:
     lineHeight: 1.08
   page-title:
     fontFamily: "DM Sans, system-ui, sans-serif"
-    fontSize: "1.7rem"
+    fontSize: "1.8rem"
     fontWeight: 700
     lineHeight: 1.1
-    letterSpacing: "0.01em"
+    letterSpacing: "-0.015em"
     textTransform: "uppercase"
   panel-title:
     fontFamily: "DM Sans, system-ui, sans-serif"
@@ -64,17 +64,17 @@ typography:
     lineHeight: 1.2
   gate-title:
     fontFamily: "DM Sans, system-ui, sans-serif"
-    fontSize: "1.55rem"
+    fontSize: "1.6rem"
     fontWeight: 700
     lineHeight: 1.15
-    letterSpacing: "0.02em"
+    letterSpacing: "-0.01em"
     textTransform: "uppercase"
   wordmark:
     fontFamily: "DM Sans, system-ui, sans-serif"
-    fontSize: "1.25rem"
+    fontSize: "1.3rem"
     fontWeight: 700
     lineHeight: 1
-    letterSpacing: "0.04em"
+    letterSpacing: "-0.01em"
     textTransform: "uppercase"
   stat:
     fontFamily: "DM Sans, system-ui, sans-serif"
