@@ -144,10 +144,10 @@
     display: block;
   }
   .r-brand img {
-    width: 44px;
+    width: 50px;
   }
   .r-brand-txt {
-    font-size: 0.55rem;
+    font-size: 0.72rem;
     letter-spacing: 0.1em;
     white-space: nowrap;
     max-width: none;
