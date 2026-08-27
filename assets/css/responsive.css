@@ -27,6 +27,7 @@
      qui n'est pas déjà fixé en px suit proportionnellement. */
   :root {
     --r-gut: 20px;
+    --r-nav-h: 92px;
     font-size: 120%;
   }
 
@@ -144,7 +145,7 @@
     display: block;
   }
   .r-brand img {
-    width: 64px;
+    width: 86px;
   }
   .r-brand-txt {
     font-size: 0.72rem;
