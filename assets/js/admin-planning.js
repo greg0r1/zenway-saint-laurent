@@ -26,21 +26,15 @@
     return `<svg class="ad-ico${classe ? ' ' + classe : ''}" aria-hidden="true"><use href="#${id}" /></svg>`;
   }
 
-  // La pastille du menu doit refléter le magasin dès qu'il est chargé,
-  // pas seulement une fois la page « Planning » visitée : cet
-  // abonnement vit donc en dehors de mount()/unmount(), pour toute la
-  // durée de la session admin.
-  function badgeMenu() {
-    return document.querySelector('a[href="#/planning"] [data-slot="badge"]');
+  // La pastille du menu doit refléter le magasin dès qu'il est chargé, pas
+  // seulement une fois la page « Planning » visitée : cet abonnement se
+  // pose via `init` (une fois par session, voir assets/js/admin.js), pas
+  // dans mount()/unmount(), qui ne vivent que pendant la visite.
+  function init(api) {
+    AdminStore.abonnerPlanning((snap) => {
+      api.setBadge(snap.statut === 'pret' && snap.slots.length ? snap.slots.length : null);
+    });
   }
-
-  AdminStore.abonnerPlanning((snap) => {
-    const el = badgeMenu();
-    if (!el) return;
-    const v = snap.statut === 'pret' && snap.slots.length ? String(snap.slots.length) : '';
-    el.textContent = v;
-    el.hidden = v === '';
-  });
 
   // Échappe les guillemets et l'apostrophe en plus des chevrons, pour
   // rester sûr en position d'attribut (value="…", src="…") : sans cela,
@@ -548,6 +542,7 @@
     label: 'Planning',
     icon: 'i-clock',
     title: 'Planning',
+    init,
     mount,
     unmount
   });
