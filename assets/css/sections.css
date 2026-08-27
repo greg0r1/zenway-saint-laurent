@@ -336,6 +336,34 @@
   font-size: 0.9rem;
   color: var(--r-ink-soft);
 }
+/* Posée par config-helloasso.js le temps que l'iframe charge (jusqu'à 8s) :
+   sans cet indicateur, le texte de repli seul ne dit pas qu'un chargement
+   est en cours. */
+.ha-widget-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.ha-widget-loading::before {
+  content: "";
+  width: 26px;
+  height: 26px;
+  border: 3px solid var(--r-sage-veil);
+  border-top-color: var(--r-sage-deep);
+  border-radius: 50%;
+  animation: ha-spin 0.8s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ha-widget-loading::before {
+    animation: none;
+  }
+}
+@keyframes ha-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 /* 760px, pas une estimation : le formulaire HelloAsso (activité, don,
    pied « Propulsé par ») mesure 714px de haut une fois posé à la largeur
    réelle de cette colonne (~420px sur desktop) — en dessous, l'iframe fait
