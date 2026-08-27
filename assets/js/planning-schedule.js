@@ -73,8 +73,39 @@
     if (zoneNote && notes.length) zoneNote.innerHTML = notes.join('<br />');
   }
 
+  // Extrait le nombre de minutes depuis minuit d'un horaire composé par
+  // l'admin ("17 h 45 — 18 h 45", voir admin-planning.js:analyserHoraire) :
+  // sert uniquement à trier les lignes de la grille chronologiquement,
+  // jamais à valider ou reformater le texte affiché.
+  function minutesDebut(heure) {
+    const m = String(heure || '').match(/^(\d{1,2})\s*h\s*(\d{1,2})?/i);
+    return m ? Number(m[1]) * 60 + Number(m[2] || 0) : Number.MAX_SAFE_INTEGER;
+  }
+
+  // Aucun créneau : plutôt que de laisser affichés la grille et la note
+  // statiques d'index.html — qui deviendraient un horaire périmé sans que
+  // rien ne le signale — on l'écrit en toutes lettres, comme le faisait
+  // l'ancienne version de cette page.
+  function rendreVide() {
+    const liste = document.getElementById('planningListe');
+    if (liste) liste.innerHTML = '';
+    const table = document.getElementById('planningGrille');
+    if (table) {
+      table.querySelector('thead').innerHTML = '';
+      table.querySelector('tbody').innerHTML = '';
+    }
+    const zoneNote = document.querySelector('.r-planning-note');
+    if (zoneNote) {
+      zoneNote.innerHTML =
+        'Le planning détaillé sera bientôt publié ici.<br />En attendant, contactez Béatrice pour connaître les prochains jours et horaires de séance.';
+    }
+  }
+
   function rendrePlanning(slots) {
-    if (!slots.length) return;
+    if (!slots.length) {
+      rendreVide();
+      return;
+    }
     rendreListe(slots);
     rendreNote(slots);
 
@@ -95,6 +126,7 @@
       if (t && !horaires.includes(t)) horaires.push(t);
     });
     if (!horaires.length) return;
+    horaires.sort((a, b) => minutesDebut(a) - minutesDebut(b));
 
     const entete = `<tr><td></td>${colonnes
       .map((j) => `<th scope="col">${echapper(j)}</th>`)
@@ -104,16 +136,23 @@
       .map((heure) => {
         const cellules = colonnes
           .map((jour) => {
-            const slot = slots.find(
+            // `filter`, pas `find` : deux créneaux au même jour et à la
+            // même heure (deux salles, par exemple) doivent tous les deux
+            // apparaître, comme le fait déjà la liste mobile juste au-dessus.
+            const memesCreneaux = slots.filter(
               (s) =>
                 String(s.time || '').trim() === heure &&
                 normaliser(s.day).startsWith(normaliser(jour))
             );
-            if (!slot) return '<td></td>';
-            return `<td><span class="r-creneau">
+            if (!memesCreneaux.length) return '<td></td>';
+            return `<td>${memesCreneaux
+              .map(
+                (slot) => `<span class="r-creneau">
               <strong>${echapper(slot.label || 'Zenway')}</strong>
               ${slot.place ? `<span>${echapper(slot.place)}</span>` : ''}
-            </span></td>`;
+            </span>`
+              )
+              .join('')}</td>`;
           })
           .join('');
         return `<tr><th scope="row">${echapper(heure)}</th>${cellules}</tr>`;

@@ -10,6 +10,7 @@
   --r-dark-raise: #3e4649;
   --r-cream: #f8f4ec;
   --r-cream-2: #f1ebdf;
+  --r-cream-3: #faf6ee; /* Repères de la grille Planning (en-têtes, colonne des horaires) */
 
   /* Encres */
   --r-ink: #2b332f;
@@ -29,6 +30,7 @@
   /* Filets */
   --r-line: #ddd4c1;
   --r-line-strong: #cabfa7;
+  --r-line-soft: #e8e0cf; /* Filet clair de la grille et de la liste du Planning */
   --r-line-dark: rgb(233 226 211 / 16%);
   --r-line-dark-strong: rgb(233 226 211 / 28%);
 
@@ -233,7 +235,7 @@ a {
 
 .r-btn-sage {
   background: var(--r-sage);
-  color: #fbf8f1;
+  color: var(--r-cream);
   box-shadow: 0 6px 18px rgb(59 76 55 / 22%);
   text-align: center;
 }

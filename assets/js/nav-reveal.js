@@ -41,12 +41,35 @@
       nav.classList.toggle('is-scrolled', estDefile);
       nav.classList.toggle('is-light', surBandeSombre);
     };
+
+    // `majEtat` lit plusieurs `getBoundingClientRect()` : au défilement à
+    // inertie sur mobile, l'événement `scroll` peut se déclencher bien
+    // plus vite que l'écran ne peut rafraîchir. On ne planifie donc jamais
+    // plus d'un passage par frame.
+    let planifie = false;
+    const planifier = () => {
+      if (planifie) return;
+      planifie = true;
+      requestAnimationFrame(() => {
+        planifie = false;
+        majEtat();
+      });
+    };
     majEtat();
-    window.addEventListener('scroll', majEtat, { passive: true });
-    window.addEventListener('resize', majEtat);
+    window.addEventListener('scroll', planifier, { passive: true });
+    window.addEventListener('resize', planifier);
   }
 
   if (burger && liens) {
+    // Cascade légère à l'ouverture du tiroir, item par item — posée ici en
+    // ligne plutôt qu'en CSS `nth-child` figé sur le nombre actuel de
+    // liens : un lien de plus ne casse rien, il hérite du même palier que
+    // le dernier (voir le même principe, capé à 4, pour .r-reveal
+    // plus bas).
+    Array.from(liens.children).forEach((li, i) => {
+      li.style.transitionDelay = `${0.05 + Math.min(i, 6) * 0.04}s`;
+    });
+
     const fermer = () => {
       liens.classList.remove('is-open');
       document.documentElement.classList.remove('r-noscroll');
