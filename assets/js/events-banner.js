@@ -41,6 +41,16 @@
     return `${d.getDate()} ${MOIS[d.getMonth()]} ${d.getFullYear()}`;
   }
 
+  // Date du jour en AAAA-MM-JJ, dans le fuseau du visiteur — pas
+  // `toISOString()`, qui renvoie la date UTC : entre minuit et 1h ou 2h du
+  // matin en France (UTC+1/+2), elle reste sur la veille et ferait passer
+  // pour « à venir » un événement déjà passé localement.
+  function dateDuJourLocale() {
+    const d = new Date();
+    const deux = (n) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${deux(d.getMonth() + 1)}-${deux(d.getDate())}`;
+  }
+
   // L'ancre porte l'identifiant de l'événement : c'est elle que vise le
   // bandeau d'annonce, qui n'a pas d'autre moyen de désigner la fiche.
   function ligneEvenement(ev) {
@@ -137,7 +147,7 @@
       // déjà triée par date croissante (voir api/events/public.js) — pas de
       // second appel réseau, pas de second tri. Comparaison en chaînes
       // AAAA-MM-JJ, valide pour l'ordre comme pour l'égalité.
-      const aujourdhui = new Date().toISOString().slice(0, 10);
+      const aujourdhui = dateDuJourLocale();
       const prochain = events.find((ev) => ev.starts_at && ev.starts_at.slice(0, 10) >= aujourdhui);
       const ligneProchain = document.querySelector('[data-info-row="next_session"]');
       const cibleProchain = document.querySelector('[data-info="next_session"]');
