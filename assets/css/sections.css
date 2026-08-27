@@ -645,7 +645,7 @@
 }
 .r-seance-heure {
   margin: 12px 0 0;
-  font-family: var(--serif);
+  font-family: var(--r-serif);
   font-size: 1.5rem;
   line-height: 1.15;
   color: var(--r-ink);
