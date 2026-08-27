@@ -8,7 +8,7 @@
    ============================================================ */
 
 .r-pratiques {
-  background: radial-gradient(90% 60% at 50% 0%, #3b4345 0%, transparent 62%), var(--r-dark);
+  background: radial-gradient(90% 60% at 50% 0%, #22543e 0%, transparent 62%), var(--r-dark);
 }
 
 .r-enso {
@@ -129,7 +129,7 @@
   margin: 0 0 10px;
   font-family: var(--r-serif);
   font-weight: 400;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   letter-spacing: 0.02em;
   color: var(--r-bone);
 }
@@ -137,19 +137,31 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  font-size: 0.87rem;
+  font-size: 1rem;
   line-height: 1.85;
+  text-align: center;
   color: var(--r-bone-soft);
 }
-.r-med li::before {
+/* Un trait de chaque côté plutôt qu'un seul avant : sur du texte centré,
+   un tiret unique tombe à une position différente selon la longueur de
+   chaque ligne (dispersé plutôt qu'aligné) — deux traits symétriques
+   encadrent chaque ligne quelle que soit sa longueur, sans avoir besoin
+   de les faire tomber en colonne. */
+.r-med li::before,
+.r-med li::after {
   content: "";
   display: inline-block;
   width: 10px;
   height: 1px;
-  margin-right: 8px;
   vertical-align: middle;
   background: var(--r-gold);
   opacity: 0.75;
+}
+.r-med li::before {
+  margin-right: 8px;
+}
+.r-med li::after {
+  margin-left: 8px;
 }
 
 /* Une seule pile, posée à côté du bouton plutôt qu'au-dessus : la
@@ -164,7 +176,7 @@
   border: 0;
   background: none;
   font: inherit;
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -754,7 +766,7 @@
    ============================================================ */
 
 .r-infos {
-  background: radial-gradient(70% 70% at 20% 0%, #3b4345 0%, transparent 60%), var(--r-dark);
+  background: radial-gradient(70% 70% at 20% 0%, #22543e 0%, transparent 60%), var(--r-dark);
 }
 .r-infos-grid {
   display: grid;

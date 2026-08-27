@@ -5,9 +5,9 @@
 
 :root {
   /* Grounds */
-  --r-dark: #343b3d;
-  --r-dark-deep: #2b3133;
-  --r-dark-raise: #3e4649;
+  --r-dark: #1b4332;
+  --r-dark-deep: #17392b;
+  --r-dark-raise: #22543e;
   --r-cream: #f8f4ec;
   --r-cream-2: #f1ebdf;
   --r-cream-3: #faf6ee; /* Repères de la grille Planning (en-têtes, colonne des horaires) */
@@ -19,13 +19,15 @@
   --r-bone-soft: #bcb6a8;
 
   /* Accents */
-  --r-sage: #5d7358;
-  --r-sage-deep: #4b5e47;
-  --r-sage-light: #9fb298;
-  --r-sage-veil: #dfe7db;
+  --r-sage: #2d6a4f;
+  --r-sage-deep: #1b4332;
+  --r-sage-light: #6fa382;
+  --r-sage-veil: #d8f3dc;
   --r-gold: #c9a86a;
   --r-gold-warm: #d8bb85;
   --r-gold-veil: #f0e4c9;
+  --r-gold-deep: #7d6229;
+  --r-gold-deep-hover: #8a6f36;
 
   /* Filets */
   --r-line: #ddd4c1;
@@ -236,12 +238,12 @@ a {
 .r-btn-sage {
   background: var(--r-sage);
   color: var(--r-cream);
-  box-shadow: 0 6px 18px rgb(59 76 55 / 22%);
+  box-shadow: 0 6px 18px rgb(27 67 50 / 26%);
   text-align: center;
 }
 .r-btn-sage:hover {
   background: var(--r-sage-deep);
-  box-shadow: 0 8px 24px rgb(59 76 55 / 30%);
+  box-shadow: 0 8px 24px rgb(27 67 50 / 34%);
 }
 
 .r-btn-gold {
@@ -251,6 +253,20 @@ a {
 }
 .r-btn-gold:hover {
   background: var(--r-gold-warm);
+}
+
+/* Sur bande claire, l'or pâle se fond dans le crème (contraste trop
+   faible) — pensé à l'origine pour ressortir sur les bandes sombres.
+   L'or profond y prend le relais, texte clair. */
+.r-hero .r-btn-gold,
+.r-tarifs .r-btn-gold {
+  background: var(--r-gold-deep);
+  color: var(--r-cream);
+  box-shadow: 0 6px 18px rgb(46 36 15 / 32%);
+}
+.r-hero .r-btn-gold:hover,
+.r-tarifs .r-btn-gold:hover {
+  background: var(--r-gold-deep-hover);
 }
 
 .r-btn-line {

@@ -22,8 +22,12 @@
 }
 
 @media (width <= 880px) {
+  /* Relève la base des tailles en `rem` (texte courant, titres, boutons,
+     nav...) plutôt que de reprendre chaque font-size une à une : tout ce
+     qui n'est pas déjà fixé en px suit proportionnellement. */
   :root {
     --r-gut: 20px;
+    font-size: 120%;
   }
 
   .r-burger {

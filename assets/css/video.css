@@ -3,7 +3,7 @@
    ============================================================ */
 
 .r-videos {
-  background: radial-gradient(80% 60% at 50% 100%, #3b4345 0%, transparent 60%), var(--r-dark);
+  background: radial-gradient(80% 60% at 50% 100%, #22543e 0%, transparent 60%), var(--r-dark);
 }
 .r-video-vedette:not(:empty) {
   margin-top: clamp(42px, 5vw, 64px);
