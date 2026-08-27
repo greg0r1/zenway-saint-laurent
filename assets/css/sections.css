@@ -320,6 +320,50 @@
   color: var(--r-sage-deep);
 }
 
+/* Le bulletin papier : un lien, pas un bouton. Les deux boutons
+   au-dessus mènent à l'inscription en ligne ou à l'appel ; celui-ci
+   ouvre un fichier, et se tient une marche en dessous — filet de
+   séparation, corps réduit, teinte de texte secondaire. */
+.r-ha-doc {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--r-line);
+  max-width: 34rem;
+}
+.r-ha-doc-lien {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--r-sage-deep);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--r-sage-light);
+  text-underline-offset: 4px;
+}
+.r-ha-doc-lien:hover {
+  text-decoration-color: var(--r-sage-deep);
+}
+/* Aligné sur la première ligne du libellé plutôt que centré : le lien
+   passe à deux ou trois lignes dans la colonne étroite, comme les
+   pastilles de .r-tarifs-pts juste au-dessus. */
+.r-ha-doc-lien svg {
+  flex: 0 0 auto;
+  width: 19px;
+  height: 19px;
+  margin-top: 3px;
+  color: var(--r-sage);
+}
+.r-ha-doc-poids {
+  color: var(--r-ink-soft);
+  font-weight: 400;
+  white-space: nowrap;
+}
+.r-ha-doc-note {
+  margin: 10px 0 0;
+  font-size: 0.85rem;
+  color: var(--r-ink-soft);
+}
+
 .r-ha-widget {
   border: 1px solid var(--r-line);
   border-radius: var(--r-radius);
