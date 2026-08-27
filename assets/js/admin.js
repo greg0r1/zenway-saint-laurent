@@ -10,14 +10,20 @@
        label: 'Événements',             // libellé du menu
        icon:  'i-calendar',             // symbole du jeu d'icônes
        title: 'Événements',             // titre affiché en haut (défaut : label)
+       init(page),                      // optionnel, une fois par session — voir plus bas
        mount(container, page),          // remplit la zone de travail
        unmount()                        // libère ce qui doit l'être
      }
-   L'objet `page` passé à mount expose :
+   L'objet `page` passé à mount (et à init) expose :
      page.setBadge(texte)     — la pastille du menu (null pour l'effacer)
      page.setActions([...])   — les boutons d'action en haut à droite
      page.flash(message)      — une confirmation discrète, qui s'efface
      page.go(id)              — aller à une autre page
+   `init` s'appelle une seule fois, juste après la connexion, et survit à la
+   navigation — contrairement à `mount`/`unmount`, remontés à chaque passage
+   sur la page. C'est le point d'entrée pour ce qu'un module doit tenir à
+   jour pour toute la session sans dépendre d'avoir déjà été visité, par
+   exemple sa propre pastille de menu à partir d'un abonnement permanent.
    ============================================================ */
 (function adminShell() {
   const body = document.body;
@@ -25,7 +31,6 @@
   const appView = document.getElementById('appView');
   const whoEl = document.getElementById('who');
   const logoutBtn = document.getElementById('logoutBtn');
-  const themeBtn = document.getElementById('themeBtn');
   const navEl = document.getElementById('adNav');
   const pageEl = document.getElementById('ad-page');
   const titleEl = document.getElementById('pageTitle');
@@ -85,6 +90,14 @@
       `;
       navEl.appendChild(a);
       links.set(mod.id, a);
+    });
+
+    // `init` est optionnel et ne s'appelle qu'une fois, ici — contrairement
+    // à `mount`, il survit à la navigation : c'est le point d'entrée pour
+    // tout ce qu'un module doit tenir à jour pour toute la session (par
+    // exemple sa pastille de menu), sans dépendre d'avoir déjà été visité.
+    pages.forEach((mod) => {
+      if (mod.init) mod.init(api(mod));
     });
 
     navEl.addEventListener('click', (e) => {
@@ -234,29 +247,6 @@
   window.matchMedia('(min-width: 901px)').addEventListener('change', (e) => {
     if (e.matches) fermerMenu();
   });
-
-  /* ---------------------------------------------------------------
-     Thème
-     --------------------------------------------------------------- */
-
-  /* Le bouton annonce ce vers quoi il emmène, jamais l'état actuel :
-     l'icône lune veut dire « passer en sombre ». */
-  function refletTheme(actif) {
-    if (!themeBtn) return;
-    const versSombre = actif !== 'sombre';
-    themeBtn.innerHTML = icone(versSombre ? 'i-moon' : 'i-sun');
-    themeBtn.setAttribute(
-      'aria-label',
-      versSombre ? 'Passer en thème sombre' : 'Passer en thème clair'
-    );
-    themeBtn.title = themeBtn.getAttribute('aria-label');
-  }
-
-  if (themeBtn) {
-    refletTheme(AdminTheme.actuel().actif);
-    AdminTheme.surChangement(refletTheme);
-    themeBtn.addEventListener('click', () => AdminTheme.basculer());
-  }
 
   /* ---------------------------------------------------------------
      Démarrage

@@ -26,6 +26,16 @@
     return `<svg class="ad-ico${classe ? ' ' + classe : ''}" aria-hidden="true"><use href="#${id}" /></svg>`;
   }
 
+  // La pastille du menu doit refléter le magasin dès qu'il est chargé, pas
+  // seulement une fois la page « Planning » visitée : cet abonnement se
+  // pose via `init` (une fois par session, voir assets/js/admin.js), pas
+  // dans mount()/unmount(), qui ne vivent que pendant la visite.
+  function init(api) {
+    AdminStore.abonnerPlanning((snap) => {
+      api.setBadge(snap.statut === 'pret' && snap.slots.length ? snap.slots.length : null);
+    });
+  }
+
   // Échappe les guillemets et l'apostrophe en plus des chevrons, pour
   // rester sûr en position d'attribut (value="…", src="…") : sans cela,
   // un guillemet dans la donnée referme l'attribut et permet d'en
@@ -136,8 +146,6 @@
     if (!root || !snap) return;
     const cible = root.querySelector('[data-slot="liste"]');
 
-    if (page) page.setBadge(snap.statut === 'pret' ? snap.slots.length || null : null);
-
     if (snap.statut === 'chargement' || snap.statut === 'attente') {
       cible.innerHTML = `
         <div class="ad-skeleton" aria-hidden="true">
@@ -179,7 +187,7 @@
 
     cible.innerHTML = `
       <div class="ad-tablewrap">
-        <table class="ad-table">
+        <table class="ad-table ad-table-click">
           <thead>
             <tr>
               <th scope="col" class="ad-col-date">Jour</th>
@@ -534,6 +542,7 @@
     label: 'Planning',
     icon: 'i-clock',
     title: 'Planning',
+    init,
     mount,
     unmount
   });

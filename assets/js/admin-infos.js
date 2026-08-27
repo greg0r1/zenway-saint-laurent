@@ -14,8 +14,7 @@
     map_url: 300,
     parking: 120,
     phone: 30,
-    email: 120,
-    next_session: 120
+    email: 120
   };
 
   let root = null;
@@ -59,7 +58,7 @@
     page.setActions([]);
 
     root.innerHTML = `
-      <p class="ad-lede">Adresse, parking, téléphone, e-mail et prochain rendez-vous, affichés dans la
+      <p class="ad-lede">Adresse, parking, téléphone et e-mail, affichés dans la
         section « Infos pratiques » du site.</p>
       <div data-slot="fiche"></div>
     `;
@@ -172,10 +171,6 @@
             <dt>${icone('i-mail')}E-mail</dt>
             <dd><b>${ouVide(i.email)}</b></dd>
           </div>
-          <div class="ad-fact">
-            <dt>${icone('i-calendar')}Prochain rendez-vous</dt>
-            <dd>${i.next_session ? `<b>${echapper(i.next_session)}</b>` : '<span class="ad-muet">Aucun — la ligne est masquée sur le site</span>'}</dd>
-          </div>
         </dl>
       </section>
 
@@ -183,6 +178,15 @@
         ${icone('i-info')}
         <div>
           Toute modification enregistrée ici apparaît aussitôt sur le site public.
+        </div>
+      </div>
+
+      <div class="ad-note">
+        ${icone('i-calendar')}
+        <div>
+          Le « Prochain rendez-vous » de cette section du site n'est pas ici :
+          il reprend automatiquement la date et le titre du plus proche
+          événement à venir, réglé dans <b>Événements</b>.
         </div>
       </div>
     `;
@@ -198,8 +202,7 @@
       map_url: '',
       parking: '',
       phone: '',
-      email: '',
-      next_session: ''
+      email: ''
     };
 
     const corps = document.createElement('div');
@@ -234,13 +237,6 @@
           <label for="in-email">E-mail</label>
           <input type="email" id="in-email" maxlength="${LIMITES.email}" value="${echapper(i.email)}" placeholder="contact@zenwaysaintlaurentduvar.fr">
         </div>
-
-        <div class="ad-field">
-          <label for="in-next">Prochain rendez-vous</label>
-          <input type="text" id="in-next" maxlength="${LIMITES.next_session}" value="${echapper(i.next_session)}" placeholder="Mardi 8 septembre, 17 h 45 – 18 h 45">
-          <p class="ad-hint">Facultatif : laissez vide pour masquer cette ligne sur le site.</p>
-          <p class="ad-hint" data-counter="in-next"></p>
-        </div>
       </form>
     `;
 
@@ -250,8 +246,7 @@
       mapUrl: corps.querySelector('#in-map'),
       parking: corps.querySelector('#in-parking'),
       phone: corps.querySelector('#in-phone'),
-      email: corps.querySelector('#in-email'),
-      nextSession: corps.querySelector('#in-next')
+      email: corps.querySelector('#in-email')
     };
 
     corps.querySelectorAll('[data-counter]').forEach((p) => {
@@ -269,8 +264,7 @@
         map_url: champs.mapUrl.value.trim(),
         parking: champs.parking.value.trim(),
         phone: champs.phone.value.trim(),
-        email: champs.email.value.trim(),
-        next_session: champs.nextSession.value.trim()
+        email: champs.email.value.trim()
       };
 
       if (!payload.address) {

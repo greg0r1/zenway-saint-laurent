@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <!-- Ensō — le cercle tracé d'un souffle. Décoratif, sur fond sombre.
+
+       Doré et rayonnant, comme dans la maquette, où il est la seule
+       forme lumineuse de la section : la palette du trait descend de
+       l'or veiné presque blanc (attaque du pinceau, en haut à gauche)
+       à l'or éteint de la sortie. Le halo et la lueur reprennent la
+       même famille — un ensō ivoire sur ce fond gris-vert ne rayonne
+       pas, il grisaille. -->
+  <defs>
+    <radialGradient id="halo" cx=".5" cy=".5" r=".5">
+      <stop offset=".5" stop-color="#e2c795" stop-opacity="0"/>
+      <stop offset=".8" stop-color="#e8d0a0" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#c9a86a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="brosse" x1=".12" y1="0" x2=".88" y2="1">
+      <stop offset="0" stop-color="#fbf2dd"/>
+      <stop offset=".3" stop-color="#f0e4c9"/>
+      <stop offset=".58" stop-color="#e2c795"/>
+      <stop offset=".82" stop-color="#c9a86a"/>
+      <stop offset="1" stop-color="#9c8049"/>
+    </linearGradient>
+    <filter id="lueur" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+  </defs>
+
+  <circle cx="200" cy="200" r="190" fill="url(#halo)"/>
+
+  <g filter="url(#lueur)" opacity=".5">
+    <path d="M214 46c81 7 145 75 145 158 0 87-71 158-158 158S43 291 43 204c0-72 48-133 114-152"
+          fill="none" stroke="#e6cd9c" stroke-width="20" stroke-linecap="round"/>
+  </g>
+
+  <!-- Le trait : deux arcs qui se referment, épais au sommet, effilé à la sortie -->
+  <path d="M157 52c-9 3-6 17 3 15 68-16 141 34 141 116 0 68-55 123-123 123S55 251 55 183c0-40 19-77 51-100 8-6 0-19-9-13-38 26-60 68-60 113 0 76 62 138 138 138s138-62 138-138C313 105 240 39 157 52Z"
+        fill="url(#brosse)"/>
+  <path d="M282 300c-6 6-2 15 6 12 21-9 38-25 48-46 3-8-8-13-12-5-9 17-24 31-42 39Z"
+        fill="url(#brosse)" opacity=".8"/>
+</svg>

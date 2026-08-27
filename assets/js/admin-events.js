@@ -34,6 +34,16 @@
     return `<svg class="ad-ico${classe ? ' ' + classe : ''}" aria-hidden="true"><use href="#${id}" /></svg>`;
   }
 
+  // La pastille du menu doit refléter le magasin dès qu'il est chargé, pas
+  // seulement une fois la page « Événements » visitée : cet abonnement se
+  // pose via `init` (une fois par session, voir assets/js/admin.js), pas
+  // dans mount()/unmount(), qui ne vivent que pendant la visite.
+  function init(api) {
+    AdminStore.abonner((snap) => {
+      api.setBadge(snap.statut === 'pret' && snap.enLigne.length ? snap.enLigne.length : null);
+    });
+  }
+
   // Échappe les guillemets et l'apostrophe en plus des chevrons, pour
   // rester sûr en position d'attribut (value="…", src="…") : sans cela,
   // un guillemet dans la donnée referme l'attribut et permet d'en
@@ -155,8 +165,6 @@
       btn.setAttribute('aria-selected', String(btn.dataset.vue === vue));
     });
 
-    if (page) page.setBadge(snap.statut === 'pret' ? snap.enLigne.length : null);
-
     if (snap.statut === 'chargement' || snap.statut === 'attente') {
       cible.innerHTML = `
         <div class="ad-skeleton" aria-hidden="true">
@@ -200,7 +208,7 @@
 
     cible.innerHTML = `
       <div class="ad-tablewrap">
-        <table class="ad-table">
+        <table class="ad-table ad-table-click">
           <thead>
             <tr>
               <th scope="col" class="ad-col-date">Date</th>
@@ -759,6 +767,7 @@
     label: 'Événements',
     icon: 'i-calendar',
     title: 'Événements',
+    init,
     mount,
     unmount
   });

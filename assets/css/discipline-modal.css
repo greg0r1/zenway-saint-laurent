@@ -1,161 +1,141 @@
 /* ============================================================
-   DISCIPLINE-MODAL — fenêtre modale de détail par pratique
+   FICHES DISCIPLINES — les quatre fenêtres de détail, ouvertes
+   depuis les médaillons de « Nos pratiques & bienfaits », plus
+   l'agrandissement d'une image d'événement, qui partage le même
+   châssis (<dialog> natif : voile, piège à focus et Échap viennent
+   du navigateur, pas de nous).
    ============================================================ */
-/* Le détail d'une pratique s'ouvre en fenêtre modale, à l'apple :
-   carte flottante centrée, fond assombri et flouté, une seule
-   pratique ouverte à la fois (comportement natif de <dialog>). */
-.detail-modal {
-  border: 0;
-  border-radius: 22px;
+
+.r-modal {
+  width: min(920px, calc(100vw - 32px));
+  max-height: min(86vh, 900px);
   padding: 0;
-  width: min(880px, 92vw);
-  max-height: 86vh;
-  margin: auto;
-  background: var(--paper);
-  box-shadow: 0 40px 80px rgba(15, 33, 25, 0.35);
-  overscroll-behavior: contain;
-}
-
-.detail-modal::backdrop {
-  background: rgba(15, 33, 25, 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-.detail-modal[open] {
-  animation: modal-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.detail-modal[open]::backdrop {
-  animation: modal-backdrop-in 0.4s ease both;
-}
-
-@keyframes modal-in {
-  from {
-    opacity: 0;
-    transform: translateY(24px) scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@keyframes modal-backdrop-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.modal-scroll {
-  position: relative;
-  max-height: 86vh;
-  overflow-y: auto;
-  padding: 0 0 44px;
-}
-
-.modal-close {
-  position: sticky;
-  top: 18px;
-  left: 100%;
-  transform: translateX(-18px);
-  z-index: 2;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
   border: 0;
-  background: rgba(250, 248, 242, 0.9);
-  color: var(--ink);
-  font-size: 1.5rem;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(15, 33, 25, 0.2);
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
-}
-
-.modal-close:hover,
-.modal-close:focus-visible {
-  background: var(--paper);
-  transform: translateX(-18px) scale(1.06);
-}
-
-.modal-figs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  margin-top: -36px;
-  border-radius: 22px 22px 0 0;
+  border-radius: var(--r-radius);
+  background: var(--r-cream);
+  color: var(--r-ink);
+  box-shadow: var(--r-shadow);
   overflow: hidden;
 }
+.r-modal::backdrop {
+  background: rgb(24 28 29 / 62%);
+  backdrop-filter: blur(6px);
+}
 
-.modal-figs img {
+/* Le défilement vit à l'intérieur de la carte : le voile reste fixe,
+   c'est le contenu qui bouge. */
+.r-modal-scroll {
+  position: relative;
+  max-height: inherit;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(28px, 4vw, 48px);
+}
+
+/* La croix reste accrochée au coin visible pendant le défilement — sans
+   `position: sticky` elle partirait avec le texte dès la première ligne
+   lue, et il faudrait remonter pour fermer. */
+.r-modal-close {
+  position: sticky;
+  top: 0;
+  float: right;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  margin: -8px -8px 0 12px;
+  border: 1px solid var(--r-line-strong);
+  border-radius: 50%;
+  background: var(--r-cream);
+  color: var(--r-ink-soft);
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+.r-modal-close:hover {
+  color: var(--r-ink);
+  border-color: var(--r-ink-soft);
+}
+
+/* Deux images côte à côte : l'origine et la pratique d'aujourd'hui. */
+.r-modal-figs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: clamp(24px, 3vw, 36px);
+}
+.r-modal-figs img {
+  display: block;
   width: 100%;
-  height: 260px;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
-  filter: saturate(0.85) contrast(1.03);
-  display: block;
+  border-radius: 14px;
 }
 
-.modal-copy {
-  max-width: 62ch;
-  margin: 0 auto;
-  padding: 36px 48px 0;
-}
-
-.modal-copy h4 {
-  font-size: 1.28rem;
-  color: var(--green-900);
-  margin: 0 0 12px;
-}
-
-.modal-copy p {
-  color: var(--ink-soft);
-}
-
-.modal-copy h4 + p {
-  margin-bottom: 30px;
-}
-
-.detail-note {
-  padding-top: 18px;
-  border-top: 1px solid rgba(27, 67, 50, 0.16);
-  font-size: 0.92rem;
-  color: var(--green-700);
-  font-weight: 600;
-  margin-bottom: 0;
-}
-
-.practice .gain {
-  font-size: 0.85rem;
-  color: var(--green-700);
-  font-weight: 600;
-  margin: 0;
-  padding-top: 10px;
-  border-top: 1px solid rgba(27, 67, 50, 0.14);
-}
-
-.single {
-  margin: 0 auto;
-  max-width: 72ch;
-  text-align: center;
-  padding-top: 32px;
-  border-top: 2px solid var(--gold);
-  color: var(--ink-soft);
-}
-
-.single b {
-  display: block;
-  font-family: var(--serif);
-  font-size: 1.5rem;
+.r-modal-copy h4 {
+  margin: clamp(22px, 2.6vw, 32px) 0 10px;
+  font-family: var(--r-serif);
   font-weight: 400;
-  color: var(--green-900);
-  margin-bottom: 10px;
+  font-size: clamp(1.35rem, 2.2vw, 1.7rem);
+  letter-spacing: 0.01em;
+  color: var(--r-ink);
+}
+.r-modal-copy h4:first-child {
+  margin-top: 0;
+}
+.r-modal-copy p {
+  margin: 0 0 14px;
+  font-size: 0.97rem;
+  line-height: 1.8;
+  color: var(--r-ink-soft);
+}
+
+/* Le rappel « en complément d'un suivi médical » : détaché du corps du
+   texte par un filet d'or, jamais noyé dans le dernier paragraphe. */
+.r-modal-note {
+  margin-top: clamp(22px, 2.6vw, 30px);
+  padding-left: 16px;
+  border-left: 2px solid var(--r-gold);
+  font-style: italic;
+}
+
+/* ---------- Agrandissement d'une image d'événement ---------- */
+.r-modal-image {
+  width: auto;
+  max-width: min(1100px, calc(100vw - 32px));
+  background: none;
+  box-shadow: none;
+}
+.r-modal-image .r-modal-scroll {
+  padding: 0;
+  overflow: visible;
+}
+.r-modal-image .r-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  float: none;
+  margin: 0;
+}
+.r-modal-image #eventImageModalZone img {
+  display: block;
+  max-width: 100%;
+  max-height: 84vh;
+  border-radius: var(--r-radius);
+}
+
+@media (width <= 620px) {
+  /* Deux images côte à côte deviennent deux timbres-poste : on les empile,
+     l'origine puis la pratique d'aujourd'hui, dans l'ordre du récit. */
+  .r-modal-figs {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .r-modal-close {
+    transition: none;
+  }
 }

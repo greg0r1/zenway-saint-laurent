@@ -1,144 +1,249 @@
 /* ============================================================
-   NAV — en-tête fixe, liens, burger
+   NAVIGATION — claire posée sur le hero, sombre dès qu'on défile.
+   C'est le seul mouvement orchestré de la page.
    ============================================================ */
-/* ---------- BANDEAU ÉVÉNEMENT ---------- */
-/* Masqué par défaut (attribut [hidden] dans le HTML) : n'apparaît que
-   si assets/js/events-banner.js trouve un événement actif via l'API.
-   Placé avant le header sticky, il le pousse naturellement vers le bas. */
-.event-banner {
-  display: block;
-  background: linear-gradient(90deg, var(--gold) 0%, var(--gold-soft) 100%);
-  color: var(--green-900);
-  text-decoration: none;
-}
 
-.event-banner-inner {
+/* Le flou vient d'un calque séparé (::before) plutôt que d'un
+   `backdrop-filter` posé directement sur `.r-nav` : `filter`/`backdrop-filter`
+   sur un ancêtre en fait le bloc de référence de tout descendant
+   `position: fixed`, ce qui aurait cassé le tiroir mobile en plein écran
+   (il se serait redimensionné sur les 76px de l'en-tête au lieu du
+   viewport). Le calque, lui, ne porte aucun descendant fixed. */
+.r-nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 100;
+  height: var(--r-nav-h);
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  padding: 10px 24px;
-  font-size: 0.88rem;
-  text-align: center;
+  border-bottom: 1px solid rgb(221 212 193 / 70%);
+  transition: border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.r-nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgb(248 244 236 / 92%);
+  backdrop-filter: blur(10px);
+  transition: background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.event-banner-tag {
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: 0.7rem;
-}
-
-.event-banner-title {
-  font-weight: 600;
-}
-
-.event-banner-arrow {
-  display: inline-block;
-  transition: translate 0.2s ease;
-}
-
-.event-banner:hover .event-banner-arrow,
-.event-banner:focus-visible .event-banner-arrow {
-  translate: 4px 0;
-}
-
-/* ---------- NAV ---------- */
-.nav {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  background: rgba(27, 67, 50, 0.9);
-  border-bottom: 1px solid rgba(216, 243, 220, 0.16);
-}
-
-.bar {
+.r-nav-in {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  min-height: 72px;
+  width: min(100% - calc(var(--r-gut) * 2), var(--r-maxw));
+  margin-inline: auto;
 }
 
-.logo {
+.r-brand {
   display: flex;
   align-items: center;
   gap: 12px;
   text-decoration: none;
+  flex-shrink: 0;
 }
-
-.logo img {
-  height: 42px;
-  width: auto;
+.r-brand img {
+  width: 52px;
+  height: auto;
 }
-
-.logo-city {
-  font-size: 0.6rem;
-  letter-spacing: 0.24em;
+.r-brand-txt {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--gold-soft);
-  white-space: nowrap;
+  line-height: 1.4;
+  color: var(--r-ink-soft);
+  max-width: 12.5em;
+  transition: color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.links {
+.r-links {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: clamp(14px, 1.9vw, 30px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
-
-.links a {
-  text-decoration: none;
-  font-size: 0.92rem;
-  color: var(--mint-soft);
-  padding-bottom: 3px;
-  border-bottom: 1.5px solid transparent;
-  transition: border-color 0.2s ease;
-}
-
-.links a:hover {
-  border-bottom-color: var(--gold);
-}
-
-.links .cta {
-  background: var(--gold);
-  color: var(--green-900);
-  font-weight: 700;
-  padding: 11px 22px;
-  border-radius: 2px;
-  border-bottom: 0;
-}
-
-.links .cta:hover {
-  background: var(--gold-soft);
-}
-
-.burger {
-  display: none;
-  flex-direction: column;
-  gap: 6px;
-  background: none;
-  border: 0;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.burger span {
-  width: 26px;
-  height: 2px;
-  background: var(--mint);
+.r-links a {
   display: block;
+  padding: 6px 0;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: var(--r-ink);
+  position: relative;
+  transition: color 0.3s ease;
+}
+.r-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--r-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.r-links a:hover::after,
+.r-links a[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* État sombre, posé par nav-reveal.js au défilement — sauf `is-light`,
+   posé quand la bande sous la barre est sombre (r-dark) : la barre y
+   reprend son état clair d'origine (celui du hero, juste au-dessus) plutôt
+   que de le recopier ici. `:not(.is-light)` laisse alors la cascade
+   retomber sur les règles par défaut de `.r-nav`, qui portent déjà ces
+   valeurs — un seul jeu de couleurs claires à tenir à jour, pas deux. */
+.r-nav.is-scrolled:not(.is-light) {
+  border-bottom-color: var(--r-line-dark);
+}
+.r-nav.is-scrolled:not(.is-light)::before {
+  background: color-mix(in srgb, var(--r-dark-deep) 96%, transparent);
+}
+.r-nav.is-scrolled:not(.is-light) .r-links a {
+  color: var(--r-bone);
+}
+.r-nav.is-scrolled:not(.is-light) .r-brand-txt {
+  color: var(--r-bone-soft);
+}
+.r-nav.is-scrolled:not(.is-light) .r-burger span {
+  background: var(--r-bone);
+}
+
+/* `position: relative` + z-index au-dessus du tiroir (fixed, z-index 100) :
+   sans ça le tiroir plein page, une fois ouvert, peint par-dessus ce bouton
+   normalement positionné et sa croix devient invisible et incliquable. */
+.r-burger {
+  display: none;
+  position: relative;
+  z-index: 101;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  place-items: center;
+}
+/* Les trois barres sont empilées dans la même cellule de grille et écartées
+   par transform, pas par des marges. L'écart ne dépend donc plus de la
+   hauteur du bouton : à l'ouverture les deux barres reviennent à zéro et se
+   croisent exactement. Avec des marges, les rangées de la grille s'étirent
+   (44/3 ≈ 14.7px) et la croix s'ouvre en chevron. */
+.r-burger span {
+  grid-area: 1 / 1;
+  width: 22px;
+  height: 1.5px;
+  background: var(--r-ink);
   transition:
-    transform 0.25s ease,
-    opacity 0.25s ease;
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.25s ease,
+    background-color 0.5s ease;
+}
+.r-burger span:nth-child(1) {
+  transform: translateY(-6px);
+}
+.r-burger span:nth-child(3) {
+  transform: translateY(6px);
+}
+.r-burger[aria-expanded="true"] span:nth-child(1) {
+  transform: rotate(45deg);
+}
+.r-burger[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+.r-burger[aria-expanded="true"] span:nth-child(3) {
+  transform: rotate(-45deg);
 }
 
-/* Les deux traits se croisent en X : le bouton montre lui-même son
-   état, sans dépendre du seul aria-label pour les voyants. */
-.burger[aria-expanded="true"] span:first-child {
-  transform: translateY(4px) rotate(45deg);
+/* ============================================================
+   BANDEAU D'ÉVÉNEMENT — l'annonce que Béatrice met à la une
+   ============================================================ */
+
+/* Le bandeau reste dans le flux, au-dessus de tout : il défile avec la
+   page plutôt que de manger la fenêtre en permanence. L'en-tête, lui, est
+   fixe — il descend donc de la hauteur du bandeau tant qu'on est en haut
+   de page, puis remonte se coller au bord dès le premier défilement, au
+   moment précis où le bandeau sort du champ.
+   `--r-bandeau-h` vaut zéro tant qu'aucun événement n'est à la une :
+   events-banner.js pose `a-bandeau` sur <html> quand il en trouve un, et
+   rien ne bouge dans le cas contraire. */
+:root {
+  --r-bandeau-h: 0px;
+}
+:root.a-bandeau {
+  --r-bandeau-h: 46px;
+}
+.r-nav {
+  top: var(--r-bandeau-h);
+  transition:
+    top 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.r-nav.is-scrolled {
+  top: 0;
 }
 
-.burger[aria-expanded="true"] span:last-child {
-  transform: translateY(-4px) rotate(-45deg);
+/* `display` posé ici l'emporterait sur le `[hidden] { display: none }` de
+   la feuille du navigateur : sans la règle qui suit, le bandeau resterait
+   visible et vide tant qu'aucun événement n'est à la une. */
+.r-bandeau[hidden] {
+  display: none;
+}
+.r-bandeau {
+  position: relative;
+  z-index: 101;
+  display: block;
+  height: 46px;
+  background: var(--r-sage-deep);
+  color: var(--r-bone);
+  text-decoration: none;
+}
+.r-bandeau-in {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 100%;
+  font-size: 0.86rem;
+}
+.r-bandeau-tag {
+  flex: 0 0 auto;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgb(233 226 211 / 16%);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+/* Le titre est la seule part variable : c'est lui qui se coupe quand la
+   place manque, jamais l'étiquette ni la flèche. */
+.r-bandeau-titre {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.r-bandeau-fleche {
+  flex: 0 0 auto;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.r-bandeau:hover .r-bandeau-fleche {
+  transform: translateX(4px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .r-nav,
+  .r-bandeau-fleche {
+    transition: none;
+  }
 }
