@@ -174,14 +174,16 @@ espace de noms du site après la mise en production, et se distingue des jetons
 ```css
 --r-dark: #343b3d /* Bandes sombres */ --r-dark-deep: #2b3133 /* Creux des bandes sombres */
   --r-dark-raise: #3e4649 /* Relief sur bande sombre */ --r-cream: #f8f4ec /* Bandes claires */
-  --r-cream-2: #f1ebdf /* Crème chaud, fiches */ --r-ink: #2b332f /* Texte sur clair */
+  --r-cream-2: #f1ebdf /* Crème chaud, fiches */ --r-cream-3: #faf6ee
+  /* Repères de la grille Planning */ --r-ink: #2b332f /* Texte sur clair */
   --r-ink-soft: #5f6a62 /* Texte secondaire sur clair */ --r-bone: #e9e2d3 /* Texte sur sombre */
   --r-bone-soft: #bcb6a8 /* Texte secondaire sur sombre */ --r-sage: #5d7358
   /* Action de second rang */ --r-sage-deep: #4b5e47 /* Survol sauge, texte sauge */
   --r-sage-light: #9fb298 /* Sauge sur sombre */ --r-sage-veil: #dfe7db /* Pastilles de sauge */
   --r-gold: #c9a86a /* Action principale, ornements */ --r-gold-warm: #d8bb85 /* Survol de l'or */
   --r-gold-veil: #f0e4c9 /* Aplats d'or très clairs */ --r-line: #ddd4c1 /* Filet sur clair */
-  --r-line-strong: #cabfa7 /* Filet marqué sur clair */ --r-line-dark: rgb(233 226 211 / 16%)
+  --r-line-strong: #cabfa7 /* Filet marqué sur clair */ --r-line-soft: #e8e0cf
+  /* Filet clair, grille et liste du Planning */ --r-line-dark: rgb(233 226 211 / 16%)
   /* Filet sur sombre */ --r-line-dark-strong: rgb(233 226 211 / 28%) /* Filet marqué sur sombre */;
 ```
 

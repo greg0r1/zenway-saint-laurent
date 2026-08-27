@@ -127,7 +127,7 @@
   width: 20px;
   height: 20px;
   margin-left: 3px;
-  color: #fbf8f1;
+  color: var(--r-cream);
 }
 .r-vthumb iframe {
   position: absolute;
