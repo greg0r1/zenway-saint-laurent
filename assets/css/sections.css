@@ -8,7 +8,8 @@
    ============================================================ */
 
 .r-pratiques {
-  background: radial-gradient(90% 60% at 50% 0%, var(--r-dark-raise) 0%, transparent 62%), var(--r-dark);
+  background:
+    radial-gradient(90% 60% at 50% 0%, var(--r-dark-raise) 0%, transparent 62%), var(--r-dark);
 }
 
 .r-enso {
@@ -766,7 +767,8 @@
    ============================================================ */
 
 .r-infos {
-  background: radial-gradient(70% 70% at 20% 0%, var(--r-dark-raise) 0%, transparent 60%), var(--r-dark);
+  background:
+    radial-gradient(70% 70% at 20% 0%, var(--r-dark-raise) 0%, transparent 60%), var(--r-dark);
 }
 .r-infos-grid {
   display: grid;
