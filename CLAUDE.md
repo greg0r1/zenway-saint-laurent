@@ -49,7 +49,9 @@ Le reste du site reste 100 % statique (HTML/CSS/JS vanilla, zéro build). Trois 
 - **Admin conçue comme une console classique** : barre latérale de navigation à gauche, une seule page montée à la fois dans la zone de travail. `admin/index.html` gère la connexion, puis `admin.js` fabrique une entrée de menu et une page par module déclaré dans `window.AdminModules`. La page courante vit dans l'adresse (`#/evenements`), donc le bouton Précédent du navigateur et les liens directs fonctionnent. Quatre pages aujourd'hui — « Tableau de bord », « Événements », « Planning » et « Infos pratiques » — chacune avec un CRUD complet via le panneau latéral (« Infos pratiques » porte une fiche unique : pas de création ni de suppression, un seul formulaire d'édition). L'admin est destinée à en accueillir d'autres (voir « Ajouter un module admin »). Cela ne change rien à la portée du backend/BDD, qui reste strictement limité aux événements, au planning et aux infos pratiques tant qu'aucune autre décision n'est prise.
 - **« Infos pratiques » est la source de vérité** : le site public lit ces valeurs via `GET /api/infos` (voir « Fichiers » ci-dessous) ; `index.html` ne conserve le contenu écrit en dur que comme repli tant qu'aucune fiche n'existe en base (voir le seed dans `db/README.md`). Contrairement aux événements et au planning, ce module n'a pas de fichier `public.js` séparé : `GET /api/infos` est public (cette table ne contient aucune donnée « pas encore publiée », donc rien à filtrer selon la session), seul `PUT /api/infos` exige une session admin. C'est aussi une contrainte pratique : le plan Hobby de Vercel limite à 12 fonctions serverless par déploiement, et le projet est déjà à cette limite.
 - **Menu burger en mobile** : sous 900 px la barre latérale sort du flux et devient un tiroir, ouvert par le bouton de l'en-tête, refermé par Échap, par le voile, ou par le choix d'une page.
-- **Thème clair / sombre** : l'admin porte les deux, réglés par `data-theme` sur `<html>` (`assets/js/admin-theme.js`, chargé en synchrone dans le `<head>` pour éviter l'éclair au chargement). Sans choix explicite, on suit `prefers-color-scheme`. La barre latérale reste vert profond dans les deux cas — c'est l'ancre d'identité. Aucune couleur en dur dans les composants : tout passe par les jetons `--ad-*` définis en tête de `admin.css`.
+- **Un seul thème, clair** : pas de bascule sombre (décision prise, l'admin ne suit plus `prefers-color-scheme`).
+- **L'admin a sa propre identité, d'après une maquette épinglée par l'utilisateur.** Barre latérale blanche, zone de travail gris-bleu (`#f5f8f9`), cartes blanches arrondies (14 px) tenues par l'ombre, tableau de bord en grille de douze colonnes. **Sa couleur est le Sarcelle Ardoise** (`--ad-accent`, `#427482`) : elle porte l'action, la navigation, la position courante et le focus. **L'or et le Cormorant du site public n'entrent pas dans `/admin`** — les titres y sont en DM Sans gras capitales. Le sarcelle ne sort pas non plus vers le site public. Aucune couleur en dur dans les composants : tout passe par les jetons `--ad-*` définis en tête de `admin.css`.
+- **Deux exceptions épinglées par cette maquette**, à ne pas « corriger » : le sur-titre « Zenway Saint-Laurent-du-Var · Backoffice » au-dessus du titre de page (seul sur-titre autorisé du projet), et le liseré sarcelle de 4 px de l'entrée de menu active (il marque une position, pas un état, et le champ pâle le double). Détail et justification dans DESIGN.md.
 - **Panneau latéral** : tout ce qui agit (consulter une fiche, modifier, réordonner, mettre en ligne, archiver, supprimer) se passe dans un panneau unique et partagé (`assets/js/admin-panel.js`), bâti sur `<dialog>` natif — piège à focus, Échap et voile de fond viennent du navigateur. Les pages ne portent que de la lecture et des listes. Sur mobile le panneau prend tout l'écran.
 - **Magasins partagés** : les événements et les créneaux de planning sont chacun lus une seule fois et diffusés (`assets/js/admin-store.js`, deux magasins distincts dans le même fichier). Le tableau de bord et les pages « Événements » / « Planning » s'y abonnent : publier depuis l'une met les autres à jour sans rechargement.
 
@@ -87,7 +89,6 @@ admin/
 
 assets/js/
 ├── config-admin.js         ← identifiant client Google (page /admin uniquement)
-├── admin-theme.js          ← thème clair/sombre, chargé en synchrone dans le <head>
 ├── admin-auth.js           ← connexion Google + session, partagé par tous les modules admin
 ├── admin-store.js          ← magasins des événements, du planning et des infos pratiques + mise en forme des dates
 ├── admin-panel.js          ← panneau latéral partagé (<dialog>), utilisé par tous les modules
@@ -119,7 +120,7 @@ Le schéma vit dans `db/migrations/`, en fichiers SQL numérotés joués à la m
 
 Pour ajouter une nouvelle section à l'admin (autre chose que les événements et le planning) :
 
-1. Créer `assets/js/admin-<nom>.js` qui s'enregistre en poussant `{ id, label, icon, title, mount(container, page), unmount() }` dans `window.AdminModules` (voir `admin-events.js` comme modèle). `id` sert d'identifiant et de fragment d'URL (`#/<id>`), `icon` est l'identifiant d'un symbole du jeu d'icônes de `admin/index.html`, `title` le titre affiché en haut de la zone de travail (défaut : `label`). L'objet `page` reçu par `mount` expose :
+1. Créer `assets/js/admin-<nom>.js` qui s'enregistre en poussant `{ id, label, icon, title, init(page), mount(container, page), unmount() }` dans `window.AdminModules` (voir `admin-events.js` comme modèle). `id` sert d'identifiant et de fragment d'URL (`#/<id>`), `icon` est l'identifiant d'un symbole du jeu d'icônes de `admin/index.html`, `title` le titre affiché en haut de la zone de travail (défaut : `label`), `init` est optionnel. L'objet `page` reçu par `init` et par `mount` expose :
    - `page.setActions([{ label, icone, style, onClick }])` — les boutons d'action en haut à droite, l'action principale en `ad-btn-primary` ;
    - `page.setBadge(texte)` — la pastille du menu, un compte seulement (`null` pour l'effacer) ;
    - `page.flash(message)` — une confirmation discrète, qui s'efface ;
@@ -128,7 +129,7 @@ Pour ajouter une nouvelle section à l'admin (autre chose que les événements e
 3. Si le module a besoin de stockage, décider au cas par cas si `api/` et Supabase sont réutilisés (nouvelle table) ou si une autre solution convient — ce n'est plus couvert par la règle « strictement limité aux événements et au planning » ci-dessus une fois la décision prise explicitement avec l'utilisateur.
 4. Si une nouvelle table est décidée, ajouter un fichier `db/migrations/<NNN>_<module>.sql` en suivant le modèle de `db/README.md` (jamais de modification d'une migration déjà appliquée).
 
-La coquille (`admin.js`) n'a pas besoin d'être modifiée : elle lit `window.AdminModules`, fabrique une entrée de menu par module, et monte une seule page à la fois selon l'adresse. `unmount()` doit libérer ce que `mount()` a pris (abonnements au magasin, écouteurs globaux) : contrairement à l'ancienne page unique, les modules sont réellement démontés à chaque changement de page.
+La coquille (`admin.js`) n'a pas besoin d'être modifiée : elle lit `window.AdminModules`, fabrique une entrée de menu par module, et monte une seule page à la fois selon l'adresse. `init`, si présent, s'appelle une seule fois par session, juste après la connexion — c'est le point d'entrée pour ce qu'un module doit tenir à jour sans dépendre d'avoir déjà été visité (typiquement sa propre pastille de menu, via un abonnement permanent au magasin). `unmount()` doit libérer ce que `mount()` a pris (abonnements au magasin, écouteurs globaux) : contrairement à l'ancienne page unique, les modules sont réellement démontés à chaque changement de page — mais ce que `init` a pris vit pour toute la session, il n'y a pas de symétrique à `unmount` pour lui.
 
 Chaque page dit en toutes lettres ce qu'elle commande sur le site public, et ce qui est en ligne à l'instant — c'est ce qui distingue cette console d'un simple formulaire. Les règles visuelles sont dans `DESIGN.md`.
 
@@ -189,9 +190,11 @@ Quatre jetons de plus (`--r-anneau-haut`, `--r-anneau-corps`, `--r-anneau-bas`,
 « Nos pratiques ». Ils n'existent que pour cet usage.
 
 Ne jamais introduire de nouvelle couleur sans l'ajouter en variable CSS et justifier son usage.
-Le vert forêt (`#1b4332`) et le teal (`#2f8f7f`) de l'ancienne charte ne subsistent
-que dans l'administration (`assets/css/admin.css`) et dans `theme-color` — le site
-public ne les emploie plus.
+Le vert forêt (`#1b4332`) et le teal (`#2f8f7f`) de l'ancienne charte ne servent
+plus nulle part : le site public ne les emploie plus depuis la refonte, et
+l'administration a désormais sa propre palette (`--ad-*`, `assets/css/admin.css`),
+bâtie autour du Sarcelle Ardoise `#427482`. Les deux jeux de jetons ne se
+mélangent pas — voir « la règle de la porte » dans DESIGN.md.
 
 ### Typographies (auto-hébergées, woff2 dans `assets/fonts/`)
 
@@ -253,7 +256,6 @@ zenway-saint-laurent/
 │   │   ├── practice-modals.js   ← ouverture des fiches disciplines
 │   │   ├── nav-reveal.js        ← état de la nav au défilement, tiroir mobile, révélation
 │   │   ├── config-admin.js      ← identifiant client Google (page /admin uniquement)
-│   │   ├── admin-theme.js       ← thème clair/sombre de l'admin (chargé dans le <head>)
 │   │   ├── admin-auth.js        ← connexion Google + session, partagé par les modules admin
 │   │   ├── admin-store.js       ← magasins des événements, du planning et des infos pratiques + mise en forme des dates
 │   │   ├── admin-panel.js       ← panneau latéral partagé de l'admin (<dialog>)
@@ -274,6 +276,7 @@ zenway-saint-laurent/
 │       │                      volutes, ensō, spirales) + la petite pile de galets
 │       ├── adhesion/        ← photo de la grande pile de galets (section Adhésion),
 │       │                      seule photo purement décorative du site — voir DESIGN.md
+│       ├── admin/           ← illustration du tableau de bord de /admin (hors site public)
 │       ├── favicons/        ← déclinaisons d'icône (16 → 512 px)
 │       └── meta/            ← og-image du partage social
 ├── admin/

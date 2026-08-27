@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Administration · Zenway Saint-Laurent-du-Var</title>
     <meta name="robots" content="noindex, nofollow" />
-    <meta name="theme-color" content="#1b4332" />
+    <meta name="theme-color" content="#427482" />
 
     <link rel="stylesheet" href="../assets/css/fonts.css" />
     <link rel="stylesheet" href="../assets/css/base.css" />
     <link rel="stylesheet" href="../assets/css/admin.css" />
-
-    <!-- Le thème est posé sur <html> avant le premier rendu : chargé ici, en
-       synchrone, pour éviter l'éclair clair au chargement en mode sombre. -->
-    <script src="../assets/js/admin-theme.js"></script>
   </head>
 
   <body class="ad">
@@ -132,15 +128,6 @@
         <path d="M14.5 5H6.4A1.4 1.4 0 0 0 5 6.4v11.2A1.4 1.4 0 0 0 6.4 19h8.1" />
         <path d="M15.8 8.6 19.2 12l-3.4 3.4M18.8 12H9.6" />
       </symbol>
-      <symbol id="i-sun" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="4" />
-        <path
-          d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21M5.6 5.6l1.6 1.6M16.8 16.8l1.6 1.6M18.4 5.6l-1.6 1.6M7.2 16.8l-1.6 1.6"
-        />
-      </symbol>
-      <symbol id="i-moon" viewBox="0 0 24 24">
-        <path d="M20 13.4A8 8 0 1 1 10.6 4a6.6 6.6 0 0 0 9.4 9.4Z" />
-      </symbol>
       <symbol id="i-image" viewBox="0 0 24 24">
         <path
           d="M5.4 5h13.2A1.4 1.4 0 0 1 20 6.4v11.2a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 17.6V6.4A1.4 1.4 0 0 1 5.4 5Z"
@@ -187,8 +174,8 @@
 
       <aside class="ad-side" id="adSide">
         <div class="ad-side-head">
-          <img src="../assets/img/logo/logo-zenway.png" alt="" width="38" height="28" />
-          <span class="ad-side-brand">Administration<em>Saint-Laurent-du-Var</em></span>
+          <img src="../assets/img/logo/logo-zenway.png" alt="" width="40" height="30" />
+          <span class="ad-side-brand">Zenway</span>
           <button
             type="button"
             class="ad-icon-btn ad-side-close"
@@ -208,20 +195,6 @@
           </a>
           <div class="ad-side-user">
             <span class="ad-side-who" id="who"></span>
-            <div class="ad-side-tools">
-              <button type="button" id="themeBtn" class="ad-icon-btn">
-                <svg class="ad-ico" aria-hidden="true"><use href="#i-moon" /></svg>
-              </button>
-              <button
-                type="button"
-                id="logoutBtn"
-                class="ad-icon-btn"
-                aria-label="Se déconnecter"
-                title="Se déconnecter"
-              >
-                <svg class="ad-ico" aria-hidden="true"><use href="#i-out" /></svg>
-              </button>
-            </div>
           </div>
         </div>
       </aside>
@@ -238,8 +211,20 @@
           >
             <svg class="ad-ico" aria-hidden="true"><use href="#i-menu" /></svg>
           </button>
-          <h1 class="ad-top-title" id="pageTitle">Administration</h1>
+          <div class="ad-top-heading">
+            <p class="ad-top-overline">Zenway Saint-Laurent-du-Var · Backoffice</p>
+            <h1 class="ad-top-title" id="pageTitle">Administration</h1>
+          </div>
           <div class="ad-top-actions" id="pageActions"></div>
+          <button
+            type="button"
+            id="logoutBtn"
+            class="ad-btn ad-btn-line ad-top-logout"
+            aria-label="Se déconnecter"
+          >
+            <svg class="ad-ico" aria-hidden="true"><use href="#i-out" /></svg>
+            <span>Déconnexion</span>
+          </button>
         </header>
 
         <main class="ad-page" id="ad-page" tabindex="-1"></main>
