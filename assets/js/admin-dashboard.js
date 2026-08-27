@@ -161,13 +161,16 @@
         </section>
 
         <aside class="ad-dash-illus ad-dash-3">
-          <img
-            src="../assets/img/admin/illustration-tableau-de-bord.webp"
-            alt=""
-            width="927"
-            height="627"
-            loading="lazy"
-          />
+          <picture>
+            <source srcset="../assets/img/admin/illustration-tableau-de-bord.webp" type="image/webp" />
+            <img
+              src="../assets/img/admin/illustration-tableau-de-bord.jpg"
+              alt=""
+              width="927"
+              height="627"
+              loading="lazy"
+            />
+          </picture>
         </aside>
 
       </div>
