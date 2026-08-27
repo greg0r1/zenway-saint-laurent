@@ -107,7 +107,7 @@
   border-bottom-color: var(--r-line-dark);
 }
 .r-nav.is-scrolled:not(.is-light)::before {
-  background: rgb(23 57 43 / 96%);
+  background: color-mix(in srgb, var(--r-dark-deep) 96%, transparent);
 }
 .r-nav.is-scrolled:not(.is-light) .r-links a {
   color: var(--r-bone);

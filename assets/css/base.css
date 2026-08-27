@@ -20,7 +20,10 @@
 
   /* Accents */
   --r-sage: #2d6a4f;
-  --r-sage-deep: #1b4332;
+  /* Même vert que --r-dark : reprise volontaire, pas une coïncidence —
+     une seule source pour ce ton plutôt que deux valeurs à tenir
+     synchronisées. */
+  --r-sage-deep: var(--r-dark);
   --r-sage-light: #6fa382;
   --r-sage-veil: #d8f3dc;
   --r-gold: #c9a86a;
@@ -233,17 +236,6 @@ a {
   transition:
     background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.r-btn-sage {
-  background: var(--r-sage);
-  color: var(--r-cream);
-  box-shadow: 0 6px 18px rgb(27 67 50 / 26%);
-  text-align: center;
-}
-.r-btn-sage:hover {
-  background: var(--r-sage-deep);
-  box-shadow: 0 8px 24px rgb(27 67 50 / 34%);
 }
 
 .r-btn-gold {
