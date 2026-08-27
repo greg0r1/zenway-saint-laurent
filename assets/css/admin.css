@@ -220,6 +220,20 @@
   min-height: 44px;
 }
 
+.ad-gate-back {
+  display: inline-block;
+  margin-top: 22px;
+  color: var(--ad-soft);
+  font-size: 0.88rem;
+  text-decoration: none;
+}
+
+.ad-gate-back:hover,
+.ad-gate-back:focus-visible {
+  color: var(--ad-accent-text);
+  text-decoration: underline;
+}
+
 .ad-gate-foot {
   display: flex;
   align-items: flex-start;
