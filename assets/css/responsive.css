@@ -22,8 +22,13 @@
 }
 
 @media (width <= 880px) {
+  /* Relève la base des tailles en `rem` (texte courant, titres, boutons,
+     nav...) plutôt que de reprendre chaque font-size une à une : tout ce
+     qui n'est pas déjà fixé en px suit proportionnellement. */
   :root {
     --r-gut: 20px;
+    --r-nav-h: 92px;
+    font-size: 120%;
   }
 
   .r-burger {
@@ -140,10 +145,10 @@
     display: block;
   }
   .r-brand img {
-    width: 44px;
+    width: 86px;
   }
   .r-brand-txt {
-    font-size: 0.55rem;
+    font-size: 0.72rem;
     letter-spacing: 0.1em;
     white-space: nowrap;
     max-width: none;

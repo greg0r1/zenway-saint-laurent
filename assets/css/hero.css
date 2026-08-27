@@ -146,7 +146,7 @@
   font-family: var(--r-serif);
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(1.35rem, 4.8vw, 3.9rem);
+  font-size: clamp(3.2rem, 7vw, 3.9rem);
   letter-spacing: 0.02em;
   color: var(--r-sage-deep);
 }
