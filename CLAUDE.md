@@ -281,6 +281,7 @@ zenway-saint-laurent/
 │       ├── admin/           ← illustration du tableau de bord de /admin (hors site public)
 │       ├── favicons/        ← déclinaisons d'icône (16 → 512 px)
 │       └── meta/            ← og-image du partage social
+│   └── docs/                ← documents à télécharger (bulletin d'adhésion PDF)
 ├── admin/
 │   └── index.html       ← page d'administration des événements (voir « Exception backend »)
 ├── api/                 ← fonctions serverless Vercel (voir « Exception backend »)
@@ -312,7 +313,7 @@ Les sections dans l'ordre, chacune avec son commentaire `<!-- === NOM === -->` :
 4. NAV
 5. HERO (`#accueil`) — bande claire
 6. PRATIQUES & BIENFAITS (`#pratiques`) — bande **sombre** : les 4 médaillons, les 4 fiches disciplines en `<dialog>`
-7. TARIFS & ADHÉSION (`#tarifs`) — bande claire : points clés, CTA et widget HelloAsso
+7. TARIFS & ADHÉSION (`#tarifs`) — bande claire : points clés, CTA et widget HelloAsso, téléchargement du bulletin d'adhésion (`assets/docs/`)
 8. VIDÉOS (`#videos`) — bande **sombre**
 9. ÉVÉNEMENTS (`#evenements`) — bande claire
 10. PLANNING (`#planning`) — bande claire
