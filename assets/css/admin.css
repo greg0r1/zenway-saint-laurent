@@ -290,14 +290,14 @@
 }
 
 /* ---------- Le menu ---------- */
-/* Les entrées flottent dans la barre, avec une marge de chaque côté —
-   la maquette n'a pas de rail, l'entrée active est un chip inséré,
-   arrondi sur ses quatre coins. */
+/* La rangée part du bord gauche de la barre — carrée à ce bord, arrondie
+   côté intérieur (0 10px 10px 0) — pour que le liseré de l'entrée active
+   puisse toucher ce bord. */
 .ad-nav {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: 10px 14px;
+  padding: 10px 14px 10px 0;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -307,8 +307,9 @@
   display: flex;
   align-items: center;
   gap: 13px;
-  padding: 12px 14px;
-  border-radius: var(--ad-r-md);
+  padding: 12px 14px 12px 21px;
+  border-left: 4px solid transparent;
+  border-radius: 0 var(--ad-r-md) var(--ad-r-md) 0;
   color: var(--ad-side-soft);
   text-decoration: none;
   font-size: 0.95rem;
@@ -327,9 +328,14 @@
   color: var(--ad-side-text);
 }
 
-/* L'entrée active : champ sarcelle pâle, chip plein, sans liseré. */
+/* L'entrée active : champ sarcelle pâle, chip plein, et le seul liseré
+   latéral du système — il marque une position, pas un état ; le champ
+   pâle et aria-current le doublent déjà (voir DESIGN.md). Le padding-left
+   de .ad-nav-item réserve déjà les 4px du liseré : il ne se rajoute pas,
+   la bordure transparente devient sarcelle sans décaler le contenu. */
 .ad-nav-item[aria-current="page"] {
   background: var(--ad-side-active);
+  border-left-color: var(--ad-accent);
   color: var(--ad-title);
   font-weight: 700;
 }
