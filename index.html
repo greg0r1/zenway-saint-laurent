@@ -80,7 +80,7 @@
     <link rel="preconnect" href="https://img.youtube.com" />
     <link rel="preconnect" href="https://www.googleapis.com" crossorigin />
 
-    <!-- Préchargement de l'image LCP du hero (desktop) — voir .r-hero-photo.
+    <!-- Préchargement de l'image LCP du hero (desktop) — voir .r-hero-fig.
        media évite de la précharger en mobile où elle n'est pas affichée. -->
     <link
       rel="preload"
@@ -88,6 +88,19 @@
       href="assets/img/bea/bea-cropped.webp"
       type="image/webp"
       media="(min-width: 981px)"
+      fetchpriority="high"
+    />
+
+    <!-- Préchargement de l'élément LCP mobile : la vague décorative du hero
+       (fond CSS de .r-hero-vague, donc invisible au scanner HTML sans ce
+       lien — mesuré via Lighthouse, cf. audit SEO). Non chargée en desktop
+       où bea-cropped.webp est l'élément LCP. -->
+    <link
+      rel="preload"
+      as="image"
+      href="assets/img/ornements/orn-vague.svg"
+      type="image/svg+xml"
+      media="(max-width: 980px)"
       fetchpriority="high"
     />
 
@@ -465,6 +478,10 @@
               chuan, le yoga, le pilates et le qi gong se fondent dans un même enchaînement. Voici
               les quatre héritages qu'il réunit.
             </p>
+            <p class="r-lede-note">
+              Comme chaque pratique proposée chez Zenway, cet enchaînement s'inscrit en complément
+              d'un suivi médical, jamais en remplacement.
+            </p>
           </div>
 
           <div class="r-medaillons">
@@ -494,6 +511,10 @@
                 <li>Coordination</li>
                 <li>Prévention des chutes</li>
               </ul>
+              <p class="r-med-resume">
+                Mouvements lents et fluides issus des arts martiaux internes chinois, pour un
+                ancrage plus stable et un mental apaisé.
+              </p>
               <button type="button" class="r-med-plus" data-modal="d-taichi">
                 En détail<span class="r-vh"> : Tai-chi chuan</span>
               </button>
@@ -524,6 +545,10 @@
                 <li>Souplesse</li>
                 <li>Gestion du stress</li>
               </ul>
+              <p class="r-med-resume">
+                Postures, respiration et pleine conscience venues d'Inde, pour plus de souplesse,
+                de tonicité et moins de stress.
+              </p>
               <button type="button" class="r-med-plus" data-modal="d-yoga">
                 En détail<span class="r-vh"> : Yoga</span>
               </button>
@@ -554,6 +579,10 @@
                 <li>Posture</li>
                 <li>Soulagement du dos</li>
               </ul>
+              <p class="r-med-resume">
+                Mouvements précis centrés sur la sangle abdominale et la posture, pour un dos plus
+                solide au quotidien.
+              </p>
               <button type="button" class="r-med-plus" data-modal="d-pilates">
                 En détail<span class="r-vh"> : Pilates</span>
               </button>
@@ -584,6 +613,10 @@
                 <li>Immunité</li>
                 <li>Apaisement profond</li>
               </ul>
+              <p class="r-med-resume">
+                Pratique chinoise ancestrale au souffle très doux, pour soutenir la vitalité et
+                apaiser le système nerveux.
+              </p>
               <button type="button" class="r-med-plus" data-modal="d-qigong">
                 En détail<span class="r-vh"> : Qi gong</span>
               </button>
@@ -851,8 +884,9 @@
           <div class="r-tarifs-head r-reveal">
             <h2 class="r-title">Adhésion &amp; inscription</h2>
             <p class="r-lede">
-              L'inscription se fait en ligne sur HelloAsso, qui gère l'adhésion à l'association et
-              le règlement. Les montants en vigueur y sont indiqués au moment de l'inscription.
+              L'adhésion annuelle s'élève à 190 €, avec un paiement en 3 fois possible et une
+              réduction pour les familles. L'inscription se fait en ligne sur HelloAsso, qui gère
+              l'adhésion à l'association et le règlement.
             </p>
           </div>
 
@@ -983,7 +1017,10 @@
           <div class="r-video-vedette" id="videoVedette"></div>
 
           <div class="r-videos-grid" id="videosGrid">
-            <p class="r-videos-vide">Chargement des vidéos…</p>
+            <p class="r-videos-vide">
+              Retrouvez les séances filmées et les temps forts de Zenway sur la chaîne YouTube de
+              Béatrice Viallon.
+            </p>
           </div>
 
           <div class="r-videos-pied">
