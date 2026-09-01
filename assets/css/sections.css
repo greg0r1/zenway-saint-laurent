@@ -164,6 +164,16 @@
 .r-med li::after {
   margin-left: 8px;
 }
+/* Résumé toujours visible (pas seulement dans la fiche « En détail ») :
+   une phrase par pratique, pour qu'un lecteur ou un robot qui ne clique
+   sur rien ait quand même la substance, pas seulement les trois mots-clés
+   ci-dessus. */
+.r-med-resume {
+  margin: 14px 0 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--r-bone-soft);
+}
 
 /* Une seule pile, posée à côté du bouton plutôt qu'au-dessus : la
    maquette les met sur la même ligne, la pierre venant border le doré
