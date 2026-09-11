@@ -46,6 +46,13 @@
     return echapper(str).replace(/\n/g, '<br>');
   }
 
+  // Même règle que le serveur (api/_lib/infos.js) pour map_url et venue_url,
+  // dite ici en clair plutôt que renvoyée comme un refus générique après
+  // l'envoi. Un seul endroit pour les deux champs plutôt que deux copies.
+  function estHttps(valeur) {
+    return /^https:\/\/\S+$/i.test(valeur);
+  }
+
   /* ---------------------------------------------------------------
      Montage
      --------------------------------------------------------------- */
@@ -164,8 +171,12 @@
           <div class="ad-fact">
             <dt>${icone('i-pin')}Lieu partenaire</dt>
             <dd>
-              <b>${i.venue_name ? echapper(i.venue_name) : '<span class="ad-muet">— (repli du site affiché)</span>'}</b>
-              ${i.venue_name && i.venue_url ? `<small>${echapper(i.venue_url)}</small>` : ''}
+              <b>${ouVide(i.venue_name)}</b>
+              ${
+                i.venue_name && i.venue_url
+                  ? `<small>${echapper(i.venue_url)}</small>`
+                  : `<small>Repli du site affiché tant que ce champ est vide.</small>`
+              }
             </dd>
           </div>
           <div class="ad-fact">
@@ -305,9 +316,7 @@
         champs.mapUrl.focus();
         return;
       }
-      // Même règle que le serveur (api/_lib/infos.js), dite ici en clair
-      // plutôt que renvoyée comme un refus générique après l'envoi.
-      if (!/^https:\/\/\S+$/i.test(payload.map_url)) {
+      if (!estHttps(payload.map_url)) {
         AdminPanel.alerte(
           'Le lien vers la carte doit commencer par https:// — copiez-le depuis Google Maps.'
         );
@@ -341,7 +350,7 @@
         champs.venueName.focus();
         return;
       }
-      if (payload.venue_url && !/^https:\/\/\S+$/i.test(payload.venue_url)) {
+      if (payload.venue_url && !estHttps(payload.venue_url)) {
         AdminPanel.alerte('Le lien du lieu partenaire doit commencer par https://.');
         champs.venueUrl.focus();
         return;
