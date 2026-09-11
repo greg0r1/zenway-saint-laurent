@@ -34,11 +34,18 @@
       if (!infos) return;
 
       // Le lieu d'accueil (venue_name/venue_url) est facultatif et
-      // indépendant des champs obligatoires ci-dessous : une fiche
-      // sans lieu renseigné laisse le repli statique du HTML affiché.
-      if (typeof infos.venue_name === 'string' && infos.venue_name.trim()) {
+      // indépendant des champs obligatoires ci-dessous : une fiche sans
+      // lieu renseigné laisse le repli statique du HTML affiché. Les
+      // deux doivent être valides ensemble : changer le texte sans le
+      // lien (ou l'inverse) afficherait un nom qui pointe vers l'ancien
+      // lieu, ou un lien jamais montré.
+      if (
+        typeof infos.venue_name === 'string' &&
+        infos.venue_name.trim() &&
+        urlSure(infos.venue_url)
+      ) {
         document.querySelectorAll('[data-info-link="venue"]').forEach((a) => {
-          if (urlSure(infos.venue_url)) a.href = infos.venue_url.trim();
+          a.href = infos.venue_url.trim();
           a.textContent = infos.venue_name.trim();
         });
       }

@@ -81,10 +81,13 @@ module.exports = async (req, res) => {
     }
 
     // Fiche unique : l'id n'est pas fourni par le client, on va le
-    // chercher côté serveur avant de modifier.
+    // chercher côté serveur avant de modifier. venue_name et venue_url
+    // sont aussi lus ici : un champ absent du corps de la requête vaut
+    // « inchangé » (voir plus bas), il faut donc la valeur déjà en base
+    // pour juger si le résultat final reste cohérent.
     const { data: existante, error: erreurLecture } = await supabase
       .from('infos_pratiques')
-      .select('id')
+      .select('id, venue_name, venue_url')
       .order('created_at', { ascending: true })
       .limit(1)
       .maybeSingle();
@@ -99,6 +102,22 @@ module.exports = async (req, res) => {
       res.status(500).json({
         error: 'no_row',
         message: 'Aucune fiche « Infos pratiques » en base. Jouez la migration 008 et son seed.'
+      });
+      return;
+    }
+
+    // venue_name et venue_url sont facultatifs, mais toujours ensemble :
+    // l'un sans l'autre laisserait un nom affiché sans lien, ou un lien
+    // enregistré que le site public n'utilise jamais (voir
+    // assets/js/infos-pratiques.js, qui ne bascule que si les deux sont
+    // renseignés). On juge le résultat final, pas seulement ce que ce
+    // PUT envoie, puisqu'un champ absent du corps vaut « inchangé ».
+    const venueNomFinal = typeof venue_name === 'string' ? venue_name.trim() : existante.venue_name;
+    const venueUrlFinal = typeof venue_url === 'string' ? venue_url.trim() : existante.venue_url;
+    if (Boolean(venueNomFinal) !== Boolean(venueUrlFinal)) {
+      res.status(400).json({
+        error: 'venue_incomplete',
+        field: venueNomFinal ? 'venue_url' : 'venue_name'
       });
       return;
     }
