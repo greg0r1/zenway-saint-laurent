@@ -8,7 +8,9 @@ const LIMITS = {
   map_url: 300,
   parking: 120,
   phone: 30,
-  email: 120
+  email: 120,
+  venue_name: 100,
+  venue_url: 300
 };
 
 const OBLIGATOIRES = ['address', 'map_url', 'parking', 'phone', 'email'];
@@ -36,17 +38,26 @@ function champObligatoireInvalide(payload) {
   return null;
 }
 
-/* map_url est le seul champ dont la valeur devient une URL sur le site
-   public (l'attribut href du lien « Lieu »). Sans contrôle du schéma,
-   un compte admin compromis pourrait y placer un `javascript:` servi à
-   tous les visiteurs. La CSP le neutraliserait sans doute, mais on ne
-   fait pas dépendre la sûreté du site d'un seul rempart : on n'accepte
-   ici que https. */
+/* map_url et venue_url sont les seuls champs dont la valeur devient une
+   URL sur le site public (l'attribut href des liens « Lieu » et
+   « Adresse »). Sans contrôle du schéma, un compte admin compromis
+   pourrait y placer un `javascript:` servi à tous les visiteurs. La CSP
+   le neutraliserait sans doute, mais on ne fait pas dépendre la sûreté
+   du site d'un seul rempart : on n'accepte ici que https. venue_url est
+   facultatif (contrairement à map_url, obligatoire — voir
+   champObligatoireInvalide) : une chaîne vide n'est donc pas fautive ici.  */
+const CHAMPS_URL = ['map_url', 'venue_url'];
+
 function urlInvalide(payload) {
-  const valeur = payload.map_url;
-  if (valeur === undefined || valeur === null) return null;
-  if (typeof valeur !== 'string') return 'map_url';
-  return /^https:\/\/\S+$/i.test(valeur.trim()) ? null : 'map_url';
+  for (const champ of CHAMPS_URL) {
+    const valeur = payload[champ];
+    if (valeur === undefined || valeur === null) continue;
+    if (typeof valeur !== 'string') return champ;
+    const propre = valeur.trim();
+    if (!propre) continue;
+    if (!/^https:\/\/\S+$/i.test(propre)) return champ;
+  }
+  return null;
 }
 
 module.exports = { LIMITS, champTropLong, champObligatoireInvalide, urlInvalide };

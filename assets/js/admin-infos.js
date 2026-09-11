@@ -14,7 +14,9 @@
     map_url: 300,
     parking: 120,
     phone: 30,
-    email: 120
+    email: 120,
+    venue_name: 100,
+    venue_url: 300
   };
 
   let root = null;
@@ -160,6 +162,13 @@
             </dd>
           </div>
           <div class="ad-fact">
+            <dt>${icone('i-pin')}Lieu partenaire</dt>
+            <dd>
+              <b>${i.venue_name ? echapper(i.venue_name) : '<span class="ad-muet">— (repli du site affiché)</span>'}</b>
+              ${i.venue_name && i.venue_url ? `<small>${echapper(i.venue_url)}</small>` : ''}
+            </dd>
+          </div>
+          <div class="ad-fact">
             <dt>${icone('i-pin')}Parking</dt>
             <dd><b>${ouVide(i.parking)}</b></dd>
           </div>
@@ -202,7 +211,9 @@
       map_url: '',
       parking: '',
       phone: '',
-      email: ''
+      email: '',
+      venue_name: '',
+      venue_url: ''
     };
 
     const corps = document.createElement('div');
@@ -237,6 +248,19 @@
           <label for="in-email">E-mail</label>
           <input type="email" id="in-email" maxlength="${LIMITES.email}" value="${echapper(i.email)}" placeholder="contact@zenwaysaintlaurentduvar.fr">
         </div>
+
+        <div class="ad-field">
+          <label for="in-venue-name">Nom du lieu partenaire</label>
+          <input type="text" id="in-venue-name" maxlength="${LIMITES.venue_name}" value="${echapper(i.venue_name)}" placeholder="Krav Maga Combat Self (KMCS)">
+          <p class="ad-hint">Affiché dans « Les séances se déroulent dans les locaux de… ». Laissez
+            vide pour garder le repli écrit dans le code.</p>
+        </div>
+
+        <div class="ad-field">
+          <label for="in-venue-url">Lien du lieu partenaire</label>
+          <input type="url" id="in-venue-url" maxlength="${LIMITES.venue_url}" value="${echapper(i.venue_url)}" placeholder="https://...">
+          <p class="ad-hint">Le site du lieu partenaire, ouvert dans un nouvel onglet.</p>
+        </div>
       </form>
     `;
 
@@ -246,7 +270,9 @@
       mapUrl: corps.querySelector('#in-map'),
       parking: corps.querySelector('#in-parking'),
       phone: corps.querySelector('#in-phone'),
-      email: corps.querySelector('#in-email')
+      email: corps.querySelector('#in-email'),
+      venueName: corps.querySelector('#in-venue-name'),
+      venueUrl: corps.querySelector('#in-venue-url')
     };
 
     corps.querySelectorAll('[data-counter]').forEach((p) => {
@@ -264,7 +290,9 @@
         map_url: champs.mapUrl.value.trim(),
         parking: champs.parking.value.trim(),
         phone: champs.phone.value.trim(),
-        email: champs.email.value.trim()
+        email: champs.email.value.trim(),
+        venue_name: champs.venueName.value.trim(),
+        venue_url: champs.venueUrl.value.trim()
       };
 
       if (!payload.address) {
@@ -299,6 +327,23 @@
       if (!payload.email) {
         AdminPanel.alerte('L’e-mail est obligatoire.');
         champs.email.focus();
+        return;
+      }
+      // Facultatifs, mais l'un sans l'autre laisserait un nom affiché sans
+      // lien (ou un lien enregistré mais jamais utilisé côté site).
+      if (payload.venue_name && !payload.venue_url) {
+        AdminPanel.alerte('Le lien du lieu partenaire est obligatoire si vous renseignez son nom.');
+        champs.venueUrl.focus();
+        return;
+      }
+      if (payload.venue_url && !payload.venue_name) {
+        AdminPanel.alerte('Le nom du lieu partenaire est obligatoire si vous renseignez son lien.');
+        champs.venueName.focus();
+        return;
+      }
+      if (payload.venue_url && !/^https:\/\/\S+$/i.test(payload.venue_url)) {
+        AdminPanel.alerte('Le lien du lieu partenaire doit commencer par https://.');
+        champs.venueUrl.focus();
         return;
       }
 
