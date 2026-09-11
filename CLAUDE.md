@@ -109,7 +109,8 @@ db/
     ├── 006_planning.sql           ← table planning_slots (module « Planning »)
     ├── 007_planning_ordre.sql     ← fonction planning_set_order() : réordonnancement atomique
     ├── 008_infos_pratiques.sql    ← table infos_pratiques (module « Infos pratiques »), fiche unique
-    └── 009_infos_pratiques_retrait_next_session.sql ← retire next_session, calculé depuis les événements
+    ├── 009_infos_pratiques_retrait_next_session.sql ← retire next_session, calculé depuis les événements
+    └── 010_infos_pratiques_lieu.sql ← ajoute venue_name/venue_url (facultatifs), le lieu partenaire
 ```
 
 ### Schéma de base de données
