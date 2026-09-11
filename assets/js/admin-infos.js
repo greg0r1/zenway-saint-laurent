@@ -240,7 +240,12 @@
 
         <div class="ad-field">
           <label for="in-map">Lien vers la carte</label>
-          <input type="url" id="in-map" maxlength="${LIMITES.map_url}" value="${echapper(i.map_url)}" placeholder="https://maps.app.goo.gl/...">
+          <div class="ad-field-row">
+            <input type="url" id="in-map" maxlength="${LIMITES.map_url}" value="${echapper(i.map_url)}" placeholder="https://maps.app.goo.gl/...">
+            <button type="button" class="ad-btn ad-btn-line ad-btn-sm" data-action="tester" data-cible="in-map">
+              ${icone('i-external')}Tester
+            </button>
+          </div>
           <p class="ad-hint">Le lien cliquable derrière l'adresse, pas la carte affichée à côté (fixe).</p>
         </div>
 
@@ -269,7 +274,12 @@
 
         <div class="ad-field">
           <label for="in-venue-url">Lien du lieu partenaire</label>
-          <input type="url" id="in-venue-url" maxlength="${LIMITES.venue_url}" value="${echapper(i.venue_url)}" placeholder="https://...">
+          <div class="ad-field-row">
+            <input type="url" id="in-venue-url" maxlength="${LIMITES.venue_url}" value="${echapper(i.venue_url)}" placeholder="https://...">
+            <button type="button" class="ad-btn ad-btn-line ad-btn-sm" data-action="tester" data-cible="in-venue-url">
+              ${icone('i-external')}Tester
+            </button>
+          </div>
           <p class="ad-hint">Le site du lieu partenaire, ouvert dans un nouvel onglet.</p>
         </div>
       </form>
@@ -285,6 +295,24 @@
       venueName: corps.querySelector('#in-venue-name'),
       venueUrl: corps.querySelector('#in-venue-url')
     };
+
+    // Bouton « Tester » à côté de chaque champ lien : ouvre la valeur
+    // saisie dans un nouvel onglet, pour vérifier avant d'enregistrer
+    // plutôt qu'après (une fois publiée sur le site).
+    corps.querySelectorAll('[data-action="tester"]').forEach((bouton) => {
+      bouton.addEventListener('click', () => {
+        const champ = corps.querySelector(`#${bouton.dataset.cible}`);
+        const valeur = champ.value.trim();
+        if (!estHttps(valeur)) {
+          AdminPanel.alerte(
+            'Ce champ doit contenir un lien https:// valide avant de pouvoir le tester.'
+          );
+          champ.focus();
+          return;
+        }
+        window.open(valeur, '_blank', 'noopener');
+      });
+    });
 
     corps.querySelectorAll('[data-counter]').forEach((p) => {
       const champ = corps.querySelector(`#${p.dataset.counter}`);

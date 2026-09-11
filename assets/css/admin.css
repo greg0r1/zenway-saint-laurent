@@ -1333,6 +1333,22 @@
   margin-bottom: 6px;
 }
 
+/* Un champ lien (URL) suivi d'un bouton « Tester » — voir admin-infos.js. */
+.ad-field-row {
+  display: flex;
+  gap: 10px;
+}
+
+.ad-field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.ad-field-row .ad-btn {
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
 .ad-field input,
 .ad-field select,
 .ad-field textarea {
