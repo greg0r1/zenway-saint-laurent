@@ -49,6 +49,17 @@ disparaît de la table. « Prochain rendez-vous » n'était de toute façon plus
 part côté site public à partir de ce commit — la ligne se calcule désormais depuis le
 plus proche événement à venir (`api/events/public.js`), rien à rejouer côté données.
 
+**Après `010_infos_pratiques_lieu.sql`** : `venue_name` et `venue_url` arrivent vides
+(`''`) sur la ligne existante — le site public garde alors le repli statique écrit
+dans `index.html` (« Krav Maga Combat Self (KMCS) »). Pour que l'admin devienne la
+source de vérité de cette phrase aussi, éditer la ligne :
+
+```sql
+update public.infos_pratiques set
+  venue_name = 'Krav Maga Combat Self (KMCS)',
+  venue_url = 'https://www.kravmagasaintlaurentduvar.fr/';
+```
+
 | Fichier                                        | Contenu                                                                                                                                                          |
 | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `001_socle.sql`                                | Extension `pgcrypto`, fonction partagée `set_updated_at()`                                                                                                       |
@@ -60,6 +71,7 @@ plus proche événement à venir (`api/events/public.js`), rien à rejouer côt�
 | `007_planning_ordre.sql`                       | Fonction `planning_set_order(uuid[])` : réécrit tout l'ordre des créneaux en une seule instruction (atomique)                                                    |
 | `008_infos_pratiques.sql`                      | Table `infos_pratiques` (module admin « Infos pratiques »), ligne unique                                                                                         |
 | `009_infos_pratiques_retrait_next_session.sql` | Retire `next_session` : « Prochain rendez-vous » se calcule désormais depuis les événements                                                                      |
+| `010_infos_pratiques_lieu.sql`                 | Ajoute `venue_name` et `venue_url` (facultatifs) : le lieu partenaire (« Le lieu ») devient modifiable depuis l'admin                                            |
 
 ## Ajouter une table pour un nouveau module admin
 
