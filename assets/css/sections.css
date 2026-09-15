@@ -273,6 +273,20 @@
   max-width: 40rem;
   margin-bottom: clamp(36px, 4.5vw, 56px);
 }
+.r-tarifs-anim {
+  margin: 8px 0 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--r-ink-soft);
+}
+.r-tarifs-anim a {
+  color: var(--r-sage-deep);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.r-tarifs-anim a:hover {
+  color: var(--r-gold-warm);
+}
 /* Le widget reste le chemin d'inscription qu'on propose d'abord — plus
    grand, et premier dans le DOM pour rester en tête sur mobile, où les
    deux colonnes s'empilent dans cet ordre (responsive.css). Sur desktop
